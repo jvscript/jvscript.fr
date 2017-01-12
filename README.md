@@ -7,6 +7,18 @@
 Le site regroupant les scripts JVC
 </p>
 
+## Comment modifier le thème css
+
+Le thème est présent ici : `/assets/stylesheets/jvsticker.css`
+
+Pour le modifier editez ce fichier de variable `assets\stylesheets\bootstrap\_variables.scss`
+
+Et compilez avec sass : 
+
+    cd assets/stylesheets
+    sass jvscript.scss jvscript.css
+
+
 ## Todolist (site statique)
 
 ### Web Design 
@@ -24,7 +36,7 @@ Le site regroupant les scripts JVC
 
 ### Communication
 
-- [ ] Inviter les développeurs de scripts à mettre leur code dans l'organization : https://github.com/jeuxvideocom 
+- [ ] Inviter les développeurs de scripts à mettre leur code dans l'organization : https://github.com/jvscript 
 
 ----------
 
