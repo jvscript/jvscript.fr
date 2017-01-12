@@ -30,11 +30,11 @@ Le site regroupant les scripts JVC
 
 ## Todolist (site dynamique)
 
-### Pré-requis
+### Prérequis
 
 - [ ] Faire les modèles de données (users, scripts, skins, categories, commentaires, tags)
 
-### Fonctionalités 
+### Fonctionnalités 
 
 - [ ] Connexion (avec FB,Twitter, Github connect ?)
 - [ ] Inscription
