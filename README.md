@@ -1,6 +1,11 @@
 # jvscript.github.io
 
+<p align="center">
+<img src='http://puu.sh/tjAVC/4574a31cbf.png' /> 
+</p>
+<p align="center">
 Le site regroupant les scripts JVC
+</p>
 
 ## Todolist (site statique)
 
@@ -21,7 +26,7 @@ Le site regroupant les scripts JVC
 
 - [ ] Inviter les développeurs de scripts à mettre leur code dans l'organization : https://github.com/jeuxvideocom 
 
---
+----------
 
 ## Todolist (site dynamique)
 
