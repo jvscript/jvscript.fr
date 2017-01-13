@@ -1,5 +1,6 @@
 /nbproject/
 /public/assets/stylesheets/.sass-cache/
+.sass-cache/
 /node_modules
 /public/storage
 /storage/*.key
