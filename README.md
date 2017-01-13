@@ -7,17 +7,30 @@
 Le site regroupant les scripts JVC
 </p>
 
-## Comment modifier le thème css
+## Comment déployer l'appli (laravel) en locale
 
-Le thème est présent ici : `/assets/stylesheets/jvsticker.css`
+Allez lire le guide [install.md](install.md)
 
-Pour le modifier editez ce fichier de variable `assets\stylesheets\bootstrap\_variables.scss`
+## Comment contribuer
+
+### Thème CSS
+
+Le thème est présent ici : `/public/assets/stylesheets/jvsticker.css`
+
+Pour le modifier editez ce fichier de variable `/public/assets/stylesheets/bootstrap/_variables.scss`
 
 Et compilez avec sass : 
 
-    cd assets/stylesheets
-    sass jvscript.scss jvscript.css
+       sass jvscript.scss jvscript.css
 
+
+### Vues html
+
+Les vues sont dans `/ressources/views`
+
+### Les url de l'appli
+
+Elles sont définies dans le routeur : `/routes/web.php` et pointe soit directement vers une vue, ou vers un controller.
 
 ## Todolist (site statique)
 

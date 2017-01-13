@@ -1,2 +1,10 @@
 /nbproject/
-assets/stylesheets/.sass-cache/
+/public/assets/stylesheets/.sass-cache/
+/node_modules
+/public/storage
+/storage/*.key
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env

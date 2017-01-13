@@ -5,9 +5,19 @@
         <title>jvscript.io</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'Laravel') }}</title>
         <link rel="stylesheet" href="/assets/stylesheets/jvscript.css" media="screen">
-
-
+        <!-- Scripts -->
+        <script>
+            window.Laravel = <?php
+            echo json_encode([
+                'csrfToken' => csrf_token(),
+            ]);
+            ?>
+        </script>
     </head>
     <body>
         <div class="navbar navbar-default navbar-fixed-top">
@@ -23,14 +33,15 @@
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav"> 
                         <li>
+                            <a href="#">Comment installer un script</a>
+                        </li>
+                        <li>
                             <a href="#">A propos</a>
                         </li>
                         <li>
                             <a href="#">Contact</a>
                         </li>
-
                     </ul>
-
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Built With Bootstrap</a></li>
                     </ul>
@@ -38,33 +49,10 @@
                 </div>
             </div>
         </div>
+        
+          @yield('content')
 
-        <div class="container">
-
-            <div class="page-header" id="banner">
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <h1>Bienvenue sur jvscript.io</h1>
-
-                        <img class="center-block" src="/assets/images/jvscript.png"/>
-
-                        <p> Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker. </p>
-
-                    </div>
-                </div>
-
-            </div>
-            <footer>
-                <div class="row">
-                    <div class="col-lg-12">
-
-                        <p>jvscript.io 2017 &COPY; </p>
-                    </div>
-                </div>
-
-            </footer>
-        </div>
+       
 
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/assets/javascripts/bootstrap.min.js"></script> 
