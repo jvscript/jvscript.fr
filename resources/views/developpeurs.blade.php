@@ -17,7 +17,7 @@
 
             <h2>Soumettez nous votre script </h2>
             <p>
-                Rejoignez notre organisation (<a target="_blank" href="https://github.com/jvscript/">https://github.com/jvscript</a>) pour publier votre code à un plus large publique et et gagner des collaborateurs.
+                Rejoignez notre organisation (<a target="_blank" href="https://github.com/jvscript/">https://github.com/jvscript</a>) pour publier votre code à un plus large public et et gagner des contributeurs.
                 <br>
                  <a target="_blank" href="https://github.com/jvscript/jvscript.github.io/issues/new?title=Proposition%20de%20script%20:">Proposez votre script sur github.</a>
             </p>
