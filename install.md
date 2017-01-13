@@ -107,7 +107,7 @@ On en a besoin pour la suite.
     git clone https://github.com/jvscript/jvscript.github.io.git
     
     ## move to app folder
-    cd jvscript.github.io.git/
+    cd jvscript.github.io/
     composer update
     
     ## write .env file and set APP_URL, DB_USERNAME,DB_PASSWORD inside this file
@@ -120,9 +120,9 @@ On en a besoin pour la suite.
 
 ### Droit d'écriture de l'appli sous linux si besoin
  
-	sudo chown -R nginx:nginx /var/www/ApiTest
+	sudo chown -R www-data:www-data /var/www/jvscript.github.io.git
 	## chmod for php to write 
-	chmod 777 -R /var/www/ApiTest/storage/
+	chmod 777 -R /var/www/jvscript.github.io.git/storage/
  
  
 ## 6. Tester
