@@ -10,13 +10,15 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
         <link rel="stylesheet" href="/assets/stylesheets/jvscript.css" media="screen">
+        <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
         <!-- Scripts -->
         <script>
             window.Laravel = <?php
-            echo json_encode([
-                'csrfToken' => csrf_token(),
-            ]);
-            ?>
+echo json_encode([
+    'csrfToken' => csrf_token(),
+]);
+?>
         </script>
     </head>
     <body>
@@ -34,24 +36,36 @@
                     <ul class="nav navbar-nav"> 
                         <li>
                             <a href="{{url('comment-installer')}}">Comment installer un script</a>
+                        </li>                       
+                        <li>
+                            <a href="{{url('developpeurs')}}">Développeurs</a>
                         </li>
                         <li>
-                            <a href="#">A propos</a>
-                        </li>
-                        <li>
-                            <a href="#">Contact</a>
+                            <a href="{{url('contact')}}">Contact</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
+<!--                    <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Built With Bootstrap</a></li>
-                    </ul>
+                    </ul>-->
 
                 </div>
             </div>
         </div>
-        
-          @yield('content')
- 
+
+        <div class="container">
+
+            @yield('content')
+
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <p>&COPY; {{ date('Y') }} jvscript.io   <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> </p>
+                    </div>
+                </div>
+
+            </footer>
+        </div>
 
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/assets/javascripts/bootstrap.min.js"></script> 

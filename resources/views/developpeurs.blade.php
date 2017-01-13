@@ -2,31 +2,37 @@
 
 @section('content') 
 
-<div class="container">
 
-    <div class="page-header" id="banner">
-        <div class="row">
-            <div class="col-md-12">
 
-                <h1>Bienvenue sur jvscript.io</h1>
+<div class="page-header" id="banner">
+    <div class="row">
+        <div class="col-md-12">
 
-                <img class="img-responsive  center-block" src="/assets/images/jvscript.png"/>
+            <h2> Chers amis développeurs </h2>
+            <p>
+                Bonjour amis développeurs,  <br>
+                L'un des objectifs de ce site est de rassembler les développeurs de JVC pour permettre une meilleure collaboration sur les développements des différents scripts JVC. <br>
 
-                <p> Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker. </p>
+            </p>
 
-            </div>
+            <h2>Soumettez nous votre script </h2>
+            <p>
+                Rejoignez notre organisation (<a target="_blank" href="https://github.com/jvscript/">https://github.com/jvscript</a>) pour publier votre code à un plus large publique et et gagner des collaborateurs.
+                <br>
+                 <a target="_blank" href="https://github.com/jvscript/jvscript.github.io/issues/new?title=Proposition%20de%20script%20:">Proposez votre script sur github.</a>
+            </p>
+
+           
+
+            <h2>Soyez soutenu </h2>
+
+            <p>Un bouton de don au développeur sera présent pour chaque script hebergé sur ce site.</p>
+
+
         </div>
-
     </div>
-    <footer>
-        <div class="row">
-            <div class="col-lg-12">
 
-                <p>jvscript.io 2017 &COPY; </p>
-            </div>
-        </div>
-
-    </footer>
 </div>
+
 
 @endsection
