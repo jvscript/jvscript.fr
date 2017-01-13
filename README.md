@@ -18,7 +18,6 @@ Et compilez avec sass :
     cd assets/stylesheets
     sass jvscript.scss jvscript.css
 
-
 ## Todolist (site statique)
 
 ### Web Design 
