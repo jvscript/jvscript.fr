@@ -33,7 +33,7 @@
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav"> 
                         <li>
-                            <a href="#">Comment installer un script</a>
+                            <a href="{{url('comment-installer')}}">Comment installer un script</a>
                         </li>
                         <li>
                             <a href="#">A propos</a>
@@ -51,8 +51,7 @@
         </div>
         
           @yield('content')
-
-       
+ 
 
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/assets/javascripts/bootstrap.min.js"></script> 
