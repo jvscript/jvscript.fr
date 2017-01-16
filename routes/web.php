@@ -11,13 +11,19 @@
   |
  */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'JvscriptController@index')->name('home');
 
 Route::get('/comment-installer', function () {
     return view('comment-installer');
 });
+
+Route::get('/ajout', function () {
+    return view('script.ajout');
+})->name("ajout-form");
+
+Route::post('/ajout', 'JvscriptController@storeScript')->name('script.store');
+
+Route::get('/script/{slug}', 'JvscriptController@showScript')->name('script.show');
 
 Route::get('/contact', function () {
     return view('contact');
@@ -26,6 +32,9 @@ Route::get('/contact', function () {
 Route::get('/developpeurs', function () {
     return view('developpeurs');
 });
+
+
+
 
 
 //Auth::routes();

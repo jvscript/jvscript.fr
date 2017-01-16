@@ -3,21 +3,50 @@
 @section('content') 
 
 
+<style>
 
-<div class="page-header" id="banner">
+</style>
+
+<div class="header" id="banner">
     <div class="row">
         <div class="col-md-12">
 
             <h1>Bienvenue sur jvscript.io</h1>
-            
+
             <img style="max-height: 230px" class="img-responsive  center-block" src="/assets/images/jvscript.png"/>
 
-            <p> Un site pour regrouper les scripts utile à JVC, et rapprocher les développeurs.</p>
-            
-            <p> Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker. </p>
+            <p class="text-center"> Un site pour regrouper les scripts JVC et rapprocher les développeurs.</p>
 
         </div>
     </div>
+
+</div>
+
+<div class="row">
+
+    @foreach( $scripts as $script ) 
+    <div class="col-sm-3 col-md-3">
+        <div class="thumbnail">
+            <a href="{{route('script.show',['slug' => $script->slug ])}}"><img src="/assets/images/jvscript-nb.png" class="img-thumbnail" alt="{{$script->name}} logo" /></a>
+            <div class="caption">
+                <h4>{{$script->name}}
+                    @if($script->autor != null)
+                    by {{$script->autor}}
+                    @endif                                
+                </h4>
+                <p class="pull-left">
+                    @for ($i = 0; $i < $script->note ; $i++)
+                    <i class="fa fa-star" aria-hidden="true"></i>  
+                    @endfor
+                    @for ($i ; $i < 5 ; $i++)
+                    <i class="fa fa-star-o" aria-hidden="true"></i>  
+                    @endfor 
+                </p>
+                <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
+            </div>
+        </div>
+    </div> 
+    @endforeach
 
 </div>
 

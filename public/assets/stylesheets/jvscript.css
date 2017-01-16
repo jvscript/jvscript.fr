@@ -2,6 +2,13 @@
 /*!
  * jvscript theme
  */
+.header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px; }
+
+footer {
+  margin: 40px 0 20px; }
+
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -2438,7 +2445,7 @@ output {
   padding-top: 7px;
   font-size: 14px;
   line-height: 1.42857;
-  color: white; }
+  color: black; }
 
 .form-control {
   display: block;
@@ -2447,7 +2454,7 @@ output {
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857;
-  color: white;
+  color: black;
   background-color: #fff;
   background-image: none;
   border: 1px solid #ccc;
@@ -3493,7 +3500,7 @@ tbody.collapse.in {
   font-size: 14px;
   font-weight: normal;
   line-height: 1;
-  color: white;
+  color: black;
   text-align: center;
   background-color: white;
   border: 1px solid #ccc;
@@ -5809,5 +5816,8 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
+/**
+ * Additionnal code
+ */
 
 /*# sourceMappingURL=jvscript.css.map */

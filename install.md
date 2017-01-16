@@ -7,7 +7,7 @@ Petite documentation pour vous aider à installer l'appli web en local. Ca peut-
 Vous avez donc besoin d'un web serveur (nginx, ou apache)
 et de mysql, php.
 
-Pour windows vous pouvez utiliser WAMP (apache) ou [WNMP](https://www.getwnmp.org/) (nginx)
++Pour windows vous pouvez utiliser XAMPP(https://www.apachefriends.org/) (apache) ou WNMP (https://www.getwnmp.org/) (nginx)
 
 Nginx est recommandé pour de meilleur performance.
 

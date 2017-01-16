@@ -36,7 +36,10 @@ echo json_encode([
                     <ul class="nav navbar-nav"> 
                         <li>
                             <a href="{{url('comment-installer')}}">Comment installer un script</a>
-                        </li>                       
+                        </li>     
+                        <li>
+                            <a href="{{route('ajout-form')}}">Ajouter un script</a>
+                        </li>
                         <li>
                             <a href="{{url('developpeurs')}}">Développeurs</a>
                         </li>
@@ -44,9 +47,9 @@ echo json_encode([
                             <a href="{{url('contact')}}">Contact</a>
                         </li>
                     </ul>
-<!--                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Built With Bootstrap</a></li>
-                    </ul>-->
+                    <!--                    <ul class="nav navbar-nav navbar-right">
+                                            <li><a href="#">Built With Bootstrap</a></li>
+                                        </ul>-->
 
                 </div>
             </div>
@@ -59,8 +62,10 @@ echo json_encode([
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-
-                        <p>&COPY; {{ date('Y') }} jvscript.io   <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> </p>
+                        <p>&COPY; {{ date('Y') }} jvscript.io  -
+                            <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> -
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.github.io/blob/master/changelog.md">changelog</a>
+                        </p>
                     </div>
                 </div>
 
