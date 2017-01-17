@@ -1,6 +1,6 @@
 # Changelog
 
 
-## 0.0.1 - 2017-01
+## v0.0.1 - 2017-01-20
 
 - Fonctionnalités des scripts (ajout, listing) 

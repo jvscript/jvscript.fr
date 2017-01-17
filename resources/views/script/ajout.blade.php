@@ -4,7 +4,6 @@
 
 
 
-<div class="page-header" id="banner">
     <div class="row">
         <div class="col-md-12">
 
@@ -102,6 +101,20 @@
                         @endif
                     </div>
                 </div>
+                
+                 <div class="form-group{{ $errors->has('don_url') ? ' has-error' : '' }}">
+                    <label for="don_url" class="col-md-4 control-label">Lien de don à l'auteur </label>
+
+                    <div class="col-md-6">
+                        <input id="don_url" type="text" placeholder="http://www.paypal.me/your_name/" class="form-control" name="don_url" value="{{ old('don_url') }}"  >
+
+                        @if ($errors->has('don_url'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('don_url') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
 
                 <div class="form-group{{ $errors->has('user_email') ? ' has-error' : '' }}">
                     <label for="user_email" class="col-md-4 control-label">Votre email pour être notifié de la publication du script </label>
@@ -128,7 +141,6 @@
 
 
         </div>
-    </div>
 
 </div>
 

@@ -20,7 +20,7 @@ class CreateJvscriptTable extends Migration {
             $table->string('user_id')->nullable()->comment("pour attribuer le script à un utilisateurs de jvscript");
             $table->string('user_email')->nullable()->comment("pour notifier par email");
             $table->text('description')->nullable();
-            $table->integer('note')->default(0);
+            $table->decimal('note',5,2)->default(0);
             $table->integer('note_count')->default(0);
             $table->integer('install_count')->default(0);
             $table->string('js_url');
@@ -43,9 +43,14 @@ class CreateJvscriptTable extends Migration {
             $table->integer('taggable_id');
             $table->string('taggable_type');
         });
-        /**
-         * _TODO : relation morph sur les tags 
-         */
+
+        Schema::create('historys', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('ip');
+            $table->string('what')->comment("script / skins ... ");
+            $table->string('action')->comment("install / note ?");
+            $table->timestamps();
+        });
     }
 
     /**

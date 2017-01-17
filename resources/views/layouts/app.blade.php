@@ -35,11 +35,11 @@ echo json_encode([
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav"> 
                         <li>
-                            <a href="{{url('comment-installer')}}">Comment installer un script</a>
-                        </li>     
-                        <li>
                             <a href="{{route('ajout-form')}}">Ajouter un script</a>
                         </li>
+                        <li>
+                            <a href="{{url('comment-installer')}}">Comment installer un script</a>
+                        </li>  
                         <li>
                             <a href="{{url('developpeurs')}}">Développeurs</a>
                         </li>
@@ -57,7 +57,9 @@ echo json_encode([
 
         <div class="container">
 
-            @yield('content')
+            <div class="content">
+                @yield('content')
+            </div>
 
             <footer>
                 <div class="row">

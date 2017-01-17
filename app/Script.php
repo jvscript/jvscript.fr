@@ -32,6 +32,6 @@ class Script extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'user_email'];
+    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'user_email' ,'don_url'];
 
 }

@@ -3,11 +3,6 @@
 @section('content') 
 
 
-<style>
-
-</style>
-
-<div class="header" id="banner">
     <div class="row">
         <div class="col-md-12">
 
@@ -20,14 +15,14 @@
         </div>
     </div>
 
-</div>
-
 <div class="row">
 
     @foreach( $scripts as $script ) 
     <div class="col-sm-3 col-md-3">
         <div class="thumbnail">
-            <a href="{{route('script.show',['slug' => $script->slug ])}}"><img src="/assets/images/jvscript-nb.png" class="img-thumbnail" alt="{{$script->name}} logo" /></a>
+            <a href="{{route('script.show',['slug' => $script->slug ])}}">
+                <?php $src = $script->photo_url == null ? "/assets/images/jvscript-nb.png" : $script->photo_url ?>
+                <img src="{{$src}}" class="img-thumbnail" alt="{{$script->name}} logo" /></a>
             <div class="caption">
                 <h4>{{$script->name}}
                     @if($script->autor != null)
@@ -35,11 +30,20 @@
                     @endif                                
                 </h4>
                 <p class="pull-left">
-                    @for ($i = 0; $i < $script->note ; $i++)
-                    <i class="fa fa-star" aria-hidden="true"></i>  
+                    <?php  $note = round($script->note * 2) / 2; ?>
+                    @for ($i = 1; $i <= $note ; $i++)
+                    <i class="fa fa-star" aria-hidden="true"></i>
                     @endfor
-                    @for ($i ; $i < 5 ; $i++)
-                    <i class="fa fa-star-o" aria-hidden="true"></i>  
+
+                    <?php  $stop = $i; ?>                  
+
+                    @for ($i ; $i <= 5 ; $i++)                    
+                    @if($i == $stop && $note > ( $i -1 ) )
+                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                    @else
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                    @endif
+
                     @endfor 
                 </p>
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>

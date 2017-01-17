@@ -7,7 +7,7 @@
 Le site regroupant les scripts JVC
 </p>
 
-## Comment déployer l'appli (laravel) en locale
+## Comment déployer l'appli (laravel) en local
 
 Allez lire le guide [install.md](install.md)
 
@@ -32,7 +32,11 @@ Les vues sont dans `/ressources/views`
 
 Elles sont définies dans le routeur : `/routes/web.php` et pointe soit directement vers une vue, ou vers un controller.
 
-## Todolist (site statique)
+### Controller
+
+Le controller principal (`JvscriptController.php`) est dans `App\Http\Controllers\`
+
+## Todolist (dev du site)
 
 ### Web Design 
 
@@ -51,7 +55,7 @@ Elles sont définies dans le routeur : `/routes/web.php` et pointe soit directem
 
 - [ ] Inviter les développeurs de scripts à mettre leur code dans l'organization : https://github.com/jvscript 
 
- ### Modèles de données
+### Modèles de données
 
 - [x] users
 - [x] scripts
@@ -63,8 +67,8 @@ Elles sont définies dans le routeur : `/routes/web.php` et pointe soit directem
 ### Fonctionnalités 
 
 - [x] Ajout de script 
+- [x] Notation de script
 - [ ] Recherche de script/skin
-- [ ] Notation de script
 - [ ] Connexion (avec FB,Twitter, Github connect ?)
 - [ ] Inscription
 - [ ] Ajout de Skin JVC

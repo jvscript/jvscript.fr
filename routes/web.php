@@ -25,6 +25,10 @@ Route::post('/ajout', 'JvscriptController@storeScript')->name('script.store');
 
 Route::get('/script/{slug}', 'JvscriptController@showScript')->name('script.show');
 
+Route::get('/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
+
+Route::get('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');
+
 Route::get('/contact', function () {
     return view('contact');
 });

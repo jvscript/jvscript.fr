@@ -2,9 +2,8 @@
 /*!
  * jvscript theme
  */
-.header {
-  padding-bottom: 9px;
-  margin: 40px 0 20px; }
+.content {
+  padding-top: 40px; }
 
 footer {
   margin: 40px 0 20px; }
