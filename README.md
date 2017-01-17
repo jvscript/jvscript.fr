@@ -40,8 +40,8 @@ Elles sont définies dans le routeur : `/routes/web.php` et pointe soit directem
 
 ### Vue 
 
-- [ ] Faire la page html (base thème boostrap dark)
-- [ ] Intégration de la maquette (html/css)
+- [x] Faire la page html (base thème boostrap dark)
+- [ ] Finir le design de toute les pages
 
 ### Contenu du site
 
@@ -51,23 +51,24 @@ Elles sont définies dans le routeur : `/routes/web.php` et pointe soit directem
 
 - [ ] Inviter les développeurs de scripts à mettre leur code dans l'organization : https://github.com/jvscript 
 
-----------
+ ### Modèles de données
 
-## Todolist (site dynamique)
-
-### Prérequis
-
-- [ ] Faire les modèles de données (users, scripts, skins, categories, commentaires, tags)
+- [x] users
+- [x] scripts
+- [x] tags
+- [ ] skins
+- [ ] commentaires
+- [ ] categories
 
 ### Fonctionnalités 
 
-- [ ] Connexion (avec FB,Twitter, Github connect ?)
-- [ ] Inscription
-- [ ] Ajout de script 
-- [ ] Ajout de Skin JVC
-- [ ] Administration (validation des scripts/style)
+- [x] Ajout de script 
 - [ ] Recherche de script/skin
 - [ ] Notation de script
+- [ ] Connexion (avec FB,Twitter, Github connect ?)
+- [ ] Inscription
+- [ ] Ajout de Skin JVC
+- [ ] Administration (validation des scripts/style)
 - [ ] Commentaires 
 - [ ] Tags
 - [ ] Sensibilité du script (safe, danger, bannable)
