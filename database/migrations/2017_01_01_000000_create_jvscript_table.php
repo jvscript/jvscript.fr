@@ -18,9 +18,9 @@ class CreateJvscriptTable extends Migration {
             $table->string('slug')->nullable()->unique();
             $table->string('autor')->nullable();
             $table->string('user_id')->nullable()->comment("pour attribuer le script à un utilisateurs de jvscript");
-            $table->string('user_email')->nullable()->comment("pour notifier par email");
+            $table->string('user_email')->nullable()->comment("pour notifier la publication par email");
             $table->text('description')->nullable();
-            $table->decimal('note',5,2)->default(0);
+            $table->decimal('note', 5, 2)->default(0);
             $table->integer('note_count')->default(0);
             $table->integer('install_count')->default(0);
             $table->string('js_url');
@@ -29,6 +29,25 @@ class CreateJvscriptTable extends Migration {
             $table->string('don_url')->nullable();
             $table->integer('status')->default(0)->comment("0 awaiting validation / 1 validated / 2 refused");
             $table->integer('sensibility')->default(0)->comment("0 Clean / 1 Warning / 2 Danger");
+            $table->timestamps();
+        });
+
+        Schema::create('skins', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name')->unique();
+            $table->string('slug')->nullable()->unique();
+            $table->string('autor')->nullable();
+            $table->string('user_id')->nullable()->comment("pour attribuer le skins à un utilisateurs de jvscript");
+            $table->string('user_email')->nullable()->comment("pour notifier la publication par email");
+            $table->text('description')->nullable();
+            $table->decimal('note', 5, 2)->default(0);
+            $table->integer('note_count')->default(0);
+            $table->integer('install_count')->default(0);
+            $table->string('skin_url');
+            $table->string('repo_url')->nullable();
+            $table->string('photo_url')->nullable();
+            $table->string('don_url')->nullable();
+            $table->integer('status')->default(0)->comment("0 awaiting validation / 1 validated / 2 refused");
             $table->timestamps();
         });
 
@@ -62,6 +81,7 @@ class CreateJvscriptTable extends Migration {
         Schema::dropIfExists('taggables');
         Schema::dropIfExists('tags');
         Schema::dropIfExists('scripts');
+        Schema::dropIfExists('skins');
     }
 
 }

@@ -34,15 +34,16 @@ echo json_encode([
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav"> 
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li> <a href="{{route('script.form')}}">Ajouter un script</a></li>
+                                <li><a href="{{route('skin.form')}}">Ajouter un skin</a></li>                                 
+                            </ul>
+                        </li>                        
                         <li>
-                            <a href="{{route('ajout-form')}}">Ajouter un script</a>
-                        </li>
-                        <li>
-                            <a href="{{url('comment-installer')}}">Comment installer un script</a>
-                        </li>  
-                        <li>
-                            <a href="{{url('developpeurs')}}">Développeurs</a>
-                        </li>
+                            <a href="{{route('aide')}}">Aide</a>
+                        </li>   
                         <li>
                             <a href="{{url('contact')}}">Contact</a>
                         </li>
@@ -64,9 +65,10 @@ echo json_encode([
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p>&COPY; {{ date('Y') }} jvscript.io  -
+                        <p class="text-right">&COPY; {{ date('Y') }} jvscript.io  -
                             <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> -
-                            <a target="_blank" href="https://github.com/jvscript/jvscript.github.io/blob/master/changelog.md">changelog</a>
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.github.io/blob/master/changelog.md">Changelog</a> -
+                            <a href="{{url('developpeurs')}}">Développeurs</a>
                         </p>
                     </div>
                 </div>

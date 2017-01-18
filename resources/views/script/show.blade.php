@@ -18,9 +18,7 @@
 <div class="row">
 
     <div class="col-md-6"> 
-
-
-
+ 
         <!--_TODO : sensibility alert if not safe-->
         <!--_TODO : bouton ton au developpeur -->
         <p>
