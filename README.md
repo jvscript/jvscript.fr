@@ -38,41 +38,4 @@ Le controller principal (`JvscriptController.php`) est dans `App\Http\Controller
 
 ## Todolist (dev du site)
 
-### Web Design 
-
-- [ ] Maquetage du site
-
-### Vue 
-
-- [x] Faire la page html (base thème boostrap dark)
-- [ ] Finir le design de toute les pages
-
-### Contenu du site
-
-- [ ] Référencer les scripts JVC les plus utiles (Risibank, JVCStickers++, SpawnKill...)
-
-### Communication
-
-- [ ] Inviter les développeurs de scripts à mettre leur code dans l'organization : https://github.com/jvscript 
-
-### Modèles de données
-
-- [x] users
-- [x] scripts
-- [x] tags
-- [ ] skins
-- [ ] commentaires
-- [ ] categories
-
-### Fonctionnalités 
-
-- [x] Ajout de script 
-- [x] Notation de script
-- [ ] Recherche de script/skin
-- [ ] Connexion (avec FB,Twitter, Github connect ?)
-- [ ] Inscription
-- [ ] Ajout de Skin JVC
-- [ ] Administration (validation des scripts/style)
-- [ ] Commentaires 
-- [ ] Tags
-- [ ] Sensibilité du script (safe, danger, bannable)
+### [C'est par ici ](https://github.com/jvscript/jvscript.github.io/projects/1)

@@ -21,12 +21,24 @@ class JvscriptController extends Controller {
 //        $this->middleware('auth');
     }
 
-    public function index() {
+    public function index(Request $request) {
+        if ($request->ajax()) {
+            if ($request->has('search')) {
+                $search = $request->input('search');
+                if (strlen(trim($search)) > 0) {
+                    $scripts = Script::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
+                    $skins = Skin::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
+                    return view('ajax.index', ['scripts' => $scripts, 'skins' => $skins]);
+                }
+            }
+            $scripts = Script::all();
+            $skins = Skin::all();
+            return view('ajax.index', ['scripts' => $scripts, 'skins' => $skins]);
+        }
         //_TODO : filter status 2
         $scripts = Script::all();
-         $skins = Skin::all();
-
-        return view('index', ['scripts' => $scripts, 'skins' => $skins ]);
+        $skins = Skin::all();
+        return view('index', ['scripts' => $scripts, 'skins' => $skins]);
     }
 
     /**

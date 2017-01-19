@@ -25,7 +25,7 @@ echo json_encode([
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="../" class="navbar-brand">jvscript.io</a>
+                    <a href="/" class="navbar-brand">jvscript.io</a>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -78,5 +78,14 @@ echo json_encode([
 
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/assets/javascripts/bootstrap.min.js"></script> 
+        @yield('javascript')
+
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        </script>
     </body>
 </html>

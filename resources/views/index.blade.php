@@ -15,81 +15,101 @@
     </div>
 </div>
 
+<style>
+    .image{
+        position:relative;
+        overflow:hidden;
+        padding-bottom:100%;
+        height: 100%;
+    }
+    .image img{
+        position:absolute;
+        max-width: 100%;
+        max-height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    .caption > h4{
+        white-space:nowrap;
+        overflow: hidden;
+    }
+
+</style>
+
+@section('javascript')
+<script>
+    var selected = '#scripts';
+    jQuery(document).ready(function () {
+        $('button[data-toggle="tab"]').on('click', function () {
+            selected = $(this).attr('href');
+            console.log(selected);
+        });
+
+        $("#search").keyup(function () {
+            $.ajax({
+                url: "{{route('index')}}",
+                type: "POST",
+                data: {'search': $(this).val()},
+                success: function (view) {
+                    if (view.length > 0) {
+                        $("#ajax-content").html(view);
+                        //_TODO good tab
+                        $('button[href="#' + selected + '"]').tab('show');
+                        $('button[href="#' + selected + '"]').click();
+                        console.log("show " + selected);
+                    }
+                    else {
+                        console.log("no view");
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+@endsection
+
 <div class="row">
 
-    @foreach( $scripts as $script ) 
-    <div class="col-xs-6 col-sm-3 col-md-3">
-        <div class="thumbnail">
-            <a href="{{route('script.show',['slug' => $script->slug ])}}">
-                <?php $src = $script->photo_url == null ? "/assets/images/jvscript-nb.png" : $script->photo_url ?>
-                <img src="{{$src}}" class="img-thumbnail" alt="{{$script->name}} logo" /></a>
-            <div class="caption">
-                <h4>{{$script->name}}
-                    @if($script->autor != null)
-                    by {{$script->autor}}
-                    @endif                                
-                </h4>
-                <p class="pull-left">
-                    <?php $note = round($script->note * 2) / 2; ?>
-                    @for ($i = 1; $i <= $note ; $i++)
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    @endfor
+    <div class="btn-group " role="group" >
+        <button type="button" href="#scripts" data-toggle="tab" class="btn btn-default">Scripts</button>
+        <button type="button" href="#skins" data-toggle="tab" class="btn btn-default">Skins</button>
+    </div>
 
-                    <?php $stop = $i; ?>                  
-
-                    @for ($i ; $i <= 5 ; $i++)                    
-                    @if($i == $stop && $note > ( $i -1 ) )
-                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                    @else
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                    @endif
-
-                    @endfor 
-                </p>
-                <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
+    <div class="btn-group " role="group" >
+        <div class="form-inline pull-left"> <input type="text" placeholder="Rechercher" class="pull-left form-control input-sm" name="search" id="search" /> </div>
+    </div>
+    <!--    <div class="btn-group pull-right" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Date
+                    <span class="caret"></span>
+                </button>
+    
             </div>
-        </div>
-    </div> 
-    @endforeach
-
-</div>
-
-<div class="row">
-
-    @foreach( $skins as $skin ) 
-    <div class="col-xs-6 col-sm-3 col-md-3">
-        <div class="thumbnail">
-            <a href="{{route('skin.show',['slug' => $skin->slug ])}}">
-                <?php $src = $skin->photo_url == null ? "/assets/images/jvscript-nb.png" : $skin->photo_url ?>
-                <img src="{{$src}}" class="img-thumbnail" alt="{{$skin->name}} logo" /></a>
-            <div class="caption">
-                <h4>{{$skin->name}}
-                    @if($skin->autor != null)
-                    by {{$skin->autor}}
-                    @endif                                
-                </h4>
-                <p class="pull-left">
-                    <?php $note = round($skin->note * 2) / 2; ?>
-                    @for ($i = 1; $i <= $note ; $i++)
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    @endfor
-
-                    <?php $stop = $i; ?>                  
-
-                    @for ($i ; $i <= 5 ; $i++)                    
-                    @if($i == $stop && $note > ( $i -1 ) )
-                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                    @else
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                    @endif
-
-                    @endfor 
-                </p>
-                <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$skin->install_count}} </p>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Note
+                    <span class="caret"></span>
+                </button>
+    
             </div>
-        </div>
-    </div> 
-    @endforeach
+    
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Installation
+                    <span class="caret"></span>
+                </button>
+    
+            </div>
+        </div>-->
+
+    @include('ajax.index')
+
+
+
 
 </div>
 

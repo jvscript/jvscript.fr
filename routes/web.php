@@ -11,8 +11,8 @@
   |
  */
 
-Route::get('/', 'JvscriptController@index')->name('home');
- 
+Route::match(['get', 'post'], '/', 'JvscriptController@index')->name('index');
+
 
 //forms
 Route::get('/script/ajout', 'JvscriptController@formScript')->name('script.form');
