@@ -78,6 +78,8 @@ echo json_encode([
 
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/assets/javascripts/bootstrap.min.js"></script> 
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src="/js/list.min.js"></script>
         @yield('javascript')
 
         <script>

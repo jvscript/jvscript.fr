@@ -11,14 +11,32 @@
             <a target="_blank" class="btn btn-primary" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
         </h1>
 
+        <?php
+        if ($script->sensibility == 0) {
+            $class = "success";
+            $message = "Ce script est jugé safe à l'utilisation.";
+        } else if ($script->sensibility == 1) {
+            $class = "warning";
+            $message = "On ne peut dire si ce script est autorisé dans les forums de JVC.";
+        } else if ($script->sensibility == 2) {
+            $class = "danger";
+            $message = "Attention, ce script est sensible, son utilisation peu provoquer un ban.";
+        }
+        ?>
+        <div class="alert alert-{{$class}} alert-dismissible" role="alert"> 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{$message}}
+        </div> 
+
     </div>
+
 
 </div>
 
 <div class="row">
 
     <div class="col-md-6"> 
- 
+
         <!--_TODO : sensibility alert if not safe-->
         <!--_TODO : bouton ton au developpeur -->
         <p>

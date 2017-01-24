@@ -10,6 +10,8 @@ use Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
 
+//_TODO : captcha google sur ajout scripts/mail
+
 class JvscriptController extends Controller {
 
     /**
@@ -19,25 +21,38 @@ class JvscriptController extends Controller {
      */
     public function __construct() {
 //        $this->middleware('auth');
+        $this->google_secret_key = env('RECAPTCHA_KEY','');
     }
 
     public function index(Request $request) {
-        if ($request->ajax()) {
-            if ($request->has('search')) {
-                $search = $request->input('search');
-                if (strlen(trim($search)) > 0) {
-                    $scripts = Script::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
-                    $skins = Skin::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
-                    return view('ajax.index', ['scripts' => $scripts, 'skins' => $skins]);
-                }
-            }
-            $scripts = Script::all();
-            $skins = Skin::all();
-            return view('ajax.index', ['scripts' => $scripts, 'skins' => $skins]);
-        }
+        //_TODO : retenir le filtre/sort en session/cookie utilisateur
         //_TODO : filter status 2
+        //_TODO : 1 requête SQL avec scripts, skins & order by note desc
+        //_TODO : Message si rien trouvé 
+//        if ($request->ajax()) {
+//            if ($request->has('search')) {
+//                $search = $request->input('search');
+//                if (strlen(trim($search)) > 0) {
+//                    $scripts = Script::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
+//                    $skins = Skin::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
+//                    return view('ajax.index', ['scripts' => $scripts, 'skins' => $skins]);
+//                }
+//            }
+//            $scripts = Script::all();
+//
+//            $skins = Skin::all();
+//            return view('ajax.index', ['scripts' => $sorted, 'skins' => $skins]);
+//        }
+
         $scripts = Script::all();
         $skins = Skin::all();
+
+        $collection = collect([$scripts, $skins]);
+        $collapsed = $collection->collapse();
+        $scripts = $collapsed->all();
+//
+        $scripts = $collapsed->sortByDesc('note');
+
         return view('index', ['scripts' => $scripts, 'skins' => $skins]);
     }
 
@@ -45,7 +60,14 @@ class JvscriptController extends Controller {
      * Store a script in db
      */
     public function storeScript(Request $request) {
-//        $user = Auth::user();
+        // $user = Auth::user();
+        //_TODO : validate captcha google
+        // POST  https://www.google.com/recaptcha/api/siteverify
+        /**
+         * secret (obligatoire)	$this->google_secret_key
+         * response (obligatoire) La valeur $_POST "g-recaptcha-response"
+         * remoteip	Adresse IP de l'utilisateur final remote_addr
+         */
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:255|unique:scripts',
                     'js_url' => "required|url",
