@@ -21,7 +21,8 @@ class JvscriptController extends Controller {
      */
     public function __construct() {
 //        $this->middleware('auth');
-        $this->google_secret_key = env('RECAPTCHA_KEY','');
+        $this->google_secret_key = env('RECAPTCHA_KEY', '');
+        $this->discord_url = env('DISCORD_URL', '');
     }
 
     public function index(Request $request) {
@@ -92,9 +93,9 @@ class JvscriptController extends Controller {
             $script->slug = $slug;
             $script->save();
 
-            /**
-             * todo redirect to script awaiting 
-             */
+            $message = "[new script] Nouveau script posté sur le site : " . route('script.show',['slug' => $script->slug ]);
+            $this->sendDiscord($message, $this->discord_url);
+
             return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
         }
     }
@@ -128,9 +129,9 @@ class JvscriptController extends Controller {
             $script->slug = $slug;
             $script->save();
 
-            /**
-             * todo redirect to script awaiting 
-             */
+            $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show',['slug' => $script->slug ]);
+            $this->sendDiscord($message, $this->discord_url);
+
             return redirect(route('skin.form'))->with("message", "Merci, votre skin est en attente de validation.");
         }
     }
@@ -216,7 +217,7 @@ class JvscriptController extends Controller {
     }
 
     /**
-     * Contact send (mail)
+     * Contact send (discord bot)
      */
     public function contactSend(Request $request) {
         $validator = Validator::make($request->all(), [
@@ -229,7 +230,16 @@ class JvscriptController extends Controller {
                     $request, $validator
             );
         } else { //sucess > insert  
-            Mail::to(env('ADMIN_EMAIL', 'contact@jvscript.io'))->send(new Contact($request->input('email'), $request->input('message_body')));
+            //send discord 
+            $this->discord_url;
+            $message = "[contact form] ";
+            if ($request->input('email')) {
+                $message .= "Email : " . $request->input('email') . '.';
+            }
+            $message .= "Message : " . $request->input('message_body');
+            $this->sendDiscord($message, $this->discord_url);
+
+//            Mail::to(env('ADMIN_EMAIL', 'contact@jvscript.io'))->send(new Contact($request->input('email'), $request->input('message_body')));
 
             return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");
         }
@@ -298,6 +308,29 @@ class JvscriptController extends Controller {
         }
 
         return $text;
+    }
+
+    public function sendDiscord($content, $url) {
+        if (empty($content)) {
+            throw new NoContentException('No content provided');
+        }
+        if (empty($url)) {
+            throw new NoURLException('No URL provided');
+        }
+        $data = array("content" => $content);
+        $data_string = json_encode($data);
+        $opts = array(
+            'http' => array(
+                'method' => "POST",
+                "name" => "jvscript.io",
+                "user_name" => "jvscript.io",
+                'header' => "Content-Type: application/json\r\n",
+                'content' => $data_string
+            )
+        );
+
+        $context = stream_context_create($opts);
+        file_get_contents($url, false, $context);
     }
 
 }
