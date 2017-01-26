@@ -48,9 +48,24 @@ echo json_encode([
                             <a href="{{url('contact')}}">Contact</a>
                         </li>
                     </ul>
-                    <!--                    <ul class="nav navbar-nav navbar-right">
-                                            <li><a href="#">Built With Bootstrap</a></li>
-                                        </ul>-->
+                    <!--                        <li><a href="{{ url('/login') }}">Connexion</a></li>
+                        <li><a href="{{ url('/register') }}">Inscription</a></li>-->
+
+                    @if (!Auth::guest())
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="{{ url('/logout') }}"
+                               onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();">
+                                Déconnexion
+                            </a>
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
+
+                    @endif
 
                 </div>
             </div>
@@ -83,11 +98,11 @@ echo json_encode([
         @yield('javascript')
 
         <script>
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+                                   $.ajaxSetup({
+                                       headers: {
+                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                       }
+                                   });
         </script>
     </body>
 </html>

@@ -9,11 +9,11 @@ use App\Script,
 use Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
-
-//_TODO : captcha google sur ajout scripts/mail
+use Auth;
 
 class JvscriptController extends Controller {
 
+    //_TODO : retenir le filtre/sort en session/cookie utilisateur 
     /**
      * Create a new controller instance.
      *
@@ -21,40 +21,20 @@ class JvscriptController extends Controller {
      */
     public function __construct() {
 //        $this->middleware('auth');
-        $this->google_secret_key = env('RECAPTCHA_KEY', '');
+        $this->recaptcha_key = env('RECAPTCHA_KEY', '');
         $this->discord_url = env('DISCORD_URL', '');
     }
 
     public function index(Request $request) {
-        //_TODO : retenir le filtre/sort en session/cookie utilisateur
-        //_TODO : filter status 2
-        //_TODO : 1 requête SQL avec scripts, skins & order by note desc
-        //_TODO : Message si rien trouvé 
-//        if ($request->ajax()) {
-//            if ($request->has('search')) {
-//                $search = $request->input('search');
-//                if (strlen(trim($search)) > 0) {
-//                    $scripts = Script::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
-//                    $skins = Skin::where('name', 'like', "%$search%")->orWhere('autor', 'like', "%$search%")->get();
-//                    return view('ajax.index', ['scripts' => $scripts, 'skins' => $skins]);
-//                }
-//            }
-//            $scripts = Script::all();
-//
-//            $skins = Skin::all();
-//            return view('ajax.index', ['scripts' => $sorted, 'skins' => $skins]);
-//        }
-
-        $scripts = Script::all();
-        $skins = Skin::all();
+        $scripts = Script::where("status", "1");
+        $skins = Skin::where("status", "1");
 
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();
-        $scripts = $collapsed->all();
-//
+        $scripts = $collapsed->all(); //
         $scripts = $collapsed->sortByDesc('note');
 
-        return view('index', ['scripts' => $scripts, 'skins' => $skins]);
+        return view('index', ['scripts' => $scripts]);
     }
 
     /**
@@ -62,13 +42,6 @@ class JvscriptController extends Controller {
      */
     public function storeScript(Request $request) {
         // $user = Auth::user();
-        //_TODO : validate captcha google
-        // POST  https://www.google.com/recaptcha/api/siteverify
-        /**
-         * secret (obligatoire)	$this->google_secret_key
-         * response (obligatoire) La valeur $_POST "g-recaptcha-response"
-         * remoteip	Adresse IP de l'utilisateur final remote_addr
-         */
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:255|unique:scripts',
                     'js_url' => "required|url",
@@ -83,6 +56,14 @@ class JvscriptController extends Controller {
                     $request, $validator
             );
         } else { //sucess > insert  
+            //captcha validation
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+            if (!$resp->isSuccess()) {
+                $request->flash();
+                return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+            }
+
             $script = Script::create($request->all());
             $slug = $this->slugify($script->name);
             $i = 1;
@@ -93,10 +74,35 @@ class JvscriptController extends Controller {
             $script->slug = $slug;
             $script->save();
 
-            $message = "[new script] Nouveau script posté sur le site : " . route('script.show',['slug' => $script->slug ]);
+            $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
             $this->sendDiscord($message, $this->discord_url);
 
             return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
+        }
+    }
+
+    public function updateScript(Request $request, $slug) {
+//       _todo protection admin
+
+        $validator = Validator::make($request->all(), [
+                    'js_url' => "required|url",
+                    'repo_url' => "url",
+                    'photo_url' => "url",
+                    'don_url' => "url",
+                    "user_email" => "email"
+        ]);
+        //update only this fields
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'user_email'];
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                    $request, $validator
+            );
+        } else {
+            $script = Script::where('slug', $slug)->firstOrFail();
+            $script->fill($request->only($toUpdate));
+            $script->save();
+            return redirect(route('script.show', ['slug' => $slug]));
         }
     }
 
@@ -119,6 +125,14 @@ class JvscriptController extends Controller {
                     $request, $validator
             );
         } else { //sucess > insert  
+            //captcha validation
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+            if (!$resp->isSuccess()) {
+                $request->flash();
+                return redirect(route('skin.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+            }
+
             $script = Skin::create($request->all());
             $slug = $this->slugify($script->name);
             $i = 1;
@@ -129,7 +143,7 @@ class JvscriptController extends Controller {
             $script->slug = $slug;
             $script->save();
 
-            $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show',['slug' => $script->slug ]);
+            $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show', ['slug' => $script->slug]);
             $this->sendDiscord($message, $this->discord_url);
 
             return redirect(route('skin.form'))->with("message", "Merci, votre skin est en attente de validation.");
@@ -180,10 +194,8 @@ class JvscriptController extends Controller {
      * Install script : count & redirect 
      */
     public function installSkin($slug) {
-        $skin = Skin::where('slug', $slug)->first();
-        if (!$skin) {
-            abort(404);
-        }
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+
         //if no history install_count +1
         $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "skin_$slug", 'action' => 'install']);
         if ($history->count() == 0) {
@@ -229,7 +241,15 @@ class JvscriptController extends Controller {
             $this->throwValidationException(
                     $request, $validator
             );
-        } else { //sucess > insert  
+        } else {
+            //captcha validation
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+            if (!$resp->isSuccess()) {
+                $request->flash();
+                return redirect(route('contact.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+            }
+
             //send discord 
             $this->discord_url;
             $message = "[contact form] ";
@@ -261,19 +281,41 @@ class JvscriptController extends Controller {
     }
 
     public function showScript($slug) {
-        $script = Script::where('slug', $slug)->first();
-        if (!$script) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+
+        //affiche les non validés seulement si admin
+        if (!$script->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
         }
+
         return view('script.show', ['script' => $script]);
     }
 
     public function showSkin($slug) {
-        $skin = Skin::where('slug', $slug)->first();
-        if (!$skin) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+
+        //affiche les non validés seulement si admin
+        if (!$skin->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
         }
+
         return view('skin.show', ['skin' => $skin]);
+    }
+
+    public function editScript($slug) {
+        if (!(Auth::check() && Auth::user()->isAdmin()))
+            abort(404);
+
+        $script = Script::where('slug', $slug)->firstOrFail();
+        return view('script.edit', ['script' => $script]);
+    }
+
+    public function editSkin($slug) {
+        if (!(Auth::check() && Auth::user()->isAdmin()))
+            abort(404);
+
+        $script = Script::where('slug', $slug)->firstOrFail();
+        return view('script.edit', ['script' => $script]);
     }
 
     public function slugExistScript($slug) {
@@ -287,26 +329,19 @@ class JvscriptController extends Controller {
     static public function slugify($text) {
         // replace non letter or digits by -
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-
         // transliterate
         $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
         // remove unwanted characters
         $text = preg_replace('~[^-\w]+~', '', $text);
-
         // trim
         $text = trim($text, '-');
-
         // remove duplicate -
         $text = preg_replace('~-+~', '-', $text);
-
         // lowercase
         $text = strtolower($text);
-
         if (empty($text)) {
             return 'n-a';
         }
-
         return $text;
     }
 

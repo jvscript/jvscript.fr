@@ -1,7 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+@if(!$script->isValidated())
+<div class="row">
+    <div class="col-md-6"> 
+        <div class="alert alert-warning" role="alert">
+            Ce script est en attente de validation
+        </div>
 
+        <p>
+            Edition : 
+            <a href="{{route('script.edit',$script->slug)}}" class="btn btn-primary">Editer</a>
+            <a href="#" class="btn btn-danger">Supprimer</a>  
+
+            Validation : 
+            <a href="#" class="btn btn-success">Valider</a>
+            <a href="#" class="btn btn-warning">Refuser</a>
+        </p> 
+
+        <hr>
+    </div> 
+</div>
+@endif
 <div class="row">
 
     <div class="col-md-6"> 

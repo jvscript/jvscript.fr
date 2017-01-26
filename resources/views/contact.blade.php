@@ -47,6 +47,19 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
+                <div class="col-md-6 col-md-offset-4">
+                    <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>
+
+                    @if ($errors->has('recaptcha'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('recaptcha') }}</strong>
+                    </span>
+                    @endif
+
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">

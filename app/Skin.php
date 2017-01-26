@@ -20,6 +20,10 @@ class Skin extends Model {
         return $this->morphToMany('App\Tag', 'taggable');
     }
 
+    public function isValidated() {
+        return $this->status == 1;
+    }
+
     /**
      * Get the categorie of the collection.
      */
@@ -32,6 +36,6 @@ class Skin extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'autor', 'skin_url', 'repo_url', 'photo_url', 'user_email' ,'don_url'];
+    protected $fillable = ['name', 'description', 'autor', 'skin_url', 'repo_url', 'photo_url', 'user_email', 'don_url'];
 
 }
