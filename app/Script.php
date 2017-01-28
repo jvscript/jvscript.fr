@@ -21,7 +21,12 @@ class Script extends Model {
     }
 
     public function isValidated() {
-        return $this->status == 1; 
+        return $this->status == 1;
+    }
+
+    public function statusLabel() {
+        $label = ['En attente', 'Validé', 'Refusé'];
+        return $label[$this->status];
     }
 
     /**

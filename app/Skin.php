@@ -24,6 +24,11 @@ class Skin extends Model {
         return $this->status == 1;
     }
 
+    public function statusLabel() {
+        $label = ['En attente', 'Validé', 'Refusé'];
+        return $label[$this->status];
+    }
+
     /**
      * Get the categorie of the collection.
      */

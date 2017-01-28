@@ -37,6 +37,19 @@ class JvscriptController extends Controller {
         return view('index', ['scripts' => $scripts]);
     }
 
+    public function admin(Request $request) {
+        $this->adminOrFail();
+        $scripts = Script::all();
+        $skins = Skin::all();
+
+        $collection = collect([$scripts, $skins]);
+        $collapsed = $collection->collapse();
+        $scripts = $collapsed->all(); //
+        $scripts = $collapsed->sortByDesc('created_at');
+
+        return view('admin.index', ['scripts' => $scripts]);
+    }
+
     /**
      * Store a script in db
      */
