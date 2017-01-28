@@ -1,6 +1,44 @@
 @extends('layouts.app')
 
+@section('javascript')
+<script>
+    $('[data-toggle=confirmation]').confirmation();
+</script>
+@endsection
+
 @section('content')
+
+ @if ((Auth::check() && Auth::user()->isAdmin())) 
+<div class="row">
+    <div class="col-md-6"> 
+        @if($skin->status == 0)
+        <div class="alert alert-warning" role="alert">
+            Ce skin est en attente de validation
+        </div>
+         @elseif($skin->status == 1)
+        <div class="alert alert-success" role="alert">
+            Ce skin a été validé.
+        </div>         
+        @elseif($skin->status == 2)
+        <div class="alert alert-danger" role="alert">
+            Ce skin a été refusé.
+        </div>
+        @endif
+
+        <p>
+            Edition : 
+            <a href="{{route('skin.edit',$skin->slug)}}" class="btn btn-primary">Editer</a>
+            <a href="#" class="btn btn-danger">Supprimer</a>  
+
+            Validation : 
+            <!--_TODO : confirm dialog-->
+            <a href="{{route('skin.validate',$skin->slug)}}" class="btn btn-success">Valider</a>
+            <a href="{{route('skin.refuse',$skin->slug)}}" class="btn btn-warning">Refuser</a>
+        </p> 
+        <hr>
+    </div> 
+</div>
+@endif
 
 <div class="row">
 

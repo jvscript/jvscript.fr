@@ -37,6 +37,12 @@ Route::get('/skin/{slug}/edit', 'JvscriptController@editSkin')->name('skin.edit'
 Route::put('/script/{slug}/edit', 'JvscriptController@updateScript')->name('script.update');
 Route::put('/skin/{slug}/edit', 'JvscriptController@updateSkin')->name('skin.update');
 
+//validate script/skin
+Route::get('/script/{slug}/validate', 'JvscriptController@validateScript')->name('script.validate');
+Route::get('/skin/{slug}/validate', 'JvscriptController@validateSkin')->name('skin.validate');
+Route::get('/script/{slug}/refuse', 'JvscriptController@refuseScript')->name('script.refuse');
+Route::get('/skin/{slug}/refuse', 'JvscriptController@refuseSkin')->name('skin.refuse');
+
 //contact form
 Route::get('/contact/{message_body?}', function ($message_body = null) {
     return view('contact', ['message_body' => $message_body]);
@@ -47,10 +53,10 @@ Route::post('/contact', 'JvscriptController@contactSend')->name('contact.send');
 
 //static views 
 Route::get('/developpeurs', function () {
-    return view('developpeurs');
+    return view('statics.developpeurs');
 });
 Route::get('/aide', function () {
-    return view('comment-installer');
+    return view('statics.comment-installer');
 })->name('aide');
 
 

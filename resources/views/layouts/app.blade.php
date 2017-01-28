@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>jvscript.io</title>
+        <title>jvscript.io - Le site regroupant les scripts JVC</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- CSRF Token -->
@@ -91,10 +91,11 @@ echo json_encode([
             </footer>
         </div>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="/js/jquery.min.js"></script>
         <script src="/assets/javascripts/bootstrap.min.js"></script> 
-        <script src='https://www.google.com/recaptcha/api.js'></script>
         <script src="/js/list.min.js"></script>
+        <script src="/js/confirm.min.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
         @yield('javascript')
 
         <script>

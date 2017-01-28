@@ -1,27 +1,43 @@
 @extends('layouts.app')
 
+@section('javascript')
+<script>
+    $('[data-toggle=confirmation]').confirmation();
+</script>
+@endsection
+
 @section('content')
-@if(!$script->isValidated())
+@if ((Auth::check() && Auth::user()->isAdmin())) 
 <div class="row">
     <div class="col-md-6"> 
+        @if($script->status == 0)
         <div class="alert alert-warning" role="alert">
             Ce script est en attente de validation
         </div>
-
+        @elseif($script->status == 1)
+        <div class="alert alert-success" role="alert">
+            Ce script a été validé.
+        </div>         
+        @elseif($script->status == 2)
+        <div class="alert alert-danger" role="alert">
+            Ce script a été refusé.
+        </div>
+        @endif 
         <p>
             Edition : 
             <a href="{{route('script.edit',$script->slug)}}" class="btn btn-primary">Editer</a>
-            <a href="#" class="btn btn-danger">Supprimer</a>  
+            <a href="#" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>  
 
             Validation : 
-            <a href="#" class="btn btn-success">Valider</a>
-            <a href="#" class="btn btn-warning">Refuser</a>
+            <!--_TODO : confirm dialog-->
+            <a href="{{route('script.validate',$script->slug)}}" class="btn btn-success" data-toggle="confirmation" >Valider</a>
+            <a href="{{route('script.refuse',$script->slug)}}" class="btn btn-warning" data-toggle="confirmation" >Refuser</a>
         </p> 
-
         <hr>
     </div> 
 </div>
 @endif
+
 <div class="row">
 
     <div class="col-md-6"> 

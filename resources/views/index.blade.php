@@ -98,7 +98,7 @@
             $('.no-result').show();
         }
     });
-
+      
 
     /**
      * Bouton sort asc/desc

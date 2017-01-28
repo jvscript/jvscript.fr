@@ -8,7 +8,7 @@ use App\Script,
     App\History;
 use Validator;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Contact;
+use App\Mail\Notify;
 use Auth;
 
 class JvscriptController extends Controller {
@@ -26,8 +26,8 @@ class JvscriptController extends Controller {
     }
 
     public function index(Request $request) {
-        $scripts = Script::where("status", "1");
-        $skins = Skin::where("status", "1");
+        $scripts = Script::where("status", 1)->get();
+        $skins = Skin::where("status", 1)->get();
 
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();
@@ -82,28 +82,83 @@ class JvscriptController extends Controller {
     }
 
     public function updateScript(Request $request, $slug) {
-//       _todo protection admin
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
 
         $validator = Validator::make($request->all(), [
                     'js_url' => "required|url",
                     'repo_url' => "url",
                     'photo_url' => "url",
-                    'don_url' => "url",
-                    "user_email" => "email"
+                    'don_url' => "url"
         ]);
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'user_email'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url'];
 
         if ($validator->fails()) {
             $this->throwValidationException(
                     $request, $validator
             );
         } else {
-            $script = Script::where('slug', $slug)->firstOrFail();
             $script->fill($request->only($toUpdate));
             $script->save();
             return redirect(route('script.show', ['slug' => $slug]));
         }
+    }
+
+    public function validateScript($slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($script->status != 1) {
+            $script->status = 1;
+            $script->save();
+            if ($script->user_email != null) {
+                Mail::to($script->user_email)->send(new Notify($script));
+            }
+        }
+        return redirect(route('script.show', ['slug' => $slug]));
+    }
+
+    public function validateSkin($slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($skin->status != 1) {
+            $skin->status = 1;
+            $skin->save();
+            if ($skin->user_email != null) {
+                Mail::to($skin->user_email)->send(new Notify($skin));
+            }
+        }
+        return redirect(route('skin.show', ['slug' => $slug]));
+    }
+
+    public function refuseScript($slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($script->status != 2) {
+            $script->status = 2;
+            $script->save();
+            if ($script->user_email != null) {
+                Mail::to($script->user_email)->send(new Notify($script));
+            }
+        }
+        return redirect(route('script.show', ['slug' => $slug]));
+    }
+
+    public function refuseSkin($slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($skin->status != 2) {
+            $skin->status = 2;
+            $skin->save();
+            if ($skin->user_email != null) {
+                Mail::to($skin->user_email)->send(new Notify($skin));
+            }
+        }
+        return redirect(route('skin.show', ['slug' => $slug]));
     }
 
     /**
@@ -150,14 +205,36 @@ class JvscriptController extends Controller {
         }
     }
 
+    public function updateSkin(Request $request, $slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        $validator = Validator::make($request->all(), [
+                    'skin_url' => "required|url",
+                    'repo_url' => "url",
+                    'photo_url' => "url",
+                    'don_url' => "url"
+        ]);
+        //update only this fields
+        $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url'];
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                    $request, $validator
+            );
+        } else {
+            $skin->fill($request->only($toUpdate));
+            $skin->save();
+            return redirect(route('skin.show', ['slug' => $slug]));
+        }
+    }
+
     /**
      * Install script : count & redirect 
      */
     public function installScript($slug) {
-        $script = Script::where('slug', $slug)->first();
-        if (!$script) {
-            abort(404);
-        }
+        $script = Script::where('slug', $slug)->firstOrFail();
+
         //if no history install_count +1
         $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => $slug, 'action' => 'install']);
         if ($history->count() == 0) {
@@ -174,10 +251,7 @@ class JvscriptController extends Controller {
     public function noteScript($slug, $note) {
         $note = intval($note);
         if ($note > 0 && $note <= 5) {
-            $script = Script::where('slug', $slug)->first();
-            if (!$script) {
-                abort(404);
-            }
+            $script = Script::where('slug', $slug)->firstOrFail();
             //if no history note_count +1
             $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "script_$slug", 'action' => 'note']);
             if ($history->count() == 0) {
@@ -212,10 +286,7 @@ class JvscriptController extends Controller {
     public function noteSkin($slug, $note) {
         $note = intval($note);
         if ($note > 0 && $note <= 5) {
-            $skin = Skin::where('slug', $slug)->first();
-            if (!$skin) {
-                abort(404);
-            }
+            $skin = Skin::where('slug', $slug)->firstOrFail();
             //if no history note_count +1
             $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "skin_$slug", 'action' => 'note']);
             if ($history->count() == 0) {
@@ -303,19 +374,22 @@ class JvscriptController extends Controller {
     }
 
     public function editScript($slug) {
-        if (!(Auth::check() && Auth::user()->isAdmin()))
-            abort(404);
-
+        $this->adminOrFail();
         $script = Script::where('slug', $slug)->firstOrFail();
         return view('script.edit', ['script' => $script]);
     }
 
     public function editSkin($slug) {
-        if (!(Auth::check() && Auth::user()->isAdmin()))
-            abort(404);
+        $this->adminOrFail();
 
-        $script = Script::where('slug', $slug)->firstOrFail();
-        return view('script.edit', ['script' => $script]);
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        return view('skin.edit', ['skin' => $skin]);
+    }
+
+    public function adminOrFail() {
+        if (!(Auth::check() && Auth::user()->isAdmin())) {
+            abort(404);
+        }
     }
 
     public function slugExistScript($slug) {
