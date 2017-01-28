@@ -29,7 +29,7 @@ class Notify extends Mailable {
      * @return $this
      */
     public function build() {
-        return $this->view('mails.notify');
+        return $this->view('mails.notify')->subject("Notification de jvscript.io");
     }
 
 }

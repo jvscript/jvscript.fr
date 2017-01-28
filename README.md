@@ -21,7 +21,7 @@ Pour le modifier editez ce fichier de variable `/public/assets/stylesheets/boots
 
 Et compilez avec sass : 
 
-       sass jvscript.scss jvscript.css
+    sh compile-sass.sh
 
 
 ### Vues html

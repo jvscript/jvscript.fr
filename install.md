@@ -88,9 +88,9 @@ Pour Nginx :
 
 Créer votre BDD 'jvscript' et son user 
 
-    CREATE USER 'jvscript'@'%' IDENTIFIED BY 'jvscript';
-    GRANT USAGE ON * . * TO 'jvscript'@'%' IDENTIFIED BY 'jvscript';
-    GRANT USAGE ON * . * TO 'jvscript'@'localhost' IDENTIFIED BY 'jvscript';
+    CREATE USER 'jvscript'@'%' IDENTIFIED BY 'password';
+    GRANT USAGE ON * . * TO 'jvscript'@'%' IDENTIFIED BY 'password';
+    GRANT USAGE ON * . * TO 'jvscript'@'localhost' IDENTIFIED BY 'password';
     CREATE DATABASE IF NOT EXISTS `jvscript` ;
     GRANT ALL PRIVILEGES ON `jvscript` . * TO 'jvscript'@'%';
 

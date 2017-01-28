@@ -1,4 +1,4 @@
-Bonjour,
+Bonjour,<br>
 
 <?php
 if (isset($script->js_url)) {

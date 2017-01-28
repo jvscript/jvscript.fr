@@ -11,22 +11,25 @@
   |
  */
 
+//home
 Route::get('/', 'JvscriptController@index')->name('index');
+
+Route::get('/admin', 'JvscriptController@admin')->name('admin_index')->middleware('auth');
 
 //forms
 Route::get('/script/ajout', 'JvscriptController@formScript')->name('script.form');
 Route::get('/skin/ajout', 'JvscriptController@formSkin')->name('skin.form');
-
 //form action (store in db)
 Route::post('/script/ajout', 'JvscriptController@storeScript')->name('script.store');
 Route::post('/skin/ajout', 'JvscriptController@storeSkin')->name('skin.store');
 
-
+//show 1 item
 Route::get('/script/{slug}', 'JvscriptController@showScript')->name('script.show');
+Route::get('/skin/{slug}', 'JvscriptController@showSkin')->name('skin.show');
+
+//install, note
 Route::get('/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
 Route::get('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');
-
-Route::get('/skin/{slug}', 'JvscriptController@showSkin')->name('skin.show');
 Route::get('/skin/install/{slug}', 'JvscriptController@installSkin')->name('skin.install');
 Route::get('/skin/note/{slug}/{note}', 'JvscriptController@noteSkin')->name('skin.note');
 

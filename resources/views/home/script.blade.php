@@ -1,4 +1,4 @@
-<div class="col-xs-6 col-sm-3 col-md-3">
+<div class="col-xs-6 col-sm-3 col-md-3" onclick="window.location ='{{route('script.show',['slug' => $script->slug ])}}';" style="cursor: pointer;">
     <div class="thumbnail">
         <a href="{{route('script.show',['slug' => $script->slug ])}}">
             <?php $src = $script->photo_url == null ? "/assets/images/jvscript-nb.png" : $script->photo_url ?>
