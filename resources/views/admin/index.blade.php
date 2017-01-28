@@ -19,6 +19,7 @@
 <script>
     $(document).ready(function () {
         $('#example').DataTable({
+            "order": [[5, "desc"]],
             "iDisplayLength": 50,
             "language": {
                 "lengthMenu": "Afficher _MENU_ objets par page",

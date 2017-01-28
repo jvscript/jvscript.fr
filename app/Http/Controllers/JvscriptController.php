@@ -25,7 +25,8 @@ class JvscriptController extends Controller {
         $this->discord_url = env('DISCORD_URL', '');
     }
 
-    public function index(Request $request) {
+    public function index(Request $request, $keyword = null) {
+        $keyword = $keyword == null ? '' : $keyword;
         $scripts = Script::where("status", 1)->get();
         $skins = Skin::where("status", 1)->get();
 
@@ -34,7 +35,7 @@ class JvscriptController extends Controller {
         $scripts = $collapsed->all(); //
         $scripts = $collapsed->sortByDesc('note');
 
-        return view('index', ['scripts' => $scripts]);
+        return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
     }
 
     public function admin(Request $request) {

@@ -28,12 +28,12 @@
         <p>
             Edition : 
             <a href="{{route('skin.edit',$skin->slug)}}" class="btn btn-primary">Editer</a>
-            <a href="#" class="btn btn-danger">Supprimer</a>  
+            <a href="#" class="btn btn-danger"  data-toggle="confirmation">Supprimer</a>  
 
             Validation : 
             <!--_TODO : confirm dialog-->
-            <a href="{{route('skin.validate',$skin->slug)}}" class="btn btn-success">Valider</a>
-            <a href="{{route('skin.refuse',$skin->slug)}}" class="btn btn-warning">Refuser</a>
+            <a href="{{route('skin.validate',$skin->slug)}}" data-toggle="confirmation" class="btn btn-success">Valider</a>
+            <a href="{{route('skin.refuse',$skin->slug)}}"  data-toggle="confirmation" class="btn btn-warning">Refuser</a>
         </p> 
         <hr>
     </div> 

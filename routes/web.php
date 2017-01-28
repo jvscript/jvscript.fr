@@ -14,6 +14,8 @@
 //home
 Route::get('/', 'JvscriptController@index')->name('index');
 
+Route::get('/search/{keyword}', 'JvscriptController@index')->name('search');
+
 Route::get('/admin', 'JvscriptController@admin')->name('admin_index')->middleware('auth');
 
 //forms

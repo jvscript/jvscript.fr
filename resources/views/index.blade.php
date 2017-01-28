@@ -18,6 +18,10 @@
 </div>
 
 <style>
+    /**
+    * Home page css
+    */
+
     ul{
         margin-bottom: 0px;
         -webkit-padding-start: 0px;    
@@ -98,10 +102,10 @@
             $('.no-result').show();
         }
     });
-      
+
 
     /**
-     * Bouton sort asc/desc
+     * Bouton sort asc/desc icon
      */
     $(".sort").click(function () {
         $("button.sort > i").removeClass("fa-sort-asc");
@@ -114,30 +118,7 @@
             $(this).children("i").addClass("fa-sort-desc");
         }
         return false;
-    });
-
-
-//    var selected = '#scripts';
-//        $("#search").keyup(function () {
-//            $.ajax({
-//                url: "{{route('index')}}",
-//                type: "POST",
-//                data: {'search': $(this).val()},
-//                success: function (view) {
-//                    if (view.length > 0) {
-//                        $("#ajax-content").html(view);
-//                        $('button[href="#' + selected + '"]').tab('show');
-//                        $('button[href="#' + selected + '"]').click();
-//                        console.log("show " + selected);
-//                    }
-//                    else {
-//                        console.log("no view");
-//                    }
-//                }
-//            });
-//        });
-//    });
-
+    }); 
 
 </script>
 @endsection

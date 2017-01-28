@@ -15,8 +15,15 @@
             <button type="button" target="skin" class="filter btn btn-default">Skins</button>
         </div>
 
-        <div class="btn-group " role="group" >
-            <div class="form-inline pull-left"> <input type="text" placeholder="Rechercher" class="search pull-left form-control input-sm" name="search" id="search" /> </div>
+        <div class="btn-group hidden" role="group" >
+            <div class="form-inline pull-left">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                    <input type="text" id="search-page" class="search form-control input-sm" placeholder="" aria-describedby="basic-addon1">
+                </div>
+            </div>
         </div>
 
 
@@ -37,7 +44,6 @@
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle sort" data-sort="install_count" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Installation <i class="fa fa-sort" aria-hidden="true"></i>
-
                 </button>
 
             </div>

@@ -25,7 +25,8 @@ echo json_encode([
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="/" class="navbar-brand">jvscript.io</a>
+                    <a href="/" class="navbar-brand">jvscript.io 
+                    </a> 
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -34,6 +35,19 @@ echo json_encode([
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav"> 
+                        <li>
+                            <div class="btn-group " role="group" style="margin-top: 10px;" >
+                                <div class="form-inline pull-left">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" id="search-navbar" class="search form-control input-sm" placeholder="" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -47,6 +61,7 @@ echo json_encode([
                         <li>
                             <a href="{{url('contact')}}">Contact</a>
                         </li>
+
                     </ul>
                     <!--                        <li><a href="{{ url('/login') }}">Connexion</a></li>
                         <li><a href="{{ url('/register') }}">Inscription</a></li>-->
@@ -104,6 +119,29 @@ echo json_encode([
                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                        }
                                    });
+                                   //sync up 2 search bar
+                                   $("#search-navbar").keyup(function () {
+                                       var keyword = $(this).val().trim();
+                                       $("#search-page").val(keyword);
+                                       if (typeof scriptList == 'undefined') {
+                                           //redirect home with keyword
+                                           window.location.href = "/search/" + keyword;
+
+                                       }
+                                       else {
+                                           scriptList.search(keyword);
+                                       }
+                                   });
+
+//if we're not on the homepage
+                                   @if (isset($keyword))
+                                           var keyword = '{{$keyword}}';
+                                   scriptList.search(keyword);
+                                   $("#search-page").val(keyword);
+                                   $("#search-navbar").val(keyword);
+
+                                   @endif
+
         </script>
     </body>
 </html>
