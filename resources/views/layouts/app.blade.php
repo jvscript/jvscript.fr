@@ -134,7 +134,7 @@ echo json_encode([
                                    });
 
 //if we're not on the homepage
-                                   @if (isset($keyword))
+                                   @if (isset($keyword) && strlen($keyword) > 0)
                                            var keyword = '{{$keyword}}';
                                    scriptList.search(keyword);
                                    $("#search-page").val(keyword);
