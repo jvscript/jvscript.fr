@@ -1,9 +1,23 @@
+@import "_variables.scss";
 //
 // Input groups
 // --------------------------------------------------
 
 // Base styles
 // -------------------------
+
+// effect on hover (search bar)
+.input-group {
+  opacity: .7;
+//  width: 100px;
+//  transition: width .1s;
+}
+.input-group:hover {
+  opacity: 1;
+//  width: 200px;
+//  transition: width .3s;
+}
+
 .input-group {
   position: relative; // For dropdowns
   display: table;
@@ -15,7 +29,6 @@
     padding-left: 0;
     padding-right: 0;
   }
-
   .form-control {
     // Ensure that the input is always above the *appended* addon button for
     // proper border colors.

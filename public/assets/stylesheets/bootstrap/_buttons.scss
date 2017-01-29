@@ -1,3 +1,4 @@
+@import "_variables.scss";
 //
 // Buttons
 // --------------------------------------------------
@@ -26,6 +27,7 @@
     &:focus,
     &.focus {
       @include tab-focus;
+      outline: 0;
     }
   }
 
@@ -34,6 +36,7 @@
   &.focus {
     color: $btn-default-color;
     text-decoration: none;
+    outline: 0;
   }
 
   &:active,
