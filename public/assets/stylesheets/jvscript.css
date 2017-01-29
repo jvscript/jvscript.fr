@@ -3048,28 +3048,16 @@ output {
 }
 
 .form-control::-moz-placeholder {
-<<<<<<< HEAD
 				color: #606060;
-=======
-				color: #999;
->>>>>>> origin/master
 				opacity: 1;
 }
 
 .form-control:-ms-input-placeholder {
-<<<<<<< HEAD
 				color: #606060;
 }
 
 .form-control::-webkit-input-placeholder {
 				color: #606060;
-=======
-				color: #999;
-}
-
-.form-control::-webkit-input-placeholder {
-				color: #999;
->>>>>>> origin/master
 }
 
 .form-control::-ms-expand {
@@ -3984,7 +3972,6 @@ fieldset[disabled] .btn-danger.focus {
 				color: #d9534f;
 				background-color: #fff;
 }
-<<<<<<< HEAD
 
 .btn-group .filter, .btn.btn-default.dropdown-toggle.sort {
 				padding: 3px 20px;
@@ -3992,8 +3979,6 @@ fieldset[disabled] .btn-danger.focus {
 				line-height: 1.42857;
 				border-radius: 4px;
 }
-=======
->>>>>>> origin/master
 
 .btn-link {
 				color: #FF7D54;
