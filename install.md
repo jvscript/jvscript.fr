@@ -108,6 +108,7 @@ On en a besoin pour la suite.
     
     ## move to app folder
     cd jvscript.github.io/
+	composer install
     composer update
     
     ## write .env file and set APP_URL, DB_USERNAME,DB_PASSWORD inside this file
