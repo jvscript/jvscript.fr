@@ -1,3 +1,4 @@
+@import "_variables.scss";
 //
 // Dropdown menus
 // --------------------------------------------------
@@ -42,8 +43,7 @@
   font-size: $font-size-base;
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: $dropdown-bg;
-  border: 1px solid $dropdown-fallback-border; // IE8 fallback
-  border: 1px solid $dropdown-border;
+  border: 0;
   border-radius: $border-radius-base;
   @include box-shadow(0 6px 12px rgba(0,0,0,.175));
   background-clip: padding-box;
@@ -68,7 +68,7 @@
     clear: both;
     font-weight: normal;
     line-height: $line-height-base;
-    color: $dropdown-link-color;
+    color: $gray-base;
     white-space: nowrap; // prevent links from randomly breaking onto new lines
   }
 }

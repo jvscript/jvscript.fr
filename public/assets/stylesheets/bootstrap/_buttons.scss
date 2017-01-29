@@ -1,3 +1,4 @@
+@import "_variables.scss";
 //
 // Buttons
 // --------------------------------------------------
@@ -26,6 +27,7 @@
     &:focus,
     &.focus {
       @include tab-focus;
+      outline: 0;
     }
   }
 
@@ -34,6 +36,7 @@
   &.focus {
     color: $btn-default-color;
     text-decoration: none;
+    outline: 0;
   }
 
   &:active,
@@ -88,7 +91,10 @@ a.btn {
   @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }
 
-
+// filters
+.btn-group .filter, .btn.btn-default.dropdown-toggle.sort {
+    @include button-size($padding-base-vertical-min, $padding-base-horizontal-min, $font-size-base, $line-height-base, $btn-border-radius-base);
+}
 // Link buttons
 // -------------------------
 

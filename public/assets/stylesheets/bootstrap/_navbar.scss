@@ -1,3 +1,4 @@
+@import "_variables.scss";
 //
 // Navbars
 // --------------------------------------------------
@@ -462,8 +463,8 @@
       &,
       &:hover,
       &:focus {
-        background-color: $navbar-default-link-active-bg;
-        color: $navbar-default-link-active-color;
+        background-color: $navbar-bg;
+        color: $gray-light;
       }
     }
 
@@ -471,11 +472,11 @@
       // Dropdowns get custom display when collapsed
       .open .dropdown-menu {
         > li > a {
-          color: $navbar-default-link-color;
+          color: $gray-light;
           &:hover,
           &:focus {
-            color: $navbar-default-link-hover-color;
-            background-color: $navbar-default-link-hover-bg;
+            color: $gray-light;
+            background-color: $navbar-bg;
           }
         }
         > .active > a {
@@ -596,7 +597,7 @@
       &,
       &:hover,
       &:focus {
-        background-color: $navbar-inverse-link-active-bg;
+        background-color: $navbar-bg;
         color: $navbar-inverse-link-active-color;
       }
     }
