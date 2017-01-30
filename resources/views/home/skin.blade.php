@@ -1,7 +1,7 @@
 <div class="col-xs-6 col-sm-3 col-md-3"  onclick="window.location ='{{route('skin.show',['slug' => $skin->slug ])}}';" style="cursor: pointer;">
     <div class="thumbnail">
         <a href="{{route('skin.show',['slug' => $skin->slug ])}}">
-            <?php $src = $skin->photo_url == null ? "/assets/images/jvscript-nb.png" : $skin->photo_url ?>
+            <?php $src = $skin->photo_url == null ? "/assets/images/skin.png" : $skin->photo_url ?>
             <div class="image">
             <img src="{{$src}}" class=" " alt="{{$skin->name}} logo" /></a>
     </div>
