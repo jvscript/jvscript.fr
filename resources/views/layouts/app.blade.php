@@ -139,6 +139,7 @@ echo json_encode([
                                    scriptList.search(keyword);
                                    $("#search-page").val(keyword);
                                    $("#search-navbar").val(keyword);
+                                   $("#search-navbar").focus();
 
                                    @endif
 
