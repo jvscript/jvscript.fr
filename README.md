@@ -1,7 +1,7 @@
 # jvscript.github.io
 
 <p align="center">
-<img src='http://puu.sh/tjAVC/4574a31cbf.png' /> 
+<img src='http://puu.sh/tHiGz/82a5db58df.png' width='450px' /> 
 </p>
 <p align="center">
 Le site regroupant les scripts JVC
