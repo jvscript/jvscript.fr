@@ -14,6 +14,8 @@ use Auth;
 class JvscriptController extends Controller {
 
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
+    //_TODO : suppression script/skin
+    //_TODO : ranger les methodes
     /**
      * Create a new controller instance.
      *
@@ -119,62 +121,6 @@ class JvscriptController extends Controller {
         }
     }
 
-    public function validateScript($slug) {
-        $script = Script::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
-
-        if ($script->status != 1) {
-            $script->status = 1;
-            $script->save();
-            if ($script->user_email != null) {
-                Mail::to($script->user_email)->send(new Notify($script));
-            }
-        }
-        return redirect(route('script.show', ['slug' => $slug]));
-    }
-
-    public function validateSkin($slug) {
-        $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
-
-        if ($skin->status != 1) {
-            $skin->status = 1;
-            $skin->save();
-            if ($skin->user_email != null) {
-                Mail::to($skin->user_email)->send(new Notify($skin));
-            }
-        }
-        return redirect(route('skin.show', ['slug' => $slug]));
-    }
-
-    public function refuseScript($slug) {
-        $script = Script::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
-
-        if ($script->status != 2) {
-            $script->status = 2;
-            $script->save();
-            if ($script->user_email != null) {
-                Mail::to($script->user_email)->send(new Notify($script));
-            }
-        }
-        return redirect(route('script.show', ['slug' => $slug]));
-    }
-
-    public function refuseSkin($slug) {
-        $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
-
-        if ($skin->status != 2) {
-            $skin->status = 2;
-            $skin->save();
-            if ($skin->user_email != null) {
-                Mail::to($skin->user_email)->send(new Notify($skin));
-            }
-        }
-        return redirect(route('skin.show', ['slug' => $slug]));
-    }
-
     /**
      * Store a skin in db
      */
@@ -241,6 +187,62 @@ class JvscriptController extends Controller {
             $skin->save();
             return redirect(route('skin.show', ['slug' => $slug]));
         }
+    }
+
+    public function validateScript($slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($script->status != 1) {
+            $script->status = 1;
+            $script->save();
+            if ($script->user_email != null) {
+                Mail::to($script->user_email)->send(new Notify($script));
+            }
+        }
+        return redirect(route('script.show', ['slug' => $slug]));
+    }
+
+    public function validateSkin($slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($skin->status != 1) {
+            $skin->status = 1;
+            $skin->save();
+            if ($skin->user_email != null) {
+                Mail::to($skin->user_email)->send(new Notify($skin));
+            }
+        }
+        return redirect(route('skin.show', ['slug' => $slug]));
+    }
+
+    public function refuseScript($slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($script->status != 2) {
+            $script->status = 2;
+            $script->save();
+            if ($script->user_email != null) {
+                Mail::to($script->user_email)->send(new Notify($script));
+            }
+        }
+        return redirect(route('script.show', ['slug' => $slug]));
+    }
+
+    public function refuseSkin($slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->adminOrFail();
+
+        if ($skin->status != 2) {
+            $skin->status = 2;
+            $skin->save();
+            if ($skin->user_email != null) {
+                Mail::to($skin->user_email)->send(new Notify($skin));
+            }
+        }
+        return redirect(route('skin.show', ['slug' => $slug]));
     }
 
     /**
@@ -354,7 +356,7 @@ class JvscriptController extends Controller {
 
     /**
      * ============
-     * Views bellow 
+     * Some Views bellow 
      * ============
      */
     public function formScript() {
@@ -400,6 +402,9 @@ class JvscriptController extends Controller {
         return view('skin.edit', ['skin' => $skin]);
     }
 
+    /**
+     * Usefull functions 
+     */
     public function adminOrFail() {
         if (!(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
