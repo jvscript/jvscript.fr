@@ -1,17 +1,45 @@
+@import "_variables.scss";
 //
 // Thumbnails
 // --------------------------------------------------
 
+/**
+ * homepage script/skin hover
+ */
+ .hover-caption {
+     position: absolute;
+     top: -100%;
+     right: 0;
+     background: rgba(26, 29, 30, 0.76);
+     width: 100%;
+     height: 70%;
+     padding: 2px;
+     text-align: center;
+     color: $gray-base!important;
+     z-index: 2;
+     -webkit-transition: all 0.5s ease-in-out;
+     -moz-transition: all 0.5s ease-in-out;
+     -o-transition: all 0.5s ease-in-out;
+     -ms-transition: all 0.5s ease-in-out;
+     transition: all 0.5s ease-in-out;
+ }
+.thumbnail:hover .hover-caption {
+    top:0%;
+}
 
 // Mixin and adjust the regular image class
 .thumbnail {
+  position:relative;
+  overflow:hidden;
+  word-wrap: break-word;
   display: block;
   padding: $thumbnail-padding;
   margin-bottom: $line-height-computed;
   line-height: $line-height-base;
   background-color: $thumbnail-bg;
   border: 1px solid $thumbnail-border;
-  border-radius: $thumbnail-border-radius;
+  border-radius: 0;
+  box-shadow: $shadow;
   @include transition(border .2s ease-in-out);
 
   > img,
