@@ -11,27 +11,27 @@
   &:focus,
   &.focus {
     color: lighten($color, 8%);
-    background-color: lighten($background, 10%);
-        border-color: lighten($border, 10%);
+    background-color: lighten($background, 12%);
+        border-color: $body-bg;
   }
   &:hover {
     color: lighten($color, 8%);
-    background-color: lighten($background, 10%);
-        border-color: lighten($border, 10%);
+    background-color: lighten($background, 12%);
+        border-color: $body-bg;
   }
   &:active,
   &.active,
   .open > &.dropdown-toggle {
     color: lighten($color, 8%);
-    background-color: lighten($background, 10%);
-        border-color: lighten($border, 10%);
+    background-color: lighten($background, 12%);
+        border-color: $body-bg;
 
     &:hover,
     &:focus,
     &.focus {
       color: lighten($color, 8%);
-      background-color: lighten($background, 17%);
-          border-color: lighten($border, 17%);
+      background-color: lighten($background, 19%);
+          border-color: $body-bg;
     }
   }
   &:active,
