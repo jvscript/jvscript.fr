@@ -16,3 +16,33 @@ footer{
 .panel-default > .panel-heading{
     color: black;
 }
+
+/**
+ * homepage script/skin hover
+ */
+
+.thumbnail {
+    position:relative;
+    overflow:hidden;
+}
+
+.hover-caption {
+    position:absolute;
+    top:-100%;
+    right:0;
+    background:rgba(26, 29, 30, 0.6); //couleur du background transparant
+    width:100%;
+    height:100%;
+    padding:2%;
+    text-align:center;
+    color:#fff !important;
+    z-index:2;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.thumbnail:hover .hover-caption {
+    top:0%;
+}

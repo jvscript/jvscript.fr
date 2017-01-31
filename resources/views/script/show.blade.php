@@ -73,8 +73,6 @@
 
     <div class="col-md-6"> 
 
-        <!--_TODO : sensibility alert if not safe-->
-        <!--_TODO : bouton ton au developpeur -->
         <p>
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}} 
         </p> 

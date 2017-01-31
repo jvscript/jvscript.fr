@@ -1,12 +1,23 @@
 <div class="col-xs-6 col-sm-3 col-md-3" onclick="window.location ='{{route('script.show',['slug' => $script->slug ])}}';" style="cursor: pointer;">
     <div class="thumbnail">
+        <div class="hover-caption"> 
+        <h4>{{$script->name}}  </h4>
+        @if($script->description != null)
+        <p>{{$script->description}}</p>
+        @else
+         @if($script->autor != null)
+        <p>Proposé par {{$script->autor}}</p>
+         @endif
+        <p>
+             Ajouté le :   {{$script->created_at->format('d/m/Y')}} 
+        </p> 
+        @endif
+        </div>
         <a href="{{route('script.show',['slug' => $script->slug ])}}">
             <?php $src = $script->photo_url == null ? "/assets/images/script.png" : $script->photo_url ?>
-            <div class="image ">
-            <img src="{{$src}}" class="  " alt="{{$script->name}} logo" /></a>
-    </div>
+            <div class="image "> <img src="{{$src}}" class="  " alt="{{$script->name}} logo" /></a> </div>
     <div class="caption">
-        <h4><span class="name">{{$script->name}}</span>
+        <h4>{{$script->name}}
             @if($script->autor != null)
             by {{$script->autor}}
             @endif                                
@@ -29,7 +40,7 @@
             @endfor 
 
         </p>
-        <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> <span class="install_count">{{$script->install_count}}</span> </p>
+        <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
         <p class="text-right"> 
             <span class=" label label-primary">Script</span> 
         </p>
