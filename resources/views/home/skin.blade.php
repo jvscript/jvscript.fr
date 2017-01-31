@@ -1,19 +1,19 @@
 <div class="col-xs-6 col-sm-3 col-md-3"  onclick="window.location ='{{route('skin.show',['slug' => $skin->slug ])}}';" style="cursor: pointer;">
     <div class="thumbnail">
         <div class="hover-caption"> 
-        <h4>{{$skin->name}}  </h4>
-        @if($skin->deskinion != null)
-        <p>{{$skin->deskinion}}</p>
-        @else
-         @if($skin->autor != null)
-        <p>Proposé par {{$skin->autor}}</p>
-         @endif
-        <p>
-             Ajouté le :   {{$skin->created_at->format('d/m/Y')}} 
-        </p> 
-        @endif
+            <h4>{{$skin->name}}  </h4>
+            @if($skin->description != null)
+            <p>{{str_limit($skin->description,500)}}</p>
+            @else
+            @if($skin->autor != null)
+            <p>Proposé par {{$skin->autor}}</p>
+            @endif
+            <p>
+                Ajouté le :   {{$skin->created_at->format('d/m/Y')}} 
+            </p> 
+            @endif
         </div>
-        
+
         <a href="{{route('skin.show',['slug' => $skin->slug ])}}">
             <?php $src = $skin->photo_url == null ? "/assets/images/skin.png" : $skin->photo_url ?>
             <div class="image">
@@ -43,8 +43,8 @@
             @endfor 
         </p>
         <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$skin->install_count}} </p>
-         <p class="text-right"> 
-             <span class=" label label-warning">Skin</span> 
+        <p class="text-right"> 
+            <span class=" label label-warning">Skin</span> 
         </p>
     </div>
 </div>

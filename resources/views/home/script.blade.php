@@ -3,7 +3,7 @@
         <div class="hover-caption"> 
         <h4>{{$script->name}}  </h4>
         @if($script->description != null)
-        <p>{{$script->description}}</p>
+        <p>{{str_limit($script->description,500)}}</p>
         @else
          @if($script->autor != null)
         <p>Proposé par {{$script->autor}}</p>
