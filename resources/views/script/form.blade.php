@@ -22,7 +22,7 @@
                 <label for="name" class="col-md-4 control-label">Nom du script *</label>
 
                 <div class="col-md-6">
-                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                    <input id="name" type="text" maxlength="255" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                     @if ($errors->has('name'))
                     <span class="help-block">
@@ -35,7 +35,7 @@
                 <label for="autor" class="col-md-4 control-label">Auteur du script </label>
 
                 <div class="col-md-6">
-                    <input id="autor" type="text" class="form-control" name="autor" value="{{ old('autor') }}">
+                    <input id="autor" type="text" maxlength="255" class="form-control" name="autor" value="{{ old('autor') }}">
 
                     @if ($errors->has('autor'))
                     <span class="help-block">
@@ -64,7 +64,7 @@
                 <label for="js_url" class="col-md-4 control-label">Lien du script (.js) *</label>
 
                 <div class="col-md-6">
-                    <input id="js_url" type="text" placeholder="http://.../usercript.js" class="form-control" name="js_url" value="{{ old('js_url') }}" required autofocus>
+                    <input id="js_url" type="text" maxlength="255" placeholder="http://.../usercript.js" class="form-control" name="js_url" value="{{ old('js_url') }}" required autofocus>
 
                     @if ($errors->has('js_url'))
                     <span class="help-block">
@@ -78,7 +78,7 @@
                 <label for="repo_url" class="col-md-4 control-label">Lien du repository </label>
 
                 <div class="col-md-6">
-                    <input id="repo_url" type="text" placeholder="http://github.com/..." class="form-control" name="repo_url" value="{{ old('repo_url') }}" >
+                    <input id="repo_url" type="text" maxlength="255" placeholder="http://github.com/..." class="form-control" name="repo_url" value="{{ old('repo_url') }}" >
 
                     @if ($errors->has('repo_url'))
                     <span class="help-block">
@@ -92,7 +92,7 @@
                 <label for="photo_url" class="col-md-4 control-label">Lien vers le logo/image </label>
 
                 <div class="col-md-6">
-                    <input id="photo_url" type="text" placeholder="http://image.noelshack.com/..." class="form-control" name="photo_url" value="{{ old('photo_url') }}"  >
+                    <input id="photo_url" type="text" maxlength="255"  placeholder="http://image.noelshack.com/..." class="form-control" name="photo_url" value="{{ old('photo_url') }}"  >
 
                     @if ($errors->has('photo_url'))
                     <span class="help-block">
@@ -106,7 +106,7 @@
                 <label for="don_url" class="col-md-4 control-label">Lien de don à l'auteur </label>
 
                 <div class="col-md-6">
-                    <input id="don_url" type="text" placeholder="http://www.paypal.me/your_name/" class="form-control" name="don_url" value="{{ old('don_url') }}"  >
+                    <input id="don_url" type="text" maxlength="255" placeholder="http://www.paypal.me/your_name/" class="form-control" name="don_url" value="{{ old('don_url') }}"  >
 
                     @if ($errors->has('don_url'))
                     <span class="help-block">
@@ -120,7 +120,7 @@
                 <label for="user_email" class="col-md-4 control-label">Votre email pour être notifié de la publication du script </label>
 
                 <div class="col-md-6">
-                    <input id="user_email" type="email" placeholder="email@domaine.fr" class="form-control" name="user_email" value="{{ old('user_email') }}"  >
+                    <input id="user_email" type="email" maxlength="255"  placeholder="email@domaine.fr" class="form-control" name="user_email" value="{{ old('user_email') }}"  >
 
                     @if ($errors->has('user_email'))
                     <span class="help-block">

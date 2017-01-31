@@ -3,7 +3,7 @@
         <div class="hover-caption"> 
             <h4>{{$skin->name}}  </h4>
             @if($skin->description != null)
-            <p>{{str_limit($skin->description,500)}}</p>
+            <p>{{str_limit($skin->description,450)}}</p>
             @else
             @if($skin->autor != null)
             <p>Proposé par {{$skin->autor}}</p>

@@ -60,11 +60,12 @@ class JvscriptController extends Controller {
         // $user = Auth::user();
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:255|unique:scripts',
-                    'js_url' => "required|url",
-                    'repo_url' => "url",
-                    'photo_url' => "url",
-                    'don_url' => "url",
-                    "user_email" => "email"
+                    "autor" => "max:255",
+                    'js_url' => "required|url|max:255",
+                    'repo_url' => "url|max:255",
+                    'photo_url' => "url|max:255",
+                    'don_url' => "url|max:255",
+                    "user_email" => "email|max:255",
         ]);
 
         if ($validator->fails()) {
@@ -102,10 +103,11 @@ class JvscriptController extends Controller {
         $this->adminOrFail();
 
         $validator = Validator::make($request->all(), [
-                    'js_url' => "required|url",
-                    'repo_url' => "url",
-                    'photo_url' => "url",
-                    'don_url' => "url"
+                    "autor" => "max:255",
+                    'js_url' => "required|url|max:255",
+                    'repo_url' => "url|max:255",
+                    'photo_url' => "url|max:255",
+                    'don_url' => "url|max:255",
         ]);
         //update only this fields
         $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url'];
@@ -128,11 +130,12 @@ class JvscriptController extends Controller {
 //        $user = Auth::user();
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:255|unique:skins',
-                    'skin_url' => "required|url",
-                    'repo_url' => "url",
-                    'photo_url' => "url",
-                    'don_url' => "url",
-                    "user_email" => "email"
+                    "autor" => "max:255",
+                    'skin_url' => "required|url|max:255",
+                    'repo_url' => "url|max:255",
+                    'photo_url' => "url|max:255",
+                    'don_url' => "url|max:255",
+                    "user_email" => "email|max:255",
         ]);
 
         if ($validator->fails()) {
