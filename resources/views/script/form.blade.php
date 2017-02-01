@@ -22,7 +22,7 @@
                 <label for="name" class="col-md-4 control-label">Nom du script *</label>
 
                 <div class="col-md-6">
-                    <input id="name" type="text" maxlength="255" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                    <input id="name" type="text" maxlength="50" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                     @if ($errors->has('name'))
                     <span class="help-block">
