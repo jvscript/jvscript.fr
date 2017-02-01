@@ -118,7 +118,7 @@
         <p>
             Edition : 
             <a href="{{route('script.edit',$script->slug)}}" class="btn btn-primary">Editer</a>
-            <a href="#" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>  
+            <a href="{{route('script.delete',$script->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>  
 
             Validation : 
             <!--_TODO : confirm dialog-->

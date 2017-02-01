@@ -41,6 +41,9 @@ Route::get('/script/{slug}/edit', 'JvscriptController@editScript')->name('script
 Route::get('/skin/{slug}/edit', 'JvscriptController@editSkin')->name('skin.edit');
 Route::put('/script/{slug}/edit', 'JvscriptController@updateScript')->name('script.update');
 Route::put('/skin/{slug}/edit', 'JvscriptController@updateSkin')->name('skin.update');
+//delete
+Route::get('/script/{slug}/delete', 'JvscriptController@deleteScript')->name('script.delete');
+Route::get('/skin/{slug}/delete', 'JvscriptController@deleteSkin')->name('skin.delete');
 
 //validate script/skin
 Route::get('/script/{slug}/validate', 'JvscriptController@validateScript')->name('script.validate');

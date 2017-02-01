@@ -14,7 +14,6 @@ use Auth;
 class JvscriptController extends Controller {
 
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
-    //_TODO : suppression script/skin
     //_TODO : ranger les methodes
     /**
      * Create a new controller instance.
@@ -403,6 +402,18 @@ class JvscriptController extends Controller {
 
         $skin = Skin::where('slug', $slug)->firstOrFail();
         return view('skin.edit', ['skin' => $skin]);
+    }
+
+    public function deleteScript($slug) {
+        $this->adminOrFail();
+        $script = Script::where('slug', $slug)->firstOrFail()->delete();
+        return redirect(route('admin_index'));
+    }
+
+    public function deleteSkin($slug) {
+        $this->adminOrFail();
+        $skin = Skin::where('slug', $slug)->firstOrFail()->delete();
+        return redirect(route('admin_index'));
     }
 
     /**
