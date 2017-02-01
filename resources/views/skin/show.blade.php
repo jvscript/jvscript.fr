@@ -3,6 +3,8 @@
 @section('javascript')
 <script>
     $('[data-toggle=confirmation]').confirmation();
+
+
 </script>
 @endsection
 
@@ -11,21 +13,28 @@
 
 <div class="row">
 
-    <div class="col-md-6"> 
+    <div class="col-md-12"> 
         <h1>{{$skin->name}}   @if($skin->autor != null)
             by {{$skin->autor}}
             @endif  
-            <a target="_blank" class="btn btn-primary" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
-        </h1>
-
-    </div>
-
+            <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+        </h1> 
+            
+    </div> 
 </div>
 
 <div class="row">
 
     <div class="col-md-6"> 
 
+        <p>
+            @if ( $skin->photo_url != null )
+            <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 450px;" alt="{{$skin->name}} logo" />
+            @else
+            <img class="img-thumbnail img-responsive" src="/assets/images/skin.png" style="max-height: 200px;" />
+            @endif
+        </p> 
+ 
         <p>
             <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}} 
         </p> 
@@ -52,44 +61,41 @@
             <b>  Install : </b>   {{$skin->install_count}} fois 
         </p> 
 
-        @if( $skin->description != '' )
-        <p> {!! nl2br(e($skin->description)) !!}</p>
-        @endif
-
-    </div>
-
-    <div class="col-md-6"> 
-
-        @if ( $skin->photo_url != null )
-        <p>
-            <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" />
-        </p> 
-        @endif
         @if ( $skin->repo_url != null )
         <p>
-            <b>  Contribuer ?   <a target="_blank" href="{{$skin->repo_url}}">{{str_limit($skin->repo_url,40)}}</a>  </b> 
+            <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{str_limit($skin->repo_url,40)}}</a>  </b> 
         </p> 
         @endif
 
         @if ( $skin->don_url != null )
         <p>
-            <b>   <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}">Faire un don au développeur</a>  </b> 
+            <b>   <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}">Faire un don au développeur  <i class="fa fa-heart"></i></a>  </b> 
         </p> 
         @endif
+
+    </div>
+
+    <div class="col-md-6">  
+       
+
+        @if( $skin->description != '' )
+        <p> <br> {!! nl2br(e($skin->description)) !!}</p>
+        @endif
+
 
     </div>
 </div>
 
 
- @if ((Auth::check() && Auth::user()->isAdmin())) 
+@if ((Auth::check() && Auth::user()->isAdmin())) 
 <div class="row">
     <div class="col-md-6"> 
-         <hr>
+        <hr>
         @if($skin->status == 0)
         <div class="alert alert-warning" role="alert">
             Ce skin est en attente de validation
         </div>
-         @elseif($skin->status == 1)
+        @elseif($skin->status == 1)
         <div class="alert alert-success" role="alert">
             Ce skin a été validé.
         </div>         

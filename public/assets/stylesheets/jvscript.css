@@ -4391,6 +4391,15 @@ a.thumbnail:focus,
 a.thumbnail.active {
   border-color: #FF7D54; }
 
+.sensibility-success {
+  color: #5cb85c; }
+
+.sensibility-warning {
+  color: #f0ad4e; }
+
+.sensibility-danger {
+  color: #d9534f; }
+
 .alert {
   padding: 15px;
   margin-bottom: 20px;

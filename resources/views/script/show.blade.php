@@ -3,46 +3,60 @@
 @section('javascript')
 <script>
     $('[data-toggle=confirmation]').confirmation();
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 @endsection
 
-@section('content')
+@section('content') 
 
 
 <div class="row">
 
-    <div class="col-md-6"> 
+    <div class="col-md-12"> 
         <h1>{{$script->name}}   @if($script->autor != null)
             by {{$script->autor}}
-            @endif  
-            <a target="_blank" class="btn btn-primary" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+            @endif   
+
+            <!--install -->
+            <a target="_blank" class="btn btn-primary btn-lg" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+            <?php
+            if ($script->sensibility == 0) {
+                $class = "success";
+                $message = "Ce script est jugé safe à l'utilisation.";
+                $icon = "fa-check";
+            } else if ($script->sensibility == 1) {
+                $class = "warning";
+                $message = "On ne peut dire si ce script est autorisé dans les forums de JVC.";
+                $icon = "fa-exclamation-triangle";
+            } else if ($script->sensibility == 2) {
+                $class = "danger";
+                $message = "Attention, ce script est sensible, son utilisation peu provoquer un ban.";
+                $icon = "fa-exclamation-triangle";
+            }
+            ?>
+            <span class="sensibility-{{$class}} " >
+                <span class="fa-stack fa-1x "  data-toggle="tooltip" data-placement="right" title="{{$message}}">
+                    <i class="fa fa-circle fa-stack-2x "></i>
+                    <i class="fa {{$icon}} fa-stack-1x fa-inverse"></i>
+                </span>               
+            </span>   
         </h1>
-
-        <?php
-        if ($script->sensibility == 0) {
-            $class = "success";
-            $message = "Ce script est jugé safe à l'utilisation.";
-        } else if ($script->sensibility == 1) {
-            $class = "warning";
-            $message = "On ne peut dire si ce script est autorisé dans les forums de JVC.";
-        } else if ($script->sensibility == 2) {
-            $class = "danger";
-            $message = "Attention, ce script est sensible, son utilisation peu provoquer un ban.";
-        }
-        ?>
-        <div class="alert alert-{{$class}} alert-dismissible" role="alert"> 
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {{$message}}
-        </div> 
-
     </div>
-
-
 </div>
 
 <div class="row">
 
-    <div class="col-md-6"> 
+    <div class="col-md-6">  
+        <p>
+            @if ( $script->photo_url != null )
+            <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 450px;" alt="{{$script->name}} logo" />
+            @else
+            <img class="img-thumbnail img-responsive" src="/assets/images/script.png" style="max-height: 200px;" />
+            @endif
+        </p> 
 
         <p>
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}} 
@@ -68,40 +82,37 @@
 
         <p>
             <b>  Install : </b>   {{$script->install_count}} fois 
-        </p> 
+        </p>
 
-        @if( $script->description != '' )
-        <p> {!! nl2br(e($script->description)) !!}</p>
-        @endif
-
-    </div>
-
-    <div class="col-md-6"> 
-
-        @if ( $script->photo_url != null )
-        <p>
-            <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" />
-        </p> 
-        @endif
         @if ( $script->repo_url != null )
         <p>
-            <b>  Contribuer ?   <a target="_blank" href="{{$script->repo_url}}">{{str_limit($script->repo_url,40)}}</a>  </b> 
+            <b>  Contribuer : <a target="_blank" href="{{$script->repo_url}}">{{str_limit($script->repo_url,40)}}</a>  </b> 
         </p> 
         @endif
 
         @if ( $script->don_url != null )
         <p>
-            <b>   <a target="_blank" class="btn btn-default" href="{{$script->don_url}}">Faire un don au développeur</a>  </b> 
+            <b>   <a target="_blank" class="btn btn-default" href="{{$script->don_url}}">Faire un don au développeur <i class="fa fa-heart"></i></a>  </b> 
         </p> 
-        @endif
+        @endif 
 
     </div>
+
+    <div class="col-md-6"> 
+
+        @if( $script->description != '' )
+        <p> <br> {!! nl2br(e($script->description)) !!}</p>
+        @endif 
+
+    </div>
+
 </div>
+
 
 @if ((Auth::check() && Auth::user()->isAdmin())) 
 <div class="row">
     <div class="col-md-6"> 
-         <hr>
+        <hr>
         @if($script->status == 0)
         <div class="alert alert-warning" role="alert">
             Ce script est en attente de validation

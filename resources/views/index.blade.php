@@ -93,6 +93,36 @@
     scriptList.on('updated', function (list) {
         list.matchingItems.forEach(function (element) {
             var id = element.elm.id;
+//            $('#' + id).addClass('animated fadeIn');
+        });
+
+        if (list.matchingItems.length > 0) {
+            $('.no-result').hide();
+        } else {
+            $('.no-result').show();
+        }
+    });
+
+    //filter
+    scriptList.on('filterComplete', function (list) {
+        console.log("filterComplete");
+        list.matchingItems.forEach(function (element) {
+            var id = element.elm.id;
+            $('#' + id).addClass('animated fadeIn');
+        });
+
+        if (list.matchingItems.length > 0) {
+            $('.no-result').hide();
+        } else {
+            $('.no-result').show();
+        }
+    });
+
+    //sort
+    scriptList.on('sortComplete', function (list) {
+        console.log("sortComplete");
+        list.matchingItems.forEach(function (element) {
+            var id = element.elm.id;
             $('#' + id).addClass('animated fadeIn');
         });
 
@@ -118,7 +148,7 @@
             $(this).children("i").addClass("fa-sort-desc");
         }
         return false;
-    }); 
+    });
 
 </script>
 @endsection

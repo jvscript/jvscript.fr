@@ -29,7 +29,7 @@
                         $sensibilitys_label = ['Clean', 'Attention', 'Dangereux'];
                         ?>
                         @foreach ($sensibilitys as $sensibility)
-                        <option value="{{$sensibility}}">{{$sensibilitys_label[$sensibility]}}</option>
+                        <option {{$sensibility == $script->sensibility ? 'selected' : '' }} value="{{$sensibility}}">{{$sensibilitys_label[$sensibility]}}</option>
                         @endforeach
                     </select>
 

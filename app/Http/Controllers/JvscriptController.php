@@ -59,6 +59,7 @@ class JvscriptController extends Controller {
         // $user = Auth::user();
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:50|unique:scripts',
+                    'description' => 'required',
                     "autor" => "max:255",
                     'js_url' => "required|url|max:255",
                     'repo_url' => "url|max:255",
@@ -129,6 +130,7 @@ class JvscriptController extends Controller {
 //        $user = Auth::user();
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:50|unique:skins',
+                    'description' => 'required',
                     "autor" => "max:255",
                     'skin_url' => "required|url|max:255",
                     'repo_url' => "url|max:255",
