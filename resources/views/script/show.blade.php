@@ -16,8 +16,9 @@
 <div class="row">
 
     <div class="col-md-12"> 
-        <h1>{{$script->name}}   @if($script->autor != null)
-            by {{$script->autor}}
+        <h1>{{$script->name}}  
+            @if($script->autor != null)
+            <span class="autor">  by {{$script->autor}} </span>
             @endif   
 
             <!--install -->
@@ -37,7 +38,7 @@
                 $icon = "fa-exclamation-triangle";
             }
             ?>
-            <span class="sensibility-{{$class}} " >
+            <span class="sensibility sensibility-{{$class}} " >
                 <span class="fa-stack fa-1x "  data-toggle="tooltip" data-placement="right" title="{{$message}}">
                     <i class="fa fa-circle fa-stack-2x "></i>
                     <i class="fa {{$icon}} fa-stack-1x fa-inverse"></i>

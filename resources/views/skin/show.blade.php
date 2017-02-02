@@ -10,16 +10,17 @@
 
 @section('content')
 
-
+ 
 <div class="row">
 
     <div class="col-md-12"> 
-        <h1>{{$skin->name}}   @if($skin->autor != null)
-            by {{$skin->autor}}
+        <h1>{{$skin->name}}   
+            @if($skin->autor != null)
+            <span class="autor">by {{$skin->autor}}</span>
             @endif  
             <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
         </h1> 
-            
+
     </div> 
 </div>
 
@@ -34,7 +35,7 @@
             <img class="img-thumbnail img-responsive" src="/assets/images/skin.png" style="max-height: 200px;" />
             @endif
         </p> 
- 
+
         <p>
             <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}} 
         </p> 
@@ -76,7 +77,7 @@
     </div>
 
     <div class="col-md-6">  
-       
+
 
         @if( $skin->description != '' )
         <p> <br> {!! nl2br(e($skin->description)) !!}</p>
