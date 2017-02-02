@@ -12,9 +12,12 @@ use App\Mail\Notify;
 use Auth;
 
 class JvscriptController extends Controller {
-
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
     //_TODO : ranger les methodes
+    /**
+     * _TODO : autor func : owner view edit/delete
+     */
+
     /**
      * Create a new controller instance.
      *
@@ -56,7 +59,7 @@ class JvscriptController extends Controller {
      * Store a script in db
      */
     public function storeScript(Request $request) {
-        // $user = Auth::user();
+        $user = Auth::user();
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:50|unique:scripts',
                     'description' => 'required',
@@ -65,7 +68,6 @@ class JvscriptController extends Controller {
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
                     'don_url' => "url|max:255",
-                    "user_email" => "email|max:255",
         ]);
 
         if ($validator->fails()) {
@@ -89,6 +91,12 @@ class JvscriptController extends Controller {
                 $slug = $baseSlug . "-" . $i++;
             }
             $script->slug = $slug;
+
+            if ($request->input("is_autor") == 'on') {
+                $script->user_id = $user->id; //owner script
+            } else {
+                $script->poster_user_id = $user->id;
+            }
             $script->save();
 
             $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
@@ -98,36 +106,11 @@ class JvscriptController extends Controller {
         }
     }
 
-    public function updateScript(Request $request, $slug) {
-        $script = Script::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
-
-        $validator = Validator::make($request->all(), [
-                    "autor" => "max:255",
-                    'js_url' => "required|url|max:255",
-                    'repo_url' => "url|max:255",
-                    'photo_url' => "url|max:255",
-                    'don_url' => "url|max:255",
-        ]);
-        //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url'];
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-            );
-        } else {
-            $script->fill($request->only($toUpdate));
-            $script->save();
-            return redirect(route('script.show', ['slug' => $slug]));
-        }
-    }
-
     /**
      * Store a skin in db
      */
     public function storeSkin(Request $request) {
-//        $user = Auth::user();
+        $user = Auth::user();
         $validator = Validator::make($request->all(), [
                     'name' => 'required|max:50|unique:skins',
                     'description' => 'required',
@@ -136,7 +119,6 @@ class JvscriptController extends Controller {
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
                     'don_url' => "url|max:255",
-                    "user_email" => "email|max:255",
         ]);
 
         if ($validator->fails()) {
@@ -160,6 +142,11 @@ class JvscriptController extends Controller {
                 $slug = $baseSlug . "-" . $i++;
             }
             $script->slug = $slug;
+            if ($request->input("is_autor") == 'on') {
+                $script->user_id = $user->id; //owner script
+            } else {
+                $script->poster_user_id = $user->id;
+            }
             $script->save();
 
             $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show', ['slug' => $script->slug]);
@@ -169,9 +156,34 @@ class JvscriptController extends Controller {
         }
     }
 
+    public function updateScript(Request $request, $slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->ownerOradminOrFail($script->user_id);
+
+        $validator = Validator::make($request->all(), [
+                    "autor" => "max:255",
+                    'js_url' => "required|url|max:255",
+                    'repo_url' => "url|max:255",
+                    'photo_url' => "url|max:255",
+                    'don_url' => "url|max:255",
+        ]);
+        //update only this fields
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url'];
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                    $request, $validator
+            );
+        } else {
+            $script->fill($request->only($toUpdate));
+            $script->save();
+            return redirect(route('script.show', ['slug' => $slug]));
+        }
+    }
+
     public function updateSkin(Request $request, $slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->ownerOradminOrFail($skin->user_id);
 
         $validator = Validator::make($request->all(), [
                     'skin_url' => "required|url",
@@ -394,27 +406,28 @@ class JvscriptController extends Controller {
     }
 
     public function editScript($slug) {
-        $this->adminOrFail();
         $script = Script::where('slug', $slug)->firstOrFail();
+        $this->ownerOradminOrFail($script->user_id);
         return view('script.edit', ['script' => $script]);
     }
 
     public function editSkin($slug) {
-        $this->adminOrFail();
-
         $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->ownerOradminOrFail($skin->user_id);
         return view('skin.edit', ['skin' => $skin]);
     }
 
     public function deleteScript($slug) {
-        $this->adminOrFail();
-        $script = Script::where('slug', $slug)->firstOrFail()->delete();
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->ownerOradminOrFail($script->user_id);
+        $script->delete();
         return redirect(route('admin_index'));
     }
 
     public function deleteSkin($slug) {
-        $this->adminOrFail();
-        $skin = Skin::where('slug', $slug)->firstOrFail()->delete();
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->ownerOradminOrFail($skin->user_id);
+        $skin->delete();
         return redirect(route('admin_index'));
     }
 
@@ -424,6 +437,13 @@ class JvscriptController extends Controller {
     public function adminOrFail() {
         if (!(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
+        }
+    }
+
+    public function ownerOradminOrFail($user_id) {
+        //si c'est l'owner de l'objet (script/skin) on laisse passer
+        if (!(Auth::check() && Auth::user()->id == $user_id)) {
+            $this->adminOrFail();
         }
     }
 

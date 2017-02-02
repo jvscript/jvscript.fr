@@ -18,7 +18,7 @@ class CreateJvscriptTable extends Migration {
             $table->string('slug')->nullable()->unique();
             $table->string('autor')->nullable();
             $table->string('user_id')->nullable()->comment("pour attribuer le script à un utilisateurs de jvscript");
-            $table->string('user_email')->nullable()->comment("pour notifier la publication par email");
+            $table->string('poster_user_id')->nullable()->comment("le posteur du script");
             $table->text('description')->nullable();
             $table->decimal('note', 5, 2)->default(0);
             $table->integer('note_count')->default(0);
@@ -39,8 +39,8 @@ class CreateJvscriptTable extends Migration {
             $table->string('name')->unique();
             $table->string('slug')->nullable()->unique();
             $table->string('autor')->nullable();
-            $table->string('user_id')->nullable()->comment("pour attribuer le skins à un utilisateurs de jvscript");
-            $table->string('user_email')->nullable()->comment("pour notifier la publication par email");
+            $table->string('user_id')->nullable()->comment("pour attribuer le skin à un utilisateurs de jvscript");
+            $table->string('poster_user_id')->nullable()->comment("le posteur du skin");
             $table->text('description')->nullable();
             $table->decimal('note', 5, 2)->default(0);
             $table->integer('note_count')->default(0);
@@ -51,7 +51,7 @@ class CreateJvscriptTable extends Migration {
             $table->string('don_url')->nullable();
             $table->integer('status')->default(0)->comment("0 awaiting validation / 1 validated / 2 refused");
             $table->string('version')->nullable();
-            $table->timestamp('last_update')->nullable();            
+            $table->timestamp('last_update')->nullable();
             $table->timestamps();
         });
 
@@ -86,6 +86,7 @@ class CreateJvscriptTable extends Migration {
         Schema::dropIfExists('tags');
         Schema::dropIfExists('scripts');
         Schema::dropIfExists('skins');
+        Schema::dropIfExists('historys');
     }
 
 }

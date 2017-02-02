@@ -17,9 +17,12 @@
 
     <div class="col-md-12">
         <h1>{{$script->name}}
-            @if($script->autor != null)
-            <span class="autor">  by {{$script->autor}} </span>
-            @endif
+            @if(null !== $script->user_id)
+            <span class="autor">by {{$script->user()->first()->name}}</span>             
+            @elseif($script->autor != null)
+            <span class="autor">by {{$script->autor}}</span>
+            @endif  
+
 
             <!--install -->
             <a target="_blank" class="btn btn-primary btn-lg" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>

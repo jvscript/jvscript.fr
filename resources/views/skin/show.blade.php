@@ -10,18 +10,24 @@
 
 @section('content')
 
- 
+
 <div class="row">
 
-    <div class="col-md-12"> 
+    <div class="col-md-6"> 
         <h1>{{$skin->name}}   
-            @if($skin->autor != null)
+            @if(null !== $skin->user_id)           
+            <span class="autor">by {{$skin->user()->first()->name}}</span>            
+            @elseif($skin->autor != null)
             <span class="autor">by {{$skin->autor}}</span>
-            @endif  
-            <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+            @endif            
         </h1> 
 
     </div> 
+
+    <div class="col-md-6" style="margin: 10px 0px 5px 0px;">
+        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+
+    </div>
 </div>
 
 <div class="row">
@@ -80,7 +86,7 @@
 
 
         @if( $skin->description != '' )
-        <p> <br> {!! nl2br(e($skin->description)) !!}</p>
+        <p> {!! nl2br(e($skin->description)) !!}</p>
         @endif
 
 

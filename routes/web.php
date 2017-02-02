@@ -19,11 +19,11 @@ Route::get('/search/{keyword}', 'JvscriptController@index')->name('search');
 Route::get('/admin', 'JvscriptController@admin')->name('admin_index')->middleware('auth');
 
 //forms
-Route::get('/script/ajout', 'JvscriptController@formScript')->name('script.form');
-Route::get('/skin/ajout', 'JvscriptController@formSkin')->name('skin.form');
+Route::get('/script/ajout', 'JvscriptController@formScript')->name('script.form')->middleware('auth');
+Route::get('/skin/ajout', 'JvscriptController@formSkin')->name('skin.form')->middleware('auth');
 //form action (store in db)
-Route::post('/script/ajout', 'JvscriptController@storeScript')->name('script.store');
-Route::post('/skin/ajout', 'JvscriptController@storeSkin')->name('skin.store');
+Route::post('/script/ajout', 'JvscriptController@storeScript')->name('script.store')->middleware('auth');
+Route::post('/skin/ajout', 'JvscriptController@storeSkin')->name('skin.store')->middleware('auth');
 
 //show 1 item
 Route::get('/script/{slug}', 'JvscriptController@showScript')->name('script.show');

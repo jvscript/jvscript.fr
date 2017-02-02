@@ -2,6 +2,31 @@
 
 @section('content') 
 
+@section('javascript')
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
+<script>
+    $(function () {
+        $('#is_autor').change(function () {
+            var checked = $(this).prop('checked');
+            if (checked) {
+                $('#autor').val("{{Auth::user()->name}}");
+                $('#autor').attr("readlonly", "readonly");
+                $('#autor').attr("disabled", "true");
+                $('#autor').addClass("disabled");
+            }
+            else {
+                $('#autor').removeAttr("readlonly");
+                $('#autor').removeAttr("disabled");
+                $('#autor').removeClass("disabled");
+            }
+        });
+    });
+</script>
+
+@endsection
 
 
 <div class="row">
@@ -31,11 +56,35 @@
                     @endif
                 </div>
             </div>
+            <div class="form-group{{ $errors->has('is_autor') ? ' has-error' : '' }}">
+                <label for="is_autor" class="col-md-4 control-label"> Vous êtes l'auteur ?  </label>
+
+                <div class="col-md-6">
+
+                    <p>
+                        <input name="is_autor" id="is_autor" type="checkbox" data-toggle="toggle" data-on="Oui" data-off="Non">
+                    </p>
+
+                    @if ($errors->has('is_autor'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('is_autor') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
                 <label for="autor" class="col-md-4 control-label">Auteur du script </label>
 
-                <div class="col-md-6">
-                    <input id="autor" type="text" maxlength="255" class="form-control" name="autor" value="{{ old('autor') }}">
+                <div class="col-md-6"> 
+                    <?php
+                    if (old('autor')) {
+                        $autor = old('autor');
+                    } else {
+                        $autor = Auth::user()->name;
+                    }
+                    ?>
+                    <input id="autor" type="text" maxlength="255" class="form-control" name="autor" value="{{ $autor }}">
 
                     @if ($errors->has('autor'))
                     <span class="help-block">
@@ -44,7 +93,6 @@
                     @endif
                 </div>
             </div>
-
 
             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                 <label for="description" class="col-md-4 control-label">Description *</label>
@@ -115,20 +163,6 @@
                     @endif
                 </div>
             </div>
-
-            <div class="form-group{{ $errors->has('user_email') ? ' has-error' : '' }}">
-                <label for="user_email" class="col-md-4 control-label">Votre email pour être notifié de la publication du script </label>
-
-                <div class="col-md-6">
-                    <input id="user_email" type="email" maxlength="255"  placeholder="email@domaine.fr" class="form-control" name="user_email" value="{{ old('user_email') }}"  >
-
-                    @if ($errors->has('user_email'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('user_email') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div> 
 
             <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
                 <div class="col-md-6 col-md-offset-4">
