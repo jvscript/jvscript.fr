@@ -42,7 +42,7 @@
         </p>
         <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
         <p class="text-right">
-            <span class=" label label-primary">Script</span>
+            <span class=" label label-script">Script</span>
         </p>
     </div>
 </div>

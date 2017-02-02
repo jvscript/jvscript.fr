@@ -161,6 +161,7 @@
   height: 2em;
   line-height: 2em;
   vertical-align: middle;
+  top: -3px;
 }
 .fa-stack-1x,
 .fa-stack-2x {
