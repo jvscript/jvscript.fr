@@ -63,11 +63,9 @@ echo json_encode([
                         </li>
 
                     </ul>
-                    <!--                        <li><a href="{{ url('/login') }}">Connexion</a></li>
-                        <li><a href="{{ url('/register') }}">Inscription</a></li>-->
-
-                    @if (!Auth::guest())
+ 
                     <ul class="nav navbar-nav navbar-right">
+                        @if (!Auth::guest())
                         <li>
                             <a href="{{ url('/logout') }}"
                                onclick="event.preventDefault();
@@ -78,9 +76,13 @@ echo json_encode([
                                 {{ csrf_field() }}
                             </form>
                         </li>
+                        @else
+                        <li><a href="{{ url('/login') }}">Connexion</a></li>
+                        <li><a href="{{ url('/register') }}">Inscription</a></li>
+                        @endif
                     </ul>
 
-                    @endif
+
 
                 </div>
             </div>

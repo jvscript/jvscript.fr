@@ -102,7 +102,7 @@
     <div class="col-md-6"> 
 
         @if( $script->description != '' )
-        <p> <br> {!! nl2br(e($script->description)) !!}</p>
+        <p> {!! nl2br(e($script->description)) !!}</p>
         @endif 
 
     </div>
