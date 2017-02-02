@@ -1,3 +1,4 @@
+@import "_variables.scss";
 //
 // Labels
 // --------------------------------------------------
@@ -16,6 +17,16 @@
 
   // [converter] extracted a& to a.label
 
+
+  // skin
+  &.label-skin {
+      background-color: $label-skin;
+  }
+  // script
+  &.label-script {
+      background-color: $label-script;
+  }
+
   // Empty labels collapse automatically (not available in IE8)
   &:empty {
     display: none;
@@ -26,6 +37,8 @@
     position: relative;
     top: -1px;
   }
+
+
 }
 
 // Add hover effects, but only for links

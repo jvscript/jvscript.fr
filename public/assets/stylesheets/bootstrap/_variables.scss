@@ -10,6 +10,7 @@ $bootstrap-sass-asset-helper: false !default;
 
 $gray-base:              #ccc !default;
 $gray-darker:            #969696 !default; // #222
+$gray-sub:               #888 !default;
 /*$gray-dark:              #cdcdcd !default;   // #333*/
 $gray-dark:              lighten($gray-base, 20%) !default;   // #333
 $gray:                   lighten($gray-base, 33.5%) !default; // #555
@@ -21,7 +22,6 @@ $brand-success:         #5cb85c !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
 $brand-danger:          #d9534f !default;
-  
 
 //bfmtv like colors
 $navbar-bg:#1A1D1E!default;
@@ -121,9 +121,9 @@ $padding-xs-horizontal:     5px !default;
 $line-height-large:         1.3333333 !default; // extra decimals for Win 8.1 Chrome
 $line-height-small:         1.5 !default;
 
-$border-radius-base:        0px !default;
-$border-radius-large:       0px !default;
-$border-radius-small:       0px !default;
+$border-radius-base:        3px !default;
+$border-radius-large:       3px !default;
+$border-radius-small:       3px !default;
 
 //** Global color for active items (e.g., navs or dropdowns).
 $component-active-color:    #fff !default;
@@ -207,16 +207,16 @@ $input-bg-disabled:              $gray-lighter !default;
 //** Text color for `<input>`s
 $input-color:                    #ccc !default;
 //** `<input>` border color
-$input-border:                   darken($body-dark, 1%)  !default;
+$input-border:                   none;
 
 // TODO: Rename `$input-border-radius` to `$input-border-radius-base` in v4
 //** Default `.form-control` border radius
 // This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
-$input-border-radius:            $border-radius-base !default;
+$input-border-radius:            0 !default;
 //** Large `.form-control` border radius
-$input-border-radius-large:      $border-radius-large !default;
+$input-border-radius-large:      0 !default;
 //** Small `.form-control` border radius
-$input-border-radius-small:      $border-radius-small !default;
+$input-border-radius-small:      0 !default;
 
 //** Border color for inputs on focus
 $input-border-focus:             #66afe9 !default;
@@ -597,10 +597,12 @@ $label-warning-bg:            $brand-warning !default;
 $label-danger-bg:             $brand-danger !default;
 
 //** Default label text color
-$label-color:                 #fff !default;
+$label-color:                 #ccc !default;
 //** Default text color of a linked label
 $label-link-hover-color:      #fff !default;
 
+$label-script: #716950;
+$label-skin: #506c71;
 
 //== Modals
 //

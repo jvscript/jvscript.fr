@@ -6,18 +6,6 @@
 // Base styles
 // -------------------------
 
-// effect on hover (search bar)
-.input-group {
-  opacity: .7;
-//  width: 100px;
-//  transition: width .1s;
-}
-.input-group:hover {
-  opacity: 1;
-//  width: 200px;
-//  transition: width .3s;
-}
-
 .input-group {
   position: relative; // For dropdowns
   display: table;
@@ -95,7 +83,7 @@
   color: $input-color;
   text-align: center;
   background-color: $input-group-addon-bg;
-  border: 1px solid $input-group-addon-border-color;
+  border: $input-group-addon-border-color;
   border-radius: 0;
 
   // Sizing

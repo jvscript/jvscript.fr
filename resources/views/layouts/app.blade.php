@@ -25,8 +25,8 @@ echo json_encode([
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="/" class="navbar-brand">jvscript.io 
-                    </a> 
+                    <a href="/" class="navbar-brand">jvscript.io
+                    </a>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -34,7 +34,7 @@ echo json_encode([
                     </button>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
-                    <ul class="nav navbar-nav"> 
+                    <ul class="nav navbar-nav">
                         <li>
                             <div class="btn-group " role="group" style="margin-top: 10px;" >
                                 <div class="form-inline pull-left">
@@ -42,7 +42,7 @@ echo json_encode([
                                         <span class="input-group-addon" id="basic-addon1">
                                             <i class="fa fa-search" aria-hidden="true"></i>
                                         </span>
-                                        <input type="text" id="search-navbar" class="search form-control input-sm" placeholder="" aria-describedby="basic-addon1">
+                                        <input type="text" id="search-navbar" class="search form-control input-sm" placeholder="Recherche" aria-describedby="basic-addon1">
                                     </div>
                                 </div>
                             </div>
@@ -52,12 +52,12 @@ echo json_encode([
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li> <a href="{{route('script.form')}}">Ajouter un script</a></li>
-                                <li><a href="{{route('skin.form')}}">Ajouter un skin</a></li>                                 
+                                <li><a href="{{route('skin.form')}}">Ajouter un skin</a></li>
                             </ul>
-                        </li>                        
+                        </li>
                         <li>
                             <a href="{{route('aide')}}">Aide</a>
-                        </li>   
+                        </li>
                         <li>
                             <a href="{{url('contact')}}">Contact</a>
                         </li>
@@ -107,7 +107,7 @@ echo json_encode([
         </div>
 
         <script src="/js/jquery.min.js"></script>
-        <script src="/assets/javascripts/bootstrap.min.js"></script> 
+        <script src="/assets/javascripts/bootstrap.min.js"></script>
         <script src="/js/list.min.js"></script>
         <script src="/js/confirm.min.js"></script>
         <script src='https://www.google.com/recaptcha/api.js'></script>
