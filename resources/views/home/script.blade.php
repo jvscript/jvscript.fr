@@ -14,14 +14,10 @@
         @endif
         </div>
         <a href="{{route('script.show',['slug' => $script->slug ])}}">
-            <?php $src = $script->photo_url == null ? "/assets/images/script.png" : $script->photo_url ?>
+            <?php $src = $script->photo_url == null ? "/assets/images/script.jpg" : $script->photo_url ?>
             <div class="image "> <img src="{{$src}}" class="  " alt="{{$script->name}} logo" /></a> </div>
     <div class="caption">
-        <h4>{{$script->name}}
-            @if($script->autor != null)
-            by {{$script->autor}}
-            @endif
-        </h4>
+        <h4>{{$script->name}}</h4>
         <p class="pull-left">
             <?php $note = round($script->note * 2) / 2; ?>
             @for ($i = 1; $i <= $note ; $i++)
@@ -41,6 +37,7 @@
 
         </p>
         <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
+        <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$script->autor}} </p>
         <p class="text-right">
             <span class=" label label-script">Script</span>
         </p>

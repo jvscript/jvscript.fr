@@ -15,16 +15,12 @@
         </div>
 
         <a href="{{route('skin.show',['slug' => $skin->slug ])}}">
-            <?php $src = $skin->photo_url == null ? "/assets/images/skin.png" : $skin->photo_url ?>
+            <?php $src = $skin->photo_url == null ? "/assets/images/skin.jpg" : $skin->photo_url ?>
             <div class="image">
             <img src="{{$src}}" class=" " alt="{{$skin->name}} logo" /></a>
     </div>
     <div class="caption">
-        <h4>{{$skin->name}}
-            @if($skin->autor != null)
-            by {{$skin->autor}}
-            @endif
-        </h4>
+        <h4>{{$skin->name}}</h4>
         <p class="pull-left">
             <?php $note = round($skin->note * 2) / 2; ?>
             @for ($i = 1; $i <= $note ; $i++)
@@ -43,8 +39,9 @@
             @endfor
         </p>
         <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$skin->install_count}} </p>
+        <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$skin->autor}} </p>
         <p class="text-right">
-            <span class=" label label-skin">Skin</span> 
+            <span class=" label label-skin">Skin</span>
         </p>
     </div>
 </div>

@@ -24,8 +24,8 @@ $brand-warning:         #f0ad4e !default;
 $brand-danger:          #d9534f !default;
 
 //bfmtv like colors
-$navbar-bg:#1A1D1E!default;
-$body-dark: #24282A  !default;
+$navbar-bg: #2f3537    !default;
+$body-dark: darken( saturate( adjust-hue($navbar-bg, 2deg ), 1 ), 4 ) !default;
 
 $logo-color:    #FF7D54!default; //couleur orange
 
@@ -100,8 +100,8 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 //
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 
-$padding-base-vertical:     3px !default; //def 6
-$padding-base-horizontal:   20px !default; // def 12
+$padding-base-vertical:     6px !default; //def 6
+$padding-base-horizontal:   12px !default; // def 12
 
 $padding-base-vertical-search:     6px !default; //def 6
 $padding-base-horizontal-search:   12px !default; // def 12
@@ -121,9 +121,9 @@ $padding-xs-horizontal:     5px !default;
 $line-height-large:         1.3333333 !default; // extra decimals for Win 8.1 Chrome
 $line-height-small:         1.5 !default;
 
-$border-radius-base:        3px !default;
-$border-radius-large:       3px !default;
-$border-radius-small:       3px !default;
+$border-radius-base:        4px !default;
+$border-radius-large:       4px !default;
+$border-radius-small:       4px !default;
 
 //** Global color for active items (e.g., navs or dropdowns).
 $component-active-color:    #fff !default;
@@ -200,9 +200,9 @@ $btn-border-radius-small:        $border-radius-small !default;
 //##
 
 //** `<input>` background color
-$input-bg:                       lighten( desaturate( adjust-hue( $body-dark, -3deg ), 1 ), 5 );
+$input-bg:                       lighten( desaturate( adjust-hue($navbar-bg, 5deg ), 2 ), 8 );
 //** `<input disabled>` background color
-$input-bg-disabled:              $gray-lighter !default;
+$input-bg-disabled:              $input-bg !default;
 
 //** Text color for `<input>`s
 $input-color:                    #ccc !default;
@@ -212,17 +212,17 @@ $input-border:                   none;
 // TODO: Rename `$input-border-radius` to `$input-border-radius-base` in v4
 //** Default `.form-control` border radius
 // This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
-$input-border-radius:            0 !default;
+$input-border-radius:            4px !default;
 //** Large `.form-control` border radius
-$input-border-radius-large:      0 !default;
+$input-border-radius-large:      4px !default;
 //** Small `.form-control` border radius
-$input-border-radius-small:      0 !default;
+$input-border-radius-small:      4px !default;
 
 //** Border color for inputs on focus
 $input-border-focus:             #66afe9 !default;
 
 //** Placeholder text color
-$input-color-placeholder:        #606060 !default;
+$input-color-placeholder:        $gray-darker !default;
 
 //** Default `.form-control` height
 $input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2) !default;
@@ -385,7 +385,7 @@ $navbar-collapse-max-height:       340px !default;
 
 $navbar-default-color:             #a5a5a5 !default;
 $navbar-default-bg:                $navbar-bg !default;
-$navbar-default-border:            lighten($navbar-default-bg, 6.5%) !default;
+$navbar-default-border:            #222729 !default;
 
 // Navbar links
 $navbar-default-link-color:                #a5a5a5 !default;
@@ -597,12 +597,12 @@ $label-warning-bg:            $brand-warning !default;
 $label-danger-bg:             $brand-danger !default;
 
 //** Default label text color
-$label-color:                 #ccc !default;
+$label-color:                 #e8e8e8 !default;
 //** Default text color of a linked label
 $label-link-hover-color:      #fff !default;
 
-$label-script: #716950;
-$label-skin: #506c71;
+$label-script: #a25641;
+$label-skin: #3b8b94;
 
 //== Modals
 //
@@ -642,7 +642,7 @@ $modal-sm:                    300px !default;
 //## Define alert colors, border radius, and padding.
 
 $alert-padding:               15px !default;
-$alert-border-radius:         0 !default;
+$alert-border-radius:         4px !default;
 $alert-link-font-weight:      bold !default;
 
 $alert-success-bg:            $state-success-bg !default;
@@ -765,9 +765,9 @@ $panel-danger-heading-bg:     $state-danger-bg !default;
 //** Padding around the thumbnail image
 $thumbnail-padding:           4px !default;
 //** Thumbnail background color
-$thumbnail-bg:                lighten( desaturate($body-bg, 2 ), 6 ) !default;
+$thumbnail-bg:                $navbar-bg !default;
 //** Thumbnail border color
-$thumbnail-border:            #1f2324 !default;
+$thumbnail-border:            $navbar-default-border !default;
 //** Thumbnail border radius
 $thumbnail-border-radius:     $border-radius-base !default;
 
@@ -887,7 +887,8 @@ $dl-horizontal-offset:        $component-offset-horizontal !default;
 //** Point at which .dl-horizontal becomes horizontal
 $dl-horizontal-breakpoint:    $grid-float-breakpoint !default;
 //** Horizontal line color.
-$hr-border:                   lighten($body-bg, 7%) !default;
+$hr-border:                   #2e3335 !default;
 
 // shadow
-$shadow: 0 0 9px rgba(0, 0, 0, 0.53);
+$shadow: 0 0 7px 1px rgba(0, 0, 0, 0.15);
+$shadow-navbar: 0 0 15px 1px rgba(0, 0, 0, 0.07);
