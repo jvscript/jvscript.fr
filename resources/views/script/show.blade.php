@@ -143,6 +143,31 @@
         <hr>
     </div>
 </div>
+@elseif ((Auth::check() && Auth::user()->id == $script->user_id))
+<div class="row">
+    <div class="col-md-6">
+        <hr>
+        @if($script->status == 0)
+        <div class="alert alert-warning" role="alert">
+            Ce script est en attente de validation
+        </div>
+        @elseif($script->status == 1)
+        <div class="alert alert-success" role="alert">
+            Ce script a été validé.
+        </div>
+        @elseif($script->status == 2)
+        <div class="alert alert-danger" role="alert">
+            Ce script a été refusé.
+        </div>
+        @endif
+        <p>
+            Edition :
+            <a href="{{route('script.edit',$script->slug)}}" class="btn btn-primary">Editer</a>
+            <a href="{{route('script.delete',$script->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>
+        </p>
+        <hr>
+    </div>
+</div>
 @endif
 
 
