@@ -13,17 +13,20 @@
             var checked = $(this).prop('checked');
             if (checked) {
                 $('#autor').val("{{Auth::user()->name}}");
-                $('#autor').attr("readlonly", "readonly");
-                $('#autor').attr("disabled", "true");
+                $('#autor').attr("readonly", "true");
+//                $('#autor').attr("disabled", "true");
                 $('#autor').addClass("disabled");
             }
             else {
-                $('#autor').removeAttr("readlonly");
-                $('#autor').removeAttr("disabled");
+                $('#autor').removeAttr("readonly");
+//                $('#autor').removeAttr("disabled");
                 $('#autor').removeClass("disabled");
             }
         });
     });
+
+
+
 </script>
 
 @endsection
@@ -166,7 +169,11 @@
 
             <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
                 <div class="col-md-6 col-md-offset-4">
+                    @if (App::environment('local'))
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                    @else
                     <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>
+                    @endif
 
                     @if ($errors->has('recaptcha'))
                     <span class="help-block">

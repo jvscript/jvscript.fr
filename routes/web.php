@@ -18,6 +18,9 @@ Route::get('/search/{keyword}', 'JvscriptController@index')->name('search');
 
 Route::get('/admin', 'JvscriptController@admin')->name('admin_index')->middleware('auth');
 
+//ajax-users
+Route::get('/ajax-users', 'JvscriptController@ajaxUsers')->name('search')->middleware('auth');
+ 
 //forms
 Route::get('/script/ajout', 'JvscriptController@formScript')->name('script.form')->middleware('auth');
 Route::get('/skin/ajout', 'JvscriptController@formSkin')->name('skin.form')->middleware('auth');
@@ -37,10 +40,10 @@ Route::get('/skin/note/{slug}/{note}', 'JvscriptController@noteSkin')->name('ski
 
 
 //updates
-Route::get('/script/{slug}/edit', 'JvscriptController@editScript')->name('script.edit');
-Route::get('/skin/{slug}/edit', 'JvscriptController@editSkin')->name('skin.edit');
-Route::put('/script/{slug}/edit', 'JvscriptController@updateScript')->name('script.update');
-Route::put('/skin/{slug}/edit', 'JvscriptController@updateSkin')->name('skin.update');
+Route::get('/script/{slug}/edit', 'JvscriptController@editScript')->name('script.edit')->middleware('auth');
+Route::get('/skin/{slug}/edit', 'JvscriptController@editSkin')->name('skin.edit')->middleware('auth');
+Route::put('/script/{slug}/edit', 'JvscriptController@updateScript')->name('script.update')->middleware('auth');
+Route::put('/skin/{slug}/edit', 'JvscriptController@updateSkin')->name('skin.update')->middleware('auth');
 //delete
 Route::get('/script/{slug}/delete', 'JvscriptController@deleteScript')->name('script.delete');
 Route::get('/skin/{slug}/delete', 'JvscriptController@deleteSkin')->name('skin.delete');

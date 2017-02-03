@@ -15,16 +15,12 @@
 
     <div class="col-md-6">
         <h1>{{$skin->name}}
-            @if(null !== $skin->user_id)
-            <span class="autor">by {{$skin->user()->first()->name}}</span>
-            @elseif($skin->autor != null)
-            <span class="autor">by {{$skin->autor}}</span>
-            @endif
+
         </h1>
 
     </div>
 
-    <div class="col-md-6" style="margin: 10px 0px 5px 0px;">
+    <div class="col-md-6" style="margin-top: 22px;margin-bottom: 22px;">
         <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
 
     </div>
@@ -45,6 +41,16 @@
         <p>
             <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}}
         </p>
+        @if(null != $skin->user_id)
+        <p>
+            <b> Auteur : </b> {{$skin->user()->first()->name}}
+        </p>
+        @elseif($skin->autor != null)
+        <p>
+            <b> Auteur : </b> {{$skin->autor}}
+        </p>
+        @endif
+
         <p>
             <b> Note : </b>
             <?php $note = round($skin->note * 2) / 2; ?>

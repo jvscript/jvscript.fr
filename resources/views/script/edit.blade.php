@@ -2,7 +2,37 @@
 
 @section('content') 
 
+@section('javascript')
+<script src="/js/bootstrap-typeahead.min.js" type="text/javascript"></script>
 
+<script>
+
+    $('input.typeahead').typeahead({
+        ajax: '/ajax-users',
+        onSelect: function (user_selected) {
+            //on met le libellé de l'auteur
+            $('#autor').val(user_selected.text);
+            $('#user_id').val(user_selected.value);
+            //lock input
+            $('#autor').attr("readonly", "true");
+            $('#autor').addClass("disabled");
+        }
+    });
+    $('#user_name').keydown(function () {
+        if (!this.value) {
+            $('#user_id').val('');
+            $('#autor').removeAttr("readonly");
+            $('#autor').removeClass("disabled");
+        }
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+</script>
+
+@endsection
 
 <div class="row">
     <div class="col-md-12">
@@ -13,8 +43,7 @@
         <div class="alert alert-success">
             {{ session('message') }}
         </div>
-        @endif
- 
+        @endif 
 
         <form id="add_form" class="form-horizontal" role="form" method="POST" action="{{ route('script.update',$script->slug) }}">
             {{ csrf_field() }}
@@ -50,19 +79,6 @@
                     @if ($errors->has('name'))
                     <span class="help-block">
                         <strong>{{ $errors->first('name') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-            <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
-                <label for="autor" class="col-md-4 control-label">Auteur du script </label>
-
-                <div class="col-md-6">
-                    <input id="autor" type="text" class="form-control" name="autor" value="{{ old('autor',$script->autor) }}">
-
-                    @if ($errors->has('autor'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('autor') }}</strong>
                     </span>
                     @endif
                 </div>
@@ -139,17 +155,61 @@
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('user_email') ? ' has-error' : '' }}">
-                <label for="user_email" class="col-md-4 control-label">Votre email pour être notifié de la publication du script </label>
+            @if ((Auth::check() && Auth::user()->isAdmin()))
+
+            <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
+                <label for="user_id" class="col-md-4 control-label">Auteur du script (Compte owner) </label>
 
                 <div class="col-md-6">
-                    <input id="user_email" type="email" placeholder="email@domaine.fr" readonly="true" disabled="true" class="form-control disabled" name="user_email" value="{{ old('user_email',$script->user_email) }}"  >
+                    <?php
+                    $user_name = '';
+                    $user_id = '';
+                    if ($script->user_id != null) {
+                        $user_name = $script->user()->first()->name;
+                        $user_id = $script->user()->first()->id;
+                    }
+                    ?> 
+                    <input id="user_name" type="text" class="form-control typeahead" placeholder="Aucun owner" autocomplete="off" name="user_name" value="{{ old('user_name', $user_name ) }}">
+                    <input id="user_id" type="hidden" class="form-control" autocomplete="off" name="user_id" value="{{ old('user_id', $user_id ) }}">
 
-                    @if ($errors->has('user_email'))
+                    @if ($errors->has('user_id'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('user_email') }}</strong>
+                        <strong>{{ $errors->first('user_id') }}</strong>
                     </span>
                     @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
+                <label for="autor" class="col-md-4 control-label" >Auteur du script (libellé) 
+                    <span class="fa-stack fa-1x " data-toggle="tooltip"  title="" data-original-title="Si l'auteur n'a pas de compte">
+                        <i class="fa fa-stack-2x "></i>
+                        <i class="fa fa-question fa-stack-1x "></i>
+                    </span>
+                </label> 
+
+                <div class="col-md-6">
+                    @if($user_id != '' and $user_name != '')
+                    <input id="autor" type="text" class="form-control disabled" readonly="true"  name="autor"  value="{{ old('autor',$script->autor) }}">
+                    @else
+                    <input id="autor" type="text" class="form-control" name="autor"  value="{{ old('autor',$script->autor) }}">
+                    @endif
+
+                    @if ($errors->has('autor'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('autor') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+            
+            @endif
+            
+            <div class="form-group{{ $errors->has('poster_user') ? ' has-error' : '' }}">
+                <label for="poster_user" class="col-md-4 control-label">Posté par </label>
+
+                <div class="col-md-6">
+                    <input id="poster_user" type="text" readonly="true" disabled="true" class="form-control disabled" name="poster_user" value="{{ $script->poster_user()->first()->name }}">
                 </div>
             </div> 
 

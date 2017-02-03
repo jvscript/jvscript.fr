@@ -63,19 +63,25 @@ echo json_encode([
                         </li>
 
                     </ul>
- 
+
                     <ul class="nav navbar-nav navbar-right">
                         @if (!Auth::guest())
-                        <li>
-                            <a href="{{ url('/logout') }}"
-                               onclick="event.preventDefault();
-                                       document.getElementById('logout-form').submit();">
-                                Déconnexion
-                            </a>
-                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bonjour {{Auth::user()->name}} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ url('/logout') }}"
+                                       onclick="event.preventDefault();
+                                               document.getElementById('logout-form').submit();">
+                                        Déconnexion
+                                    </a>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
+
                         @else
                         <li><a href="{{ url('/login') }}">Connexion</a></li>
                         <li><a href="{{ url('/register') }}">Inscription</a></li>
@@ -116,34 +122,34 @@ echo json_encode([
         @yield('javascript')
 
         <script>
-                                   $.ajaxSetup({
-                                       headers: {
-                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                       }
-                                   });
-                                   //sync up 2 search bar
-                                   $("#search-navbar").keyup(function () {
-                                       var keyword = $(this).val().trim();
-                                       $("#search-page").val(keyword);
-                                       if (typeof scriptList == 'undefined') {
-                                           //redirect home with keyword
-                                           window.location.href = "/search/" + keyword;
+                                           $.ajaxSetup({
+                                               headers: {
+                                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                               }
+                                           });
+                                           //sync up 2 search bar
+                                           $("#search-navbar").keyup(function () {
+                                               var keyword = $(this).val().trim();
+                                               $("#search-page").val(keyword);
+                                               if (typeof scriptList == 'undefined') {
+                                                   //redirect home with keyword
+                                                   window.location.href = "/search/" + keyword;
 
-                                       }
-                                       else {
-                                           scriptList.search(keyword);
-                                       }
-                                   });
+                                               }
+                                               else {
+                                                   scriptList.search(keyword);
+                                               }
+                                           });
 
 //if we're not on the homepage
-                                   @if (isset($keyword) && strlen($keyword) > 0)
-                                           var keyword = '{{$keyword}}';
-                                   scriptList.search(keyword);
-                                   $("#search-page").val(keyword);
-                                   $("#search-navbar").val(keyword);
-                                   $("#search-navbar").focus();
+                                           @if (isset($keyword) && strlen($keyword) > 0)
+                                                   var keyword = '{{$keyword}}';
+                                           scriptList.search(keyword);
+                                           $("#search-page").val(keyword);
+                                           $("#search-navbar").val(keyword);
+                                           $("#search-navbar").focus();
 
-                                   @endif
+                                           @endif
 
         </script>
     </body>

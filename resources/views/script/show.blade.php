@@ -15,39 +15,37 @@
 
 <div class="row">
 
-    <div class="col-md-12">
-        <h1>{{$script->name}}
-            @if(null !== $script->user_id)
-            <span class="autor">by {{$script->user()->first()->name}}</span>
-            @elseif($script->autor != null)
-            <span class="autor">by {{$script->autor}}</span>
-            @endif
-
-
-            <!--install -->
-            <a target="_blank" class="btn btn-primary btn-lg" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
-            <?php
-            if ($script->sensibility == 0) {
-                $class = "success";
-                $message = "Ce script est jugé safe à l'utilisation.";
-                $icon = "fa-check";
-            } else if ($script->sensibility == 1) {
-                $class = "warning";
-                $message = "On ne peut dire si ce script est autorisé dans les forums de JVC.";
-                $icon = "fa-exclamation-triangle";
-            } else if ($script->sensibility == 2) {
-                $class = "danger";
-                $message = "Attention, ce script est sensible, son utilisation peut mener à des sanctions.";
-                $icon = "fa-exclamation-triangle";
-            }
-            ?>
-            <span class="sensibility sensibility-{{$class}} " >
-                <span class="fa-stack fa-1x "  data-toggle="tooltip" data-placement="right" title="{{$message}}">
-                    <i class="fa fa-stack-2x "></i>
-                    <i class="fa {{$icon}} fa-stack-1x "></i>
-                </span>
-            </span>
+    <div class="col-md-6">
+        <h1>{{$script->name}}  
         </h1>
+    </div>
+
+    <div class="col-md-6" style="margin-top: 22px;margin-bottom: 22px;">
+
+        <!--install -->
+        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+        <?php
+        if ($script->sensibility == 0) {
+            $class = "success";
+            $message = "Ce script est jugé safe à l'utilisation.";
+            $icon = "fa-check";
+        } else if ($script->sensibility == 1) {
+            $class = "warning";
+            $message = "On ne peut dire si ce script est autorisé dans les forums de JVC.";
+            $icon = "fa-exclamation-triangle";
+        } else if ($script->sensibility == 2) {
+            $class = "danger";
+            $message = "Attention, ce script est sensible, son utilisation peut mener à des sanctions.";
+            $icon = "fa-exclamation-triangle";
+        }
+        ?>
+        <span class="sensibility sensibility-{{$class}} " >
+            <span class="fa-stack fa-1x "  data-toggle="tooltip" data-placement="right" title="{{$message}}">
+                <i class="fa fa-stack-2x "></i>
+                <i class="fa {{$icon}} fa-stack-1x "></i>
+            </span>
+        </span>
+
     </div>
 </div>
 
@@ -65,6 +63,17 @@
         <p>
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}}
         </p>
+
+        @if(null != $script->user_id)
+        <p>
+            <b> Auteur : </b> {{$script->user()->first()->name}}
+        </p>
+        @elseif($script->autor != null)
+        <p>
+            <b> Auteur : </b> {{$script->autor}}
+        </p>
+        @endif
+
         <p>
             <b> Note : </b>
             <?php $note = round($script->note * 2) / 2; ?>
