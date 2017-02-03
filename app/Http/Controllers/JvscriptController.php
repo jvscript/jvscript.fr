@@ -188,7 +188,7 @@ class JvscriptController extends Controller {
                     'photo_url' => "url|max:255",
                     'don_url' => "url|max:255",
                     'user_id' => "exists:users,id",
-                    'sensibility' => "in:1,2,3",
+                    'sensibility' => "in:0,1,2",
                         ], $messages);
 
         //update only this fields
