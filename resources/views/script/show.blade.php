@@ -18,10 +18,10 @@
     <div class="col-md-12">
         <h1>{{$script->name}}
             @if(null !== $script->user_id)
-            <span class="autor">by {{$script->user()->first()->name}}</span>             
+            <span class="autor">by {{$script->user()->first()->name}}</span>
             @elseif($script->autor != null)
             <span class="autor">by {{$script->autor}}</span>
-            @endif  
+            @endif
 
 
             <!--install -->
@@ -58,7 +58,7 @@
             @if ( $script->photo_url != null )
             <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 450px;" alt="{{$script->name}} logo" />
             @else
-            <img class="img-thumbnail img-responsive" src="/assets/images/script.png" style="max-height: 200px;" />
+            <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 200px;" />
             @endif
         </p>
 
@@ -106,7 +106,7 @@
 
         @if( $script->description != '' )
         <p> {!! nl2br(e($script->description)) !!}</p>
-        @endif 
+        @endif
 
     </div>
 

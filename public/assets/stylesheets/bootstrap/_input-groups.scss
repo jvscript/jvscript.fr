@@ -17,6 +17,7 @@
     padding-left: 0;
     padding-right: 0;
   }
+  
   .form-control {
     // Ensure that the input is always above the *appended* addon button for
     // proper border colors.
@@ -84,13 +85,13 @@
   text-align: center;
   background-color: $input-group-addon-bg;
   border: $input-group-addon-border-color;
-  border-radius: 0;
+  border-radius: $input-border-radius;
 
   // Sizing
   &.input-sm {
     padding: $padding-small-vertical $padding-small-horizontal;
     font-size: $font-size-small;
-    border-radius: 0;
+    border-radius: $input-border-radius;
   }
   &.input-lg {
     padding: $padding-large-vertical $padding-large-horizontal;

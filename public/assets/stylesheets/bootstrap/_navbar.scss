@@ -398,6 +398,7 @@
 .navbar-default {
   background-color: $navbar-default-bg;
   border-color: $navbar-default-border;
+  box-shadow: $shadow-navbar;
 
   .navbar-brand {
     color: $navbar-default-brand-color;

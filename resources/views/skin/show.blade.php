@@ -13,16 +13,16 @@
 
 <div class="row">
 
-    <div class="col-md-6"> 
-        <h1>{{$skin->name}}   
-            @if(null !== $skin->user_id)           
-            <span class="autor">by {{$skin->user()->first()->name}}</span>            
+    <div class="col-md-6">
+        <h1>{{$skin->name}}
+            @if(null !== $skin->user_id)
+            <span class="autor">by {{$skin->user()->first()->name}}</span>
             @elseif($skin->autor != null)
             <span class="autor">by {{$skin->autor}}</span>
-            @endif            
-        </h1> 
+            @endif
+        </h1>
 
-    </div> 
+    </div>
 
     <div class="col-md-6" style="margin: 10px 0px 5px 0px;">
         <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
@@ -32,57 +32,57 @@
 
 <div class="row">
 
-    <div class="col-md-6"> 
+    <div class="col-md-6">
 
         <p>
             @if ( $skin->photo_url != null )
             <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 450px;" alt="{{$skin->name}} logo" />
             @else
-            <img class="img-thumbnail img-responsive" src="/assets/images/skin.png" style="max-height: 200px;" />
+            <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 200px;" />
             @endif
-        </p> 
+        </p>
 
         <p>
-            <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}} 
-        </p> 
+            <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}}
+        </p>
         <p>
-            <b> Note : </b>  
+            <b> Note : </b>
             <?php $note = round($skin->note * 2) / 2; ?>
             @for ($i = 1; $i <= $note ; $i++)
             <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}"><i class="fa fa-star" aria-hidden="true"></i></a>
             @endfor
-            <?php $stop = $i; ?> 
-            @for ($i ; $i <= 5 ; $i++)                    
+            <?php $stop = $i; ?>
+            @for ($i ; $i <= 5 ; $i++)
             @if($i == $stop && $note > ( $i -1 ) )
             <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
             @else
             <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i ])}}"><i class="fa fa-star-o" aria-hidden="true"></i></a>
             @endif
 
-            @endfor 
+            @endfor
 
             ({{$skin->note_count}} votes)
-        </p> 
+        </p>
 
         <p>
-            <b>  Install : </b>   {{$skin->install_count}} fois 
-        </p> 
+            <b>  Install : </b>   {{$skin->install_count}} fois
+        </p>
 
         @if ( $skin->repo_url != null )
         <p>
-            <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{str_limit($skin->repo_url,40)}}</a>  </b> 
-        </p> 
+            <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{str_limit($skin->repo_url,40)}}</a>  </b>
+        </p>
         @endif
 
         @if ( $skin->don_url != null )
         <p>
-            <b>   <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}">Faire un don au développeur  <i class="fa fa-heart"></i></a>  </b> 
-        </p> 
+            <b>   <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}">Faire un don au développeur  <i class="fa fa-heart"></i></a>  </b>
+        </p>
         @endif
 
     </div>
 
-    <div class="col-md-6">  
+    <div class="col-md-6">
 
 
         @if( $skin->description != '' )
@@ -94,9 +94,9 @@
 </div>
 
 
-@if ((Auth::check() && Auth::user()->isAdmin())) 
+@if ((Auth::check() && Auth::user()->isAdmin()))
 <div class="row">
-    <div class="col-md-6"> 
+    <div class="col-md-6">
         <hr>
         @if($skin->status == 0)
         <div class="alert alert-warning" role="alert">
@@ -105,7 +105,7 @@
         @elseif($skin->status == 1)
         <div class="alert alert-success" role="alert">
             Ce skin a été validé.
-        </div>         
+        </div>
         @elseif($skin->status == 2)
         <div class="alert alert-danger" role="alert">
             Ce skin a été refusé.
@@ -113,17 +113,17 @@
         @endif
 
         <p>
-            Edition : 
+            Edition :
             <a href="{{route('skin.edit',$skin->slug)}}" class="btn btn-primary">Editer</a>
-            <a href="{{route('skin.delete',$skin->slug)}}" class="btn btn-danger"  data-toggle="confirmation">Supprimer</a>  
+            <a href="{{route('skin.delete',$skin->slug)}}" class="btn btn-danger"  data-toggle="confirmation">Supprimer</a>
 
-            Validation : 
+            Validation :
             <!--_TODO : confirm dialog-->
             <a href="{{route('skin.validate',$skin->slug)}}" data-toggle="confirmation" class="btn btn-success">Valider</a>
             <a href="{{route('skin.refuse',$skin->slug)}}"  data-toggle="confirmation" class="btn btn-warning">Refuser</a>
-        </p> 
+        </p>
         <hr>
-    </div> 
+    </div>
 </div>
 @endif
 
