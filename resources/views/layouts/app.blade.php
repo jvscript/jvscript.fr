@@ -25,8 +25,10 @@ echo json_encode([
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="/" class="navbar-brand">jvscript.io
-                    </a>
+                  <a class="navbar-brand" rel="home" href="/">
+              <img style="max-width:140px; margin-top: -7px;"
+                   src="/assets/images/Banniere2.png">
+          </a>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -51,8 +53,8 @@ echo json_encode([
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li> <a href="{{route('script.form')}}">Ajouter un script</a></li>
-                                <li><a href="{{route('skin.form')}}">Ajouter un skin</a></li>
+                                <li> <a href="{{route('script.form')}}">Ajouter un script <i class="fa fa-code text-right" aria-hidden="true"></i></a></li>
+                                <li><a href="{{route('skin.form')}}">Ajouter un skin <i class="fa fa-paint-brush text-right" aria-hidden="true"></i></a></li>
                             </ul>
                         </li>
                         <li>
@@ -73,7 +75,7 @@ echo json_encode([
                                     <a href="{{ url('/logout') }}"
                                        onclick="event.preventDefault();
                                                document.getElementById('logout-form').submit();">
-                                        Déconnexion
+                                               Déconnexion <i class="fa fa-sign-out text-right" aria-hidden="true"></i>
                                     </a>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}

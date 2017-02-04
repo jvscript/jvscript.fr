@@ -44,8 +44,8 @@
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: $dropdown-bg;
   border: 0;
-  border-radius: $border-radius-base;
-  @include box-shadow(0 6px 12px rgba(0,0,0,.175));
+  border-radius: 0;
+  box-shadow: $shadow-dropdown;
   background-clip: padding-box;
 
   // Aligns the dropdown menu to right
@@ -213,4 +213,16 @@
       left: 0; right: auto;
     }
   }
+}
+
+// Icons in menu
+.fa.fa-sign-out.text-right
+ {
+    margin-left: 20px;
+}
+.fa.fa-code.text-right {
+    margin-left: 24px;
+}
+.fa.fa-paint-brush.text-right {
+    margin-left: 35px;
 }
