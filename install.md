@@ -125,7 +125,17 @@ On en a besoin pour la suite.
 	## chmod for php to write 
 	chmod 777 -R /var/www/jvscript.github.io.git/storage/
  
+## 6. Config php.ini
+
+On a besoin de mettre le fichier [cacert.pem](https://codeload.github.com/gist/5719158/zip/master) pour utiliser github oauth, mettez le dans un dossier et indiquez l'url dans php.ini
  
-## 6. Tester
+Example :
+
+	[curl]
+	; A default value for the CURLOPT_CAINFO option. This is required to be an
+	; absolute path.
+	curl.cainfo = "C:\Wnmp\php\cacert.pem"
+ 
+## 7. Tester
 
 Aller sous http://jvscript.local  (votre hostname) et vous devriez voir l'application

@@ -55,11 +55,32 @@
                                 </button>
 
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">
-                                   Mdp oublié ?
+                                    Mdp oublié ?
                                 </a>
                             </div>
                         </div>
-                    </form>
+                    </form> 
+
+                    <hr>
+
+                    <div class="form-horizontal"> 
+                        <div class="form-group{{ $errors->has('github') ? ' has-error' : '' }}">
+                            <div class="col-md-8 col-md-offset-4">                                
+                                <a href="{{url('/auth/github')}}" class="btn  btn-social btn-github"><i class="fa fa-github"></i>Se connecter avec github</a>
+                                @if ($errors->has('github'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('github') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <link href="/css/bootstrap-social.css" rel="stylesheet" >
+
+                    <style>                        
+                        hr{ border-color: rgb(221, 221, 221) }                        
+                    </style>
                 </div>
             </div>
         </div>
