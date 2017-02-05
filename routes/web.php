@@ -20,7 +20,7 @@ Route::get('/admin', 'JvscriptController@admin')->name('admin_index')->middlewar
 
 //ajax-users
 Route::get('/ajax-users', 'JvscriptController@ajaxUsers')->name('search')->middleware('auth');
- 
+
 //forms
 Route::get('/script/ajout', 'JvscriptController@formScript')->name('script.form')->middleware('auth');
 Route::get('/skin/ajout', 'JvscriptController@formSkin')->name('skin.form')->middleware('auth');
@@ -72,3 +72,7 @@ Route::get('/aide', function () {
 
 
 Auth::routes();
+
+
+Route::get('auth/github', 'Auth\LoginController@redirectToProvider');
+Route::get('auth/github/callback', 'Auth\LoginController@handleProviderCallback');

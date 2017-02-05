@@ -11,14 +11,14 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicExample()
+    public function testHomepage()
     {
         $this->visit('/')
-             ->see('Laravel');
+             ->see('jvscript.io');
     }
     
     /*
-     * _TODO writes some tests :
+     * _TODO : writes some tests :
      * - ajout script
      * - connexion -> admin 
      * - visualiser le script

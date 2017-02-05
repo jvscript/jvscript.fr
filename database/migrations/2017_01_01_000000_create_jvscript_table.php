@@ -17,8 +17,8 @@ class CreateJvscriptTable extends Migration {
             $table->string('name')->unique();
             $table->string('slug')->nullable()->unique();
             $table->string('autor')->nullable();
-            $table->string('user_id')->nullable()->comment("pour attribuer le script à un utilisateurs de jvscript");
-            $table->string('poster_user_id')->nullable()->comment("le posteur du script");
+            $table->integer('user_id')->unsigned()->nullable(); //->comment("pour attribuer le script a un utilisateurs de jvscript");
+            $table->integer('poster_user_id')->unsigned()->nullable(); //->comment("le posteur du script");
             $table->text('description')->nullable();
             $table->decimal('note', 5, 2)->default(0);
             $table->integer('note_count')->default(0);
@@ -32,6 +32,8 @@ class CreateJvscriptTable extends Migration {
             $table->string('version')->nullable();
             $table->timestamp('last_update')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('poster_user_id')->references('id')->on('users')->onDelete('set null');
         });
 
         Schema::create('skins', function (Blueprint $table) {
@@ -39,8 +41,8 @@ class CreateJvscriptTable extends Migration {
             $table->string('name')->unique();
             $table->string('slug')->nullable()->unique();
             $table->string('autor')->nullable();
-            $table->string('user_id')->nullable()->comment("pour attribuer le skin à un utilisateurs de jvscript");
-            $table->string('poster_user_id')->nullable()->comment("le posteur du skin");
+            $table->integer('user_id')->unsigned()->nullable()->comment("pour attribuer le skin à un utilisateurs de jvscript");
+            $table->integer('poster_user_id')->unsigned()->nullable()->comment("le posteur du skin");
             $table->text('description')->nullable();
             $table->decimal('note', 5, 2)->default(0);
             $table->integer('note_count')->default(0);
@@ -53,6 +55,8 @@ class CreateJvscriptTable extends Migration {
             $table->string('version')->nullable();
             $table->timestamp('last_update')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('poster_user_id')->references('id')->on('users')->onDelete('set null');
         });
 
         Schema::create('tags', function (Blueprint $table) {

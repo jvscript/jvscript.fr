@@ -15,14 +15,14 @@ use App;
 class JvscriptController extends Controller {
 
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
-    //_TODO : form mdp oublié translate
-    //_TODO : admin owner rule
     /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct() {
+       
+
 //        $this->middleware('auth');
 
         if (App::environment('local')) {
@@ -180,7 +180,6 @@ class JvscriptController extends Controller {
         $messages = [
             'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
         ];
-        // _TODO : validate sensiblity
         $validator = Validator::make($request->all(), [
                     "autor" => "max:255",
                     'js_url' => "required|url|max:255|regex:/.*\.js$/",
@@ -247,7 +246,7 @@ class JvscriptController extends Controller {
             $script->status = 1;
             $script->save();
             if ($script->user_id != null) {
-                Mail::to($script->user()->first()->email)->send(new Notify($script));
+                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
             }
         }
         return redirect(route('script.show', ['slug' => $slug]));
@@ -261,7 +260,7 @@ class JvscriptController extends Controller {
             $skin->status = 1;
             $skin->save();
             if ($skin->user_id != null) {
-                Mail::to($skin->user()->first()->email)->send(new Notify($skin));
+                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
             }
         }
         return redirect(route('skin.show', ['slug' => $slug]));
@@ -275,7 +274,7 @@ class JvscriptController extends Controller {
             $script->status = 2;
             $script->save();
             if ($script->user_id != null) {
-                Mail::to($script->user()->first()->email)->send(new Notify($script));
+                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
             }
         }
         return redirect(route('script.show', ['slug' => $slug]));
@@ -289,7 +288,7 @@ class JvscriptController extends Controller {
             $skin->status = 2;
             $skin->save();
             if ($skin->user_id != null) {
-                Mail::to($skin->user()->first()->email)->send(new Notify($skin));
+                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
             }
         }
         return redirect(route('skin.show', ['slug' => $slug]));
