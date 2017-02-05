@@ -464,7 +464,7 @@
       &,
       &:hover,
       &:focus {
-        background-color: $navbar-bg;
+        background-color: $navbar-default-link-hover-bg;
         color: $gray-light;
       }
     }

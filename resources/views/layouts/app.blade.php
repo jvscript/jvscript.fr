@@ -49,24 +49,21 @@ echo json_encode([
                                 </div>
                             </div>
                         </li>
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li> <a href="{{route('script.form')}}">Ajouter un script <i class="fa fa-code text-right" aria-hidden="true"></i></a></li>
-                                <li><a href="{{route('skin.form')}}">Ajouter un skin <i class="fa fa-paint-brush text-right" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="{{route('aide')}}">Aide</a>
-                        </li>
-                        <li>
-                            <a href="{{url('contact')}}">Contact</a>
-                        </li>
-
                     </ul>
-
                     <ul class="nav navbar-nav navbar-right">
+                      <li>
+                          <a href="{{url('contact')}}">Contact</a>
+                      </li>
+                      <li>
+                          <a href="{{route('aide')}}">Aide</a>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                              <li> <a href="{{route('script.form')}}">Ajouter un script <i class="fa fa-code text-right" aria-hidden="true"></i></a></li>
+                              <li><a href="{{route('skin.form')}}">Ajouter un skin <i class="fa fa-paint-brush text-right" aria-hidden="true"></i></a></li>
+                          </ul>
+                      </li>
                         @if (!Auth::guest())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bonjour {{Auth::user()->name}} <span class="caret"></span></a>
