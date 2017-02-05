@@ -45,6 +45,7 @@
                     <tr>
                         <th> Nom </th>
                         <th> Auteur </th>
+                        <th> Posté par </th>
                         <th> Note </th>
                         <th> Install </th>
                         <th> Status </th>
@@ -64,6 +65,7 @@
                     <tr onclick="window.location ='{{route($item.'.show',['slug' => $script->slug ])}}';" style="cursor: pointer;">
                         <td> {{$script->name}} </td>
                         <td> {{$script->autor}}   </td>
+                        <td> {{$script->poster_user()->first() != null ? $script->poster_user()->first()->name : null}}   </td>
                         <td> {{$script->note}}   </td>
                         <td> {{$script->install_count}}   </td>
                         <td> {{$script->statusLabel()}}   </td>                        
