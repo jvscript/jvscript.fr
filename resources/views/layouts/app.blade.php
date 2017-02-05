@@ -25,10 +25,10 @@ echo json_encode([
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                  <a class="navbar-brand" rel="home" href="/">
-              <img style="max-width:140px; margin-top: -7px;"
-                   src="/assets/images/Banniere2.png">
-          </a>
+                    <a class="navbar-brand" rel="home" href="/">
+                        <img style="max-width:140px; margin-top: -7px;"
+                             src="/assets/images/Banniere2.png">
+                    </a>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -75,7 +75,7 @@ echo json_encode([
                                     <a href="{{ url('/logout') }}"
                                        onclick="event.preventDefault();
                                                document.getElementById('logout-form').submit();">
-                                               Déconnexion <i class="fa fa-sign-out text-right" aria-hidden="true"></i>
+                                        Déconnexion <i class="fa fa-sign-out text-right" aria-hidden="true"></i>
                                     </a>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
@@ -98,7 +98,8 @@ echo json_encode([
 
         <div class="container">
 
-            <div class="content">
+            <div class="content"> 
+
                 @yield('content')
             </div>
 

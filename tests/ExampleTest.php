@@ -18,7 +18,7 @@ class ExampleTest extends TestCase
     }
     
     /*
-     * _TODO writes some tests :
+     * _TODO : writes some tests :
      * - ajout script
      * - connexion -> admin 
      * - visualiser le script
