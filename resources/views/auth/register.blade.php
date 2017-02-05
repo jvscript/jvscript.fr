@@ -17,9 +17,9 @@
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('name') }}</strong>
+                                </span>
                                 @endif
                             </div>
                         </div>
@@ -31,9 +31,9 @@
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
                                 @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
                                 @endif
                             </div>
                         </div>
@@ -45,9 +45,9 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
 
                                 @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
                                 @endif
                             </div>
                         </div>
@@ -68,6 +68,23 @@
                             </div>
                         </div>
                     </form>
+
+                    <hr>
+
+                    <div class="form-horizontal"> 
+                        <div class="form-group{{ $errors->has('github') ? ' has-error' : '' }}">
+                            <div class="col-md-8 col-md-offset-4">                                
+                                <a href="{{url('/auth/github')}}" class="btn  btn-social btn-github"><i class="fa fa-github"></i>S'inscrire avec github</a>
+                                @if ($errors->has('github'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('github') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <link href="/css/bootstrap-social.css" rel="stylesheet" >
                 </div>
             </div>
         </div>

@@ -60,8 +60,8 @@
                             </div>
                         </div>
                     </form>
-                    
-                    
+
+
                     <hr>
 
                     <div class="form-horizontal"> 
@@ -79,11 +79,6 @@
 
                     <link href="/css/bootstrap-social.css" rel="stylesheet" >
 
-                    <style>                        
-                        hr{ border-color: rgb(221, 221, 221) }                        
-                    </style>
-                    
-                    
                 </div>
             </div>
         </div>
