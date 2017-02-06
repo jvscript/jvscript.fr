@@ -13,14 +13,15 @@
             var checked = $(this).prop('checked');
             if (checked) {
                 $('#autor').val("{{Auth::user()->name}}");
-                $('#autor').attr("readlonly", "readonly");
-                $('#autor').attr("disabled", "true");
+                $('#autor').attr("readonly", "true");
+//                $('#autor').attr("disabled", "true");
                 $('#autor').addClass("disabled");
             }
             else {
-                $('#autor').removeAttr("readlonly");
-                $('#autor').removeAttr("disabled");
+                $('#autor').removeAttr("readonly");
+//                $('#autor').removeAttr("disabled");
                 $('#autor').removeClass("disabled");
+                $('#autor').val("");
             }
         });
     });
@@ -80,10 +81,9 @@
 
                 <div class="col-md-6"> 
                     <?php
+                    $autor = '';
                     if (old('autor')) {
                         $autor = old('autor');
-                    } else {
-                        $autor = Auth::user()->name;
                     }
                     ?>
                     <input id="autor" type="text" maxlength="255" class="form-control" name="autor" value="{{ $autor }}">
