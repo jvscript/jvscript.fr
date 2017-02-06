@@ -24,7 +24,7 @@
         <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
         <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$script->autor}} </p>
         <p class="text-right">
-            <span class=" label label-script">Script</span>
+            <span class=" label label-skin">Script</span>
         </p>
       @if($script->description != null)
       <p class="desc">{{str_limit($script->description,350)}}</p>
