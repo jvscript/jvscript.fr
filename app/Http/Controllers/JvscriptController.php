@@ -21,7 +21,6 @@ class JvscriptController extends Controller {
      * @return void
      */
     public function __construct() {
-       
 
 //        $this->middleware('auth');
 
@@ -194,6 +193,9 @@ class JvscriptController extends Controller {
         $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url'];
         if (Auth::user()->isAdmin()) {
             $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'user_id'];
+            if ($request->input('user_id') == '') {
+                $request->merge(['user_id' => null]);
+            }
         }
 
         if ($validator->fails()) {
@@ -225,7 +227,11 @@ class JvscriptController extends Controller {
         $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url'];
         if (Auth::user()->isAdmin()) {
             $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url', 'user_id'];
+            if ($request->input('user_id') == '') {
+                $request->merge(['user_id' => null]);
+            }
         }
+
 
         if ($validator->fails()) {
             $this->throwValidationException(
