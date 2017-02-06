@@ -71,10 +71,10 @@
 
                     <hr>
 
-                    <div class="form-horizontal"> 
+                    <div class="form-horizontal">
                         <div class="form-group{{ $errors->has('github') ? ' has-error' : '' }}">
-                            <div class="col-md-8 col-md-offset-4">                                
-                                <a href="{{url('/auth/github')}}" class="btn  btn-social btn-github"><i class="fa fa-github"></i>S'inscrire avec github</a>
+                            <div class="col-md-8 col-md-offset-4">
+                                <a href="{{url('/auth/github')}}" class="btn  btn-social btn-github"><i class="fa fa-github"></i>S'inscrire avec Github</a>
                                 @if ($errors->has('github'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('github') }}</strong>
