@@ -5787,6 +5787,14 @@ a.badge:hover, a.badge:focus {
 				top: 70%;
 				right: 0;
 				background: #43494c;
+				background: -webkit-linear-gradient(top, #43494c, #323739);
+				/* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(bottom, #43494c, #323739);
+				/* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(bottom, #43494c, #323739);
+				/* For Firefox 3.6 to 15 */
+				background: linear-gradient(to bottom, #43494c, #323739);
+				/* Standard syntax */
 				border-bottom: 2px solid #b18629;
 				width: 100%;
 				height: 100%;
