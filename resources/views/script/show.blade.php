@@ -16,7 +16,7 @@
 <div class="row">
 
     <div class="col-md-6">
-        <h1>{{$script->name}}  
+        <h1>{{$script->name}}
         </h1>
     </div>
 
@@ -54,9 +54,9 @@
     <div class="col-md-6">
         <p>
             @if ( $script->photo_url != null )
-            <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 450px;" alt="{{$script->name}} logo" />
+            <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
             @else
-            <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 200px;" />
+            <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
             @endif
         </p>
 

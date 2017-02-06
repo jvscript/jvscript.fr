@@ -32,9 +32,9 @@
 
         <p>
             @if ( $skin->photo_url != null )
-            <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 450px;" alt="{{$skin->name}} logo" />
+            <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$skin->name}} logo" />
             @else
-            <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 200px;" />
+            <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 300px;" />
             @endif
         </p>
 

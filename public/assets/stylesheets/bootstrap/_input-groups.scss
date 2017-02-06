@@ -17,7 +17,7 @@
     padding-left: 0;
     padding-right: 0;
   }
-  
+
   .form-control {
     // Ensure that the input is always above the *appended* addon button for
     // proper border colors.
@@ -31,9 +31,12 @@
 
     width: 100%;
     margin-bottom: 0;
+    transition: .1s;
 
     &:focus {
       z-index: 3;
+      width: 200%;
+      transition: .2s;
     }
   }
 }

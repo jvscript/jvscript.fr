@@ -17,47 +17,6 @@
     </div>
 </div>
 
-<style>
-    /**
-    * Home page css
-    */
-
-    ul{
-        margin-bottom: 0px;
-        -webkit-padding-start: 0px;    
-    }
-    ul li{
-        list-style: none;
-        display: inherit;
-    }
-    .image{
-        position:relative;
-        overflow:hidden;
-        padding-bottom:100%;
-        height: 100%;
-    }
-    .image img{
-        position:absolute;
-        max-width: 100%;
-        max-height: 100%;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-    }
-
-    .caption > h4{
-        white-space:nowrap;
-        overflow: hidden;
-    }
-    .display_none{
-        display:none; 
-    }
-    .list{
-        margin-top:40px;
-    }
-
-</style>
-
 @section('javascript')
 
 <script>

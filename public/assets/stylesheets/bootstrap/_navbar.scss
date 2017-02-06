@@ -8,7 +8,6 @@
 //
 // Provide a static navbar from which we expand to create full-width, fixed, and
 // other navbar variations.
-
 .navbar {
   position: relative;
   min-height: $navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)

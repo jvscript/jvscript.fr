@@ -24,3 +24,46 @@ h1 .autor{
 input.disabled{
     cursor: not-allowed;
 }
+    /**
+    * Home page
+    */
+
+    ul{
+        margin-bottom: 0px;
+        -webkit-padding-start: 0px;
+    }
+    ul li{
+        list-style: none;
+        display: inherit;
+    }
+    .image{
+        position:relative;
+        overflow:hidden;
+        padding-bottom:100%;
+        height: 100%;
+    }
+    .image img{
+        position:absolute;
+        max-width: 100%;
+        max-height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    .caption > h4{
+        white-space:nowrap;
+        overflow: hidden;
+    }
+    .display_none{
+        display:none;
+    }
+    .list{
+        margin-top:40px;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    div#ajax-content {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
