@@ -8,8 +8,8 @@
  */
  .hover-caption {
      position: absolute;
-     top: 0;
-     opacity: 0;
+     top: 100%;
+//     opacity: 0;
      right: 0;
      background: rgba(26, 29, 30, 0.9);
      width: 100%;
@@ -28,8 +28,8 @@
      }
  }
 .thumbnail:hover .hover-caption {
-//    top:0%;
-      opacity: 1;
+      top:0%;
+//      opacity: 1;
 
       h4 {
         color: #a2a2a2;
@@ -52,17 +52,22 @@
   box-shadow: $shadow;
   @include transition(border .25s ease-in-out);
 
+  .image {
+    border-bottom: 1px solid #1d2123;
+    background: #34393b;
+  }
+
   > img,
   a > img {
     @include img-responsive;
     margin-left: auto;
     margin-right: auto;
-    -webkit-filter: grayscale(0);
-    transition: .25s;
+  //  -webkit-filter: grayscale(0);
+  //  transition: 1s;
   }
   &:hover > .image {
-    -webkit-filter: grayscale(1);
-    transition: .25s;
+//    -webkit-filter: grayscale(1);
+//    transition: 1s;
   }
   // [converter] extracted a&:hover, a&:focus, a&.active to a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active
 
@@ -70,6 +75,8 @@
   .caption {
     padding: $thumbnail-caption-padding;
     color: $thumbnail-caption-color;
+    border-top: 1px solid #4e5356;
+    background: #43494c;
 
     > h4 {
     text-transform: capitalize;

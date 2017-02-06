@@ -5784,8 +5784,7 @@ a.badge:hover, a.badge:focus {
  */
 .hover-caption {
 				position: absolute;
-				top: 0;
-				opacity: 0;
+				top: 100%;
 				right: 0;
 				background: rgba(26, 29, 30, 0.9);
 				width: 100%;
@@ -5806,7 +5805,7 @@ a.badge:hover, a.badge:focus {
 }
 
 .thumbnail:hover .hover-caption {
-				opacity: 1;
+				top: 0%;
 }
 
 .thumbnail:hover .hover-caption h4 {
@@ -5831,6 +5830,11 @@ a.badge:hover, a.badge:focus {
 				transition: border 0.25s ease-in-out;
 }
 
+.thumbnail .image {
+				border-bottom: 1px solid #1d2123;
+				background: #34393b;
+}
+
 .thumbnail > img,
 .thumbnail a > img {
 				display: block;
@@ -5838,18 +5842,13 @@ a.badge:hover, a.badge:focus {
 				height: auto;
 				margin-left: auto;
 				margin-right: auto;
-				-webkit-filter: grayscale(0);
-				transition: .25s;
-}
-
-.thumbnail:hover > .image {
-				-webkit-filter: grayscale(1);
-				transition: .25s;
 }
 
 .thumbnail .caption {
 				padding: 9px;
 				color: #ccc;
+				border-top: 1px solid #4e5356;
+				background: #43494c;
 }
 
 .thumbnail .caption > h4 {
