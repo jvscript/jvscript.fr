@@ -5784,13 +5784,12 @@ a.badge:hover, a.badge:focus {
  */
 .hover-caption {
 				position: absolute;
-				top: 100%;
+				top: 70%;
 				right: 0;
-				background: rgba(26, 29, 30, 0.9);
+				background: #43494c;
 				width: 100%;
 				height: 100%;
-				padding: 0;
-				text-align: center;
+				padding: 9px;
 				color: #ccc !important;
 				z-index: 2;
 				-webkit-transition: all 0.25s ease-in-out;
@@ -5804,12 +5803,21 @@ a.badge:hover, a.badge:focus {
 				text-transform: capitalize;
 }
 
+.hover-caption .desc {
+				text-align: center;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				margin-top: 20px;
+				background: #323739;
+				margin-right: -5px;
+				margin-left: -5px;
+}
+
 .thumbnail:hover .hover-caption {
 				top: 0%;
 }
 
 .thumbnail:hover .hover-caption h4 {
-				color: #a2a2a2;
 				text-transform: capitalize;
 }
 

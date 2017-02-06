@@ -8,14 +8,14 @@
  */
  .hover-caption {
      position: absolute;
-     top: 100%;
+     top: 70%;
 //     opacity: 0;
      right: 0;
-     background: rgba(26, 29, 30, 0.9);
+     background: rgb(67, 73, 76);
      width: 100%;
      height: 100%;
-     padding: 0;
-     text-align: center;
+     padding: 9px;
+    // text-align: center;
      color: $gray-base!important;
      z-index: 2;
      -webkit-transition: all 0.25s ease-in-out;
@@ -26,13 +26,21 @@
      h4 {
        text-transform: capitalize;
      }
+     .desc {
+       text-align: center;
+       padding-top: 10px;
+       padding-bottom: 10px;
+       margin-top: 20px;
+       background: #323739;
+       margin-right: -5px;
+       margin-left: -5px;
+     }
  }
 .thumbnail:hover .hover-caption {
       top:0%;
 //      opacity: 1;
 
       h4 {
-        color: #a2a2a2;
         text-transform: capitalize;
       }
 }
@@ -71,7 +79,7 @@
   }
   // [converter] extracted a&:hover, a&:focus, a&.active to a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active
 
-  // Image captions
+  // Image s
   .caption {
     padding: $thumbnail-caption-padding;
     color: $thumbnail-caption-color;
