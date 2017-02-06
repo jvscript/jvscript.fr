@@ -5859,6 +5859,10 @@ a.badge:hover, a.badge:focus {
 				background: #43494c;
 }
 
+.thumbnail .caption * {
+				opacity: 0;
+}
+
 .thumbnail .caption > h4 {
 				text-transform: capitalize;
 }

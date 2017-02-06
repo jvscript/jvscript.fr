@@ -86,6 +86,10 @@
     border-top: 1px solid #4e5356;
     background: #43494c;
 
+    *{
+      opacity: 0;
+    }
+
     > h4 {
     text-transform: capitalize;
     }
