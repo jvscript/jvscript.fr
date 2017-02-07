@@ -79,7 +79,7 @@
 
     //sort
     scriptList.on('sortComplete', function (list) {
-        console.log("sortComplete");
+        alert("sortComplete");
         list.matchingItems.forEach(function (element) {
             var id = element.elm.id;
             $('#' + id).addClass('animated fadeIn');
@@ -96,10 +96,11 @@
     /**
      * Bouton sort asc/desc icon
      */
-    $(".sort").click(function () {
+    $(".sort").click(function () {        
         $("button.sort > i").removeClass("fa-sort-asc");
         $("button.sort > i").removeClass("fa-sort-desc");
         $("button.asc > i").addClass("fa-sort");
+        alert("sort click");
         if ($(this).hasClass('asc')) {
             $(this).children("i").addClass("fa-sort-asc");
         }
