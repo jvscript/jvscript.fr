@@ -12,10 +12,10 @@
      opacity: 0;
      right: 0;
      background: #43494c;
-     background: -webkit-linear-gradient(top, #43494c , #323739); /* For Safari 5.1 to 6.0 */
-     background: -o-linear-gradient(bottom, #43494c, #323739); /* For Opera 11.1 to 12.0 */
-     background: -moz-linear-gradient(bottom, #43494c, #323739); /* For Firefox 3.6 to 15 */
-     background: linear-gradient(to bottom, #43494c , #323739); /* Standard syntax */
+     background: -webkit-linear-gradient(bottom, #43494c , #323739); /* For Safari 5.1 to 6.0 */
+     background: -o-linear-gradient(top, #43494c, #323739); /* For Opera 11.1 to 12.0 */
+     background: -moz-linear-gradient(top, #43494c, #323739); /* For Firefox 3.6 to 15 */
+     background: linear-gradient(to top, #43494c , #323739); /* Standard syntax */
      border-bottom: 2px solid #b18629;
      width: 100%;
      height: 100%;
@@ -33,7 +33,7 @@
         padding-right: 2px;
         padding-left: 2px;
         margin-top: 20px;
-        border: 1px solid #43494c;
+        border: 1px solid rgba(67, 73, 76, 0.54);
         background: #34393b;
         box-shadow: inset 0 0 12px 1px rgba(0, 0, 0, 0.18);
         border-top: 1px solid #2d3233;
@@ -66,7 +66,7 @@
 
   .image {
     border-bottom: 1px solid #1d2123;
-    background: #34393b;
+    background: #2e3335;
   }
 
   > img,
@@ -83,8 +83,9 @@
   .caption {
     padding: $thumbnail-caption-padding;
     color: $thumbnail-caption-color;
-    border-top: 1px solid #4e5356;
-    background: #43494c;
+    border-top: 1px solid #464d50;
+    background: #3d4346;
+    background: linear-gradient(to bottom, #323739, #43494c);
 
     > h4 {
     text-transform: capitalize;

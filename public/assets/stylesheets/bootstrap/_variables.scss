@@ -24,8 +24,8 @@ $brand-warning:         #f0ad4e !default;
 $brand-danger:          #d9534f !default;
 
 //bfmtv like colors
-$navbar-bg: #2f3537    !default;
-$body-dark: darken( saturate( adjust-hue($navbar-bg, 2deg ), 1 ), 4 ) !default;
+$navbar-bg: linear-gradient(to bottom,#34393b,#292f31) !default;
+$body-dark: #25292b !default;
 
 $logo-color:    #FF7D54!default; //couleur orange
 
@@ -200,7 +200,7 @@ $btn-border-radius-small:        $border-radius-small !default;
 //##
 
 //** `<input>` background color
-$input-bg:                       lighten( desaturate( adjust-hue($navbar-bg, 5deg ), 2 ), 8 );
+$input-bg:                       #43494c;
 //** `<input disabled>` background color
 $input-bg-disabled:              $input-bg !default;
 
@@ -385,14 +385,14 @@ $navbar-collapse-max-height:       340px !default;
 
 $navbar-default-color:             #a5a5a5 !default;
 $navbar-default-bg:                $navbar-bg !default;
-$navbar-default-border:            #222729 !default;
+$navbar-default-border:            #303739 !default;
 
 // Navbar links
 $navbar-default-link-color:                #a5a5a5 !default;
 $navbar-default-link-hover-color:          #c7c7c7 !default;
 $navbar-default-link-hover-bg:             rgb(44, 49, 51) !default;
 $navbar-default-link-active-color:         #555 !default;
-$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%) !default;
+$navbar-default-link-active-bg:            $body-bg !default;
 $navbar-default-link-disabled-color:       #ccc !default;
 $navbar-default-link-disabled-bg:          transparent !default;
 
@@ -767,7 +767,7 @@ $thumbnail-padding:           4px !default;
 //** Thumbnail background color
 $thumbnail-bg:                $navbar-bg !default;
 //** Thumbnail border color
-$thumbnail-border:            $navbar-default-border !default;
+$thumbnail-border:            #43494c !default;
 //** Thumbnail border radius
 $thumbnail-border-radius:     $border-radius-base !default;
 
