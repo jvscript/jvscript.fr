@@ -50,10 +50,7 @@ echo json_encode([
                             </div>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{{url('contact')}}">Contact</a>
-                        </li>
+                    <ul class="nav navbar-nav navbar-right">                        
                         <li>
                             <a href="{{route('aide')}}">Aide</a>
                         </li>
@@ -112,8 +109,9 @@ echo json_encode([
                     <div class="col-lg-12">
                         <p class="text-right">&COPY; {{ date('Y') }} jvscript.io  -
                             <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> -
+                            <a href="{{url('contact')}}">Nous contacter</a> - 
                             <a target="_blank" href="https://github.com/jvscript/jvscript.github.io/blob/master/changelog.md">Changelog</a> -
-                            <a href="{{url('developpeurs')}}">Développeurs</a>
+                            <a href="{{url('developpeurs')}}">Développeurs</a>  
                         </p>
                     </div>
                 </div>
