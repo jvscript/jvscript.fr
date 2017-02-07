@@ -164,7 +164,8 @@ $table-border-color:            #ddd !default;
 $btn-font-weight:                normal !default;
 
 $btn-default-color:              #ccc !default;
-$btn-default-bg:                 lighten( desaturate( adjust-hue($body-bg, 3deg ), 3 ), 15 ) !default;
+$btn-default-bg:                 lighten( desaturate( adjust-hue( $body-bg, -2deg ), 1 ), 13 )
+ !default;
 $btn-default-border:             $body-bg !default;
 
 $btn-primary-color:              #fff !default;
