@@ -28,20 +28,20 @@
 
         <div class="btn-group pull-right" role="group" aria-label="...">
             <div class="btn-group" role="group">
-                <button type="button"   class="btn btn-default dropdown-toggle sort " data-order="desc"  data-sort="date" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button"   class="btn btn-default dropdown-toggle sort "  data-sort="date" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Date <i class="fa fa-sort" aria-hidden="true"></i>
                 </button>
 
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default dropdown-toggle sort desc" data-order="desc" data-sort="note" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-default dropdown-toggle sort desc" data-sort="note" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Note <i class="fa fa-sort-desc" aria-hidden="true"></i>
                 </button>
 
             </div>
 
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default dropdown-toggle sort " data-order="desc" data-sort="install_count" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-default dropdown-toggle sort " data-sort="install_count" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Installation <i class="fa fa-sort" aria-hidden="true"></i>
                 </button>
 
