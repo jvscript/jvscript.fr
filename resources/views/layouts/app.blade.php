@@ -27,7 +27,7 @@ echo json_encode([
                 <div class="navbar-header">
                     <a class="navbar-brand" rel="home" href="/">
                         <img style="max-width:140px; margin-top: -7px;"
-                             src="/assets/images/Banniere2.png">
+                             src="/assets/images/banniere2.png">
                     </a>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
