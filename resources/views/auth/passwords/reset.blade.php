@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Reset Password
+                                    Valider le nouveau mot de passe
                                 </button>
                             </div>
                         </div>
