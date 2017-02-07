@@ -25,6 +25,7 @@
     };
     var scriptList = new List('scripts', options);
 
+
     /**
      * Filter action
      */
@@ -50,6 +51,7 @@
      * Update : fadeIn & No result message
      */
     scriptList.on('updated', function (list) {
+//        console.log("updated");
         list.matchingItems.forEach(function (element) {
             var id = element.elm.id;
 //            $('#' + id).addClass('animated fadeIn');
@@ -64,7 +66,7 @@
 
     //filter
     scriptList.on('filterComplete', function (list) {
-        console.log("filterComplete");
+//        console.log("filterComplete");
         list.matchingItems.forEach(function (element) {
             var id = element.elm.id;
             $('#' + id).addClass('animated fadeIn');
@@ -79,7 +81,7 @@
 
     //sort
     scriptList.on('sortComplete', function (list) {
-        alert("sortComplete");
+//        alert("sortComplete");
         list.matchingItems.forEach(function (element) {
             var id = element.elm.id;
             $('#' + id).addClass('animated fadeIn');
@@ -96,11 +98,10 @@
     /**
      * Bouton sort asc/desc icon
      */
-    $(".sort").click(function () {        
+    $(".sort").click(function () {
         $("button.sort > i").removeClass("fa-sort-asc");
         $("button.sort > i").removeClass("fa-sort-desc");
         $("button.asc > i").addClass("fa-sort");
-        alert("sort click");
         if ($(this).hasClass('asc')) {
             $(this).children("i").addClass("fa-sort-asc");
         }
@@ -109,6 +110,8 @@
         }
         return false;
     });
+
+
 
 </script>
 @endsection
