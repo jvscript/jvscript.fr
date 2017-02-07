@@ -5785,6 +5785,7 @@ a.badge:hover, a.badge:focus {
 .hover-caption {
 				position: absolute;
 				top: 70%;
+				opacity: 0;
 				right: 0;
 				background: #43494c;
 				background: -webkit-linear-gradient(top, #43494c, #323739);
@@ -5799,13 +5800,9 @@ a.badge:hover, a.badge:focus {
 				width: 100%;
 				height: 100%;
 				padding: 9px;
+				transition: .3s;
 				color: #ccc !important;
 				z-index: 2;
-				-webkit-transition: all 0.25s ease-in-out;
-				-moz-transition: all 0.25s ease-in-out;
-				-o-transition: all 0.25s ease-in-out;
-				-ms-transition: all 0.25s ease-in-out;
-				transition: all 0.25s ease-in-out;
 }
 
 .hover-caption h4 {
@@ -5827,6 +5824,8 @@ a.badge:hover, a.badge:focus {
 
 .thumbnail:hover .hover-caption {
 				top: 0%;
+				opacity: 1;
+				transition: top .25s;
 }
 
 .thumbnail:hover .hover-caption h4 {
@@ -5869,10 +5868,6 @@ a.badge:hover, a.badge:focus {
 				color: #ccc;
 				border-top: 1px solid #4e5356;
 				background: #43494c;
-}
-
-.thumbnail .caption * {
-				opacity: 0;
 }
 
 .thumbnail .caption > h4 {

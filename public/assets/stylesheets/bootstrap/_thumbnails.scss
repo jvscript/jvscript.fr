@@ -9,7 +9,7 @@
  .hover-caption {
      position: absolute;
      top: 70%;
-//     opacity: 0;
+     opacity: 0;
      right: 0;
      background: #43494c;
      background: -webkit-linear-gradient(top, #43494c , #323739); /* For Safari 5.1 to 6.0 */
@@ -20,14 +20,9 @@
      width: 100%;
      height: 100%;
      padding: 9px;
-    // text-align: center;
+     transition: .3s;
      color: $gray-base!important;
      z-index: 2;
-     -webkit-transition: all 0.25s ease-in-out;
-     -moz-transition: all 0.25s ease-in-out;
-     -o-transition: all 0.25s ease-in-out;
-     -ms-transition: all 0.25s ease-in-out;
-     transition: all 0.25s ease-in-out;
      h4 {
        text-transform: capitalize;
      }
@@ -46,7 +41,8 @@
  }
 .thumbnail:hover .hover-caption {
       top:0%;
-//      opacity: 1;
+      opacity: 1;
+      transition: top .25s;
 
       h4 {
         text-transform: capitalize;
@@ -78,12 +74,8 @@
     @include img-responsive;
     margin-left: auto;
     margin-right: auto;
-  //  -webkit-filter: grayscale(0);
-  //  transition: 1s;
   }
   &:hover > .image {
-//    -webkit-filter: grayscale(1);
-//    transition: 1s;
   }
   // [converter] extracted a&:hover, a&:focus, a&.active to a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active
 
@@ -93,10 +85,6 @@
     color: $thumbnail-caption-color;
     border-top: 1px solid #4e5356;
     background: #43494c;
-
-    *{
-      opacity: 0;
-    }
 
     > h4 {
     text-transform: capitalize;
