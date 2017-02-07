@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>jvscript.io - Le site regroupant les scripts JVC</title>
+        <title> @yield('title','jvscript.io - Le site regroupant les scripts JVC')</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- CSRF Token -->
@@ -25,10 +25,10 @@ echo json_encode([
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                  <a class="navbar-brand" rel="home" href="/">
-              <img style="max-width:140px; margin-top: -7px;"
-                   src="/assets/images/Banniere2.png">
-          </a>
+                    <a class="navbar-brand" rel="home" href="/">
+                        <img style="max-width:140px; margin-top: -7px;"
+                             src="/assets/images/Banniere2.png">
+                    </a>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -51,28 +51,36 @@ echo json_encode([
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                      <li>
-                          <a href="{{url('contact')}}">Contact</a>
-                      </li>
-                      <li>
-                          <a href="{{route('aide')}}">Aide</a>
-                      </li>
-                      <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
-                          <ul class="dropdown-menu">
-                              <li> <a href="{{route('script.form')}}">Ajouter un script <i class="fa fa-code text-right" aria-hidden="true"></i></a></li>
-                              <li><a href="{{route('skin.form')}}">Ajouter un skin <i class="fa fa-paint-brush text-right" aria-hidden="true"></i></a></li>
-                          </ul>
-                      </li>
+                        <li>
+                            <a href="{{url('contact')}}">Contact</a>
+                        </li>
+                        <li>
+                            <a href="{{route('aide')}}">Aide</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li> <a href="{{route('script.form')}}">Ajouter un script <i class="fa fa-code text-right" aria-hidden="true"></i></a></li>
+                                <li><a href="{{route('skin.form')}}">Ajouter un skin <i class="fa fa-paint-brush text-right" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </li>
                         @if (!Auth::guest())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bonjour {{Auth::user()->name}} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                @if(Auth::user()->isAdmin())
                                 <li>
+                                    <a href="{{ route('admin_index') }}">
+                                        Admin                                         
+                                    </a>
+                                </li>
+                                @endif
+                                <li>
+
                                     <a href="{{ url('/logout') }}"
                                        onclick="event.preventDefault();
                                                document.getElementById('logout-form').submit();">
-                                               Déconnexion <i class="fa fa-sign-out text-right" aria-hidden="true"></i>
+                                        Déconnexion <i class="fa fa-sign-out text-right" aria-hidden="true"></i>
                                     </a>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
