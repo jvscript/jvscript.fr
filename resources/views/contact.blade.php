@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h2>Nous contacter </h2>
+        <h2>Nous contacter par email </h2>
 
         @if (session('message'))
         <div class="alert alert-success">
@@ -13,10 +13,11 @@
         </div>
         @endif
 
+      
+
         <form class="form-horizontal" role="form" method="POST" action="{{ route('contact.send') }}">
-            {{ csrf_field() }}
-
-
+            {{ csrf_field() }} 
+ 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                 <label for="email" class="col-md-4 control-label">Votre email </label>
 
@@ -68,6 +69,20 @@
                 </div>
             </div>
         </form>
+        
+           <hr>
+
+             <h2>Nous contacter par JVC </h2>
+             
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-8 col-md-offset-4">
+                    <a class='btn btn-primary' target='_blank' href='http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Toray;Cogis'>Envoyer un MP par JVC</a> 
+                </div>
+            </div>
+        </div>
+        
+       
 
 
     </div>
