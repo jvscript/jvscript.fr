@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title',$skin->name.' | jvscript.io')
+
 @section('javascript')
 <script>
     $('[data-toggle=confirmation]').confirmation();

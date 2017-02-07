@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title',$script->name.' | jvscript.io')
+
 @section('javascript')
 <script>
     $('[data-toggle=confirmation]').confirmation();
