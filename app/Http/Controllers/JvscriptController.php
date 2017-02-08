@@ -80,6 +80,8 @@ class JvscriptController extends Controller {
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
                     'don_url' => "url|max:255",
+                    'website_url' => "url|max:255",
+                    'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
 
         if ($validator->fails()) {
@@ -133,6 +135,8 @@ class JvscriptController extends Controller {
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
                     'don_url' => "url|max:255",
+                    'website_url' => "url|max:255",
+                    'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
 
         if ($validator->fails()) {
@@ -187,12 +191,14 @@ class JvscriptController extends Controller {
                     'don_url' => "url|max:255",
                     'user_id' => "exists:users,id",
                     'sensibility' => "in:0,1,2",
+                    'website_url' => "url|max:255",
+                    'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
 
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'user_id'];
+            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             }
@@ -221,12 +227,14 @@ class JvscriptController extends Controller {
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
                     'user_id' => "exists:users,id",
-                    'don_url' => "url|max:255"
+                    'don_url' => "url|max:255",
+                    'website_url' => "url|max:255",
+                    'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
         //update only this fields
-        $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url'];
+        $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url', 'user_id'];
+            $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url', 'user_id', 'website_url', 'topic_url'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             }

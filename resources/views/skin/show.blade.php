@@ -81,6 +81,18 @@
             <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{str_limit($skin->repo_url,40)}}</a>  </b>
         </p>
         @endif
+        
+        @if ( $skin->topic_url != null )
+        <p>
+            <b>   <a target="_blank" class="btn btn-default" href="{{$skin->topic_url}}">Voir le topic jvc  <i class="fa fa-gamepad"></i></a>  </b>
+        </p>
+        @endif
+        
+        @if ( $skin->website_url != null )
+        <p>
+            <b>   <a target="_blank" class="btn btn-default" href="{{$skin->website_url}}">Voir le site web  <i class="fa fa-globe"></i></a>  </b>
+        </p>
+        @endif
 
         @if ( $skin->don_url != null )
         <p>

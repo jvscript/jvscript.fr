@@ -27,6 +27,8 @@ class CreateJvscriptTable extends Migration {
             $table->string('repo_url')->nullable();
             $table->string('photo_url')->nullable();
             $table->string('don_url')->nullable();
+            $table->string('topic_url')->nullable();
+            $table->string('website_url')->nullable();
             $table->integer('status')->default(0)->comment("0 awaiting validation / 1 validated / 2 refused");
             $table->integer('sensibility')->default(0)->comment("0 Clean / 1 Warning / 2 Danger");
             $table->string('version')->nullable();
@@ -51,6 +53,8 @@ class CreateJvscriptTable extends Migration {
             $table->string('repo_url')->nullable();
             $table->string('photo_url')->nullable();
             $table->string('don_url')->nullable();
+            $table->string('topic_url')->nullable();
+            $table->string('website_url')->nullable();
             $table->integer('status')->default(0)->comment("0 awaiting validation / 1 validated / 2 refused");
             $table->string('version')->nullable();
             $table->timestamp('last_update')->nullable();

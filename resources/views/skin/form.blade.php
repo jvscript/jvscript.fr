@@ -14,14 +14,12 @@
             if (checked) {
                 $('#autor').val("{{Auth::user()->name}}");
                 $('#autor').attr("readonly", "true");
-//                $('#autor').attr("disabled", "true");
                 $('#autor').addClass("disabled");
             }
             else {
                 $('#autor').removeAttr("readonly");
-//                $('#autor').removeAttr("disabled");
                 $('#autor').removeClass("disabled");
-                $('#autor').val("");
+//                $('#autor').val("");
             }
         });
     });
@@ -59,44 +57,6 @@
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('is_autor') ? ' has-error' : '' }}">
-                <label for="is_autor" class="col-md-4 control-label"> Vous êtes l'auteur ?  </label>
-
-                <div class="col-md-6">
-
-                    <p>
-                        <input name="is_autor" id="is_autor" type="checkbox" data-toggle="toggle" data-on="Oui" data-off="Non">
-                    </p>
-
-                    @if ($errors->has('is_autor'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('is_autor') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
-                <label for="autor" class="col-md-4 control-label">Auteur du skin </label>
-
-                <div class="col-md-6"> 
-                    <?php
-                    $autor = '';
-                    if (old('autor')) {
-                        $autor = old('autor');
-                    }
-                    ?>
-                    <input id="autor" type="text" maxlength="255" class="form-control" name="autor" value="{{ $autor }}">
-
-                    @if ($errors->has('autor'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('autor') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-
-
             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                 <label for="description" class="col-md-4 control-label">Description *</label>
 
@@ -106,6 +66,47 @@
                     @if ($errors->has('description'))
                     <span class="help-block">
                         <strong>{{ $errors->first('description') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('is_autor') ? ' has-error' : '' }}">
+                <label for="is_autor" class="col-md-4 control-label"> Vous êtes l'auteur ?  </label>
+
+                <div class="col-md-6">
+
+                    <p>
+                        <input name="is_autor" id="is_autor" type="checkbox" {{ old('is_autor') ? 'checked' : ''}}  data-toggle="toggle" data-on="Oui" data-off="Non">
+                    </p>
+
+                    @if ($errors->has('is_autor'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('is_autor') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>             
+
+            <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
+                <label for="autor" class="col-md-4 control-label">Auteur du script </label>
+
+                <div class="col-md-6"> 
+                    <?php
+                    $is_autor = $is_autor_class = $autor = '';
+                    if (old('autor')) {
+                        $autor = old('autor');
+                    }
+                    if (old('is_autor')) {
+                        $is_autor_class = "disabled";
+                        $is_autor = 'readonly="true"';
+                    }
+                    ?>
+                    <input id="autor" type="text" maxlength="255" class="form-control {{$is_autor_class}}" name="autor" {{$is_autor}} value="{{ $autor }}">
+
+                    @if ($errors->has('autor'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('autor') }}</strong>
                     </span>
                     @endif
                 </div>
@@ -134,6 +135,34 @@
                     @if ($errors->has('repo_url'))
                     <span class="help-block">
                         <strong>{{ $errors->first('repo_url') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('topic_url') ? ' has-error' : '' }}">
+                <label for="topic_url" class="col-md-4 control-label">Lien du topic jvc </label>
+
+                <div class="col-md-6">
+                    <input id="topic_url" type="text" maxlength="255" placeholder="http://www.jeuxvideo.com/forums/..." class="form-control" name="topic_url" value="{{ old('topic_url') }}" >
+
+                    @if ($errors->has('topic_url'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('topic_url') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('website_url') ? ' has-error' : '' }}">
+                <label for="website_url" class="col-md-4 control-label">Lien du site web</label>
+
+                <div class="col-md-6">
+                    <input id="website_url" type="text" maxlength="255" placeholder="http://..." class="form-control" name="website_url" value="{{ old('website_url') }}" >
+
+                    @if ($errors->has('website_url'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('website_url') }}</strong>
                     </span>
                     @endif
                 </div>

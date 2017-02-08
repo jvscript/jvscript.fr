@@ -127,6 +127,34 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('topic_url') ? ' has-error' : '' }}">
+                <label for="topic_url" class="col-md-4 control-label">Lien du topic jvc </label>
+
+                <div class="col-md-6">
+                    <input id="topic_url" type="text" maxlength="255" placeholder="http://www.jeuxvideo.com/forums/..." class="form-control" name="topic_url" value="{{ old('topic_url',$script->topic_url) }}" >
+
+                    @if ($errors->has('topic_url'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('topic_url') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('website_url') ? ' has-error' : '' }}">
+                <label for="website_url" class="col-md-4 control-label">Lien du site web</label>
+
+                <div class="col-md-6">
+                    <input id="website_url" type="text" maxlength="255" placeholder="http://..." class="form-control" name="website_url" value="{{ old('website_url',$script->website_url) }}" >
+
+                    @if ($errors->has('website_url'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('website_url') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group{{ $errors->has('photo_url') ? ' has-error' : '' }}">
                 <label for="photo_url" class="col-md-4 control-label">Lien vers le logo/image </label>
 
@@ -202,9 +230,9 @@
                     @endif
                 </div>
             </div>
-            
+
             @endif
-            
+
             <div class="form-group{{ $errors->has('poster_user') ? ' has-error' : '' }}">
                 <label for="poster_user" class="col-md-4 control-label">Posté par </label>
 

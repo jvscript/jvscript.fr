@@ -105,6 +105,18 @@
         </p>
         @endif
 
+        @if ( $script->topic_url != null )
+        <p>
+            <b>   <a target="_blank" class="btn btn-default" href="{{$script->topic_url}}">Voir le topic jvc  <i class="fa fa-gamepad"></i></a>  </b>
+        </p>
+        @endif
+
+        @if ( $script->website_url != null )
+        <p>
+            <b>   <a target="_blank" class="btn btn-default" href="{{$script->website_url}}">Voir le site web  <i class="fa fa-globe"></i></a>  </b>
+        </p>
+        @endif
+
         @if ( $script->don_url != null )
         <p>
             <b>   <a target="_blank" class="btn btn-default" href="{{$script->don_url}}">Faire un don au développeur <i class="fa fa-heart"></i></a>  </b>
