@@ -101,7 +101,7 @@
     $(".sort").click(function () {
         $("button.sort > i").removeClass("fa-sort-asc");
         $("button.sort > i").removeClass("fa-sort-desc");
-        $("button.asc > i").addClass("fa-sort");
+        $("button.sort > i").addClass("fa-sort");
         if ($(this).hasClass('asc')) {
             $(this).children("i").addClass("fa-sort-asc");
         }

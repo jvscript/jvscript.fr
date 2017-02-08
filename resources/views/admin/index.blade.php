@@ -7,7 +7,7 @@
 
 
 <style>
-   
+
 
 </style>
 
@@ -43,6 +43,7 @@
             <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%"> 
                 <thead>
                     <tr>
+                        <th> Action </th>
                         <th> Nom </th>
                         <th> Auteur </th>
                         <th> Note </th>
@@ -61,7 +62,9 @@
                         $item = "skin";
                     }
                     ?> 
-                    <tr onclick="window.location ='{{route($item.'.show',['slug' => $script->slug ])}}';" style="cursor: pointer;">
+                    <tr >
+                        <td> <a class="btn btn-sm btn-default" href="{{route($item.'.show',['slug' => $script->slug ])}}">Voir</a>
+                            <a  class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}">Editer</a> </td>
                         <td> {{$script->name}} </td>
                         <td> {{$script->autor}}   </td>
                         <td> {{$script->note}}   </td>
