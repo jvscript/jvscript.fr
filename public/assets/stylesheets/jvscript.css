@@ -5863,6 +5863,10 @@ a.badge:hover, a.badge:focus {
 				margin-right: auto;
 }
 
+.thumbnail p {
+				white-space: nowrap;
+}
+
 .thumbnail .caption {
 				padding: 9px;
 				color: #ccc;

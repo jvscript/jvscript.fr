@@ -77,6 +77,10 @@
   }
   &:hover > .image {
   }
+
+  p {
+    white-space: nowrap;
+  }
   // [converter] extracted a&:hover, a&:focus, a&.active to a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active
 
   // Image s

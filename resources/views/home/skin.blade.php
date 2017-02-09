@@ -24,9 +24,9 @@
                 </p>
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$skin->install_count}} </p>
 
-                @if(null != $script->user_id)                
+                @if(null != $script->user_id)
                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$skin->user()->first()->name}} </p>
-                @elseif($script->autor != null)                
+                @elseif($script->autor != null)
                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$skin->autor}}</p>
                 @endif
 
@@ -70,7 +70,13 @@
                     @endfor
                 </p>
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$skin->install_count}} </p>
-                <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$skin->autor}} </p>
+
+                @if(null != $script->user_id)
+                <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$skin->user()->first()->name}} </p>
+                @elseif($script->autor != null)
+                <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$skin->autor}}</p>
+                @endif
+                
                 <p class="text-right">
                     <span class=" label label-skin">Skin</span>
                 </p>
