@@ -91,7 +91,7 @@ class JvscriptController extends Controller {
         } else { //sucess > insert  
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
             if (!$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
@@ -146,7 +146,7 @@ class JvscriptController extends Controller {
         } else { //sucess > insert  
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
             if (!$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('skin.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
