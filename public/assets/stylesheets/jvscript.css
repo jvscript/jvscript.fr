@@ -5863,10 +5863,6 @@ a.badge:hover, a.badge:focus {
 				margin-right: auto;
 }
 
-.thumbnail p {
-				white-space: nowrap;
-}
-
 .thumbnail .caption {
 				padding: 9px;
 				color: #ccc;
@@ -5877,6 +5873,10 @@ a.badge:hover, a.badge:focus {
 
 .thumbnail .caption > h4 {
 				text-transform: capitalize;
+}
+
+.thumbnail .caption p {
+				white-space: nowrap;
 }
 
 a.thumbnail:hover,
