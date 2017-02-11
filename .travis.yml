@@ -1,0 +1,12 @@
+language: php
+php:
+- 7.1
+before_script:
+- openssl aes-256-cbc -K $encrypted_36fc6dd3f9d4_key -iv $encrypted_36fc6dd3f9d4_iv -in .env.travis.enc -out .env.travis -d
+- cp .env.travis .env
+- mysql -e 'create database jvscript_testing;'
+- composer self-update
+- composer install --no-interaction
+- php artisan key:generate
+script:
+- vendor/bin/phpunit

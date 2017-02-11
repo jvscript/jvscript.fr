@@ -24,7 +24,7 @@ class JvscriptController extends Controller {
 
 //        $this->middleware('auth');
 
-        if (App::environment('local')) {
+        if (App::environment('local', 'testing')) {
             $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
         } else { //prod
             $this->recaptcha_key = env('RECAPTCHA_KEY', '');
@@ -92,7 +92,7 @@ class JvscriptController extends Controller {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!$resp->isSuccess()) {
+            if (!App::environment('testing') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
@@ -147,7 +147,7 @@ class JvscriptController extends Controller {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!$resp->isSuccess()) {
+            if (!App::environment('testing') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('skin.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
@@ -311,13 +311,13 @@ class JvscriptController extends Controller {
     /**
      * Install script : count & redirect 
      */
-    public function installScript($slug) {
+    public function installScript($slug, Request $request) {
         $script = Script::where('slug', $slug)->firstOrFail();
 
         //if no history install_count +1
-        $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => $slug, 'action' => 'install']);
+        $history = History::where(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
         if ($history->count() == 0) {
-            History::create(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => $slug, 'action' => 'install']);
+            History::create(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
             $script->install_count++;
             $script->save();
         }
@@ -327,14 +327,14 @@ class JvscriptController extends Controller {
     /**
      * Note script : note & redirect 
      */
-    public function noteScript($slug, $note) {
+    public function noteScript($slug, $note, Request $request) {
         $note = intval($note);
         if ($note > 0 && $note <= 5) {
             $script = Script::where('slug', $slug)->firstOrFail();
             //if no history note_count +1
-            $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "script_$slug", 'action' => 'note']);
+            $history = History::where(['ip' => $request->ip(), 'what' => "script_$slug", 'action' => 'note']);
             if ($history->count() == 0) {
-                History::create(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "script_$slug", 'action' => 'note']);
+                History::create(['ip' => $request->ip(), 'what' => "script_$slug", 'action' => 'note']);
                 $script->note = ( $script->note * $script->note_count + $note ) / ($script->note_count + 1);
                 $script->note_count++;
                 $script->save();
@@ -346,13 +346,13 @@ class JvscriptController extends Controller {
     /**
      * Install script : count & redirect 
      */
-    public function installSkin($slug) {
+    public function installSkin($slug, Request $request) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
 
         //if no history install_count +1
-        $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "skin_$slug", 'action' => 'install']);
+        $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
         if ($history->count() == 0) {
-            History::create(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "skin_$slug", 'action' => 'install']);
+            History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
             $skin->install_count++;
             $skin->save();
         }
@@ -362,14 +362,14 @@ class JvscriptController extends Controller {
     /**
      * Note script : note & redirect 
      */
-    public function noteSkin($slug, $note) {
+    public function noteSkin($slug, $note, Request $request) {
         $note = intval($note);
         if ($note > 0 && $note <= 5) {
             $skin = Skin::where('slug', $slug)->firstOrFail();
             //if no history note_count +1
-            $history = History::where(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "skin_$slug", 'action' => 'note']);
+            $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'note']);
             if ($history->count() == 0) {
-                History::create(['ip' => $_SERVER['REMOTE_ADDR'], 'what' => "skin_$slug", 'action' => 'note']);
+                History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'note']);
                 $skin->note = ( $skin->note * $skin->note_count + $note ) / ($skin->note_count + 1);
                 $skin->note_count++;
                 $skin->save();
@@ -394,8 +394,8 @@ class JvscriptController extends Controller {
         } else {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
-            if (!$resp->isSuccess()) {
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
+            if (!App::environment('testing') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('contact.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
@@ -475,7 +475,9 @@ class JvscriptController extends Controller {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->ownerOradminOrFail($skin->user_id);
         $skin->delete();
-        return redirect(route('admin_index'));
+        if (Auth::user()->isAdmin())
+            return redirect(route('admin_index'));
+        return redirect(route('index'));
     }
 
     /**

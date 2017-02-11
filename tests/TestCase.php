@@ -10,6 +10,18 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
      * @var string
      */
     protected $baseUrl = 'http://localhost';
+    protected static $db_inited = false;
+
+    public function setUp() {
+        parent::setUp();
+
+        if (!static::$db_inited) {
+            //on reset la bdd avant les tests, une seul fois
+            static::$db_inited = true;
+            Artisan::call('migrate:refresh');
+            Artisan::call('db:seed');
+        }
+    }
 
     /**
      * Creates the application.
@@ -22,12 +34,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
-    }
-
-    protected function setUp() {
-        parent::setUp(); //here application created
-
-        Artisan::call('db:seed');
     }
 
 }
