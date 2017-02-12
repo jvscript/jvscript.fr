@@ -112,7 +112,7 @@
 
     </div>
 </div>
-
+ 
 
 @if ((Auth::check() && Auth::user()->isAdmin()))
 <div class="row">
@@ -131,20 +131,45 @@
             Ce skin a été refusé.
         </div>
         @endif
-
         <p>
             Edition :
             <a href="{{route('skin.edit',$skin->slug)}}" class="btn btn-primary">Editer</a>
-            <a href="{{route('skin.delete',$skin->slug)}}" class="btn btn-danger"  data-toggle="confirmation">Supprimer</a>
+            <a href="{{route('skin.delete',$skin->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>
 
             Validation :
             <!--_TODO : confirm dialog-->
-            <a href="{{route('skin.validate',$skin->slug)}}" data-toggle="confirmation" class="btn btn-success">Valider</a>
-            <a href="{{route('skin.refuse',$skin->slug)}}"  data-toggle="confirmation" class="btn btn-warning">Refuser</a>
+            <a href="{{route('skin.validate',$skin->slug)}}" class="btn btn-success" data-toggle="confirmation" >Valider</a>
+            <a href="{{route('skin.refuse',$skin->slug)}}" class="btn btn-warning" data-toggle="confirmation" >Refuser</a>
+        </p>
+        <hr>
+    </div>
+</div>
+@elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
+<div class="row">
+    <div class="col-md-6">
+        <hr>
+        @if($skin->status == 0)
+        <div class="alert alert-warning" role="alert">
+            Ce skin est en attente de validation
+        </div>
+        @elseif($skin->status == 1)
+        <div class="alert alert-success" role="alert">
+            Ce skin a été validé.
+        </div>
+        @elseif($skin->status == 2)
+        <div class="alert alert-danger" role="alert">
+            Ce skin a été refusé.
+        </div>
+        @endif
+        <p>
+            Edition :
+            <a href="{{route('skin.edit',$skin->slug)}}" class="btn btn-primary">Editer</a>
+            <a href="{{route('skin.delete',$skin->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>
         </p>
         <hr>
     </div>
 </div>
 @endif
+
 
 @endsection
