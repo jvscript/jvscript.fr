@@ -150,7 +150,7 @@ $style = [
                                                     <td style="{{ $fontFamily }}">
                                                         <p style="{{ $style['paragraph-sub'] }}">
                                                            Si vous n'arrivez pas à cliquer sur le bouton "{{ $actionText }}",
-                                                            copier-coller cette url dans le navigateur :
+                                                            copiez cet url dans le navigateur :
                                                         </p>
 
                                                         <p style="{{ $style['paragraph-sub'] }}">
