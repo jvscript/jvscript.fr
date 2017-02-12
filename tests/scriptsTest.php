@@ -2,9 +2,8 @@
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class ExampleTest extends TestCase {
+class scriptsTest extends TestCase {
     /*
-     * _TODO : writes tests :
      * - connexion -> admin 
      * - ajout script
      * - visualiser le script guest 404
