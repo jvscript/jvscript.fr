@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\Notify;
 use Auth;
 use App;
+use App\Notifications\notifyStatus;
 
 class JvscriptController extends Controller {
 
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
     /**
-     * Create a new controller instance.
-     *
+     * Create a new controller instance.     *
      * @return void
      */
     public function __construct() {
@@ -260,7 +260,8 @@ class JvscriptController extends Controller {
             $script->status = 1;
             $script->save();
             if ($script->user_id != null) {
-                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
+//                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
+                $script->poster_user()->first()->notify(new notifyStatus($script));
             }
         }
         return redirect(route('script.show', ['slug' => $slug]));
@@ -274,7 +275,8 @@ class JvscriptController extends Controller {
             $skin->status = 1;
             $skin->save();
             if ($skin->user_id != null) {
-                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
+//                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
+                $skin->poster_user()->first()->notify(new notifyStatus($skin));
             }
         }
         return redirect(route('skin.show', ['slug' => $slug]));
@@ -288,7 +290,8 @@ class JvscriptController extends Controller {
             $script->status = 2;
             $script->save();
             if ($script->user_id != null) {
-                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
+//                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
+                $script->poster_user()->first()->notify(new notifyStatus($script));
             }
         }
         return redirect(route('script.show', ['slug' => $slug]));
@@ -302,7 +305,8 @@ class JvscriptController extends Controller {
             $skin->status = 2;
             $skin->save();
             if ($skin->user_id != null) {
-                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
+//                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
+                $skin->poster_user()->first()->notify(new notifyStatus($skin));
             }
         }
         return redirect(route('skin.show', ['slug' => $slug]));
@@ -408,8 +412,6 @@ class JvscriptController extends Controller {
             }
             $message .= "Message : " . $request->input('message_body');
             $this->sendDiscord($message, $this->discord_url);
-
-//            Mail::to(env('ADMIN_EMAIL', 'contact@jvscript.io'))->send(new Contact($request->input('email'), $request->input('message_body')));
 
             return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");
         }
