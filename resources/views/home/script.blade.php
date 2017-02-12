@@ -25,25 +25,23 @@
                 </p>
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
 
-                @if(null != $script->user_id)
-                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$script->user()->first()->name}} </p>
-                @elseif($script->autor != null)
-                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$script->autor}}</p>
-                @endif
+                <?php
+                if (null != $script->user_id)
+                    $autor = $script->user()->first()->name;
+                elseif ($script->autor != null)
+                    $autor = $script->autor;
+
+                $autor = str_limit($autor, 9);
+                ?>
+
+                <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$autor}}</p>
 
                 <p class="text-right">
                     <span class=" label label-script">Script</span>
                 </p>
-                @if($script->description != null)
+
                 <p class="desc">{{str_limit($script->description,350)}}</p>
-                @else
-                @if($script->autor != null)
-                <p>Proposé par {{$script->autor}}</p>
-                @endif
-                <p>
-                    Ajouté le :   {{$script->created_at->format('d/m/Y')}}
-                </p>
-                @endif
+
             </div>
 
             <?php $src = $script->photo_url == null ? "/assets/images/script.jpg" : $script->photo_url ?>
@@ -70,11 +68,7 @@
                 </p>
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
 
-                @if(null != $script->user_id)
-                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$script->user()->first()->name}} </p>
-                @elseif($script->autor != null)
-                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$script->autor}}</p>
-                @endif
+                <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$autor}}</p>
 
                 <p class="text-right">
                     <span class=" label label-script">Script</span>
