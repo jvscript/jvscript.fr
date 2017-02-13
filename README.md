@@ -16,6 +16,10 @@ Le site regroupant les scripts JVC
 
 Allez lire le guide [install.md](install.md)
 
+## Comment mettre à jour l'appli
+  
+      git pull && composer update
+
 ## Comment contribuer
 
 ### Thème CSS
