@@ -34,7 +34,9 @@
 
         <p>
             @if ( $skin->photo_url != null )
-            <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$skin->name}} logo" />
+            <a href="{{$skin->photo_url}}" target="_blank">
+                <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
+            </a>
             @else
             <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 300px;" />
             @endif

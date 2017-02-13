@@ -56,7 +56,9 @@
     <div class="col-md-6">
         <p>
             @if ( $script->photo_url != null )
-            <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
+            <a href="{{$script->photo_url}}" target="_blank">
+                <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
+            </a>
             @else
             <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
             @endif
