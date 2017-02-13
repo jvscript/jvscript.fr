@@ -34,12 +34,31 @@
 
         <p>
             @if ( $skin->photo_url != null )
-            <a href="{{$skin->photo_url}}" target="_blank">
-                <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
+            <a href="{{$skin->photo_url}}" target="_blank" data-toggle="modal" data-target="#myModal">
+                <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$skin->name}} logo" />
             </a>
-            @else
-            <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 300px;" />
-            @endif
+
+            <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Image de {{$skin->name}}</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="" alt="{{$skin->name}} logo" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @else
+        <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 300px;" />
+        @endif
         </p>
 
         <p>

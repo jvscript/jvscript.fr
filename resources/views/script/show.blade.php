@@ -56,12 +56,31 @@
     <div class="col-md-6">
         <p>
             @if ( $script->photo_url != null )
-            <a href="{{$script->photo_url}}" target="_blank">
+            <a href="{{$script->photo_url}}"  data-toggle="modal" data-target="#myModal">
                 <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
             </a>
-            @else
-            <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
-            @endif
+
+            <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Image de {{$script->name}}</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="" alt="{{$script->name}} logo" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @else
+        <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
+        @endif
         </p>
 
         <p>
