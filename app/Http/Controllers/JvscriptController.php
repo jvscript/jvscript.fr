@@ -439,6 +439,9 @@ class JvscriptController extends Controller {
         if (!$script->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
         }
+        $Parsedown = new \Parsedown();
+        $Parsedown->setMarkupEscaped(true);
+        $script->description = $Parsedown->text($script->description);
 
         return view('script.show', ['script' => $script]);
     }
@@ -450,6 +453,9 @@ class JvscriptController extends Controller {
         if (!$skin->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
         }
+        $Parsedown = new \Parsedown();
+        $Parsedown->setMarkupEscaped(true);
+        $skin->description = $Parsedown->text($skin->description);
 
         return view('skin.show', ['skin' => $skin]);
     }

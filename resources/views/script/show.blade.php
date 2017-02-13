@@ -148,11 +148,8 @@
 
     <div class="col-md-6">
 
-        @if( $script->description != '' )
-        <?php
-        $description = preg_replace('!(((f|ht)tp(s)?://)[-a-zA-Zа-яА-Я()0-9@:%_+.~#?&;//=]+)!i', '<a target="_blank" href="$1">$1</a>', e($script->description));
-        ?>
-        <p> {!! nl2br(($description)) !!}</p>
+        @if( $script->description != '' )         
+        <p> {!! (($script->description )) !!}</p>
         @endif
 
     </div>
