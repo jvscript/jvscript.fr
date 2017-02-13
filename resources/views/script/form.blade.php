@@ -60,7 +60,9 @@
             </div>
 
             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                <label for="description" class="col-md-4 control-label">Description *</label>
+                <label for="description" class="col-md-4 control-label">Description *                
+                    <br> (MarkDown compatible)
+                </label>
 
                 <div class="col-md-6">
                     <textarea id="description" required  class="form-control" name="description" >{{ old('description') }}</textarea>
