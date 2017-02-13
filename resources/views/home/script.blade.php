@@ -26,6 +26,7 @@
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
 
                 <?php
+                $autor ="";
                 if (null != $script->user_id)
                     $autor = $script->user()->first()->name;
                 elseif ($script->autor != null)

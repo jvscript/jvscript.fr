@@ -24,6 +24,7 @@
                 </p>
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$skin->install_count}} </p>
                 <?php
+                $autor ="";
                 if (null != $skin->user_id)
                     $autor = $skin->user()->first()->name;
                 elseif ($skin->autor != null)
