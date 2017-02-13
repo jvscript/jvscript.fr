@@ -26,25 +26,6 @@ Ensuite vous pouvez choisir un script dans la liste présente sur la page d’ac
 
 <p><strong>Si la page ne s’ouvre pas :</strong></p>
 
-<blockquote>
-  <p><strong>Texte de SaumonArcEnCiel</strong> <br>
-  - Aller dans paramètres (en haut à droite les 3 barres horizontales), <br>
-  - Aller dans extension, cocher la case Utiliser en navigation privée, <br>
-  - Retourner en navigation privée, <br>
-  - Ouvrir le bouton Tampermonkey avec un clic gauche, <br>
-  - Sur la droite du menu qui s’ouvre cliquer sur Ajouter un nouveau script, <br>
-  - Télécharger le fichier JVCSticker++.user.js, <br>
-  - Localiser le fichier sur le PC (dans téléchargement, sinon faire un clique droit, et Ouvrir l’emplacement du fichier), <br>
-  - Clique droit dessus, ouvrir avec, choisir WordPad, <br>
-  - Copier tout le texte, <br>
-  - Retourner dans Tampermonkey, <br>
-  - Effacer TOUT le texte, <br>
-  - Coller le texte précédemment copié, <br>
-  - Clique gauche sur l’icône de la disquette (enregistrer)</p>
-</blockquote>
-
-
-
 <h2 id="comment-installer-un-skin">Comment installer un skin ?</h2>
 
 <p><strong>Prérequis :</strong></p>
