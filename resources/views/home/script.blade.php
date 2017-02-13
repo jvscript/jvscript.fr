@@ -31,7 +31,7 @@
                 elseif ($script->autor != null)
                     $autor = $script->autor;
 
-                $autor = str_limit($autor, 9);
+                $autor = str_limit($autor, 14);
                 ?>
 
                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$autor}}</p>

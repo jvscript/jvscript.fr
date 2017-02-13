@@ -26,11 +26,12 @@
                 <?php
                 if (null != $skin->user_id)
                     $autor = $skin->user()->first()->name;
-                elseif ($script->autor != null)
+                elseif ($skin->autor != null)
                     $autor = $skin->autor;
 
-                $autor = str_limit($autor,9);
+                $autor = str_limit($autor, 14);
                 ?>
+                
                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$autor}}</p>
 
                 <p class="text-right">
