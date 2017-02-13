@@ -81,13 +81,13 @@
             <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{str_limit($skin->repo_url,40)}}</a>  </b>
         </p>
         @endif
-        
+
         @if ( $skin->topic_url != null )
         <p>
             <b>   <a target="_blank" class="btn btn-default" href="{{$skin->topic_url}}">Voir le topic jvc  <i class="fa fa-gamepad"></i></a>  </b>
         </p>
         @endif
-        
+
         @if ( $skin->website_url != null )
         <p>
             <b>   <a target="_blank" class="btn btn-default" href="{{$skin->website_url}}">Voir le site web  <i class="fa fa-globe"></i></a>  </b>
@@ -104,15 +104,17 @@
 
     <div class="col-md-6">
 
-
         @if( $skin->description != '' )
-        <p> {!! nl2br(e($skin->description)) !!}</p>
+        <?php
+        $description = preg_replace('!(((f|ht)tp(s)?://)[-a-zA-Zа-яА-Я()0-9@:%_+.~#?&;//=]+)!i', '<a target="_blank" href="$1">$1</a>', e($skin->description));
+        ?>
+        <p> {!! nl2br(($description)) !!}</p>
         @endif
 
 
     </div>
 </div>
- 
+
 
 @if ((Auth::check() && Auth::user()->isAdmin()))
 <div class="row">
