@@ -50,9 +50,9 @@ Si vous voulez forcer la mise à jour il suffit d’aller dans les options de Ta
 
 <p><strong>Modération :</strong> <br>
 Sur chaque script est indiqué à côté du bouton <em>Installer</em> une icone indiquant si le script est interdit par la modération ou pas.  <br>
-<img src="http://image.noelshack.com/fichiers/2017/07/1486991578-screenshot-3.png" alt="safe" title=""> Le script est autorisé par la modération, il y a aucun problème à l’utiliser ! <br>
-<img src="http://image.noelshack.com/fichiers/2017/07/1486991578-screenshot-5.png" alt="always" title=""> Nous ne sommes pas sûrs que ce script soit sans danger. Nous vous conseillons de contacter la modération de jeuxvideo.com .<br>
-<img src="http://image.noelshack.com/fichiers/2017/07/1486991578-screenshot-4.png" alt="danger" title=""> L’utilisation de ce script est dangereux. La modération ne tolère pas ce genre de script, son utilisation peut mener à des sanctions.</p>
+<img src="/assets/images/check.png" alt="safe" title=""> Le script est autorisé par la modération, il y a aucun problème à l’utiliser ! <br>
+<img src="/assets/images/warn.png" alt="always" title=""> Nous ne sommes pas sûrs que ce script soit sans danger. Nous vous conseillons de contacter la modération de jeuxvideo.com .<br>
+<img src="/assets/images/danger.png" alt="danger" title=""> L’utilisation de ce script est dangereux. La modération ne tolère pas ce genre de script, son utilisation peut mener à des sanctions.</p>
 
 <p><strong>Piratage:</strong>  <br>
 Les scripts sont testés avant la publication, néanmoins nous ne sommes pas responsables si le script est mis à jour avec un nouveau code malicieux.</p>
