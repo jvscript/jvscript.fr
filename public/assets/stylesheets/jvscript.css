@@ -6849,14 +6849,14 @@ button.list-group-item-danger.active:focus {
 				font-size: 21px;
 				font-weight: bold;
 				line-height: 1;
-				color: #000;
+				color: #fff;
 				text-shadow: 0 1px 0 #fff;
 				opacity: 0.2;
 				filter: alpha(opacity=20);
 }
 
 .close:hover, .close:focus {
-				color: #000;
+				color: #fff;
 				text-decoration: none;
 				cursor: pointer;
 				opacity: 0.5;
@@ -6871,6 +6871,7 @@ button.close {
 				-webkit-appearance: none;
 }
 
+/*$gray-dark:              #cdcdcd !default;   // #333*/
 .modal-open {
 				overflow: hidden;
 }
@@ -6912,7 +6913,7 @@ button.close {
 
 .modal-content {
 				position: relative;
-				background-color: #fff;
+				background-color: #2b2b2c;
 				border: 1px solid #999;
 				border: 1px solid rgba(0, 0, 0, 0.2);
 				border-radius: 4px;
@@ -6943,8 +6944,9 @@ button.close {
 }
 
 .modal-header {
+				display: none;
 				padding: 15px;
-				border-bottom: 1px solid #e5e5e5;
+				border-bottom: 1px solid #3d3d3d;
 }
 
 .modal-header:before, .modal-header:after {
@@ -6971,9 +6973,10 @@ button.close {
 }
 
 .modal-footer {
+				display: none;
 				padding: 15px;
 				text-align: right;
-				border-top: 1px solid #e5e5e5;
+				border-top: 1px solid #3d3d3d;
 }
 
 .modal-footer:before, .modal-footer:after {
