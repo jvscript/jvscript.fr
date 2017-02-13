@@ -60,7 +60,7 @@ Sur chaque script est indiqué à côté du bouton <em>Installer</em> une icone 
 <img src="http://image.noelshack.com/fichiers/2017/07/1486991578-screenshot-4.png" alt="danger" title=""> L’utilisation de ce script peut mener à des sanctions !</p>
 
 <p><strong>Piratage:</strong>  <br>
-Les scripts présenté étant proposé par les membres de la communauté et la majorité du temps non-testé par les administrateurs de ce site nous ne pouvons vous affirmer que les scripts ne sont sans-danger. Vous devrez en cas de doute vous informer sur le topic du script, les réactions/remarques, le site du créateur, et si avez des notions de programmations vous pouvez lire ce que compose le script (En javascript) depuis les sources !</p>
+Les scripts sont tésté avant la publication, néanmoins on est pas responsable si le script est mis à jour avec un nouveau code malicieux.</p>
     </div>
 </div>
 
