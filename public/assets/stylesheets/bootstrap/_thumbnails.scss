@@ -11,12 +11,11 @@
      top: 70%;
      opacity: 0;
      right: 0;
-     background: #43494c;
-     background: -webkit-linear-gradient(bottom, #43494c , #323739); /* For Safari 5.1 to 6.0 */
-     background: -o-linear-gradient(top, #43494c, #323739); /* For Opera 11.1 to 12.0 */
-     background: -moz-linear-gradient(top, #43494c, #323739); /* For Firefox 3.6 to 15 */
-     background: linear-gradient(to top, #43494c , #323739); /* Standard syntax */
-     border-bottom: 2px solid #b18629;
+     background: $thumbnail-caption-bg;
+//     background: -o-linear-gradient(top, #43494c, #323739); /* For Opera 11.1 to 12.0 */
+//     background: -moz-linear-gradient(top, #43494c, #323739); /* For Firefox 3.6 to 15 */
+  //   background: linear-gradient(to top, #43494c , #323739); /* Standard syntax */
+     border-bottom: 2px solid #b2872a;
      width: 100%;
      height: 100%;
      padding: 9px;
@@ -33,10 +32,10 @@
         padding-right: 2px;
         padding-left: 2px;
         margin-top: 20px;
-        border: 1px solid rgba(67, 73, 76, 0.54);
-        background: #34393b;
+        border: 1px solid rgb (51,51,51);
+        background: #292929;
         box-shadow: inset 0 0 12px 1px rgba(0, 0, 0, 0.18);
-        border-top: 1px solid #2d3233;
+        border-top: 1px solid #353535;
       }
  }
 .thumbnail:hover .hover-caption {
@@ -65,8 +64,8 @@
   @include transition(border .25s ease-in-out);
 
   .image {
-    border-bottom: 1px solid #1d2123;
-    background: #2e3335;
+    border-bottom: 1px solid $thumbnail-image-border;
+    background: $thumbnail-image-bg;
   }
 
   > img,
@@ -83,9 +82,9 @@
   .caption {
     padding: $thumbnail-caption-padding;
     color: $thumbnail-caption-color;
-    border-top: 1px solid #464d50;
-    background: #3d4346;
-    background: linear-gradient(to bottom, #323739, #43494c);
+    border-top: 1px solid $thumbnail-caption-border;
+    background: $thumbnail-caption-bg;
+  //  background: linear-gradient(to bottom, #323739, #43494c);
 
     > h4 {
     text-transform: capitalize;

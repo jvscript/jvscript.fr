@@ -24,8 +24,8 @@ $brand-warning:         #f0ad4e !default;
 $brand-danger:          #d9534f !default;
 
 //bfmtv like colors
-$navbar-bg: linear-gradient(to bottom,#34393b,#292f31) !default;
-$body-dark: #25292b !default;
+$navbar-bg: #262627 !default;
+$body-dark: #1E1E1F !default;
 
 $logo-color:    #FF7D54!default; //couleur orange
 
@@ -164,7 +164,7 @@ $table-border-color:            #ddd !default;
 $btn-font-weight:                normal !default;
 
 $btn-default-color:              #ccc !default;
-$btn-default-bg:                 lighten( desaturate( adjust-hue( $body-bg, -2deg ), 1 ), 13 )
+$btn-default-bg:                 lighten( desaturate( adjust-hue($body-bg, -240deg ), 2 ), 12 )
  !default;
 $btn-default-border:             $body-bg !default;
 
@@ -201,7 +201,7 @@ $btn-border-radius-small:        $border-radius-small !default;
 //##
 
 //** `<input>` background color
-$input-bg:                       #43494c;
+$input-bg:                       #3D3D3D;
 //** `<input disabled>` background color
 $input-bg-disabled:              $input-bg !default;
 
@@ -252,7 +252,7 @@ $cursor-disabled:                not-allowed !default;
 //## Dropdown menu container and contents.
 
 //** Background for the dropdown menu.
-$dropdown-bg:                    rgb(44, 49, 51) !default;
+$dropdown-bg:                    #303031 !default;
 //** Dropdown menu `border-color`.
 $dropdown-border:                rgba(0,0,0,.15) !default;
 //** Dropdown menu `border-color` **for IE8**.
@@ -384,14 +384,14 @@ $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
 $navbar-collapse-max-height:       340px !default;
 
-$navbar-default-color:             #a5a5a5 !default;
+$navbar-default-color:             #B4B4B4 !default;
 $navbar-default-bg:                $navbar-bg !default;
-$navbar-default-border:            #303739 !default;
+$navbar-default-border:            #353536 !default;
 
 // Navbar links
 $navbar-default-link-color:                #a5a5a5 !default;
 $navbar-default-link-hover-color:          #c7c7c7 !default;
-$navbar-default-link-hover-bg:             rgb(44, 49, 51) !default;
+$navbar-default-link-hover-bg:             lighten( $navbar-default-bg, 4 ) !default;
 $navbar-default-link-active-color:         #555 !default;
 $navbar-default-link-active-bg:            $body-bg !default;
 $navbar-default-link-disabled-color:       #ccc !default;
@@ -724,19 +724,19 @@ $list-group-link-heading-color: #333 !default;
 //
 //##
 
-$panel-bg:                    lighten( adjust-hue( $body-bg, -2deg ), 1 ) !default;
+$panel-bg:                    lighten( desaturate( adjust-hue( $body-bg, -240deg ), 2 ), 5 ) !default;
 $panel-body-padding:          15px !default;
 $panel-heading-padding:       10px 15px !default;
 $panel-footer-padding:        $panel-heading-padding !default;
-$panel-border-radius:         $border-radius-base !default;
+$panel-border-radius:         0 !default;
 
 //** Border color for elements within panels
 $panel-inner-border:          #ddd !default;
 $panel-footer-bg:             #f5f5f5 !default;
 
 $panel-default-text:          $gray-dark !default;
-$panel-default-border:        $navbar-bg !default;
-$panel-default-heading-bg:    $navbar-bg !default;
+$panel-default-border:        #353535 !default;
+$panel-default-heading-bg:    lighten( desaturate( adjust-hue( $body-bg, -240deg ), 2 ), 10 ) !default;
 
 $panel-primary-text:          #ccc !default;
 $panel-primary-border:        $brand-primary !default;
@@ -768,7 +768,7 @@ $thumbnail-padding:           4px !default;
 //** Thumbnail background color
 $thumbnail-bg:                $navbar-bg !default;
 //** Thumbnail border color
-$thumbnail-border:            #43494c !default;
+$thumbnail-border:            #2b2b2c !default;
 //** Thumbnail border radius
 $thumbnail-border-radius:     $border-radius-base !default;
 
@@ -777,6 +777,12 @@ $thumbnail-caption-color:     $text-color !default;
 //** Padding around the thumbnail caption
 $thumbnail-caption-padding:   9px !default;
 
+
+$thumbnail-image-bg: $navbar-bg;
+$thumbnail-image-border: $body-bg;
+
+$thumbnail-caption-bg: lighten( desaturate( adjust-hue($thumbnail-image-bg, -240deg ), 1 ), 5 );
+$thumbnail-caption-border: lighten($thumbnail-caption-bg, 5%);
 
 //== Wells
 //
@@ -888,7 +894,7 @@ $dl-horizontal-offset:        $component-offset-horizontal !default;
 //** Point at which .dl-horizontal becomes horizontal
 $dl-horizontal-breakpoint:    $grid-float-breakpoint !default;
 //** Horizontal line color.
-$hr-border:                   #2e3335 !default;
+$hr-border:                   #333 !default;
 
 // shadow
 $shadow: 0 0 7px 1px rgba(0, 0, 0, 0.15);
