@@ -23,7 +23,7 @@
   @include clearfix;
 
   &.stats, &.desc {
-    background: $panel-bg;
+    background: #262627;
     box-shadow: $shadow-panel;
   }
 }
