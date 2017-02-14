@@ -56,6 +56,7 @@
         @endif
         </p>
 
+<div class="panel-body stats">
         <p>
             <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}}
         </p>
@@ -115,15 +116,15 @@
             <b>   <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}">Faire un don au développeur  <i class="fa fa-heart"></i></a>  </b>
         </p>
         @endif
-
+</div>
     </div>
 
-    <div class="col-md-6 description">
-
-        @if( $skin->description != '' )         
+    <div class="col-md-6">
+      <div class="panel-body desc">
+        @if( $skin->description != '' )
          {!! (($skin->description )) !!}
         @endif
-
+      </div>
 
     </div>
 </div>

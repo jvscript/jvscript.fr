@@ -21,6 +21,11 @@
 .panel-body {
   padding: $panel-body-padding;
   @include clearfix;
+
+  &.stats, &.desc {
+    background: $panel-bg;
+    box-shadow: $shadow-panel;
+  }
 }
 
 // Optional heading

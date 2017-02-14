@@ -64,11 +64,11 @@
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                  
+
                     <div class="modal-body text-center">
                         <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="" alt="{{$script->name}} logo" />
                     </div>
-                  
+
                 </div>
             </div>
         </div>
@@ -78,6 +78,7 @@
         @endif
         </p>
 
+<div class="panel-body stats">
         <p>
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}}
         </p>
@@ -138,15 +139,15 @@
             <b>   <a target="_blank" class="btn btn-default" href="{{$script->don_url}}">Faire un don au développeur <i class="fa fa-heart"></i></a>  </b>
         </p>
         @endif
-
+</div>
     </div>
 
-    <div class="col-md-6 description">
-
-        @if( $script->description != '' )         
+    <div class="col-md-6">
+      <div class="panel-body desc">
+        @if( $script->description != '' )
        {!! (($script->description )) !!}
         @endif
-
+      </div>
     </div>
 
 </div>

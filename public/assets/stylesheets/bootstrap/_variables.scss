@@ -166,27 +166,27 @@ $btn-font-weight:                normal !default;
 $btn-default-color:              #ccc !default;
 $btn-default-bg:                 lighten( desaturate( adjust-hue($body-bg, -240deg ), 2 ), 12 )
  !default;
-$btn-default-border:             $body-bg !default;
+$btn-default-border:             transparent !default;
 
 $btn-primary-color:              #fff !default;
 $btn-primary-bg:                 $brand-primary !default;
-$btn-primary-border:             $body-bg !default;
+$btn-primary-border:             transparent !default;
 
 $btn-success-color:              #fff !default;
 $btn-success-bg:                 $brand-success !default;
-$btn-success-border:             $body-bg !default;
+$btn-success-border:             transparent !default;
 
 $btn-info-color:                 #fff !default;
 $btn-info-bg:                    $brand-info !default;
-$btn-info-border:                $body-bg !default;
+$btn-info-border:                transparent !default;
 
 $btn-warning-color:              #fff !default;
 $btn-warning-bg:                 $brand-warning !default;
-$btn-warning-border:             $body-bg !default;
+$btn-warning-border:             transparent !default;
 
 $btn-danger-color:               #fff !default;
 $btn-danger-bg:                  $brand-danger !default;
-$btn-danger-border:              $body-bg !default;
+$btn-danger-border:              transparent !default;
 
 $btn-link-disabled-color:        $gray-light !default;
 
@@ -900,3 +900,4 @@ $hr-border:                   #333 !default;
 $shadow: 0 0 7px 1px rgba(0, 0, 0, 0.15);
 $shadow-navbar: 0 0 15px 1px rgba(0, 0, 0, 0.07);
 $shadow-dropdown: 0px 3px 5px 0px rgba(0, 0, 0, 0.14);
+$shadow-panel: 0 0 5px 0px rgba(0, 0, 0, 0.19);
