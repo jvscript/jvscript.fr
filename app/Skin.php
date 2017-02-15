@@ -35,13 +35,16 @@ class Skin extends Model {
         $label = ['En attente', 'Validé', 'Refusé'];
         return $label[$this->status];
     }
- 
+
+    protected $dates = [
+        'last_update',
+    ];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'autor', 'skin_url', 'repo_url', 'photo_url', 'topic_url','website_url', 'user_email', 'don_url','user_id'];
+    protected $fillable = ['name', 'description', 'autor', 'skin_url', 'repo_url', 'photo_url', 'topic_url', 'website_url', 'user_email', 'don_url', 'user_id'];
 
 }

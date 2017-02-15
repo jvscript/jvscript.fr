@@ -64,11 +64,11 @@
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                  
+
                     <div class="modal-body text-center">
                         <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="" alt="{{$script->name}} logo" />
                     </div>
-                  
+
                 </div>
             </div>
         </div>
@@ -82,6 +82,17 @@
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}}
         </p>
 
+        @if(null != $script->version)
+        <p>
+            <b> Version : </b>  {{$script->version}}
+        </p>
+        @endif
+
+        @if(null != $script->last_update)
+        <p>
+            <b> Mise à jour le : </b>  {{$script->last_update->format('d/m/Y')}}
+        </p>
+        @endif
         @if(null != $script->user_id)
         <p>
             <b> Auteur : </b> {{$script->user()->first()->name}}
@@ -144,7 +155,7 @@
     <div class="col-md-6 description">
 
         @if( $script->description != '' )         
-       {!! (($script->description )) !!}
+        {!! (($script->description )) !!}
         @endif
 
     </div>

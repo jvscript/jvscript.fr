@@ -49,7 +49,9 @@
                         <th> Note </th>
                         <th> Install </th>
                         <th> Status </th>
-                        <th> Date </th>
+                        <th> Version </th>
+                        <th> Last update </th>
+                        <th> Date Ajout </th>
                         <th> Type </th>
                     </tr>
                 </thead>
@@ -70,6 +72,14 @@
                         <td> {{$script->note}}   </td>
                         <td> {{$script->install_count}}   </td>
                         <td> {{$script->statusLabel()}}   </td>                        
+                        <td>  
+                            @if($script->version == null && $item == "script")
+                            <strong class="text-danger">PAS DE VERSION</strong> 
+                            @else
+                            {{$script->version}}
+                            @endif
+                        </td>
+                        <td> {!!$script->last_update != null ? $script->last_update->format('d/m/Y') : '<strong class="text-danger">PAS DE DATE</strong> '!!}  </td>
                         <td> {{$script->created_at->format('d/m/Y - H:i')}}  </td>
                         <td> {{ucfirst($item)}} </td>
                     </tr>

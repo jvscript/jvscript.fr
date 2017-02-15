@@ -59,6 +59,11 @@
         <p>
             <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}}
         </p>
+        @if(null != $skin->last_update)
+        <p>
+            <b> Mise à jour le : </b>  {{$skin->last_update->format('d/m/Y')}}
+        </p>
+        @endif
         @if(null != $skin->user_id)
         <p>
             <b> Auteur : </b> {{$skin->user()->first()->name}}
@@ -121,7 +126,7 @@
     <div class="col-md-6 description">
 
         @if( $skin->description != '' )         
-         {!! (($skin->description )) !!}
+        {!! (($skin->description )) !!}
         @endif
 
 

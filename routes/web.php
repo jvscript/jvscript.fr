@@ -71,6 +71,8 @@ Route::get('/aide', function () {
 })->name('aide');
 
 
+Route::get('/crawlInfo', 'JvscriptController@crawlInfo');
+
 Auth::routes();
 
 

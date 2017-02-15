@@ -191,14 +191,15 @@ class JvscriptController extends Controller {
                     'don_url' => "url|max:255",
                     'user_id' => "exists:users,id",
                     'sensibility' => "in:0,1,2",
+                    'last_update' => "date_format:d/m/Y",
                     'website_url' => "url|max:255",
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
 
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'version', 'last_update'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id'];
+            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             }
@@ -210,6 +211,8 @@ class JvscriptController extends Controller {
             );
         } else {
             $script->fill($request->only($toUpdate));
+            if ($request->has('last_update'))
+                $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             $script->save();
             return redirect(route('script.show', ['slug' => $slug]));
         }
@@ -228,18 +231,18 @@ class JvscriptController extends Controller {
                     'photo_url' => "url|max:255",
                     'user_id' => "exists:users,id",
                     'don_url' => "url|max:255",
+                    'last_update' => "date_format:d/m/Y",
                     'website_url' => "url|max:255",
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
         //update only this fields
-        $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'version', 'last_update'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'photo_url', 'don_url', 'user_id', 'website_url', 'topic_url'];
+            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             }
         }
-
 
         if ($validator->fails()) {
             $this->throwValidationException(
@@ -247,6 +250,8 @@ class JvscriptController extends Controller {
             );
         } else {
             $skin->fill($request->only($toUpdate));
+            if ($request->has('last_update'))
+                $skin->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             $skin->save();
             return redirect(route('skin.show', ['slug' => $slug]));
         }
@@ -552,6 +557,90 @@ class JvscriptController extends Controller {
 
         $context = stream_context_create($opts);
         file_get_contents($url, false, $context);
+    }
+
+    public function githubDate($url) {
+
+//        return $date;
+    }
+
+    public function crawlInfo() {
+        set_time_limit(600);
+        $scripts = Script::where("status", 1)->get();
+        foreach ($scripts as $script) {
+            if (preg_match('/https:\/\/github\.com\/(.*)\/(.*)\/raw\/(.*)\/(.*)\.js/i', $script->js_url, $match) || preg_match('/https:\/\/raw\.githubusercontent\.com\/(.*)\/(.*)\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
+                $url_crawl = "https://github.com/$match[1]/$match[2]/blob/$match[3]/$match[4].js";
+                $crawl_content = @file_get_contents($url_crawl);
+                if (preg_match('/<relative-time datetime="(.*Z)">/i', $crawl_content, $match_date)) {
+                    $date = $match_date[1];
+                    $date = \Carbon\Carbon::parse($date);
+                    $script->last_update = $date;
+                    $script->save();
+                    echo $script->js_url . "|$url_crawl|$date\n";
+                } else {
+                    echo "fail : " . $script->js_url . "|$url_crawl\n";
+                }
+            } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
+                $url_crawl = "https://openuserjs.org/scripts/$match[1]/$match[2]";
+                $crawl_content = @file_get_contents($url_crawl);
+                if (preg_match('/<time class="script-updated" datetime="(.*Z)" title=/i', $crawl_content, $match_date)) {
+                    $date = $match_date[1];
+                    $date = \Carbon\Carbon::parse($date);
+                    $script->last_update = $date;
+                    $script->save();
+                    echo $script->js_url . "|$url_crawl|$date\n";
+                } else if (preg_match('/<b>Published:<\/b> <time datetime="(.*Z)"/i', $crawl_content, $match_date)) {
+                    $date = $match_date[1];
+                    $date = \Carbon\Carbon::parse($date);
+                    $script->last_update = $date;
+                    $script->save();
+                    echo $script->js_url . "|$url_crawl|$date\n";
+                } else {
+                    echo "fail : " . $script->js_url . "|$url_crawl\n";
+                }
+            } elseif (preg_match('/https:\/\/greasyfork.org\/scripts\/(.*)\/code\/(.*)\.user\.js/i', $script->js_url, $match)) {
+                $url_crawl = "https://greasyfork.org/fr/scripts/$match[1]";
+                $crawl_content = @file_get_contents($url_crawl);
+                if (preg_match('/updated-date"><span><time datetime="(.*)">(.*)<\/time>/i', $crawl_content, $match_date)) {
+                    $date = $match_date[2];
+                    $date = \Carbon\Carbon::parse($date);
+                    $script->last_update = $date;
+                    $script->save();
+                    echo $script->js_url . "|$url_crawl|$date\n";
+                } else {
+                    echo "fail : " . $script->js_url . "|$url_crawl\n";
+                }
+            }
+
+            //get version
+            $url_crawl = $script->js_url;
+            $crawl_content = @file_get_contents($url_crawl);
+            {
+                if (preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
+                    $version = $match_date[1];
+                    $script->version = $version;
+                    $script->save();
+                    echo $script->js_url . "|version : $version\n";
+                } else {
+                    echo "fail version : " . $script->js_url . "\n";
+                }
+            }
+        }
+
+        $scripts = Skin::where("status", 1)->get();
+        foreach ($scripts as $script) {
+            $url_crawl = $script->skin_url;
+            $crawl_content = @file_get_contents($url_crawl);
+            if (preg_match('/<th>Updated<\/th>\n\s*<td>(.*)<\/td>/i', $crawl_content, $match_date)) {
+                $date = $match_date[1];
+                $date = \Carbon\Carbon::parse($date);
+                $script->last_update = $date;
+                $script->save();
+                echo $script->js_url . "|$url_crawl|$date\n";
+            } else {
+                echo "fail : " . $script->js_url . "|$url_crawl\n";
+            }
+        }
     }
 
 }

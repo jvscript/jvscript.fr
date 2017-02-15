@@ -36,6 +36,9 @@ class Script extends Model {
         return $label[$this->status];
     }
  
+     protected $dates = [
+        'last_update',
+    ];
 
     /**
      * The attributes that are mass assignable.

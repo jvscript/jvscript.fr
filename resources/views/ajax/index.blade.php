@@ -29,7 +29,7 @@
         <div class="btn-group pull-right" role="group" aria-label="...">
             <div class="btn-group" role="group">
                 <button type="button"   class="btn btn-default dropdown-toggle sort "  data-sort="date" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Date <i class="fa fa-sort" aria-hidden="true"></i>
+                    Date <span class="text"></span> <i class="fa fa-sort" aria-hidden="true"></i>
                 </button>
 
             </div>
@@ -61,7 +61,7 @@
             }
             ?>
             <div id="{{$script->id}}-{{$item}}">
-                <span class="date display_none">{{$script->created_at}}</span>
+                <span class="date display_none">{{$script->last_update != null ? $script->last_update :  $script->created_at}}</span>
                 <span class="note display_none">{{$script->note}}</span>
                 <span class="name display_none">{{$script->name}}</span>
                 <span class="autor display_none">{{$script->autor}}</span>
@@ -69,8 +69,7 @@
 
                 <span class="category display_none">{{$item}}</span>
                 @include('home.'.$item)
-
-
+ 
             </div>
 
             @endforeach

@@ -101,12 +101,19 @@
     $(".sort").click(function () {
         $("button.sort > i").removeClass("fa-sort-asc");
         $("button.sort > i").removeClass("fa-sort-desc");
+        $("button.sort").children("span").text(" ");
         $("button.sort > i").addClass("fa-sort");
         if ($(this).hasClass('asc')) {
             $(this).children("i").addClass("fa-sort-asc");
+            if ($(this).attr('data-sort') == "date") {
+                $(this).children("span").text("(ancien)")
+            }
         }
         else {
             $(this).children("i").addClass("fa-sort-desc");
+            if ($(this).attr('data-sort') == "date") {
+                $(this).children("span").text("(récent)")
+            }
         }
         return false;
     });

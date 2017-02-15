@@ -87,7 +87,7 @@
 
             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                 <label for="description" class="col-md-4 control-label">Description
-                <br> (MarkDown compatible)
+                    <br> (MarkDown compatible)
                 </label>
 
                 <div class="col-md-6">
@@ -110,6 +110,34 @@
                     @if ($errors->has('js_url'))
                     <span class="help-block">
                         <strong>{{ $errors->first('js_url') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('last_update') ? ' has-error' : '' }}">
+                <label for="last_update" class="col-md-4 control-label">Date de dernière MAJ </label>
+
+                <div class="col-md-6">
+                    <input id="last_update" type="text" placeholder="ex : 25/10/2016" class="form-control" name="last_update" value="{{ old('last_update',$script->last_update != null ? $script->last_update->format('d/m/Y') : null) }}" >
+
+                    @if ($errors->has('last_update'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('last_update') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('version') ? ' has-error' : '' }}">
+                <label for="version" class="col-md-4 control-label">Version </label>
+
+                <div class="col-md-6">
+                    <input id="version" type="text" placeholder="" class="form-control" name="version" value="{{ old('version',$script->version) }}" >
+
+                    @if ($errors->has('version'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('version') }}</strong>
                     </span>
                     @endif
                 </div>
