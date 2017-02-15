@@ -78,6 +78,7 @@
         @endif
         </p>
 
+<div class="panel-body stats">
         <p>
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}}
         </p>
@@ -149,15 +150,15 @@
             <b>   <a target="_blank" class="btn btn-default" href="{{$script->don_url}}">Faire un don au développeur <i class="fa fa-heart"></i></a>  </b>
         </p>
         @endif
-
+</div>
     </div>
 
-    <div class="col-md-6 description">
-
-        @if( $script->description != '' )         
-        {!! (($script->description )) !!}
+    <div class="col-md-6">
+      <div class="panel-body desc">
+        @if( $script->description != '' )
+       {!! (($script->description )) !!}
         @endif
-
+      </div>
     </div>
 
 </div>

@@ -12,26 +12,26 @@
   &.focus {
     color: lighten($color, 8%);
     background-color: lighten($background, 12%);
-        border-color: $body-bg;
+        border-color: transparent;
   }
   &:hover {
     color: lighten($color, 8%);
     background-color: lighten($background, 12%);
-        border-color: $body-bg;
+        border-color: transparent;
   }
   &:active,
   &.active,
   .open > &.dropdown-toggle {
     color: lighten($color, 8%);
     background-color: lighten($background, 12%);
-        border-color: $body-bg;
+        border-color: transparent;
 
     &:hover,
     &:focus,
     &.focus {
       color: lighten($color, 8%);
       background-color: lighten($background, 19%);
-          border-color: $body-bg;
+          border-color: transparent;
     }
   }
   &:active,
@@ -46,7 +46,7 @@
     &:focus,
     &.focus {
       background-color: $background;
-          border-color: $border;
+          border-color: transparent;
     }
   }
 
