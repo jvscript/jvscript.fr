@@ -566,7 +566,7 @@ class JvscriptController extends Controller {
 
     public function crawlInfo() {
         set_time_limit(600);
-        $scripts = Script::where("status", 1)->get();
+        $scripts = Script::where("status", 1)->orderBy('last_update', 'asc')->get();
         foreach ($scripts as $script) {
             if (preg_match('/https:\/\/github\.com\/(.*)\/(.*)\/raw\/(.*)\/(.*)\.js/i', $script->js_url, $match) || preg_match('/https:\/\/raw\.githubusercontent\.com\/(.*)\/(.*)\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://github.com/$match[1]/$match[2]/blob/$match[3]/$match[4].js";
@@ -625,9 +625,10 @@ class JvscriptController extends Controller {
                     echo "fail version : " . $script->js_url . "\n";
                 }
             }
+            sleep(1);
         }
 
-        $scripts = Skin::where("status", 1)->get();
+        $scripts = Skin::where("status", 1)->orderBy('last_update', 'asc')->get();
         foreach ($scripts as $script) {
             $url_crawl = $script->skin_url;
             $crawl_content = @file_get_contents($url_crawl);
