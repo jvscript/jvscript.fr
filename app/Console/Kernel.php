@@ -23,7 +23,9 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule) {
-        $schedule->call('App\Http\Controllers\JvscriptController@crawlInfo')->hourly();
+        //* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+
+        $schedule->call('App\Http\Controllers\JvscriptController@crawlInfo')->everyMinute();
     }
 
     /**
