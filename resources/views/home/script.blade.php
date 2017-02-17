@@ -26,7 +26,7 @@
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$script->install_count}} </p>
 
                 <?php
-                $autor ="";
+                $autor = "";
                 if (null != $script->user_id)
                     $autor = $script->user()->first()->name;
                 elseif ($script->autor != null)
@@ -46,7 +46,14 @@
             </div>
 
             <?php $src = $script->photo_url == null ? "/assets/images/script.jpg" : $script->photo_url ?>
-            <div class="image "> <img src="{{$src}}" class="  " alt="{{$script->name}} logo" /> </div>
+            <div class="image"> 
+                @if($lazy)
+                <img data-src="{{$src}}" class="b-lazy" alt="{{$script->name}} logo" /> 
+                @else
+                <img src="{{$src}}" class="" alt="{{$script->name}} logo" /> 
+                @endif
+            </div>
+
             <div class="caption">
                 <h4>{{$script->name}}</h4>
                 <p class="pull-left">

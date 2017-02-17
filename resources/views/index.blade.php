@@ -18,7 +18,7 @@
 </div>
 
 @section('javascript')
-
+<script src="/js/blazy.min.js"></script>
 <script>
     var options = {
         valueNames: ['date', 'note', 'install_count', 'name', 'autor', 'category']
@@ -118,6 +118,9 @@
         return false;
     });
 
+    var bLazy = new Blazy({
+        // Options
+    });
 
 
 </script>
