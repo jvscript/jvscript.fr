@@ -79,7 +79,7 @@
                             {{$script->version}}
                             @endif
                         </td>
-                        <td> {!!$script->last_update != null ? $script->last_update->format('d/m/Y') : '<strong class="text-danger">PAS DE DATE</strong> '!!}  </td>
+                        <td> {!!$script->last_update != null ? '<span class="hidden">'.$script->last_update.'</span>'. $script->last_update->format('d/m/Y') : '<strong class="text-danger">PAS DE DATE</strong> '!!}  </td>
                         <td> {{$script->created_at->format('d/m/Y - H:i')}}  </td>
                         <td> {{ucfirst($item)}} </td>
                     </tr>
