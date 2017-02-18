@@ -31,13 +31,15 @@
 <div class="row">
 
     <div class="col-md-6">
+        <div class="panel-body">
+          <div class="desc-img">
 
         <p>
             @if ( $skin->photo_url != null )
             <a href="{{$skin->photo_url}}" target="_blank" data-toggle="modal" data-target="#myModal">
                 <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$skin->name}} logo" />
             </a>
-
+</div>
             <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -56,7 +58,7 @@
         @endif
         </p>
 
-<div class="panel-body stats">
+                <div class="stats">
         <p>
             <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}}
         </p>
@@ -121,6 +123,7 @@
             <b>   <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}">Faire un don au développeur  <i class="fa fa-heart"></i></a>  </b>
         </p>
         @endif
+                    </div>
 </div>
     </div>
 
@@ -138,7 +141,8 @@
 @if ((Auth::check() && Auth::user()->isAdmin()))
 <div class="row">
     <div class="col-md-6">
-        <hr>
+      <div class="panel-body">
+          <div class="admin">
         @if($skin->status == 0)
         <div class="alert alert-warning" role="alert">
             Ce skin est en attente de validation
@@ -162,13 +166,11 @@
             <a href="{{route('skin.validate',$skin->slug)}}" class="btn btn-success" data-toggle="confirmation" >Valider</a>
             <a href="{{route('skin.refuse',$skin->slug)}}" class="btn btn-warning" data-toggle="confirmation" >Refuser</a>
         </p>
-        <hr>
     </div>
 </div>
 @elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
 <div class="row">
     <div class="col-md-6">
-        <hr>
         @if($skin->status == 0)
         <div class="alert alert-warning" role="alert">
             Ce skin est en attente de validation
@@ -187,8 +189,10 @@
             <a href="{{route('skin.edit',$skin->slug)}}" class="btn btn-primary">Editer</a>
             <a href="{{route('skin.delete',$skin->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>
         </p>
-        <hr>
     </div>
+    </div>
+</div>
+</div>
 </div>
 @endif
 
