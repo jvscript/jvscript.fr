@@ -47,11 +47,12 @@
 
             <?php $src = $script->photo_url == null ? "/assets/images/script.jpg" : $script->photo_url ?>
             <div class="image"> 
-                @if($lazy)
+                {{-- @if($lazy)
                 <img data-src="{{$src}}" class="b-lazy" alt="{{$script->name}} logo" /> 
                 @else
                 <img src="{{$src}}" class="" alt="{{$script->name}} logo" /> 
-                @endif
+                @endif --}}
+                <img src="{{$src}}" class="" alt="{{$script->name}} logo" /> 
             </div>
 
             <div class="caption">
