@@ -4,19 +4,19 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
-
+<!--
 <div class="row">
     <div class="col-md-12">
 
-        <!--<h1>Bienvenue sur jvscript.io</h1>-->
+        <h1>Bienvenue sur jvscript.io</h1>
 
-        <!--<img style="max-height: 230px" class="img-responsive  center-block" src="/assets/images/jvscript.png"/>-->
+        <img style="max-height: 230px" class="img-responsive  center-block" src="/assets/images/jvscript.png"/>
 
         <p class="text-center"> Un site pour regrouper les scripts JVC et rapprocher les développeurs.</p>
 
     </div>
 </div>
-
+-->
 @section('javascript')
 <script src="/js/blazy.min.js"></script>
 <script>

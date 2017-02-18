@@ -5,6 +5,7 @@
 
 <div class="row">
     <div class="col-md-12">
+        <div class="panel-body">
 
 <h2 id="comment-installer-un-script">Comment installer un script ?</h2>
 
@@ -58,6 +59,6 @@ Sur chaque script est indiqué à côté du bouton <em>Installer</em> une icone 
 Les scripts sont testés avant la publication, néanmoins nous ne sommes pas responsables si le script est mis à jour avec un nouveau code malicieux.</p>
     </div>
 </div>
-
+</div>
 
 @endsection
