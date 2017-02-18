@@ -50,8 +50,8 @@
 
 
         <div class="list">
-
-            @foreach( $scripts as $script ) 
+            <?php $i = 0; ?>
+            @foreach( $scripts as $key => $script ) 
             <?php
             if (isset($script->js_url)) {
                 $item = "script";
@@ -59,6 +59,8 @@
                 $item = "skin";
                 $skin = $script;
             }
+            $i++;
+            $lazy = $i > 8 ? true : false;
             ?>
             <div id="{{$script->id}}-{{$item}}">
                 <span class="date display_none">{{$script->last_update != null ? $script->last_update :  $script->created_at}}</span>
@@ -68,7 +70,8 @@
                 <span class="install_count display_none">{{$script->install_count}}</span>
 
                 <span class="category display_none">{{$item}}</span>
-                @include('home.'.$item)
+                
+                @include('home.'.$item,['lazy' => $lazy])
  
             </div>
 

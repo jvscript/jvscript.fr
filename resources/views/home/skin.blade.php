@@ -24,7 +24,7 @@
                 </p>
                 <p class="text-right"><i class="fa fa-download" aria-hidden="true"></i> {{$skin->install_count}} </p>
                 <?php
-                $autor ="";
+                $autor = "";
                 if (null != $skin->user_id)
                     $autor = $skin->user()->first()->name;
                 elseif ($skin->autor != null)
@@ -32,7 +32,7 @@
 
                 $autor = str_limit($autor, 14);
                 ?>
-                
+
                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$autor}}</p>
 
                 <p class="text-right">
@@ -44,7 +44,11 @@
 
             <?php $src = $skin->photo_url == null ? "/assets/images/skin.jpg" : $skin->photo_url ?>
             <div class="image">
-                <img src="{{$src}}" class=" " alt="{{$skin->name}} logo" />
+                @if($lazy)
+                <img data-src="{{$src}}" class="b-lazy" alt="{{$skin->name}} logo" /> 
+                @else
+                <img src="{{$src}}" class="" alt="{{$skin->name}} logo" /> 
+                @endif
             </div>
             <div class="caption"> 
                 <h4>{{$skin->name}}</h4>
