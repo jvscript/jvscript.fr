@@ -54,12 +54,14 @@
 <div class="row">
 
     <div class="col-md-6">
+      <div class="panel-body">
+        <div class="desc-img">
         <p>
             @if ( $script->photo_url != null )
             <a href="{{$script->photo_url}}"  data-toggle="modal" data-target="#myModal">
                 <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
             </a>
-
+</div>
             <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -77,8 +79,8 @@
         <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
         @endif
         </p>
-
-<div class="panel-body stats">
+</div>
+              <div class="stats">
         <p>
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}}
         </p>
@@ -150,6 +152,7 @@
             <b>   <a target="_blank" class="btn btn-default" href="{{$script->don_url}}">Faire un don au développeur <i class="fa fa-heart"></i></a>  </b>
         </p>
         @endif
+      </div>
 </div>
     </div>
 
@@ -167,7 +170,8 @@
 @if ((Auth::check() && Auth::user()->isAdmin()))
 <div class="row">
     <div class="col-md-6">
-        <hr>
+      <div class="panel-body">
+          <div class="admin">
         @if($script->status == 0)
         <div class="alert alert-warning" role="alert">
             Ce script est en attente de validation
@@ -191,13 +195,11 @@
             <a href="{{route('script.validate',$script->slug)}}" class="btn btn-success" data-toggle="confirmation" >Valider</a>
             <a href="{{route('script.refuse',$script->slug)}}" class="btn btn-warning" data-toggle="confirmation" >Refuser</a>
         </p>
-        <hr>
     </div>
 </div>
 @elseif ((Auth::check() && Auth::user()->id == $script->user_id))
 <div class="row">
     <div class="col-md-6">
-        <hr>
         @if($script->status == 0)
         <div class="alert alert-warning" role="alert">
             Ce script est en attente de validation
@@ -216,7 +218,8 @@
             <a href="{{route('script.edit',$script->slug)}}" class="btn btn-primary">Editer</a>
             <a href="{{route('script.delete',$script->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>
         </p>
-        <hr>
+    </div>
+    </div>
     </div>
 </div>
 @endif

@@ -7,7 +7,7 @@
 // Base class
 .panel {
   margin-bottom: $line-height-computed;
-  background-color: $panel-bg;
+  //background-color: $panel-bg;
   border: 1px solid transparent;
   border-radius: $panel-border-radius;
   @include box-shadow(0 1px 1px rgba(0,0,0,.05));
@@ -20,12 +20,22 @@
 // Panel contents
 .panel-body {
   padding: $panel-body-padding;
+  background: #262627!important;
+  box-shadow: $shadow-panel;
+  margin-bottom: 20px;
   @include clearfix;
 
-  &.stats, &.desc {
-    background: #262627;
-    box-shadow: $shadow-panel;
-  }
+   .stats {
+     border-top: 1px solid #313131;
+     padding-top: 16px;
+     margin-top: 19px;
+   }
+   .desc-img {
+     text-align: center;
+   }
+   .admin {
+     padding-top: 15px;
+   }
 }
 
 // Optional heading
