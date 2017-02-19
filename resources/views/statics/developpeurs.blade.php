@@ -33,7 +33,7 @@
         <h2>Contribuez au site </h2>
 
 
-        <p>Envie d'améliorer le site ? Contribuez au développement du site sur notre <a target="_blank" href='https://github.com/jvscript/jvscript.github.io'> repo github</a>. </p>
+        <p>Envie d'améliorer le site ? Contribuez au développement du site sur notre <a target="_blank" href='https://github.com/jvscript/jvscript.io'> repo github</a>. </p>
 
     </div>
 </div>

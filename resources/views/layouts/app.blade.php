@@ -109,7 +109,7 @@ echo json_encode([
                         <p class="text-right">&COPY; {{ date('Y') }} jvscript.io  -
                             <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> -
                             <a href="{{url('contact')}}">Nous contacter</a> - 
-                            <a target="_blank" href="https://github.com/jvscript/jvscript.github.io/blob/master/changelog.md">Changelog</a> -
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a> -
                             <a href="{{url('developpeurs')}}">Développeurs</a>  
                         </p>
                     </div>

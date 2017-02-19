@@ -7,7 +7,7 @@
 Le site regroupant les scripts JVC
 </p>
 <p align="center">
-<a target="_blank" href="https://travis-ci.org/jvscript/jvscript.github.io"><img src="https://travis-ci.org/jvscript/jvscript.github.io.svg?branch=master" alt="Build Status"></a>
+<a target="_blank" href="https://travis-ci.org/jvscript/jvscript.io"><img src="https://travis-ci.org/jvscript/jvscript.io.svg?branch=master" alt="Build Status"></a>
 
 </p>
  
