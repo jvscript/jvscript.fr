@@ -2,13 +2,12 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title> @yield('title','jvscript.io | Le site regroupant les scripts JVC')</title>
+        <title> @yield('title','jvscript.io | Banque de scripts pour JVC')</title> | 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <meta name="csrf-token" content="{{ csrf_token() }}"> 
+   
         <link rel="stylesheet" href="/assets/stylesheets/jvscript.css" media="screen">
         <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
