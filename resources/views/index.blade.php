@@ -20,6 +20,8 @@
 @section('javascript')
 <script src="/js/blazy.min.js"></script>
 <script>
+    var bLazy = new Blazy();
+
     var options = {
         valueNames: ['date', 'note', 'install_count', 'name', 'autor', 'category']
     };
@@ -62,6 +64,7 @@
         } else {
             $('.no-result').show();
         }
+//        bLazy.revalidate();
     });
 
     //filter
@@ -118,9 +121,7 @@
         return false;
     });
 
-    var bLazy = new Blazy({
-        // Options
-    });
+
 
 
 </script>
