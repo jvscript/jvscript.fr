@@ -210,8 +210,10 @@ class JvscriptController extends Controller {
             );
         } else {
             $script->fill($request->only($toUpdate));
-            if ($request->has('last_update'))
+            $script->version = $request->input('version');
+            if ($request->has('last_update')) {
                 $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
+            }
             $script->save();
             return redirect(route('script.show', ['slug' => $slug]));
         }
@@ -249,8 +251,10 @@ class JvscriptController extends Controller {
             );
         } else {
             $skin->fill($request->only($toUpdate));
-            if ($request->has('last_update'))
+            $skin->version = $request->input('version');
+            if ($request->has('last_update')) {
                 $skin->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
+            }
             $skin->save();
             return redirect(route('skin.show', ['slug' => $slug]));
         }
