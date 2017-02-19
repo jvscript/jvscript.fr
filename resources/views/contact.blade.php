@@ -77,7 +77,7 @@
         <div class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-8 col-md-offset-4">
-                    <a class='btn btn-primary' target='_blank' href='http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Toray;Cogis'>Envoyer un MP par JVC</a> 
+                    <a class='btn btn-primary' target='_blank' href='http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Toray;Cogis;ProblemePerso;Tartiflette54;DarkJVC'>Envoyer un MP par JVC</a> 
                 </div>
             </div>
         </div>
