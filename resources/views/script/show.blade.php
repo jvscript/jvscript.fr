@@ -79,7 +79,7 @@
         <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
         @endif
         </p>
-</div>
+ 
               <div class="stats">
         <p>
             <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}}
