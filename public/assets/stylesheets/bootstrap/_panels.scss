@@ -38,6 +38,9 @@
    }
 }
 
+.panel > .panel-body { margin-bottom: 0 }
+
+
 // Optional heading
 .panel-heading {
   color: $gray-base;
