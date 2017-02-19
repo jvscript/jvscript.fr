@@ -19,7 +19,7 @@
             else {
                 $('#autor').removeAttr("readonly");
                 $('#autor').removeClass("disabled");
-//                $('#autor').val("");
+                $('#autor').val("");
             }
         });
     });
