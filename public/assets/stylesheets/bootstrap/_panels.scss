@@ -36,6 +36,9 @@
    .admin {
      padding-top: 15px;
    }
+   img {
+     @include img-responsive;
+   }
 }
 
 .panel > .panel-body { margin-bottom: 0 }

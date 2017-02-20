@@ -6406,6 +6406,12 @@ button.list-group-item-danger.active:focus {
 				padding-top: 15px;
 }
 
+.panel-body img {
+				display: block;
+				max-width: 100%;
+				height: auto;
+}
+
 .panel > .panel-body {
 				margin-bottom: 0;
 }
@@ -7954,12 +7960,6 @@ ul li {
 div#ajax-content {
 				margin-left: 15px;
 				margin-right: 15px;
-}
-
-.panel-body img {
-				display: block;
-				max-width: 100%;
-				height: auto;
 }
 
 .b-lazy {

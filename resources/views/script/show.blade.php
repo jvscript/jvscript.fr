@@ -59,10 +59,10 @@
                 <p>
                     @if ( $script->photo_url != null )
                     <a href="{{$script->photo_url}}"  data-toggle="modal" data-target="#myModal">
-                        <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$script->name}} logo" />
+                        <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" alt="{{$script->name}} logo" />
                     </a>
                     @else
-                    <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
+                    <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" />
                     @endif
                 </p>
             </div>
