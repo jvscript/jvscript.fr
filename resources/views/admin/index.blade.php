@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content') 
+@section('content')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
@@ -38,9 +38,10 @@
 <div class="row">
 
     <div>
-
+      <div class="panel-body">
         <div class="table-responsive">
-            <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%"> 
+
+            <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th> Action </th>
@@ -63,7 +64,7 @@
                     } elseif (isset($script->skin_url)) {
                         $item = "skin";
                     }
-                    ?> 
+                    ?>
                     <tr >
                         <td> <a class="btn btn-sm btn-default" href="{{route($item.'.show',['slug' => $script->slug ])}}">Voir</a>
                             <a  class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}">Editer</a> </td>
@@ -71,10 +72,10 @@
                         <td> {{$script->autor}}   </td>
                         <td> {{$script->note}}   </td>
                         <td> {{$script->install_count}}   </td>
-                        <td> {{$script->statusLabel()}}   </td>                        
-                        <td>  
+                        <td> {{$script->statusLabel()}}   </td>
+                        <td>
                             @if($script->version == null && $item == "script")
-                            <strong class="text-danger">PAS DE VERSION</strong> 
+                            <strong class="text-danger">PAS DE VERSION</strong>
                             @else
                             {{$script->version}}
                             @endif
@@ -86,6 +87,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
         </div>
 
 
