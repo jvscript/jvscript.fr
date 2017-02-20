@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-md-12">
-
+<div class="panel-body">
         <h2>Nous contacter par email </h2>
 
         @if (session('message'))
@@ -89,7 +89,7 @@
 
 
 
-
+</div>
     </div>
 </div>
 
