@@ -26,6 +26,20 @@ class User extends Authenticatable {
     }
 
     /**
+     * Get all of the factures line  for the facture
+     */
+    public function scripts() {
+        return $this->hasMany(Script::class);
+    }
+
+    /**
+     * Get all of the factures line  for the facture
+     */
+    public function skins() {
+        return $this->hasMany(Skin::class);
+    }
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array

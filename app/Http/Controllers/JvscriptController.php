@@ -58,6 +58,19 @@ class JvscriptController extends Controller {
         return view('admin.index', ['scripts' => $scripts]);
     }
 
+    public function mesScripts(Request $request) {
+        $user = Auth::user();
+        $scripts = $user->scripts()->get();
+        $skins = $user->skins()->get();
+
+        $collection = collect([$scripts, $skins]);
+        $collapsed = $collection->collapse();
+        $scripts = $collapsed->all(); //
+        $scripts = $collapsed->sortByDesc('created_at');
+
+        return view('moncompte.index', ['scripts' => $scripts]);
+    }
+
     public function ajaxUsers(Request $request) {
         $this->adminOrFail();
         return \App\User::select('id', 'name')->get();
@@ -600,6 +613,12 @@ class JvscriptController extends Controller {
                     echo $script->js_url . "|$url_crawl|$date\n";
                 } else {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
+                }
+                //get version openuserjs same page
+                if (preg_match('/<code>(.*)<\/code>/i', $crawl_content, $match)) {
+                    $script->version = $match[1];
+                    $script->save();
+                    echo $script->js_url . "|$url_crawl|version : $script->version\n";
                 }
             } elseif (preg_match('/https:\/\/greasyfork.org\/scripts\/(.*)\/code\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://greasyfork.org/fr/scripts/$match[1]";

@@ -156,21 +156,11 @@
                 @endif
             </div>
         </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="panel-body desc">
-            @if( $script->description != '' )
-            {!! (($script->description )) !!}
-            @endif
-        </div>
-    </div>
-</div>
-
-
+        
+        
 @if ((Auth::check() && Auth::user()->isAdmin()))
-<div class="row">
-    <div class="col-md-6">
+<!--<div class="row">
+    <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($script->status == 0)
@@ -198,11 +188,11 @@
                 </p>
             </div>
         </div>
-    </div>
-</div>
+<!--    </div>
+</div>-->
 @elseif ((Auth::check() && Auth::user()->id == $script->user_id))
-<div class="row">
-    <div class="col-md-6">
+<!--<div class="row">
+    <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($script->status == 0)
@@ -226,10 +216,22 @@
 
             </div>
         </div>
+<!--    </div>
+</div>-->
+
+@endif
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel-body desc">
+            @if( $script->description != '' )
+            {!! (($script->description )) !!}
+            @endif
+        </div>
     </div>
 </div>
 
-@endif
+
 
 
 @endsection

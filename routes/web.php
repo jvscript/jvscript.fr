@@ -18,6 +18,8 @@ Route::get('/search/{keyword}', 'JvscriptController@index')->name('search');
 
 Route::get('/admin', 'JvscriptController@admin')->name('admin_index')->middleware('auth');
 
+Route::get('/messcripts', 'JvscriptController@mesScripts')->name('messcripts')->middleware('auth');
+
 //ajax-users
 Route::get('/ajax-users', 'JvscriptController@ajaxUsers')->name('search')->middleware('auth');
 

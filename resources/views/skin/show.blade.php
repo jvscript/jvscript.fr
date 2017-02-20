@@ -126,22 +126,10 @@
                 @endif
             </div>
         </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="panel-body desc">
-            @if( $skin->description != '' )
-            {!! (($skin->description )) !!}
-            @endif
-        </div>
-
-    </div>
-</div>
-
-
+        
 @if ((Auth::check() && Auth::user()->isAdmin()))
-<div class="row">
-    <div class="col-md-6">
+<!--<div class="row">
+    <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($skin->status == 0)
@@ -169,11 +157,11 @@
                 </p>
             </div>
         </div>
-    </div>
-</div>
+<!--    </div>
+</div>-->
 @elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
-<div class="row">
-    <div class="col-md-6">
+<!--<div class="row">
+    <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
 
@@ -198,10 +186,23 @@
             </div>
         </div>
 
+<!--    </div>
+</div>-->
+
+@endif
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel-body desc">
+            @if( $skin->description != '' )
+            {!! (($skin->description )) !!}
+            @endif
+        </div>
+
     </div>
 </div>
 
-@endif
+
 
 
 @endsection
