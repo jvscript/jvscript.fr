@@ -13,11 +13,11 @@
         </div>
         @endif
 
-      
+
 
         <form class="form-horizontal" role="form" method="POST" action="{{ route('contact.send') }}">
             {{ csrf_field() }} 
- 
+
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                 <label for="email" class="col-md-4 control-label">Votre email </label>
 
@@ -69,20 +69,25 @@
                 </div>
             </div>
         </form>
-        
-           <hr>
 
-             <h2>Nous contacter par JVC </h2>
-             
+        <hr>
+
+        <h2>Nous contacter par JVC </h2>
+
         <div class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-8 col-md-offset-4">
                     <a class='btn btn-primary' target='_blank' href='http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Toray;Cogis;ProblemePerso;Tartiflette54;DarkJVC'>Envoyer un MP par JVC</a> 
+                    <p style="padding: 15px 0 8px 0;">
+                       
+                        Ou alors 
+                    </p>
+                    <a class='btn btn-primary' target='_blank' href='http://www.jeuxvideo.com/forums/42-1000021-50084630-1-0-1-0-site-jvscript-io.htm'>Via notre topic JVC</a> 
                 </div>
             </div>
         </div>
-        
-       
+
+
 
 
     </div>
