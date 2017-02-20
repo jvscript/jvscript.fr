@@ -6387,13 +6387,12 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-body .stats {
-				border-top: 1px solid #313131;
 				padding-top: 16px;
-				margin-top: 19px;
 }
 
 .panel-body .desc-img {
 				text-align: center;
+				border-bottom: 1px solid #313131;
 }
 
 .panel-body .admin {
