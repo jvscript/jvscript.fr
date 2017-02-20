@@ -32,16 +32,12 @@
 
     <div class="col-md-6">
         <div class="panel-body">
+             @if ( $skin->photo_url != null )
             <div class="desc-img">
-
-                <p>
-                    @if ( $skin->photo_url != null )
+                <p>                   
                     <a href="{{$skin->photo_url}}" target="_blank" data-toggle="modal" data-target="#myModal">
                         <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" alt="{{$skin->name}} logo" />
-                    </a>
-                    @else
-                    <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 300px;" />
-                    @endif
+                    </a>                    
                 </p>
             </div>
             <!-- Modal -->
@@ -52,11 +48,10 @@
                         <div class="modal-body text-center">
                             <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="" alt="{{$skin->name}} logo" />
                         </div>
-
                     </div>
                 </div>
             </div>
-
+            @endif
 
 
             <div class="stats">

@@ -55,15 +55,12 @@
 
     <div class="col-md-6">
         <div class="panel-body">
+            @if ( $script->photo_url != null )
             <div class="desc-img">
                 <p>
-                    @if ( $script->photo_url != null )
                     <a href="{{$script->photo_url}}"  data-toggle="modal" data-target="#myModal">
                         <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" alt="{{$script->name}} logo" />
                     </a>
-                    @else
-                    <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
-                    @endif
                 </p>
             </div>
             <!-- Modal -->
@@ -78,9 +75,7 @@
                     </div>
                 </div>
             </div>
-
-
-
+            @endif
 
             <div class="stats">
                 <p>
@@ -156,11 +151,11 @@
                 @endif
             </div>
         </div>
-        
-        
-@if ((Auth::check() && Auth::user()->isAdmin()))
-<!--<div class="row">
-    <div class="col-md-6">-->
+
+
+        @if ((Auth::check() && Auth::user()->isAdmin()))
+        <!--<div class="row">
+            <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($script->status == 0)
@@ -188,11 +183,11 @@
                 </p>
             </div>
         </div>
-<!--    </div>
-</div>-->
-@elseif ((Auth::check() && Auth::user()->id == $script->user_id))
-<!--<div class="row">
-    <div class="col-md-6">-->
+        <!--    </div>
+        </div>-->
+        @elseif ((Auth::check() && Auth::user()->id == $script->user_id))
+        <!--<div class="row">
+            <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($script->status == 0)
@@ -216,10 +211,10 @@
 
             </div>
         </div>
-<!--    </div>
-</div>-->
+        <!--    </div>
+        </div>-->
 
-@endif
+        @endif
     </div>
 
     <div class="col-md-6">
