@@ -64,7 +64,7 @@
         } else {
             $('.no-result').show();
         }
-//        bLazy.revalidate();
+        bLazy.revalidate();
     });
 
     //filter
