@@ -71,3 +71,12 @@ div#ajax-content {
 .b-lazy{
     color: transparent;
 }
+
+.b-lazy {
+    opacity:0;
+    transition: opacity 3s;
+}
+.b-loaded {
+    opacity:1;
+    transform: scale(1);
+}
