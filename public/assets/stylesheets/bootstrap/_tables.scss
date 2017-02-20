@@ -1,3 +1,4 @@
+@import "_variables.scss";
 //
 // Tables
 // --------------------------------------------------
@@ -20,6 +21,8 @@ th {
 // Baseline styles
 
 .table {
+  background: #1f1f1f;
+  padding: 15px;
   width: 100%;
   max-width: 100%;
   margin-bottom: $line-height-computed;
