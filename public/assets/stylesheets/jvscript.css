@@ -1422,9 +1422,7 @@ img {
 }
 
 .img-responsive {
-				display: block;
 				max-width: 100%;
-				height: auto;
 }
 
 .img-rounded {
@@ -1439,9 +1437,7 @@ img {
 				-webkit-transition: all 0.2s ease-in-out;
 				-o-transition: all 0.2s ease-in-out;
 				transition: all 0.2s ease-in-out;
-				display: inline-block;
 				max-width: 100%;
-				height: auto;
 }
 
 .img-circle {
@@ -5852,9 +5848,7 @@ a.badge:hover, a.badge:focus {
 
 .thumbnail > img,
 .thumbnail a > img {
-				display: block;
 				max-width: 100%;
-				height: auto;
 				margin-left: auto;
 				margin-right: auto;
 }
@@ -6407,9 +6401,7 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-body img {
-				display: block;
 				max-width: 100%;
-				height: auto;
 }
 
 .panel > .panel-body {
@@ -7357,9 +7349,7 @@ button.close {
 
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
-				display: block;
 				max-width: 100%;
-				height: auto;
 				line-height: 1;
 }
 

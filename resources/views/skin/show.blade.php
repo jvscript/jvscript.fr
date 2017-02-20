@@ -40,7 +40,7 @@
                         <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" alt="{{$skin->name}} logo" />
                     </a>
                     @else
-                    <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" />
+                    <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 300px;" />
                     @endif
                 </p>
             </div>

@@ -62,7 +62,7 @@
                         <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" alt="{{$script->name}} logo" />
                     </a>
                     @else
-                    <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" />
+                    <img class="img-thumbnail img-responsive" src="/assets/images/script.jpg" style="max-height: 300px;" />
                     @endif
                 </p>
             </div>
