@@ -44,12 +44,12 @@
 
             <?php $src = $skin->photo_url == null ? "/assets/images/skin.jpg" : $skin->photo_url ?>
             <div class="image">
-                {{-- @if($lazy)
+                 @if($lazy)
                 <img data-src="{{$src}}" class="b-lazy" alt="{{$skin->name}} logo" /> 
                 @else
                 <img src="{{$src}}" class="" alt="{{$skin->name}} logo" /> 
-                @endif --}}
-                <img src="{{$src}}" class="" alt="{{$skin->name}} logo" /> 
+                @endif 
+                <!--<img src="{{$src}}" class="" alt="{{$skin->name}} logo" />--> 
             </div>
             <div class="caption"> 
                 <h4>{{$skin->name}}</h4>

@@ -1,6 +1,5 @@
 <?php
 
-
 class skinsTest extends TestCase {
     /*
      * - connexion -> admin 
@@ -103,10 +102,13 @@ class skinsTest extends TestCase {
                 ->type('desc_edit', 'description')
                 ->type('2', 'user_id')
                 ->type('owner', 'autor')
+                ->type('2.0', 'version')
+                ->type('31/12/2016', 'last_update')
                 ->press('Editer')
                 ->seePageIs('/skin/nom-du-skin')
                 ->see('owner')
                 ->see('desc_edit')
+                ->see('31/12/2016')
                 ->dontSee('auteur du skin')
                 ->click('Valider')
                 ->see('Ce skin a été validé.');
@@ -125,7 +127,7 @@ class skinsTest extends TestCase {
                 ->press('Editer')
                 ->seePageIs('/skin/nom-du-skin')
                 ->see('owner')
-                ->see('desc_edit_owner'); 
+                ->see('desc_edit_owner');
     }
 
     /**

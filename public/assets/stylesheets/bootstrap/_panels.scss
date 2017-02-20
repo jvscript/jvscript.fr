@@ -26,15 +26,19 @@
   @include clearfix;
 
    .stats {
-     border-top: 1px solid #313131;
+  //   border-top: 1px solid #313131;
      padding-top: 16px;
-     margin-top: 19px;
+//     margin-top: 19px;
    }
    .desc-img {
      text-align: center;
+     border-bottom: 1px solid #313131;
    }
    .admin {
      padding-top: 15px;
+   }
+   img {
+     @include img-responsive;
    }
 }
 

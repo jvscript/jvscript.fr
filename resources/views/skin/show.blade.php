@@ -32,16 +32,12 @@
 
     <div class="col-md-6">
         <div class="panel-body">
+             @if ( $skin->photo_url != null )
             <div class="desc-img">
-
-                <p>
-                    @if ( $skin->photo_url != null )
+                <p>                   
                     <a href="{{$skin->photo_url}}" target="_blank" data-toggle="modal" data-target="#myModal">
-                        <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="max-height: 300px;max-width: 400px;" alt="{{$skin->name}} logo" />
-                    </a>
-                    @else
-                    <img class="img-thumbnail img-responsive" src="/assets/images/skin.jpg" style="max-height: 300px;" />
-                    @endif
+                        <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" alt="{{$skin->name}} logo" />
+                    </a>                    
                 </p>
             </div>
             <!-- Modal -->
@@ -52,11 +48,10 @@
                         <div class="modal-body text-center">
                             <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" style="" alt="{{$skin->name}} logo" />
                         </div>
-
                     </div>
                 </div>
             </div>
-
+            @endif
 
 
             <div class="stats">
@@ -126,22 +121,10 @@
                 @endif
             </div>
         </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="panel-body desc">
-            @if( $skin->description != '' )
-            {!! (($skin->description )) !!}
-            @endif
-        </div>
-
-    </div>
-</div>
-
-
+        
 @if ((Auth::check() && Auth::user()->isAdmin()))
-<div class="row">
-    <div class="col-md-6">
+<!--<div class="row">
+    <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($skin->status == 0)
@@ -169,11 +152,11 @@
                 </p>
             </div>
         </div>
-    </div>
-</div>
+<!--    </div>
+</div>-->
 @elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
-<div class="row">
-    <div class="col-md-6">
+<!--<div class="row">
+    <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
 
@@ -198,10 +181,23 @@
             </div>
         </div>
 
+<!--    </div>
+</div>-->
+
+@endif
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel-body desc">
+            @if( $skin->description != '' )
+            {!! (($skin->description )) !!}
+            @endif
+        </div>
+
     </div>
 </div>
 
-@endif
+
 
 
 @endsection

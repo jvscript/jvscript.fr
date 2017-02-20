@@ -21,7 +21,7 @@
 Il vous suffit de cliquer sur le script de votre choix dans la page d'accueil du site, puis de cliquer sur <em>Installer</em>. Vous serez redirigé sur une page où il ne vous restera qu’à cliquer sur <em>Installer</em>. </p>
 
 <p><img src="http://image.noelshack.com/fichiers/2017/07/1486990384-screenshot-1.png" alt="Installer un Script sur TamperMonkey" title=""></p>
-
+            <hr>
 <h2 id="comment-installer-un-skin">Comment installer un skin ?</h2>
 
 <p><strong>Prérequis :</strong></p>
@@ -36,17 +36,19 @@ Il vous suffit de cliquer sur le script de votre choix dans la page d'accueil du
 <img src="http://image.noelshack.com/fichiers/2017/07/1486991277-screenshot-2.png" alt="Installer un skin avec Stylish" title=""></p>
 
 
-
+            <hr>
 <h2 id="aidez-moi-mon-script-plante">Aidez-moi ! Mon script plante !</h2>
 
 <p>Des extensions, particulièrement les bloqueurs de pubs (Ad-Block, uBlock…) peuvent bloquer les scripts. Dans ce cas nous vous conseillons de vérifier cela en éteignant votre bloqueur de pubs. <br>
 Aussi, des scripts combinés ensemble peuvent provoquer des erreurs, vous pouvez vérifier cela en vérifiant la console du navigateur (Ctrl+Maj+J).</p>
 
+            <hr>
 <h2 id="comment-mettre-à-jour-les-scripts-et-skins">Comment mettre à jour les scripts et skins ?</h2>
 
 <p>Sur certains scripts vous serez prévenus des mises à jour et dans la plupart des cas elles seront automatiques (une fois par jour).  <br>
 Si vous voulez forcer la mise à jour il suffit d’aller dans les options de TamperMonkey (Ou GreaseMonkey).</p>
 
+            <hr>
 <h2 id="quels-sont-les-risques-à-installer-un-script">Quels sont les risques à installer un Script ?</h2>
 
 <p><strong>Modération :</strong> <br>
