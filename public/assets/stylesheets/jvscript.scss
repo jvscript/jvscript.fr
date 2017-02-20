@@ -68,15 +68,14 @@ div#ajax-content {
     margin-right: 15px;
 }
 
-.b-lazy{
-    color: transparent;
-}
-
 .b-lazy {
-    opacity:0;
-    transition: opacity 3s;
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    -o-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+    max-width: 100%;
+    opacity: 0;
 }
-.b-loaded {
-    opacity:1;
-    transform: scale(1);
+.b-lazy.b-loaded {
+    opacity: 1;
 }
