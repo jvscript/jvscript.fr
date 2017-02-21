@@ -22,7 +22,7 @@
 
     </div>
 
-    <div class="col-md-6" style="margin-top: 22px;margin-bottom: 22px;">
+    <div class="col-md-6" style="margin-top: -8px;margin-bottom: 22px;">
         <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
 
     </div>
@@ -34,10 +34,10 @@
         <div class="panel-body">
              @if ( $skin->photo_url != null )
             <div class="desc-img">
-                <p>                   
+                <p>
                     <a href="{{$skin->photo_url}}" target="_blank" data-toggle="modal" data-target="#myModal">
                         <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" alt="{{$skin->name}} logo" />
-                    </a>                    
+                    </a>
                 </p>
             </div>
             <!-- Modal -->
@@ -121,7 +121,7 @@
                 @endif
             </div>
         </div>
-        
+
 @if ((Auth::check() && Auth::user()->isAdmin()))
 <!--<div class="row">
     <div class="col-md-6">-->
