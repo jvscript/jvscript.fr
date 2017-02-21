@@ -498,7 +498,7 @@ class JvscriptController extends Controller {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->ownerOradminOrFail($skin->user_id);
         $skin->delete();
-        $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
+        $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
         $this->sendDiscord($message, $this->discord_url);
 
         if (Auth::user()->isAdmin())
