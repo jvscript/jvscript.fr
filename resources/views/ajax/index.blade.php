@@ -67,8 +67,8 @@
                 <span class="name display_none">{{$script->name}}</span>
                 <span class="autor display_none">{{$script->autor}}</span>
                 <span class="install_count display_none">{{$script->install_count}}</span>
-
                 <span class="category display_none">{{$item}}</span>
+                <span class="description display_none">{{$script->description}}</span>
                 
                 @include('home.'.$item,['lazy' => $lazy])
  
