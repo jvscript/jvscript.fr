@@ -41,7 +41,7 @@
       <div class="panel-body">
         <div class="table-responsive">
 
-            <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
+            <table id="example" class="table  table-condensed table-hover table-striped" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th> Action </th>

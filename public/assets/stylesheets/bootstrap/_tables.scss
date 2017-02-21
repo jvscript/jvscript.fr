@@ -21,7 +21,9 @@ th {
 // Baseline styles
 
 .table {
-  background: #1f1f1f;
+  background: #1e1e1e;
+  box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.23);
+  border: 1px solid #292929;
   padding: 15px;
   width: 100%;
   max-width: 100%;
