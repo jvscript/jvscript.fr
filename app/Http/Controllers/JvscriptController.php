@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Script,
     App\Skin,
+    App\User,
     App\History;
 use Validator;
 use Illuminate\Support\Facades\Mail;
@@ -114,7 +115,8 @@ class JvscriptController extends Controller {
 
 
             if ($request->input("is_autor") == 'on') {
-                $script->user_id = $user->id; //owner script               
+                $script->user_id = $user->id; //owner du script               
+                $script->autor = $user->name;
             }
             $script->poster_user_id = $user->id;
             $script->save();
@@ -164,6 +166,7 @@ class JvscriptController extends Controller {
 
             if ($request->input("is_autor") == 'on') {
                 $script->user_id = $user->id; //owner script
+                $script->autor = $user->name;
             }
             $script->poster_user_id = $user->id;
             $script->save();
@@ -204,6 +207,9 @@ class JvscriptController extends Controller {
             $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
+            } else {
+                //force username of owner 
+                $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
         }
 
@@ -245,6 +251,9 @@ class JvscriptController extends Controller {
             $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
+            } else {
+                //force username of owner 
+                $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
         }
 

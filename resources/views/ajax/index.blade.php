@@ -58,6 +58,7 @@
                 $item = "skin";
                 $skin = $script;
             }
+            $autor = (null != $script->user_id ) ? $script->user()->first()->name :  $script->autor;
             $i++;
             $lazy = $i > 8 ? true : false;
             ?>
@@ -65,7 +66,7 @@
                 <span class="date display_none">{{$script->last_update != null ? $script->last_update :  $script->created_at}}</span>
                 <span class="note display_none">{{$script->note}}</span>
                 <span class="name display_none">{{$script->name}}</span>
-                <span class="autor display_none">{{$script->autor}}</span>
+                <span class="autor display_none">{{$autor}}</span>
                 <span class="install_count display_none">{{$script->install_count}}</span>
                 <span class="category display_none">{{$item}}</span>
                 <span class="description display_none">{{$script->description}}</span>
