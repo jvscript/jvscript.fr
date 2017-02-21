@@ -23,7 +23,7 @@
     var bLazy = new Blazy();
 
     var options = {
-        valueNames: ['date', 'note', 'install_count', 'name', 'autor', 'category']
+        valueNames: ['date', 'note', 'install_count', 'name', 'autor', 'category', 'description']
     };
     var scriptList = new List('scripts', options);
 

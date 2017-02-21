@@ -4,6 +4,7 @@
 
 - Page Mes scripts
 - Voir les scripts de l'auteur
+- La recherche utilise la description
 
 ## v1.0.0 - 2017-02-19
 
