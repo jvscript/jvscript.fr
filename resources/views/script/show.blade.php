@@ -22,7 +22,7 @@
         </h1>
     </div>
 
-    <div class="col-md-6" style="margin-top: 22px;margin-bottom: 22px;">
+    <div class="col-md-6" style="margin-top: -8px;margin-bottom: 22px;">
 
         <!--install -->
         <a target="_blank" class="btn btn-primary btn-lg" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
