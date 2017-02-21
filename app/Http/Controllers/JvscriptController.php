@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Script,
     App\Skin,
+    App\User,
     App\History;
 use Validator;
 use Illuminate\Support\Facades\Mail;
@@ -41,7 +42,7 @@ class JvscriptController extends Controller {
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();
         $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('note');
+        $scripts = $collapsed->sortByDesc('install_count');
 
         return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
     }
@@ -156,7 +157,8 @@ class JvscriptController extends Controller {
             $script->slug = $this->slugifyScript($script->name);
 
             if ($request->input("is_autor") == 'on') {
-                $script->user_id = $user->id; //owner script               
+                $script->user_id = $user->id; //owner du script               
+                $script->autor = $user->name;
             }
             $script->poster_user_id = $user->id;
 
@@ -217,6 +219,7 @@ class JvscriptController extends Controller {
 
             if ($request->input("is_autor") == 'on') {
                 $script->user_id = $user->id; //owner script
+                $script->autor = $user->name;
             }
             $script->poster_user_id = $user->id;
             $script->save();
@@ -257,6 +260,9 @@ class JvscriptController extends Controller {
             $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
+            } else {
+                //force username of owner 
+                $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
         }
 
@@ -298,6 +304,9 @@ class JvscriptController extends Controller {
             $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
+            } else {
+                //force username of owner 
+                $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
         }
 
@@ -540,13 +549,20 @@ class JvscriptController extends Controller {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->ownerOradminOrFail($script->user_id);
         $script->delete();
-        return redirect(route('admin_index'));
+        $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
+        $this->sendDiscord($message, $this->discord_url);
+        if (Auth::user()->isAdmin())
+            return redirect(route('admin_index'));
+        return redirect(route('index'));
     }
 
     public function deleteSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->ownerOradminOrFail($skin->user_id);
         $skin->delete();
+        $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
+        $this->sendDiscord($message, $this->discord_url);
+
         if (Auth::user()->isAdmin())
             return redirect(route('admin_index'));
         return redirect(route('index'));

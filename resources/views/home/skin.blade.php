@@ -1,7 +1,7 @@
 <div class="col-xs-6 col-sm-3 col-md-3">
     <div class="thumbnail">
         <a href="{{route('skin.show',['slug' => $skin->slug ])}}" class="">
-            <div class="hover-caption">  
+            <div class="hover-caption hidden-xs">  
                 <p class="pull-left">
                 <h4>{{$skin->name}}</h4>
                 <p class="pull-left">

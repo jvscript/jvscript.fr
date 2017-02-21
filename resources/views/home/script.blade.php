@@ -2,7 +2,7 @@
     <div class="thumbnail">
         <a href="{{route('script.show',['slug' => $script->slug ])}}" class="">
 
-            <div class="hover-caption">
+            <div class="hover-caption hidden-xs">
                 <p class="pull-left">
                 <h4>{{$script->name}}</h4>
                 <p class="pull-left">
