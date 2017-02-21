@@ -40,7 +40,7 @@ class JvscriptController extends Controller {
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();
         $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('note');
+        $scripts = $collapsed->sortByDesc('install_count');
 
         return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
     }
