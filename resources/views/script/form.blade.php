@@ -175,7 +175,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('photo_url') ? ' has-error' : '' }}">
-                <label for="photo_url" class="col-md-4 control-label">Lien vers le logo/image </label>
+                <label for="photo_url" class="col-md-4 control-label">URL du logo/image </label>
 
                 <div class="col-md-6">
                     <input id="photo_url" type="text" maxlength="255"  placeholder="http://image.noelshack.com/..." class="form-control" name="photo_url" value="{{ old('photo_url') }}"  >
@@ -189,7 +189,7 @@
             </div>
             
             <div class="form-group{{ $errors->has('photo_file') ? ' has-error' : '' }}">
-                <label for="photo_file" class="col-md-4 control-label">Ou alors le fichier de l'image </label>
+                <label for="photo_file" class="col-md-4 control-label">Ou le fichier du logo/image </label>
 
                 <div class="col-md-6">
                     <input id="photo_file" type="file"   placeholder="Votre image" class="form-control" name="photo_file" value="{{ old('photo_file') }}"  >

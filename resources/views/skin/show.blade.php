@@ -35,7 +35,7 @@
              @if ( $skin->photo_url != null )
             <div class="desc-img">
                 <p>
-                    <a href="{{$skin->photo_url}}" target="_blank" data-toggle="modal" data-target="#myModal">
+                    <a href="#" target="_blank" data-toggle="modal" data-target="#myModal">
                         <img class="img-thumbnail img-responsive" src="{{$skin->photo_url}}" alt="{{$skin->name}} logo" />
                     </a>
                 </p>

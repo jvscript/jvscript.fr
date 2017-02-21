@@ -78,13 +78,23 @@ class JvscriptController extends Controller {
         return \App\User::select('id', 'name')->get();
     }
 
+    function isImage($path) {
+        $a = getimagesize($path);
+        $image_type = $a[2];
+
+        if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
+            return true;
+        }
+        return false;
+    }
+
     public function storeImage($item, $file, $filename) {
-//        $filename = pathinfo($filename, PATHINFO_FILENAME);
-        $filename = preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename);
+        $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
         $filename = $item->id . '-' . $filename;
 
         $img = Image::make($file);
-        if ($img->mime() == 'image/png') {            
+
+        if ($img->mime() == 'image/png') {
             //_TODO COMPRESS PNG pour garder la transparence
         } else {
             $img->encode('jpg');
@@ -115,7 +125,7 @@ class JvscriptController extends Controller {
         $img->save('storage/images/small-' . $filename, 85);
 
         //store photo in DB
-        $item->photo_url = '/storage/images/'.$filename;
+        $item->photo_url = '/storage/images/' . $filename;
         $item->save();
     }
 
@@ -148,7 +158,7 @@ class JvscriptController extends Controller {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing','local') && !$resp->isSuccess()) {
+            if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
@@ -162,14 +172,18 @@ class JvscriptController extends Controller {
             }
             $script->poster_user_id = $user->id;
 
-            //store photo_url or photo_file storage
-            if ($request->has('photo_url')) {
-                $file = @file_get_contents($request->input('photo_url'));
-                $filename = basename($request->input('photo_url'));
-                $this->storeImage($script, $file, $filename);
-            } else if ($request->has('photo_file')) {
+            //store photo_file or photo_url  storage
+            if ($request->file('photo_file')) {
                 $filename = $request->file('photo_file')->getClientOriginalName();
                 $this->storeImage($script, $request->file('photo_file'), $filename);
+            } else if ($request->has('photo_url')) {
+                if ($this->isImage($request->input('photo_url'))) {
+                    $file = @file_get_contents($request->input('photo_url'));
+                    $filename = basename($request->input('photo_url'));
+                    $this->storeImage($script, $file, $filename);
+                } else {
+                    $script->photo_url = null;
+                }
             }
 
             $script->save();
@@ -196,6 +210,7 @@ class JvscriptController extends Controller {
                     'skin_url' => "required|url|max:255|regex:/^https:\/\/userstyles\.org\/styles\/.*/",
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
+                    'photo_file' => "image",
                     'don_url' => "url|max:255",
                     'website_url' => "url|max:255",
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
@@ -222,6 +237,20 @@ class JvscriptController extends Controller {
                 $script->autor = $user->name;
             }
             $script->poster_user_id = $user->id;
+
+            //store photo_file or photo_url  storage
+            if ($request->file('photo_file')) {
+                $filename = $request->file('photo_file')->getClientOriginalName();
+                $this->storeImage($script, $request->file('photo_file'), $filename);
+            } else if ($request->has('photo_url')) {
+                if ($this->isImage($request->input('photo_url'))) {
+                    $file = @file_get_contents($request->input('photo_url'));
+                    $filename = basename($request->input('photo_url'));
+                    $this->storeImage($script, $file, $filename);
+                } else {
+                    $script->photo_url = null;
+                }
+            }
             $script->save();
 
             $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show', ['slug' => $script->slug]);
@@ -707,7 +736,8 @@ class JvscriptController extends Controller {
 
             //get version
             $url_crawl = $script->js_url;
-            $crawl_content = @file_get_contents($url_crawl); {
+            $crawl_content = @file_get_contents($url_crawl);
+            {
                 if (preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
                     $version = $match_date[1];
                     $script->version = $version;
