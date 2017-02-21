@@ -7,6 +7,10 @@
     $('[data-toggle=confirmation]').confirmation();
 
 
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
 </script>
 @endsection
 
@@ -32,7 +36,7 @@
 
     <div class="col-md-6">
         <div class="panel-body">
-             @if ( $skin->photo_url != null )
+            @if ( $skin->photo_url != null )
             <div class="desc-img">
                 <p>
                     <a href="{{$skin->photo_url}}" target="_blank" data-toggle="modal" data-target="#myModal">
@@ -63,7 +67,7 @@
                     <b> Mise à jour le : </b>  {{$skin->last_update->format('d/m/Y')}}
                 </p>
                 @endif                 
-                 @if(null != $skin->user_id)
+                @if(null != $skin->user_id)
                 <p>
                     <b> Auteur : </b> <a href="{{url('/search/'.$skin->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->user()->first()->name}}">{{$skin->user()->first()->name}}</a> 
                 </p>
@@ -122,9 +126,9 @@
             </div>
         </div>
 
-@if ((Auth::check() && Auth::user()->isAdmin()))
-<!--<div class="row">
-    <div class="col-md-6">-->
+        @if ((Auth::check() && Auth::user()->isAdmin()))
+        <!--<div class="row">
+            <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($skin->status == 0)
@@ -152,11 +156,11 @@
                 </p>
             </div>
         </div>
-<!--    </div>
-</div>-->
-@elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
-<!--<div class="row">
-    <div class="col-md-6">-->
+        <!--    </div>
+        </div>-->
+        @elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
+        <!--<div class="row">
+            <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
 
@@ -181,10 +185,10 @@
             </div>
         </div>
 
-<!--    </div>
-</div>-->
+        <!--    </div>
+        </div>-->
 
-@endif
+        @endif
     </div>
 
     <div class="col-md-6">
