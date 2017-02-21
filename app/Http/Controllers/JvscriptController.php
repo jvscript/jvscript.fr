@@ -40,7 +40,7 @@ class JvscriptController extends Controller {
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();
         $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('note');
+        $scripts = $collapsed->sortByDesc('install_count');
 
         return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
     }
@@ -110,13 +110,8 @@ class JvscriptController extends Controller {
             }
 
             $script = Script::create($request->all());
-            $slug = $this->slugify($script->name);
-            $i = 1;
-            $baseSlug = $slug;
-            while ($this->slugExistScript($slug)) {
-                $slug = $baseSlug . "-" . $i++;
-            }
-            $script->slug = $slug;
+            $script->slug = $this->slugifyScript($script->name);
+
 
             if ($request->input("is_autor") == 'on') {
                 $script->user_id = $user->id; //owner script               
@@ -165,13 +160,8 @@ class JvscriptController extends Controller {
             }
 
             $script = Skin::create($request->all());
-            $slug = $this->slugify($script->name);
-            $i = 1;
-            $baseSlug = $slug;
-            while ($this->slugExistSkin($slug)) {
-                $slug = $baseSlug . "-" . $i++;
-            }
-            $script->slug = $slug;
+            $script->slug = $this->slugifySkin($script->name);
+
             if ($request->input("is_autor") == 'on') {
                 $script->user_id = $user->id; //owner script
             }
@@ -525,12 +515,24 @@ class JvscriptController extends Controller {
         }
     }
 
-    public function slugExistScript($slug) {
-        return Script::where('slug', $slug)->count() > 0;
+    public function slugifyScript($name) {
+        $slug = $this->slugify($name);
+        $i = 1;
+        $baseSlug = $slug;
+        while (Script::where('slug', $slug)->count() > 0) {
+            $slug = $baseSlug . "-" . $i++;
+        }
+        return $slug;
     }
 
-    public function slugExistSkin($slug) {
-        return Skin::where('slug', $slug)->count() > 0;
+    public function slugifySkin($name) {
+        $slug = $this->slugify($name);
+        $i = 1;
+        $baseSlug = $slug;
+        while (Skin::where('slug', $slug)->count() > 0) {
+            $slug = $baseSlug . "-" . $i++;
+        }
+        return $slug;
     }
 
     static public function slugify($text) {
@@ -636,8 +638,7 @@ class JvscriptController extends Controller {
 
             //get version
             $url_crawl = $script->js_url;
-            $crawl_content = @file_get_contents($url_crawl);
-            {
+            $crawl_content = @file_get_contents($url_crawl); {
                 if (preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
                     $version = $match_date[1];
                     $script->version = $version;
