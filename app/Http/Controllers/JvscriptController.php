@@ -238,6 +238,7 @@ class JvscriptController extends Controller {
             }
             $script->poster_user_id = $user->id;
 
+            //_TODO : supprimer ancienne image si existe
             //store photo_file or photo_url  storage
             if ($request->file('photo_file')) {
                 $filename = $request->file('photo_file')->getClientOriginalName();
