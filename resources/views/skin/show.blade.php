@@ -62,14 +62,14 @@
                 <p>
                     <b> Mise à jour le : </b>  {{$skin->last_update->format('d/m/Y')}}
                 </p>
-                @endif
-                @if(null != $skin->user_id)
+                @endif                 
+                 @if(null != $skin->user_id)
                 <p>
-                    <b> Auteur : </b> {{$skin->user()->first()->name}}
+                    <b> Auteur : </b> <a href="{{url('/search/'.$skin->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->user()->first()->name}}">{{$skin->user()->first()->name}}</a> 
                 </p>
                 @elseif($skin->autor != null)
                 <p>
-                    <b> Auteur : </b> {{$skin->autor}}
+                    <b> Auteur : </b> <a href="{{url('/search/'.$skin->autor)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->autor}}">{{$skin->autor}}</a> 
                 </p>
                 @endif
 

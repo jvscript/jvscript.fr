@@ -95,11 +95,11 @@
                 @endif
                 @if(null != $script->user_id)
                 <p>
-                    <b> Auteur : </b> {{$script->user()->first()->name}}
+                    <b> Auteur : </b> <a href="{{url('/search/'.$script->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->user()->first()->name}}">{{$script->user()->first()->name}}</a> 
                 </p>
                 @elseif($script->autor != null)
                 <p>
-                    <b> Auteur : </b> {{$script->autor}}
+                    <b> Auteur : </b> <a href="{{url('/search/'.$script->autor)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->autor}}">{{$script->autor}}</a> 
                 </p>
                 @endif
 
