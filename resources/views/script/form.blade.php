@@ -42,7 +42,7 @@
         </div>
         @endif
 
-        <form id="add_form" class="form-horizontal" role="form" method="POST" action="{{ route('script.store') }}">
+        <form id="add_form" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ route('script.store') }}">
             {{ csrf_field() }}
 
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -183,6 +183,20 @@
                     @if ($errors->has('photo_url'))
                     <span class="help-block">
                         <strong>{{ $errors->first('photo_url') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+            
+            <div class="form-group{{ $errors->has('photo_file') ? ' has-error' : '' }}">
+                <label for="photo_file" class="col-md-4 control-label">Ou alors le fichier de l'image </label>
+
+                <div class="col-md-6">
+                    <input id="photo_file" type="file"   placeholder="Votre image" class="form-control" name="photo_file" value="{{ old('photo_file') }}"  >
+
+                    @if ($errors->has('photo_file'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('photo_file') }}</strong>
                     </span>
                     @endif
                 </div>

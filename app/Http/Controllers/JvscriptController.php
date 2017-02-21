@@ -12,6 +12,7 @@ use App\Mail\Notify;
 use Auth;
 use App;
 use App\Notifications\notifyStatus;
+use Image;
 
 class JvscriptController extends Controller {
 
@@ -76,6 +77,47 @@ class JvscriptController extends Controller {
         return \App\User::select('id', 'name')->get();
     }
 
+    public function storeImage($item, $file, $filename) {
+//        $filename = pathinfo($filename, PATHINFO_FILENAME);
+        $filename = preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename);
+        $filename = $item->id . '-' . $filename;
+
+        $img = Image::make($file);
+        if ($img->mime() == 'image/png') {            
+            //_TODO COMPRESS PNG pour garder la transparence
+        } else {
+            $img->encode('jpg');
+        }
+
+        //== RESIZE NORMAL ==
+        $img->resize(1000, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->resize(null, 1000, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        \File::exists(storage_path('app/public/images/')) or \File::makeDirectory(storage_path('app/public/images/'));
+        $img->save('storage/images/' . $filename, 90);
+
+        //== RESIZE MINIATURE ==
+        $img->resize(261, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->resize(null, 261, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->save('storage/images/small-' . $filename, 85);
+
+        //store photo in DB
+        $item->photo_url = '/storage/images/'.$filename;
+        $item->save();
+    }
+
     /**
      * Store a script in db
      */
@@ -91,6 +133,7 @@ class JvscriptController extends Controller {
                     'js_url' => "required|url|max:255|regex:/.*\.js$/",
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
+                    'photo_file' => "image",
                     'don_url' => "url|max:255",
                     'website_url' => "url|max:255",
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
@@ -104,7 +147,7 @@ class JvscriptController extends Controller {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing') && !$resp->isSuccess()) {
+            if (!App::environment('testing','local') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
@@ -112,11 +155,21 @@ class JvscriptController extends Controller {
             $script = Script::create($request->all());
             $script->slug = $this->slugifyScript($script->name);
 
-
             if ($request->input("is_autor") == 'on') {
                 $script->user_id = $user->id; //owner script               
             }
             $script->poster_user_id = $user->id;
+
+            //store photo_url or photo_file storage
+            if ($request->has('photo_url')) {
+                $file = @file_get_contents($request->input('photo_url'));
+                $filename = basename($request->input('photo_url'));
+                $this->storeImage($script, $file, $filename);
+            } else if ($request->has('photo_file')) {
+                $filename = $request->file('photo_file')->getClientOriginalName();
+                $this->storeImage($script, $request->file('photo_file'), $filename);
+            }
+
             $script->save();
 
             $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
