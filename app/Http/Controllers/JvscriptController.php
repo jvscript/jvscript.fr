@@ -601,7 +601,7 @@ class JvscriptController extends Controller {
         set_time_limit(600);
         $scripts = Script::where("status", 1)->orderBy('last_update', 'asc')->get();
         foreach ($scripts as $script) {
-            echo "start   : " . $script->name ."\n";
+            echo "start   : " . $script->name . "\n";
             if (preg_match('/https:\/\/github\.com\/(.*)\/(.*)\/raw\/(.*)\/(.*)\.js/i', $script->js_url, $match) || preg_match('/https:\/\/raw\.githubusercontent\.com\/(.*)\/(.*)\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://github.com/$match[1]/$match[2]/blob/$match[3]/$match[4].js";
                 $crawl_content = @file_get_contents($url_crawl);
@@ -614,7 +614,7 @@ class JvscriptController extends Controller {
                 } else {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
                 }
-            } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
+            } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match) || preg_match('/https:\/\/openuserjs\.org\/src\/scripts\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://openuserjs.org/scripts/$match[1]/$match[2]";
                 $crawl_content = @file_get_contents($url_crawl);
                 if (preg_match('/<time class="script-updated" datetime="(.*Z)" title=/i', $crawl_content, $match_date)) {
