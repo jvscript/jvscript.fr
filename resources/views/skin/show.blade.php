@@ -187,8 +187,10 @@
 
         <!--    </div>
         </div>-->
-
-        @endif
+ 
+        @endif 
+        
+    @include('global.comments', ['commentClass' => 'hidden-sm'])
     </div>
 
     <div class="col-md-6">
@@ -199,8 +201,10 @@
         </div>
 
     </div>
+    
+    
+    @include('global.comments', ['commentClass' => 'visible-sm'])
 </div>
-
 
 
 

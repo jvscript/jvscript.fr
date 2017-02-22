@@ -31,6 +31,7 @@ class JvscriptController extends Controller {
         }
 
         $this->discord_url = env('DISCORD_URL', '');
+        $this->min_time_comment = 30; //limite de temps entre chaque commentaire
     }
 
     public function index(Request $request, $keyword = null) {
@@ -75,6 +76,46 @@ class JvscriptController extends Controller {
     public function ajaxUsers(Request $request) {
         $this->adminOrFail();
         return \App\User::select('id', 'name')->get();
+    }
+
+    /**
+     * Store comment
+     */
+    public function storeComment($slug, Request $request) {
+        $user = Auth::user();
+        $route = \Request::route()->getName();
+        if (str_contains($route, "script")) {
+            $item = 'script';
+            $model = Script::where('slug', $slug)->firstOrFail();
+        } else if (str_contains($route, "skin")) {
+            $item = 'skin';
+            $model = Skin::where('slug', $slug)->firstOrFail();
+        }
+
+        $validator = Validator::make($request->all(), ['comment' => "required|max:255"]);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                    $request, $validator
+            );
+        } else {
+            //captcha validation
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
+            if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
+                $request->flash();
+                return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+            }
+            //Anti spam 30 secondes
+            if ($user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($this->min_time_comment))->count()) {
+                $request->flash();
+                return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
+            }
+            $comment = $request->input('comment');
+            $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
+            //_TODO : notify autor 
+            return redirect(route("$item.show", $slug) . "#comments");
+        }
     }
 
     /**
@@ -453,7 +494,7 @@ class JvscriptController extends Controller {
 
     public function showScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-
+        $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
         //affiche les non validés seulement si admin
         if (!$script->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
@@ -462,12 +503,12 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $script->description = $Parsedown->text($script->description);
 
-        return view('script.show', ['script' => $script]);
+        return view('script.show', ['script' => $script, 'comments' => $comments]);
     }
 
     public function showSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-
+        $comments = $skin->comments()->orderBy('created_at', 'desc')->paginate(10);
         //affiche les non validés seulement si admin
         if (!$skin->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
@@ -476,7 +517,7 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $skin->description = $Parsedown->text($skin->description);
 
-        return view('skin.show', ['skin' => $skin]);
+        return view('skin.show', ['skin' => $skin, 'comments' => $comments]);
     }
 
     public function editScript($slug) {
@@ -614,7 +655,7 @@ class JvscriptController extends Controller {
                 } else {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
                 }
-            } else if (preg_match('/https:\/\/(.*)\.github\.io\/(.*)\/(.*)\.js/i', $script->js_url, $match) ) {
+            } else if (preg_match('/https:\/\/(.*)\.github\.io\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
                 //GITHUB PAGES
                 $url_crawl = "https://github.com/$match[1]/$match[2]/blob/master/$match[3].js";
                 $crawl_content = @file_get_contents($url_crawl);
@@ -627,8 +668,7 @@ class JvscriptController extends Controller {
                 } else {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
                 }
-            }            
-            elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match) || preg_match('/https:\/\/openuserjs\.org\/src\/scripts\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
+            } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match) || preg_match('/https:\/\/openuserjs\.org\/src\/scripts\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://openuserjs.org/scripts/$match[1]/$match[2]";
                 $crawl_content = @file_get_contents($url_crawl);
                 if (preg_match('/<time class="script-updated" datetime="(.*Z)" title=/i', $crawl_content, $match_date)) {
