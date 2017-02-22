@@ -654,8 +654,9 @@ class JvscriptController extends Controller {
 
             //get version
             $url_crawl = $script->js_url;
-            $crawl_content = @file_get_contents($url_crawl); {
-                if (preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
+            $crawl_content = @file_get_contents($url_crawl);
+            {
+                if (!preg_match('/openuserjs/i', $url_crawl) && preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
                     $version = $match_date[1];
                     $script->version = $version;
                     $script->save();
@@ -678,7 +679,7 @@ class JvscriptController extends Controller {
                 $script->save();
                 echo $script->js_url . "|$url_crawl|$date\n";
             } else {
-                echo "fail : " . $script->js_url . "|$url_crawl\n";
+                echo "fail : " . $script->js_url . "|$url_crawl\n"; exit;
             }
         }
     }
