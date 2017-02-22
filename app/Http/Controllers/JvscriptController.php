@@ -679,7 +679,7 @@ class JvscriptController extends Controller {
                 $script->save();
                 echo $script->js_url . "|$url_crawl|$date\n";
             } else {
-                echo "fail : " . $script->js_url . "|$url_crawl\n"; exit;
+                echo "fail : " . $script->js_url . "|$url_crawl\n"; 
             }
         }
     }
