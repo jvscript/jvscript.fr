@@ -632,7 +632,7 @@ class JvscriptController extends Controller {
                 } else {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
                 }
-                //get version openuserjs same page
+                //get version openuserjs in same page
                 if (preg_match('/<code>(.*)<\/code>/i', $crawl_content, $match)) {
                     $script->version = $match[1];
                     $script->save();
@@ -652,11 +652,12 @@ class JvscriptController extends Controller {
                 }
             }
 
-            //get version
+            //===GET  VERSION===
             $url_crawl = $script->js_url;
-            $crawl_content = @file_get_contents($url_crawl);
-            {
-                if (!preg_match('/openuserjs/i', $url_crawl) && preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
+
+            if (!str_contains($url_crawl, 'openuserjs')) {
+                $crawl_content = @file_get_contents($url_crawl);
+                if (preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
                     $version = $match_date[1];
                     $script->version = $version;
                     $script->save();
@@ -665,7 +666,7 @@ class JvscriptController extends Controller {
                     echo "fail version : " . $script->js_url . "\n";
                 }
             }
-            sleep(1);
+//            sleep(1);
         }
 
         $scripts = Skin::where("status", 1)->orderBy('last_update', 'asc')->get();
@@ -679,7 +680,7 @@ class JvscriptController extends Controller {
                 $script->save();
                 echo $script->js_url . "|$url_crawl|$date\n";
             } else {
-                echo "fail : " . $script->js_url . "|$url_crawl\n"; 
+                echo "fail : " . $script->js_url . "|$url_crawl\n";
             }
         }
     }
