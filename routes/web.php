@@ -34,6 +34,10 @@ Route::post('/skin/ajout', 'JvscriptController@storeSkin')->name('skin.store')->
 Route::get('/script/{slug}', 'JvscriptController@showScript')->name('script.show');
 Route::get('/skin/{slug}', 'JvscriptController@showSkin')->name('skin.show');
 
+//scripts comment
+Route::post('/script/{slug}/comment', 'JvscriptController@storeComment')->name('script.comment')->middleware('auth');
+Route::post('/skin/{slug}/comment', 'JvscriptController@storeComment')->name('skin.comment')->middleware('auth');
+
 //install, note
 Route::get('/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
 Route::get('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');

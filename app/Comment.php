@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model {
+class Comment extends Model {
 
     /**
      * Get all of the owning commentable models.

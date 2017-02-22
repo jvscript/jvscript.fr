@@ -40,6 +40,13 @@ class User extends Authenticatable {
     }
 
     /**
+     * Get all of the comments
+     */
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
