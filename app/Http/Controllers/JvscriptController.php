@@ -614,7 +614,21 @@ class JvscriptController extends Controller {
                 } else {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
                 }
-            } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match) || preg_match('/https:\/\/openuserjs\.org\/src\/scripts\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
+            } else if (preg_match('/https:\/\/(.*)\.github\.io\/(.*)\/(.*)\.js/i', $script->js_url, $match) ) {
+                //GITHUB PAGES
+                $url_crawl = "https://github.com/$match[1]/$match[2]/blob/master/$match[3].js";
+                $crawl_content = @file_get_contents($url_crawl);
+                if (preg_match('/<relative-time datetime="(.*Z)">/i', $crawl_content, $match_date)) {
+                    $date = $match_date[1];
+                    $date = \Carbon\Carbon::parse($date);
+                    $script->last_update = $date;
+                    $script->save();
+                    echo $script->js_url . "|$url_crawl|$date\n";
+                } else {
+                    echo "fail : " . $script->js_url . "|$url_crawl\n";
+                }
+            }            
+            elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match) || preg_match('/https:\/\/openuserjs\.org\/src\/scripts\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://openuserjs.org/scripts/$match[1]/$match[2]";
                 $crawl_content = @file_get_contents($url_crawl);
                 if (preg_match('/<time class="script-updated" datetime="(.*Z)" title=/i', $crawl_content, $match_date)) {
