@@ -41,7 +41,7 @@ Route::post('/script/{slug}/comment', 'JvscriptController@storeComment')->name('
 Route::post('/skin/{slug}/comment', 'JvscriptController@storeComment')->name('skin.comment')->middleware('auth');
 //delete comment
 Route::get('/script/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('script.comment.delete')->middleware('auth');
-Route::get('/skin/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('script.comment.delete')->middleware('auth');
+Route::get('/skin/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('skin.comment.delete')->middleware('auth');
 //delete comments admin
 Route::get('/admin/comment/{comment_id}/delete', 'JvscriptController@adminDeleteComment')->name('admin.comment.delete')->middleware('auth');
 

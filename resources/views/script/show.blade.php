@@ -221,10 +221,7 @@
     @include('global.comments', ['commentClass' => 'hidden-sm'])
 
     </div>
-
-
-
-
+ 
     <div class="col-md-6" id="item-description">
         <div class="panel-body desc">
             @if( $script->description != '' )
@@ -232,9 +229,8 @@
             @endif
         </div>
     </div>
-
-
-    @include('global.comments', ['commentClass' => 'visible-sm'])
+ 
+    @include('global.comments', ['commentClass' => 'visible-sm col-md-6'])
 
 
 </div>
