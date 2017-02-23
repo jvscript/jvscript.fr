@@ -17,6 +17,8 @@ Route::get('/', 'JvscriptController@index')->name('index');
 Route::get('/search/{keyword}', 'JvscriptController@index')->name('search');
 
 Route::get('/admin', 'JvscriptController@admin')->name('admin_index')->middleware('auth');
+Route::get('/admin/comments', 'JvscriptController@adminComments')->name('admin.comments')->middleware('auth');
+
 
 Route::get('/messcripts', 'JvscriptController@mesScripts')->name('messcripts')->middleware('auth');
 
@@ -37,6 +39,12 @@ Route::get('/skin/{slug}', 'JvscriptController@showSkin')->name('skin.show');
 //scripts comment
 Route::post('/script/{slug}/comment', 'JvscriptController@storeComment')->name('script.comment')->middleware('auth');
 Route::post('/skin/{slug}/comment', 'JvscriptController@storeComment')->name('skin.comment')->middleware('auth');
+//delete comment
+Route::get('/script/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('script.comment.delete')->middleware('auth');
+Route::get('/skin/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('script.comment.delete')->middleware('auth');
+Route::get('/admin/comment/{comment_id}/delete', 'JvscriptController@adminDeleteComment')->name('admin.comment.delete')->middleware('auth');
+
+
 
 //install, note
 Route::get('/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');

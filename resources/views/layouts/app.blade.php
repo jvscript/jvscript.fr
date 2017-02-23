@@ -116,15 +116,14 @@ echo json_encode([
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p class="text-right">&COPY; {{ date('Y') }} jvscript.io  -
+                        <p class="text-right">&COPY; {{ date('Y') }} jvscript.io <small>(v{{config('app.version')}})</small> -
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a> -
                             <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> -
                             <a href="{{url('contact')}}">Nous contacter</a> - 
-                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a> -
                             <a href="{{url('developpeurs')}}">Développeurs</a>  
                         </p>
                     </div>
                 </div>
-
             </footer>
         </div>
 

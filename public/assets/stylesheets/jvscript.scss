@@ -12,9 +12,20 @@
 footer{
     margin: 40px 0 20px;
 }
-//show script/skin page - short 'by autor' text
+
+/**
+* Show script/skin page 
+*/
+//- short 'by autor' text
 h1 .autor{
     font-size: 22px;
+}
+
+//commentaire des scripts/skins 
+
+#comments .date{
+    font-size: 13px;
+    font-weight: normal;
 }
 
 .sensibility{
@@ -24,6 +35,7 @@ h1 .autor{
 input.disabled{
     cursor: not-allowed;
 }
+
 /**
 * Home page
 */

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Script,
     App\Skin,
     App\User,
+    App\Comment,
     App\History;
 use Validator;
 use Illuminate\Support\Facades\Mail;
@@ -47,6 +48,9 @@ class JvscriptController extends Controller {
         return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
     }
 
+    /**
+     * Admin index
+     */
     public function admin(Request $request) {
         $this->adminOrFail();
         $scripts = Script::all();
@@ -58,6 +62,25 @@ class JvscriptController extends Controller {
         $scripts = $collapsed->sortByDesc('created_at');
 
         return view('admin.index', ['scripts' => $scripts]);
+    }
+
+    /**
+     * Admin comment
+     */
+    public function adminComments(Request $request) {
+        $this->adminOrFail();
+        $comments = Comment::orderBy('created_at', 'desc')->paginate(20);
+        return view('admin.comments', ['comments' => $comments]);
+    }
+
+    /**
+     * Admin delete comment
+     */
+    public function adminDeleteComment($comment_id) {
+        $this->adminOrFail();
+        $comment = Comment::findOrFail($comment_id);
+        $comment->delete();
+        return redirect(route("admin.comments"));
     }
 
     public function mesScripts(Request $request) {
@@ -76,6 +99,25 @@ class JvscriptController extends Controller {
     public function ajaxUsers(Request $request) {
         $this->adminOrFail();
         return \App\User::select('id', 'name')->get();
+    }
+
+    /**
+     * Delete comment
+     */
+    public function deleteComment($slug, $comment_id, Request $request) {
+        $user = Auth::user();
+        $route = \Request::route()->getName();
+        if (str_contains($route, "script")) {
+            $item = 'script';
+            $model = Script::where('slug', $slug)->firstOrFail();
+        } else if (str_contains($route, "skin")) {
+            $item = 'skin';
+            $model = Skin::where('slug', $slug)->firstOrFail();
+        }
+        $comment = Comment::findOrFail($comment_id);
+        $this->ownerOradminOrFail($comment->user_id);
+        $comment->delete();
+        return redirect(route("$item.show", $slug) . "#comments");
     }
 
     /**

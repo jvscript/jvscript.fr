@@ -1,5 +1,10 @@
 # Changelog
 
+
+## v1.0.2 - 2017-02-23
+
+- Fonction de commentaire (scripts/skins) avec suppression
+
 ## v1.0.1 - 2017-02-21
 
 - Page ''Mes scripts'' ajoutée pour avoir un accès rapide à tous vos scripts sur le site

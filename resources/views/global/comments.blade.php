@@ -5,7 +5,6 @@ if (isset($script->js_url)) {
     $item = "skin";
     $script = $skin;
 }
-
 ?> 
 <div id="comments" class="{{$commentClass}}">
 
@@ -38,9 +37,17 @@ if (isset($script->js_url)) {
         </div>
         <div class="form-group">
             <div class="col-md-6 ">
+                @if (Auth::guest())
+                <div style="display:block ; display:inline-block" data-toggle="tooltip" data-placement="right" title="Connectez-vous pour commenter">
+                    <button type="submit" disabled="true"class="btn btn-sm btn-primary disabled" style="pointer-events: none;">
+                        Commenter
+                    </button></div>
+                @else
                 <button type="submit" class="btn btn-sm btn-primary">
                     Commenter
                 </button>
+                @endif
+
             </div>
         </div>
 
@@ -57,27 +64,29 @@ if (isset($script->js_url)) {
         </div>
     </div>
     @else
-
-    <style>
-        .date{
-            font-size: 13px;
-        }
-    </style>
+ 
     @foreach($comments as $comment)
     <div class="row">
         <div class="col-md-12">
-
-
             <div class="panel panel-default">
                 <div class="panel-heading" style="text-align: left;">
                     <b>{{$comment->user()->first()->name}}</b> 
+                    
                     <span class="date pull-right">
                         {{$comment->created_at->format('d/m/Y à H:i')}}
-                    </span> 
+                    </span>
 
                 </div>
                 <div class="panel-body">
                     {{$comment->comment}}
+                    
+                    @if (Auth::check() && ( Auth::user()->isAdmin() ||  Auth::user()->id == $comment->user_id ))
+                     <span class="pull-right ">
+                         <br>
+                         <a data-toggle="confirmation" data-btn-ok-label="Oui" data-btn-cancel-label="Non" title="Supprimer le commentaire ?" href="{{ route($item.'.comment.delete', ['slug' => $script->slug, 'comment_id' => $comment->id ])}}"><i class="fa fa-trash fa-2x text-danger"></i></a>
+                    </span>
+                    @endif
+                    
                 </div>
             </div>
         </div>
@@ -85,7 +94,7 @@ if (isset($script->js_url)) {
     </div>
 
     @endforeach
-    
+
     {{ $comments->fragment('comments')->links() }}
 
 
