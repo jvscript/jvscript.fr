@@ -6378,6 +6378,7 @@ button.list-group-item-danger.active:focus {
 .panel.comments {
 				background: #2b2b2b;
 				box-shadow: 2px 2px 4px #1c1c1c;
+				border: 1px solid #212121;
 }
 
 .panel-body {
