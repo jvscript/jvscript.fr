@@ -17,7 +17,7 @@
     }
     &.comments {
       background: #2b2b2b;
-      box-shadow: none;
+      box-shadow: 2px 2px 4px rgb(28, 28, 28);
     }
 }
 
@@ -45,7 +45,7 @@
      @include img-responsive;
    }
    &.comments {
-     background: #2b2b2b;
+     background: #313131;
      box-shadow: none;
      border-top: 1px solid #353535;
    }
@@ -68,7 +68,7 @@
   }
   &.comments {
   border-bottom: 1px solid #232323;
-  background: #272727;
+  background: #2d2d2d;
   }
 }
 

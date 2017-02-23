@@ -7,8 +7,9 @@ if (isset($script->js_url)) {
 }
 ?>
 <div id="comments" class="{{$commentClass}}">
-
-    <h2>Commentaires</h2>
+<div class="panel-body">
+    <h4 style="margin-top: 0px; margin-bottom: -10px">Commentaires</h4>
+    <hr>
     <form id="add_form" class="form-horizontal" role="form" method="POST" action="{{ route($item.'.comment', $script->slug) }}">
         {{ csrf_field() }}
 
@@ -52,6 +53,7 @@ if (isset($script->js_url)) {
         </div>
 
     </form>
+    <hr>
 
     <?php
 //    $comments = $script->comments()->orderBy('created_at', 'desc')->get();
@@ -106,4 +108,5 @@ if (isset($script->js_url)) {
     @endif
 
 
+</div>
 </div>
