@@ -5,7 +5,7 @@ if (isset($script->js_url)) {
     $item = "skin";
     $script = $skin;
 }
-?> 
+?>
 <div id="comments" class="{{$commentClass}}">
 
     <h2>Commentaires</h2>
@@ -25,14 +25,14 @@ if (isset($script->js_url)) {
             </div>
         </div>
         <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
-            <div class="col-md-6 "> 
+            <div class="col-md-6 ">
                 <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>
 
                 @if ($errors->has('recaptcha'))
                 <span class="help-block">
                     <strong>{{ $errors->first('recaptcha') }}</strong>
                 </span>
-                @endif 
+                @endif
             </div>
         </div>
         <div class="form-group">
@@ -55,38 +55,38 @@ if (isset($script->js_url)) {
 
     <?php
 //    $comments = $script->comments()->orderBy('created_at', 'desc')->get();
-    ?> 
+    ?>
     @if(!count($comments))
 
-    <div class="panel panel-default">      
-        <div class="panel-body text-center">
-            Pas encore de commentaire pour ce {{$item}}.
+    <div class="panel comments">
+        <div class="panel-body text-center comments">
+            Aucun commentaire.
         </div>
     </div>
     @else
- 
+
     @foreach($comments as $comment)
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="text-align: left;">
-                    <b>{{$comment->user()->first()->name}}</b> 
-                    
+            <div class="panel comments">
+                <div class="panel-heading comments" style="text-align: left;">
+                    <b>{{$comment->user()->first()->name}}</b>
+
                     <span class="date pull-right">
                         {{$comment->created_at->format('d/m/Y à H:i')}}
                     </span>
 
                 </div>
-                <div class="panel-body">
+                <div class="panel-body comments">
                     {{$comment->comment}}
-                    
+
                     @if (Auth::check() && ( Auth::user()->isAdmin() ||  Auth::user()->id == $comment->user_id ))
                      <span class="pull-right ">
                          <br>
                          <a data-toggle="confirmation" data-btn-ok-label="Oui" data-btn-cancel-label="Non" title="Supprimer le commentaire ?" href="{{ route($item.'.comment.delete', ['slug' => $script->slug, 'comment_id' => $comment->id ])}}"><i class="fa fa-trash fa-2x text-danger"></i></a>
                     </span>
                     @endif
-                    
+
                 </div>
             </div>
         </div>
