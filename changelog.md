@@ -1,5 +1,11 @@
 # Changelog
 
+
+## v1.0.2 - 2017-02-23
+
+- [AJOUT] Fonction commentaires intégrée dans les pages de scripts/skins
+- [AJOUT] Rubrique "Liens Utiles" dans le header
+
 ## v1.0.1 - 2017-02-21
 
 - Page ''Mes scripts'' ajoutée pour avoir un accès rapide à tous vos scripts sur le site

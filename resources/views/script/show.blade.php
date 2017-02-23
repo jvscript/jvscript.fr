@@ -53,7 +53,7 @@
 
 <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-6" id="item-info">
         <div class="panel-body">
             @if ( $script->photo_url != null )
             <div class="desc-img">
@@ -215,18 +215,25 @@
         </div>-->
 
         @endif
-    </div>
 
-    <div class="col-md-6">
+
+        
+    @include('global.comments', ['commentClass' => 'hidden-sm'])
+
+    </div>
+ 
+    <div class="col-md-6" id="item-description">
         <div class="panel-body desc">
             @if( $script->description != '' )
             {!! (($script->description )) !!}
             @endif
         </div>
     </div>
+ 
+    @include('global.comments', ['commentClass' => 'visible-sm col-md-6'])
+
+
 </div>
-
-
 
 
 @endsection
