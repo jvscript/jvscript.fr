@@ -3,7 +3,8 @@
 
 ## v1.0.2 - 2017-02-23
 
-- Fonction de commentaire (scripts/skins) avec suppression
+- [AJOUT] Fonction commentaires intégrée dans les pages de scripts/skins
+- [AJOUT] Rubrique "Liens Utiles" dans le header
 
 ## v1.0.1 - 2017-02-21
 
