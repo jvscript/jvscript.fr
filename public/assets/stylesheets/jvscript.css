@@ -6375,7 +6375,7 @@ button.list-group-item-danger.active:focus {
 				border-color: #353535;
 }
 
-.panel .comments {
+.panel.comments {
 				background: #2b2b2b;
 				box-shadow: none;
 }
@@ -6413,9 +6413,10 @@ button.list-group-item-danger.active:focus {
 				max-width: 100%;
 }
 
-.panel-body .comments {
+.panel-body.comments {
 				background: #2b2b2b;
 				box-shadow: none;
+				border-top: 1px solid #353535;
 }
 
 .panel > .panel-body {
@@ -6437,7 +6438,8 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-heading.comments {
-				border-bottom: 1px solid #333333;
+				border-bottom: 1px solid #232323;
+				background: #272727;
 }
 
 .panel-title {

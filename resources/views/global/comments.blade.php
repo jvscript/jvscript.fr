@@ -74,18 +74,21 @@ if (isset($script->js_url)) {
 
                     <span class="date pull-right">
                         {{$comment->created_at->format('d/m/Y à H:i')}}
+                        @if (Auth::check() && ( Auth::user()->isAdmin() ||  Auth::user()->id == $comment->user_id ))
+                        <a data-toggle="confirmation" data-btn-ok-label="Oui" data-btn-cancel-label="Non" title="Supprimer le commentaire ?" href="{{ route($item.'.comment.delete', ['slug' => $script->slug, 'comment_id' => $comment->id ])}}"><i class="fa fa-times text-danger" style="font-size: 15px"></i></a>
+                        @endif
                     </span>
 
                 </div>
                 <div class="panel-body comments">
                     {{$comment->comment}}
 
-                    @if (Auth::check() && ( Auth::user()->isAdmin() ||  Auth::user()->id == $comment->user_id ))
-                     <span class="pull-right ">
+
+                    <!-- <span class="pull-right ">
                          <br>
-                         <a data-toggle="confirmation" data-btn-ok-label="Oui" data-btn-cancel-label="Non" title="Supprimer le commentaire ?" href="{{ route($item.'.comment.delete', ['slug' => $script->slug, 'comment_id' => $comment->id ])}}"><i class="fa fa-trash fa-2x text-danger"></i></a>
+
                     </span>
-                    @endif
+                    -->
 
                 </div>
             </div>

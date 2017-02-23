@@ -15,7 +15,7 @@
     > hr {
       border-color: $panel-default-border;
     }
-    .comments {
+    &.comments {
       background: #2b2b2b;
       box-shadow: none;
     }
@@ -44,9 +44,10 @@
    img {
      @include img-responsive;
    }
-   .comments {
+   &.comments {
      background: #2b2b2b;
      box-shadow: none;
+     border-top: 1px solid #353535;
    }
 }
 
@@ -66,7 +67,8 @@
     color: $gray-base;
   }
   &.comments {
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #232323;
+  background: #272727;
   }
 }
 
