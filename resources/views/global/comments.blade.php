@@ -55,6 +55,15 @@ if (isset($script->js_url)) {
         </form>
         <hr>
 
+        <style>
+            .current-topic-author {
+                vertical-align: top;
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFW…4SGb4HcBlwAOoNfOBBQ101dgOAEiDNEwkY0DiawFEBQIABAFv5JfizL8tlAAAAAElFTkSuQmCC);
+            }
+        </style>
         <?php
 //    $comments = $script->comments()->orderBy('created_at', 'desc')->get();
         ?>
@@ -72,9 +81,13 @@ if (isset($script->js_url)) {
             <div class="col-md-12">
                 <div class="panel comments">
                     <div class="panel-heading comments" style="text-align: left;">
-                        <i class="fa fa-user" aria-hidden="true" style="padding-right: 5px"></i>
 
+                        <!--<i class="fa fa-user" aria-hidden="true" style="padding-right: 5px"></i>-->
                         <b>{{$comment->user()->first()->name}}</b>
+
+                        @if($comment->user_id == $script->user_id)
+                        <i class="fa fa-check" aria-hidden="true" style="padding-right: 5px"  ></i>
+                        @endif
 
                         <span class="date pull-right">
                             {{$comment->created_at->format('d/m/Y à H:i')}}
