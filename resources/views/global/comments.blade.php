@@ -86,7 +86,7 @@ if (isset($script->js_url)) {
                         <b>{{$comment->user()->first()->name}}</b>
 
                         @if($comment->user_id == $script->user_id)
-                        <i class="fa fa-check" aria-hidden="true" style="padding-right: 5px"  ></i>
+                        <i class="fa fa-check" aria-hidden="true" style="padding-right: 5px" data-toggle="tooltip" data-placement="right" title="Créateur du {{$item}}"></i>
                         @endif
 
                         <span class="date pull-right">
