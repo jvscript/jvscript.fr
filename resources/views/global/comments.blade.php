@@ -72,6 +72,8 @@ if (isset($script->js_url)) {
         <div class="col-md-12">
             <div class="panel comments">
                 <div class="panel-heading comments" style="text-align: left;">
+                  <i class="fa fa-user" aria-hidden="true" style="padding-right: 5px"></i>
+
                     <b>{{$comment->user()->first()->name}}</b>
 
                     <span class="date pull-right">
