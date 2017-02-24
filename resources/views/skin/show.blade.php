@@ -190,7 +190,7 @@
  
         @endif 
         
-    @include('global.comments', ['commentClass' => 'hidden-sm  '])
+    @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm'])
     </div>
 
     <div class="col-md-6">
@@ -203,7 +203,7 @@
     </div>
     
     
-    @include('global.comments', ['commentClass' => 'visible-sm col-md-6'])
+    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6'])
 </div>
 
 
