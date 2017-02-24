@@ -126,6 +126,8 @@ class JvscriptController extends Controller {
      */
     public function limitComment($seconds) {
         $user = Auth::user();
+        if (!$user)
+            return false;
         return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
     }
 
