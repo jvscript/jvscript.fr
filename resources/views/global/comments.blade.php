@@ -25,6 +25,7 @@ if (isset($script->js_url)) {
                     @endif
                 </div>
             </div>
+            @if($show_captcha)
             <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
                 <div class="col-md-6 ">
                     <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>
@@ -36,6 +37,7 @@ if (isset($script->js_url)) {
                     @endif
                 </div>
             </div>
+            @endif
             <div class="form-group">
                 <div class="col-md-6 ">
                     @if (Auth::guest())
