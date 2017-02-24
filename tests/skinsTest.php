@@ -131,6 +131,26 @@ class skinsTest extends TestCase {
     }
 
     /**
+     * Commenter skin owner
+     */
+    public function testCommenterScriptOwner() {
+        $this->testConnexion('owner', 'password');
+        $this->visit('/skin/nom-du-skin')
+                ->type('Ceci est un commentaire', 'comment')
+                ->press('Commenter')
+                ->seePageIs('/skin/nom-du-skin')
+                ->see('Ceci est un commentaire')
+                ->type('2eme commentaire', 'comment')
+                ->press('Commenter')
+                ->see('Veuillez attendre 30 secondes entre chaque commentaire svp')
+                ->click('delete-comment')
+                ->seePageIs('/skin/nom-du-skin')
+                ->dontSee('Ceci est un commentaire')
+                ->dontSee('2eme commentaire')
+        ;
+    }
+
+    /**
      * Skin non validé Sans les droits admin
      */
     public function testGuestAdmin404() {
