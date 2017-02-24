@@ -3,7 +3,8 @@
 @section('title',$script->name.' | jvscript.io')
 
 @section('javascript')
-<script>
+
+<script type="text/javascript">
     $('[data-toggle=confirmation]').confirmation();
             $(function () {
             $('[data-toggle="tooltip"]').tooltip()
@@ -221,9 +222,7 @@
 
         @endif
 
-
-
-        @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm'])
+        @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm' , 'recaptcha' => 1])
 
     </div>
 
@@ -235,7 +234,9 @@
         </div>
     </div>
 
-    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6'])
+    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6', 'recaptcha' => 2])
+
+
 
 
 </div>

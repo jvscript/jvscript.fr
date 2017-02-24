@@ -193,7 +193,7 @@
 
         @endif 
 
-        @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm'])
+        @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm', 'recaptcha' => 1])
     </div>
 
     <div class="col-md-6">
@@ -206,7 +206,7 @@
     </div>
 
 
-    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6'])
+    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6', 'recaptcha' => 2])
 </div>
 
 

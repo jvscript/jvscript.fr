@@ -31,6 +31,12 @@
             }
         });
     });
+
+    $(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
 </script>
 
 @endsection
@@ -42,7 +48,7 @@
 
         <div class="panel-body">
             <p>
-                <a href="{{route('admin.comments')}}">Gestion des commentaires</a>  
+                <a href="{{route('admin.comments')}}">Gestion des commentaires</a>
                 <br>
                 <br>
                 <br>
@@ -50,7 +56,7 @@
 
             <div class="table-responsive">
 
-                <table id="example" class="table  table-condensed table-hover table-striped" cellspacing="0" width="100%">
+                <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th> Action </th>
@@ -74,9 +80,9 @@
                             $item = "skin";
                         }
                         ?>
-                        <tr >
-                            <td> <a class="btn btn-sm btn-default" href="{{route($item.'.show',['slug' => $script->slug ])}}">Voir</a>
-                                <a  class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}">Editer</a> </td>
+                        <tr class='clickable-row' data-href="{{route($item.'.show',['slug' => $script->slug ])}}">
+                            <td>
+                                <a class="btn btn-sm btn-default" href="http://jvscript.local/skin/darkjvc/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             <td> {{$script->name}} </td>
                             <td> {{$script->autor}}   </td>
                             <td> {{$script->note}}   </td>

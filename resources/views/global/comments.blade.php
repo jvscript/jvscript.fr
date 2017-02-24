@@ -6,6 +6,7 @@ if (isset($script->js_url)) {
     $script = $skin;
 }
 ?>
+
 <div id="comments" class="{{$commentClass}} ">
     <div class="panel-body">
         <h4 style="margin-top: 0px; margin-bottom: -10px">Commentaires</h4>
@@ -25,9 +26,11 @@ if (isset($script->js_url)) {
                     @endif
                 </div>
             </div>
+            @if($show_captcha)
             <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
                 <div class="col-md-6 ">
-                    <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>
+                    <!--<div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>-->
+                    <div id="recaptcha-{{$recaptcha}}"></div> 
 
                     @if ($errors->has('recaptcha'))
                     <span class="help-block">
@@ -36,6 +39,9 @@ if (isset($script->js_url)) {
                     @endif
                 </div>
             </div>
+
+
+            @endif
             <div class="form-group">
                 <div class="col-md-6 ">
                     @if (Auth::guest())
@@ -55,18 +61,6 @@ if (isset($script->js_url)) {
         </form>
         <hr>
 
-        <style>
-            .current-topic-author {
-                vertical-align: top;
-                display: inline-block;
-                width: 16px;
-                height: 16px;
-                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFW…4SGb4HcBlwAOoNfOBBQ101dgOAEiDNEwkY0DiawFEBQIABAFv5JfizL8tlAAAAAElFTkSuQmCC);
-            }
-        </style>
-        <?php
-//    $comments = $script->comments()->orderBy('created_at', 'desc')->get();
-        ?>
         @if(!count($comments))
 
         <div class="panel comments">
@@ -82,7 +76,6 @@ if (isset($script->js_url)) {
                 <div class="panel comments">
                     <div class="panel-heading comments" style="text-align: left;">
 
-                        <!--<i class="fa fa-user" aria-hidden="true" style="padding-right: 5px"></i>-->
                         <b>{{$comment->user()->first()->name}}</b>
 
                         @if($comment->user_id == $script->user_id)
@@ -119,3 +112,14 @@ if (isset($script->js_url)) {
 
     </div>
 </div>
+
+@section('recaptcha')
+@if($show_captcha)
+<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
+<script type="text/javascript">
+var CaptchaCallback = function () {
+    grecaptcha.render('recaptcha-1', {'sitekey': '6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS'});
+    grecaptcha.render('recaptcha-2', {'sitekey': '6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS'});
+};</script>
+@endif
+@endsection

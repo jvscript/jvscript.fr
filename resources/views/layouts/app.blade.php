@@ -57,10 +57,10 @@ echo json_encode([
                             <ul class="dropdown-menu">
                                 <li> <a href="{{route('aide')}}">Aide</a></li>
                                 <li> <a href="{{url('contact')}}">Nous contacter</a> </li>
-                        <!--        <li> <a href="{{url('developpeurs')}}">Développeurs</a></li> -->
+                                <!--        <li> <a href="{{url('developpeurs')}}">Développeurs</a></li> -->
                                 <li> <a href="https://github.com/jvscript">GitHub</a></li>
-                                                  <!--      <li> <a href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a></li> -->
-                                </ul>
+                                <!--      <li> <a href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a></li> -->
+                            </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
@@ -124,7 +124,7 @@ echo json_encode([
                 <div class="row">
                     <div class="col-lg-12">
                         <p class="text-right">&COPY; {{ date('Y') }} jvscript.io -
-                          <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">v{{config('app.version')}}</a>
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">v{{config('app.version')}}</a>
                         </p>
                     </div>
                 </div>
@@ -135,7 +135,8 @@ echo json_encode([
         <script src="/assets/javascripts/bootstrap.min.js"></script>
         <script src="/js/list.min.js"></script>
         <script src="/js/confirm.min.js"></script>
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        @yield('recaptcha', "<script src='https://www.google.com/recaptcha/api.js'></script>")
+        
         @yield('javascript')
 
         <script>
