@@ -580,6 +580,7 @@ class JvscriptController extends Controller {
     public function deleteScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->ownerOradminOrFail($script->user_id);
+        $script->comments()->delete();
         $script->delete();
         $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
         $this->sendDiscord($message, $this->discord_url);
@@ -591,6 +592,7 @@ class JvscriptController extends Controller {
     public function deleteSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->ownerOradminOrFail($skin->user_id);
+        $skin->comments()->delete();
         $skin->delete();
         $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
         $this->sendDiscord($message, $this->discord_url);
