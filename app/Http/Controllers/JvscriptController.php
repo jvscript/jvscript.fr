@@ -161,9 +161,11 @@ class JvscriptController extends Controller {
                 return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
             }
             //anti spam 60 secondes : besoin validation captcha
-            if ($this->limitComment($this->min_time_captcha) || (!App::environment('testing', 'local') && !$resp->isSuccess())) {
-                $request->flash();
-                return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+            if ($this->limitComment($this->min_time_captcha)) {
+                if ((!App::environment('testing', 'local') && !$resp->isSuccess())) {
+                    $request->flash();
+                    return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+                }
             }
             $comment = $request->input('comment');
             $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
