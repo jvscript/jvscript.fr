@@ -44,14 +44,13 @@ Route::get('/script/{slug}/comment/{comment_id}/delete', 'JvscriptController@del
 Route::get('/skin/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('skin.comment.delete')->middleware('auth');
 //delete comments admin
 Route::get('/admin/comment/{comment_id}/delete', 'JvscriptController@adminDeleteComment')->name('admin.comment.delete')->middleware('auth');
-
-
+ 
 
 //install, note
 Route::get('/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
-Route::get('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');
+Route::post('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');
 Route::get('/skin/install/{slug}', 'JvscriptController@installSkin')->name('skin.install');
-Route::get('/skin/note/{slug}/{note}', 'JvscriptController@noteSkin')->name('skin.note');
+Route::post('/skin/note/{slug}/{note}', 'JvscriptController@noteSkin')->name('skin.note');
 
 
 //updates

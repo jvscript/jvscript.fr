@@ -19,6 +19,7 @@ class scriptsTest extends TestCase {
      * - refuser le script (admin)     
      * - supprimer le script (admin)     
      * _TODO : page mescripts owner
+     * _TODO : admin comment delete
      */
 
     public function testHomepage() {
@@ -135,7 +136,27 @@ class scriptsTest extends TestCase {
     }
 
     /**
-     * Script non validé Sans les droits admin
+     * Commenter script owner
+     */
+    public function testCommenterScriptOwner() {
+        $this->testConnexion('owner', 'password');
+        $this->visit('/script/nom-du-script')
+                ->type('Ceci est un commentaire', 'comment')
+                ->press('Commenter')
+                ->seePageIs('/script/nom-du-script')
+                ->see('Ceci est un commentaire')
+                ->type('2eme commentaire', 'comment')
+                ->press('Commenter')
+                ->see('Veuillez attendre 30 secondes entre chaque commentaire svp')
+                ->click('delete-comment')
+                ->seePageIs('/script/nom-du-script')
+                ->dontSee('Ceci est un commentaire')
+                ->dontSee('2eme commentaire')
+        ;
+    }
+
+    /**
+     * Page admin en guest
      */
     public function testGuestAdmin404() {
         $this->visit('/admin')
@@ -158,13 +179,19 @@ class scriptsTest extends TestCase {
      * accès au script par guest
      */
     public function testNoterInstallerScriptGuest() {
-        $this->visit('/script/note/nom-du-script/5')
+        $note = rand(1, 5);
+        $this->visit('/script/nom-du-script')
+                ->press("note-$note")
                 ->seePageIs('/script/nom-du-script')
                 ->see('1 votes');
 
         $this->call('GET', '/script/install/nom-du-script');
         $this->visit('/script/nom-du-script')
-                ->see('1 fois');
+                ->see('0 fois');
+
+        $this->call('GET', '/script/install/nom-du-script',  $parameters = [], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script' ] );
+        $this->visit('/script/nom-du-script')
+                ->see('1 fois');        
     }
 
     public function testRefuserScriptAdmin() {

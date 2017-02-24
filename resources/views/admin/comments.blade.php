@@ -45,7 +45,7 @@
                             <td> {{$comment->user()->first()->name}} </td>
                             <td style="max-width:500px;"> {{$comment->comment}}   </td>
                             <td> {{$comment->created_at}}   </td>
-                            <td> {{$comment->commentable()->first()->name}}   </td> 
+                            <td> {{ $comment->commentable()->first() ?  $comment->commentable()->first()->name : '* Script supprimé *' }}   </td> 
                         </tr>
                         @endforeach
                     </tbody>

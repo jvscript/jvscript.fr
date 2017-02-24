@@ -23,8 +23,6 @@ class JvscriptController extends Controller {
      * @return void
      */
     public function __construct() {
-//        $this->middleware('auth');
-
         if (App::environment('local', 'testing')) {
             $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
         } else { //prod
@@ -144,7 +142,7 @@ class JvscriptController extends Controller {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
+            if (!App::environment('testing', 'local', 'production') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
@@ -420,12 +418,14 @@ class JvscriptController extends Controller {
     public function installScript($slug, Request $request) {
         $script = Script::where('slug', $slug)->firstOrFail();
 
-        //if no history install_count +1
-        $history = History::where(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
-        if ($history->count() == 0) {
-            History::create(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
-            $script->install_count++;
-            $script->save();
+        // protection referer to count
+        if (str_contains($request->headers->get('referer'), $slug)) {
+            $history = History::where(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
+            if ($history->count() == 0) {
+                History::create(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
+                $script->install_count++;
+                $script->save();
+            }
         }
         return redirect($script->js_url);
     }
@@ -456,11 +456,14 @@ class JvscriptController extends Controller {
         $skin = Skin::where('slug', $slug)->firstOrFail();
 
         //if no history install_count +1
-        $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-        if ($history->count() == 0) {
-            History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-            $skin->install_count++;
-            $skin->save();
+        // protection referer to count
+        if (str_contains($request->headers->get('referer'), $slug)) {
+            $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+            if ($history->count() == 0) {
+                History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+                $skin->install_count++;
+                $skin->save();
+            }
         }
         return redirect($skin->skin_url);
     }

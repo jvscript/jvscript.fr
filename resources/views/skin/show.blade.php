@@ -5,11 +5,9 @@
 @section('javascript')
 <script>
     $('[data-toggle=confirmation]').confirmation();
-
-
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+            $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+            })
 
 </script>
 @endsection
@@ -77,24 +75,29 @@
                 </p>
                 @endif
 
-                <p>
+                <p> 
                     <b> Note : </b>
                     <?php $note = round($skin->note * 2) / 2; ?>
                     @for ($i = 1; $i <= $note ; $i++)
-                    <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}"><i class="fa fa-star" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star" aria-hidden="true"></i></a>
                     @endfor
                     <?php $stop = $i; ?>
                     @for ($i ; $i <= 5 ; $i++)
                     @if($i == $stop && $note > ( $i -1 ) )
-                    <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
                     @else
-                    <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i ])}}"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-o" aria-hidden="true"></i></a>
                     @endif
-
                     @endfor
-
                     ({{$skin->note_count}} votes)
                 </p>
+
+                @for ($i = 1; $i <= 5 ; $i++)
+                <form id="note-{{$i}}" action="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                    <input type="submit" name="note-{{$i}}" style="display: none;" />
+                </form>              
+                @endfor 
 
                 <p>
                     <b>  Install : </b>   {{$skin->install_count}} fois
@@ -187,10 +190,10 @@
 
         <!--    </div>
         </div>-->
- 
+
         @endif 
-        
-    @include('global.comments', ['commentClass' => 'hidden-sm  '])
+
+        @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm'])
     </div>
 
     <div class="col-md-6">
@@ -201,9 +204,9 @@
         </div>
 
     </div>
-    
-    
-    @include('global.comments', ['commentClass' => 'visible-sm col-md-6'])
+
+
+    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6'])
 </div>
 
 
