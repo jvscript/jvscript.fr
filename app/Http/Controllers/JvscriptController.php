@@ -144,7 +144,7 @@ class JvscriptController extends Controller {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
+            if (!App::environment('testing', 'local','production') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
