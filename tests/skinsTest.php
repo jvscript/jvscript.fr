@@ -173,12 +173,18 @@ class skinsTest extends TestCase {
     /**
      * accès au skin par guest
      */
-    public function testNoterInstallerSkinGuest() {
-        $this->visit('/skin/note/nom-du-skin/5')
+    public function testNoterInstallerScriptGuest() {
+        $note = rand(1, 5);
+        $this->visit('/skin/nom-du-skin')
+                ->press("note-$note")
                 ->seePageIs('/skin/nom-du-skin')
                 ->see('1 votes');
 
         $this->call('GET', '/skin/install/nom-du-skin');
+        $this->visit('/skin/nom-du-skin')
+                ->see('0 fois');
+
+        $this->call('GET', '/skin/install/nom-du-skin', $parameters = [], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-skin']);
         $this->visit('/skin/nom-du-skin')
                 ->see('1 fois');
     }

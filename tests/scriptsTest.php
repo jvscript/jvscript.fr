@@ -179,13 +179,19 @@ class scriptsTest extends TestCase {
      * accès au script par guest
      */
     public function testNoterInstallerScriptGuest() {
-        $this->visit('/script/note/nom-du-script/5')
+        $note = rand(1, 5);
+        $this->visit('/script/nom-du-script')
+                ->press("note-$note")
                 ->seePageIs('/script/nom-du-script')
                 ->see('1 votes');
 
         $this->call('GET', '/script/install/nom-du-script');
         $this->visit('/script/nom-du-script')
-                ->see('1 fois');
+                ->see('0 fois');
+
+        $this->call('GET', '/script/install/nom-du-script',  $parameters = [], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script' ] );
+        $this->visit('/script/nom-du-script')
+                ->see('1 fois');        
     }
 
     public function testRefuserScriptAdmin() {
