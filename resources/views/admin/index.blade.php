@@ -82,7 +82,7 @@
                         ?>
                         <tr class='clickable-row' data-href="{{route($item.'.show',['slug' => $script->slug ])}}">
                             <td>
-                                <a class="btn btn-sm btn-default" href="http://jvscript.local/skin/darkjvc/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <a class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             <td> {{$script->name}} </td>
                             <td> {{$script->autor}}   </td>
                             <td> {{$script->note}}   </td>
