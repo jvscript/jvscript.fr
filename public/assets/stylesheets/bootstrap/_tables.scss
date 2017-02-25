@@ -244,3 +244,10 @@ table {
 thead {
     background: #434343;
 }
+.table-link {
+  &:hover,&:visited,&:active,&:focus {
+    color: $gray-base;
+  }
+    display:block;
+    color: $gray-base;
+}
