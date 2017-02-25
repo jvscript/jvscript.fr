@@ -34,72 +34,6 @@ class JvscriptController extends Controller {
         $this->lib = new Lib();
     }
 
-    public function index(Request $request, $keyword = null) {
-        $keyword = $keyword == null ? '' : $keyword;
-        $scripts = Script::where("status", 1)->get();
-        $skins = Skin::where("status", 1)->get();
-
-        $collection = collect([$scripts, $skins]);
-        $collapsed = $collection->collapse();
-        $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('install_count');
-
-        return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
-    }
-
-    /**
-     * Admin index
-     */
-    public function admin(Request $request) {
-        $this->adminOrFail();
-        $scripts = Script::all();
-        $skins = Skin::all();
-
-        $collection = collect([$scripts, $skins]);
-        $collapsed = $collection->collapse();
-        $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('created_at');
-
-        return view('admin.index', ['scripts' => $scripts]);
-    }
-
-    /**
-     * Admin comment
-     */
-    public function adminComments(Request $request) {
-        $this->adminOrFail();
-        $comments = Comment::orderBy('created_at', 'desc')->paginate(20);
-        return view('admin.comments', ['comments' => $comments]);
-    }
-
-    /**
-     * Admin delete comment
-     */
-    public function adminDeleteComment($comment_id) {
-        $this->adminOrFail();
-        $comment = Comment::findOrFail($comment_id);
-        $comment->delete();
-        return redirect(route("admin.comments"));
-    }
-
-    public function mesScripts(Request $request) {
-        $user = Auth::user();
-        $scripts = $user->scripts()->get();
-        $skins = $user->skins()->get();
-
-        $collection = collect([$scripts, $skins]);
-        $collapsed = $collection->collapse();
-        $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('created_at');
-
-        return view('moncompte.index', ['scripts' => $scripts]);
-    }
-
-    public function ajaxUsers(Request $request) {
-        $this->adminOrFail();
-        return \App\User::select('id', 'name')->get();
-    }
-
     /**
      * Delete comment
      */
@@ -114,7 +48,7 @@ class JvscriptController extends Controller {
             $model = Skin::where('slug', $slug)->firstOrFail();
         }
         $comment = Comment::findOrFail($comment_id);
-        $this->ownerOradminOrFail($comment->user_id);
+        $this->lib->ownerOradminOrFail($comment->user_id);
         $comment->delete();
         return redirect(route("$item.show", $slug) . "#comments");
     }
@@ -279,7 +213,7 @@ class JvscriptController extends Controller {
      */
     public function updateScript(Request $request, $slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($script->user_id);
+        $this->lib->ownerOradminOrFail($script->user_id);
 
         $messages = [
             'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
@@ -326,7 +260,7 @@ class JvscriptController extends Controller {
 
     public function updateSkin(Request $request, $slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($skin->user_id);
+        $this->lib->ownerOradminOrFail($skin->user_id);
 
         $messages = [
             'skin_url.regex' => 'Le champ :attribute doit être un lien du format \'https://userstyles.org/styles/...\'',
@@ -370,7 +304,7 @@ class JvscriptController extends Controller {
 
     public function validateScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($script->status != 1) {
             $script->status = 1;
@@ -385,7 +319,7 @@ class JvscriptController extends Controller {
 
     public function validateSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($skin->status != 1) {
             $skin->status = 1;
@@ -400,7 +334,7 @@ class JvscriptController extends Controller {
 
     public function refuseScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($script->status != 2) {
             $script->status = 2;
@@ -415,7 +349,7 @@ class JvscriptController extends Controller {
 
     public function refuseSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($skin->status != 2) {
             $skin->status = 2;
@@ -504,43 +438,6 @@ class JvscriptController extends Controller {
     }
 
     /**
-     * Contact send (discord bot)
-     */
-    public function contactSend(Request $request) {
-        $validator = Validator::make($request->all(), [
-                    'email' => 'email',
-                    'message_body' => "required"
-        ]);
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-            );
-        } else {
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing') && !$resp->isSuccess()) {
-                $request->flash();
-                return redirect(route('contact.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-            }
-
-            //send discord 
-            $this->discord_url;
-            $message = "[contact form] ";
-            if ($request->input('email')) {
-                $message .= "Email : " . $request->input('email') . '.';
-            }
-            $message .= "Message : " . $request->input('message_body');
-            $this->lib->sendDiscord($message, $this->discord_url);
-
-            return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");
-        }
-
-        return redirect(route('contact.form'));
-    }
-
-    /**
      * ============
      * Some Views bellow 
      * ============
@@ -583,19 +480,19 @@ class JvscriptController extends Controller {
 
     public function editScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($script->user_id);
+        $this->lib->ownerOradminOrFail($script->user_id);
         return view('script.edit', ['script' => $script]);
     }
 
     public function editSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($skin->user_id);
+        $this->lib->ownerOradminOrFail($skin->user_id);
         return view('skin.edit', ['skin' => $skin]);
     }
 
     public function deleteScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($script->user_id);
+        $this->lib->ownerOradminOrFail($script->user_id);
         $script->comments()->delete();
         $script->delete();
         $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
@@ -607,7 +504,7 @@ class JvscriptController extends Controller {
 
     public function deleteSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($skin->user_id);
+        $this->lib->ownerOradminOrFail($skin->user_id);
         $skin->comments()->delete();
         $skin->delete();
         $message = "[delete script] Skin supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
@@ -618,24 +515,8 @@ class JvscriptController extends Controller {
         return redirect(route('index'));
     }
 
-    /**
-     * Usefull functions 
-     */
-    public function adminOrFail() {
-        if (!(Auth::check() && Auth::user()->isAdmin())) {
-            abort(404);
-        }
-    }
-
-    public function ownerOradminOrFail($user_id) {
-        //si c'est l'owner de l'objet (script/skin) on laisse passer
-        if (!(Auth::check() && Auth::user()->id == $user_id)) {
-            $this->adminOrFail();
-        }
-    }
-
     public function slugifyScript($name) {
-        $slug = $this->slugify($name);
+        $slug = $this->lib->slugify($name);
         $i = 1;
         $baseSlug = $slug;
         while (Script::where('slug', $slug)->count() > 0) {
@@ -645,7 +526,7 @@ class JvscriptController extends Controller {
     }
 
     public function slugifySkin($name) {
-        $slug = $this->slugify($name);
+        $slug = $this->lib->slugify($name);
         $i = 1;
         $baseSlug = $slug;
         while (Skin::where('slug', $slug)->count() > 0) {
@@ -654,27 +535,8 @@ class JvscriptController extends Controller {
         return $slug;
     }
 
-    public function slugify($text) {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-        // trim
-        $text = trim($text, '-');
-        // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
-        // lowercase
-        $text = strtolower($text);
-        if (empty($text)) {
-            return 'n-a';
-        }
-        return $text;
-    }
-
     public function crawlInfo() {
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
         $this->lib->crawlInfo();
     }
 

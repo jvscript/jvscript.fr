@@ -4,8 +4,44 @@ namespace App\Lib;
 
 use App\Script,
     App\Skin;
+use Auth;
 
 class Lib {
+
+    /**
+     * Usefull functions 
+     */
+    public function adminOrFail() {
+        if (!(Auth::check() && Auth::user()->isAdmin())) {
+            abort(404);
+        }
+    }
+
+    public function ownerOradminOrFail($user_id) {
+        //si c'est l'owner de l'objet (script/skin) on laisse passer
+        if (!(Auth::check() && Auth::user()->id == $user_id)) {
+            $this->adminOrFail();
+        }
+    }
+
+    public function slugify($text) {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+        // trim
+        $text = trim($text, '-');
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+        // lowercase
+        $text = strtolower($text);
+        if (empty($text)) {
+            return 'n-a';
+        }
+        return $text;
+    }
 
     public function sendDiscord($content, $url) {
         if (empty($content)) {
@@ -29,8 +65,6 @@ class Lib {
         $context = stream_context_create($opts);
         file_get_contents($url, false, $context);
     }
-    
-    
 
     public function crawlInfo() {
         set_time_limit(600);
