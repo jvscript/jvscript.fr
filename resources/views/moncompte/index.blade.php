@@ -31,12 +31,6 @@
             }
         });
     });
-
-    $(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
-    });
-});
 </script>
 
 @endsection
@@ -55,7 +49,7 @@
                     <tr>
                         <th> Action </th>
                         <th> Nom </th>
-                        <th> Auteur </th>
+                    <!--    <th> Auteur </th> -->
                         <th> Note </th>
                         <th> Install </th>
                         <th> Status </th>
@@ -74,11 +68,11 @@
                         $item = "skin";
                     }
                     ?>
-                    <tr class='clickable-row' data-href="{{route($item.'.show',['slug' => $script->slug ])}}">
+                    <tr>
                         <td>
-                            <a class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <td> {{$script->name}} </td>
-                        <td> {{$script->autor}}   </td>
+                            <a class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Editer le {{ucfirst($item)}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <td><a class='table-link' href="{{route($item.'.show',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Voir le {{ucfirst($item)}}"> {{$script->name}} </a></td>
+                      <!--  <td> {{$script->autor}}   </td> -->
                         <td> {{$script->note}}   </td>
                         <td> {{$script->install_count}}   </td>
                         <td> {{$script->statusLabel()}}   </td>

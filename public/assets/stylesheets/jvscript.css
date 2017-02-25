@@ -2971,6 +2971,15 @@ thead {
 				background: #434343;
 }
 
+.table-link {
+				display: block;
+				color: #ccc;
+}
+
+.table-link:hover, .table-link:visited, .table-link:active, .table-link:focus {
+				color: #ccc;
+}
+
 /*$gray-dark:              #cdcdcd !default;   // #333*/
 fieldset {
 				padding: 0;
