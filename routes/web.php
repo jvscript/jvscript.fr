@@ -25,19 +25,15 @@ Route::get('/messcripts', 'UserController@mesScripts')->name('messcripts')->midd
 //ajax-users
 Route::get('/ajax-users', 'UserController@ajaxUsers')->name('search')->middleware('auth');
 
-
-//==JvscriptController==
-
 //contact form
 Route::get('/contact/{message_body?}', function ($message_body = null) {
     return view('contact', ['message_body' => $message_body]);
 })->name('contact.form');
 //contact action
-Route::post('/contact', 'JvscriptController@contactSend')->name('contact.send');
+Route::post('/contact', 'UserController@contactSend')->name('contact.send');
 
 
-
-
+//==JvscriptController==
 //forms
 Route::get('/script/ajout', function () {
     return view('script.form');
