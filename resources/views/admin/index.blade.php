@@ -31,12 +31,6 @@
             }
         });
     });
-
-    $(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
-    });
-});
 </script>
 
 @endsection
@@ -46,16 +40,12 @@
     <div>
 
 
-        <div class="panel-body">
-            <p>
+              <p>
                 <a href="{{route('admin.comments')}}">Gestion des commentaires</a>
-                <br>
-                <br>
                 <br>
             </p>
 
             <div class="table-responsive">
-
                 <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -80,22 +70,23 @@
                             $item = "skin";
                         }
                         ?>
-                        <tr class='clickable-row' data-href="{{route($item.'.show',['slug' => $script->slug ])}}">
+                        <tr>
                             <td>
-                                <a class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <td> {{$script->name}} </td>
-                            <td> {{$script->autor}}   </td>
+                                <a class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Editer le {{ucfirst($item)}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            <td><a class='table-link' href="{{route($item.'.show',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Voir le {{ucfirst($item)}}"> {{$script->name}} </a></td>
+                            <td> <a class='table-link' href="{{url('/search/'.$script->autor)}}"  data-toggle="tooltip" data-placement="bottom" title="Voir le profil de {{$script->autor}}">{{$script->autor}}   </a></td>
                             <td> {{$script->note}}   </td>
-                            <td> {{$script->install_count}}   </td>
-                            <td> {{$script->statusLabel()}}   </td>
+                            <td> {{$script->install_count}}  </td>
+                            <td> {{$script->statusLabel()}}  </td>
                             <td>
                                 @if($script->version == null && $item == "script")
                                 <strong class="text-danger">PAS DE VERSION</strong>
                                 @else
                                 {{$script->version}}
                                 @endif
+
                             </td>
-                            <td> {!!$script->last_update != null ? '<span class="hidden">'.$script->last_update.'</span>'. $script->last_update->format('d/m/Y') : '<strong class="text-danger">PAS DE DATE</strong> '!!}  </td>
+                            <td> {!!$script->last_update != null ? '<span class="hidden">'.$script->last_update.'</span>'. $script->last_update->format('d/m/Y') : '<strong class="text-danger">PAS DE DATE</strong> '!!} </td>
                             <td> {{$script->created_at->format('d/m/Y - H:i')}}  </td>
                             <td> {{ucfirst($item)}} </td>
                         </tr>
@@ -103,7 +94,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+
 
 
     </div>

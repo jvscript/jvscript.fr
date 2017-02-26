@@ -17,9 +17,8 @@ class scriptsTest extends TestCase {
      * - noter le script
      * - installer le script 
      * - refuser le script (admin)     
-     * - supprimer le script (admin)     
-     * _TODO : page mescripts owner
-     * _TODO : admin comment delete
+     * - supprimer le script (admin)   
+     * _TODO : do file uplaod
      */
 
     public function testHomepage() {
@@ -51,7 +50,7 @@ class scriptsTest extends TestCase {
                 ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
                 ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
                 ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
-                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
+//                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
                 ->type('https://www.paypal.me/vplancke/', 'don_url')
                 ->press('Ajouter')
                 ->seePageIs('/script/ajout')
@@ -77,7 +76,7 @@ class scriptsTest extends TestCase {
                 ->see('https://github.com/jvscript/jvscript.github.io')
                 ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
                 ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
-                ->see('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif')
+//                ->see('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif')
                 ->see('https://www.paypal.me/vplancke/');
     }
 

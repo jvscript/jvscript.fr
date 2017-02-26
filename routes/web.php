@@ -51,11 +51,11 @@ Route::get('/script/{slug}', 'JvscriptController@showScript')->name('script.show
 Route::get('/skin/{slug}', 'JvscriptController@showSkin')->name('skin.show');
 
 //scripts comment
-Route::post('/script/{slug}/comment', 'JvscriptController@storeComment')->name('script.comment')->middleware('auth');
-Route::post('/skin/{slug}/comment', 'JvscriptController@storeComment')->name('skin.comment')->middleware('auth');
+Route::post('/script/{slug}/comment', 'CommentController@storeComment')->name('script.comment')->middleware('auth');
+Route::post('/skin/{slug}/comment', 'CommentController@storeComment')->name('skin.comment')->middleware('auth');
 //delete comment
-Route::get('/script/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('script.comment.delete')->middleware('auth');
-Route::get('/skin/{slug}/comment/{comment_id}/delete', 'JvscriptController@deleteComment')->name('skin.comment.delete')->middleware('auth');
+Route::get('/script/{slug}/comment/{comment_id}/delete', 'CommentController@deleteComment')->name('script.comment.delete')->middleware('auth');
+Route::get('/skin/{slug}/comment/{comment_id}/delete', 'CommentController@deleteComment')->name('skin.comment.delete')->middleware('auth');
 
 
 //install, note
@@ -91,6 +91,7 @@ Route::get('/aide', function () {
 })->name('aide');
 
 Route::get('/crawlInfo', 'JvscriptController@crawlInfo');
+Route::get('/storeImages', 'JvscriptController@storeImages');
 
 Auth::routes();
 

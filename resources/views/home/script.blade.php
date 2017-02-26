@@ -45,7 +45,7 @@
 
             </div>
 
-            <?php $src = $script->photo_url == null ? "/assets/images/script.jpg" : $script->photo_url ?>
+            <?php $src = $script->photo_url == null ? "/assets/images/script.jpg" : $script->photoSmall() ?>
             <div class="image"> 
                  @if($lazy)
                 <img data-src="{{$src}}" class="b-lazy" alt="{{$script->name}} logo" /> 

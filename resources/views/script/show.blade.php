@@ -58,8 +58,8 @@
             @if ( $script->photo_url != null )
             <div class="desc-img">
                 <p>
-                    <a href="{{$script->photo_url}}"  data-toggle="modal" data-target="#myModal">
-                        <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" alt="{{$script->name}} logo" />
+                    <a href="#"  data-toggle="modal" data-target="#myModal">
+                        <img class="img-thumbnail img-responsive" src="{{($script->photo_url)}}" alt="{{$script->name}} logo" />
                     </a>
                 </p>
             </div>
@@ -67,12 +67,11 @@
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-
                         <div class="modal-body text-center">
-                            <img class="img-thumbnail img-responsive" src="{{$script->photo_url}}" style="" alt="{{$script->name}} logo" />
-                        </div>
-
+                            <img class="img-thumbnail img-responsive" src="{{($script->photo_url)}}"   alt="{{$script->name}} logo" />
+                        </div>                        
                     </div>
+
                 </div>
             </div>
             @endif

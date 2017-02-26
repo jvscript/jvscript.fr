@@ -23,29 +23,28 @@
 <div class="row">
 
     <div>
-        <div class="panel-body">
             <div class="table-responsive">
 
-                <table id="example" class="table  table-condensed table-hover table-striped" cellspacing="0" width="100%">
+                <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th> Action </th>
                             <th> Auteur </th>
                             <th> Commentaire </th>
                             <th> Date </th>
-                            <th> Scripts/skins </th> 
+                            <th> Sujet </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($comments as $comment)
 
                         <tr>
-                            <td>  
+                            <td>
                                 <a class="btn btn-sm btn-default" href="{{route('admin.comment.delete',$comment->id)}}" data-toggle="confirmation">Supprimer</a> </td>
                             <td> {{$comment->user()->first()->name}} </td>
                             <td style="max-width:500px;"> {{$comment->comment}}   </td>
                             <td> {{$comment->created_at}}   </td>
-                            <td> {{ $comment->commentable()->first() ?  $comment->commentable()->first()->name : '* Script supprimé *' }}   </td> 
+                            <td> {{ $comment->commentable()->first() ?  $comment->commentable()->first()->name : '* Script supprimé *' }}   </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -53,7 +52,6 @@
 
                 {{ $comments->links() }}
             </div>
-        </div>
 
 
     </div>

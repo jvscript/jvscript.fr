@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Script,
     App\Skin,
     App\User,
-    App\Comment,
     App\History;
 use Validator;
 use Auth;
 use App;
 use App\Notifications\notifyStatus;
 use App\Lib\Lib;
+use Image;
+use Illuminate\Support\Facades\Storage;
 
 class JvscriptController extends Controller {
 
@@ -29,83 +30,51 @@ class JvscriptController extends Controller {
         }
 
         $this->discord_url = env('DISCORD_URL', '');
+        $this->lib = new Lib();
         $this->min_time_comment = 30; //limite de temps entre chaque commentaire
         $this->min_time_captcha = 60; //limite de temps entre chaque commentaire pour faire disparaitre le captcha
-        $this->lib = new Lib();
     }
 
-    /**
-     * Delete comment
-     */
-    public function deleteComment($slug, $comment_id, Request $request) {
-        $user = Auth::user();
-        $route = \Request::route()->getName();
-        if (str_contains($route, "script")) {
-            $item = 'script';
-            $model = Script::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "skin")) {
-            $item = 'skin';
-            $model = Skin::where('slug', $slug)->firstOrFail();
-        }
-        $comment = Comment::findOrFail($comment_id);
-        $this->lib->ownerOradminOrFail($comment->user_id);
-        $comment->delete();
-        return redirect(route("$item.show", $slug) . "#comments");
-    }
+    public function storeImage($item, $file) {
+        $filename = $item->slug;
+        $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
 
-    /**
-     * Renvoie true si l'user doit être limité
-     * @param int $seconds
-     * @return true if limited comment
-     */
-    public function limitComment($seconds) {
-        $user = Auth::user();
-        if (!$user)
-            return false;
-        return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
-    }
+        $img = Image::make($file);
 
-    /**
-     * Store comment
-     */
-    public function storeComment($slug, Request $request) {
-        $user = Auth::user();
-        $route = \Request::route()->getName();
-        if (str_contains($route, "script")) {
-            $item = 'script';
-            $model = Script::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "skin")) {
-            $item = 'skin';
-            $model = Skin::where('slug', $slug)->firstOrFail();
-        }
-
-        $validator = Validator::make($request->all(), ['comment' => "required|max:255"]);
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-            );
+        if ($img->mime() != 'image/png') {
+            $img->encode('jpg');
+            $filename = $filename . ".jpg";
         } else {
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            //Anti spam 30 secondes
-            if ($this->limitComment($this->min_time_comment)) {
-                $request->flash();
-                return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
-            }
-            //anti spam 60 secondes : besoin validation captcha
-            if ($this->limitComment($this->min_time_captcha)) {
-                if ((!App::environment('testing', 'local') && !$resp->isSuccess())) {
-                    $request->flash();
-                    return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-                }
-            }
-            $comment = $request->input('comment');
-            $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
-            //_TODO : notify autor 
-            return redirect(route("$item.show", $slug) . "#comments");
+            $filename = $filename . ".png";
         }
+
+        //== RESIZE NORMAL ==
+        $img->resize(1000, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->resize(null, 1000, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        \File::exists(storage_path('app/public/images/')) or \File::makeDirectory(storage_path('app/public/images/'));
+        $img->save(storage_path('app/public/images/') . $filename, 90);
+
+        //== RESIZE MINIATURE ==
+        $img->resize(345, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->resize(null, 345, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->save(storage_path('app/public/images/small-') . $filename, 85);
+
+        //store photo in DB
+        $item->photo_url = $filename;
+        $item->save();
     }
 
     /**
@@ -123,6 +92,7 @@ class JvscriptController extends Controller {
                     'js_url' => "required|url|max:255|regex:/.*\.js$/",
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
+                    'photo_file' => "image",
                     'don_url' => "url|max:255",
                     'website_url' => "url|max:255",
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
@@ -136,9 +106,16 @@ class JvscriptController extends Controller {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing') && !$resp->isSuccess()) {
+            if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
                 $request->flash();
                 return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+            }
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
             }
 
             $script = Script::create($request->all());
@@ -149,6 +126,15 @@ class JvscriptController extends Controller {
                 $script->autor = $user->name;
             }
             $script->poster_user_id = $user->id;
+
+            //store photo_file or photo_url  storage
+            if ($request->file('photo_file')) {
+                $this->storeImage($script, $request->file('photo_file'));
+            } else if ($request->has('photo_url')) {
+                $file = @file_get_contents($request->input('photo_url'));
+                $this->storeImage($script, $file);
+            }
+
             $script->save();
 
             $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
@@ -173,6 +159,7 @@ class JvscriptController extends Controller {
                     'skin_url' => "required|url|max:255|regex:/^https:\/\/userstyles\.org\/styles\/.*/",
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
+                    'photo_file' => "image",
                     'don_url' => "url|max:255",
                     'website_url' => "url|max:255",
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
@@ -190,6 +177,13 @@ class JvscriptController extends Controller {
                 $request->flash();
                 return redirect(route('skin.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
+            }
 
             $script = Skin::create($request->all());
             $script->slug = $this->slugifySkin($script->name);
@@ -199,6 +193,19 @@ class JvscriptController extends Controller {
                 $script->autor = $user->name;
             }
             $script->poster_user_id = $user->id;
+
+            //_TODO : supprimer ancienne image si existe
+            //store photo_file or photo_url  storage
+            if ($request->file('photo_file')) {
+                $this->storeImage($script, $request->file('photo_file'));
+            } else if ($request->has('photo_url')) {
+                if ($this->lib->isImage($request->input('photo_url'))) {
+                    $file = @file_get_contents($request->input('photo_url'));
+                    $this->storeImage($script, $file);
+                } else {
+                    $script->photo_url = null;
+                }
+            }
             $script->save();
 
             $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show', ['slug' => $script->slug]);
@@ -223,6 +230,7 @@ class JvscriptController extends Controller {
                     'js_url' => "required|url|max:255|regex:/.*\.js$/",
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
+                    'photo_file' => "image",
                     'don_url' => "url|max:255",
                     'user_id' => "exists:users,id",
                     'sensibility' => "in:0,1,2",
@@ -232,9 +240,9 @@ class JvscriptController extends Controller {
                         ], $messages);
 
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'version', 'last_update'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
+            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
@@ -248,11 +256,35 @@ class JvscriptController extends Controller {
                     $request, $validator
             );
         } else {
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
+            }
+
             $script->fill($request->only($toUpdate));
-            $script->version = $request->input('version');
             if ($request->has('last_update')) {
                 $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             }
+
+            //gestion photo
+            if ($request->file('photo_file')) {
+                Storage::delete('public/images/' . $script->photoShortLink());
+                Storage::delete('public/images/small-' . $script->photoShortLink());
+                $this->storeImage($script, $request->file('photo_file'));
+            } else if ($request->has('photo_url')) {
+                if ($this->lib->isImage($request->input('photo_url'))) {
+                    $file = @file_get_contents($request->input('photo_url'));
+                    Storage::delete('public/images/' . $script->photoShortLink());
+                    Storage::delete('public/images/small-' . $script->photoShortLink());
+                    $this->storeImage($script, $file);
+                } else {
+                    $script->photo_url = null;
+                }
+            }
+
             $script->save();
             return redirect(route('script.show', ['slug' => $slug]));
         }
@@ -276,9 +308,9 @@ class JvscriptController extends Controller {
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'version', 'last_update'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
+            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
@@ -292,11 +324,35 @@ class JvscriptController extends Controller {
                     $request, $validator
             );
         } else {
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
+            }
+
             $skin->fill($request->only($toUpdate));
-            $skin->version = $request->input('version');
             if ($request->has('last_update')) {
                 $skin->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             }
+
+            //gestion photo
+            if ($request->file('photo_file')) {
+                Storage::delete('public/images/' . $skin->photoShortLink());
+                Storage::delete('public/images/small-' . $skin->photoShortLink());
+                $this->storeImage($skin, $request->file('photo_file'));
+            } else if ($request->has('photo_url')) {
+                if ($this->lib->isImage($request->input('photo_url'))) {
+                    $file = @file_get_contents($request->input('photo_url'));
+                    Storage::delete('public/images/' . $skin->photoShortLink());
+                    Storage::delete('public/images/small-' . $skin->photoShortLink());
+                    $this->storeImage($skin, $file);
+                } else {
+                    $skin->photo_url = null;
+                }
+            }
+
             $skin->save();
             return redirect(route('skin.show', ['slug' => $slug]));
         }
@@ -442,14 +498,6 @@ class JvscriptController extends Controller {
      * Some Views bellow 
      * ============
      */
-    public function formScript() {
-        return view('script.form');
-    }
-
-    public function formSkin() {
-        return view('skin.form');
-    }
-
     public function showScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
         $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
@@ -461,7 +509,7 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $script->description = $Parsedown->text($script->description);
 
-        return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->limitComment($this->min_time_captcha)]);
+        return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
     }
 
     public function showSkin($slug) {
@@ -475,7 +523,7 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $skin->description = $Parsedown->text($skin->description);
 
-        return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->limitComment($this->min_time_captcha)]);
+        return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
     }
 
     public function editScript($slug) {
@@ -494,6 +542,11 @@ class JvscriptController extends Controller {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
         $script->comments()->delete();
+        //suprimes les images
+        if ($script->photoShortLink()) {
+            Storage::delete('public/images/' . $script->photoShortLink());
+            Storage::delete('public/images/small-' . $script->photoShortLink());
+        }
         $script->delete();
         $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
         $this->lib->sendDiscord($message, $this->discord_url);
@@ -506,6 +559,12 @@ class JvscriptController extends Controller {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($skin->user_id);
         $skin->comments()->delete();
+        //suprimes les images
+        if ($skin->photoShortLink()) {
+            Storage::delete('public/images/' . $skin->photoShortLink());
+            Storage::delete('public/images/small-' . $script->photoShortLink());
+        }
+
         $skin->delete();
         $message = "[delete script] Skin supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
         $this->lib->sendDiscord($message, $this->discord_url);
@@ -538,6 +597,12 @@ class JvscriptController extends Controller {
     public function crawlInfo() {
         $this->lib->adminOrFail();
         $this->lib->crawlInfo();
+    }
+
+    public function storeImages() {
+        $this->lib->adminOrFail();
+        $tool = new \App\Lib\Tool();
+        $tool->storeExternalImages();
     }
 
 }

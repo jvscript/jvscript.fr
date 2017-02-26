@@ -31,6 +31,22 @@ class Skin extends Model {
         return $this->status == 1;
     }
 
+    public function getPhotoUrlAttribute($value) {
+        if ($value)
+            return "/storage/images/" . $value;
+        return null;
+    }
+
+    public function photoShortLink() {
+        return str_replace("/storage/images/", '', $this->photo_url);
+    }
+
+    public function photoSmall() {
+        if ($this->photo_url)
+            return "/storage/images/small-" . $this->photoShortLink();
+        return null;
+    }
+
     public function statusLabel() {
         $label = ['En attente', 'Validé', 'Refusé'];
         return $label[$this->status];
@@ -52,6 +68,6 @@ class Skin extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'autor', 'skin_url', 'repo_url', 'photo_url', 'topic_url', 'website_url', 'user_email', 'don_url', 'user_id'];
+    protected $fillable = ['name', 'description', 'autor', 'skin_url', 'repo_url', 'version', 'last_update', 'photo_url', 'topic_url', 'website_url', 'user_email', 'don_url', 'user_id'];
 
 }

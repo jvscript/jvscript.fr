@@ -7,10 +7,22 @@ use App\Script,
 use Auth;
 
 class Lib {
-
     /**
      * Usefull functions 
      */
+
+    /**
+     * Renvoie true si l'user doit être limité
+     * @param int $seconds
+     * @return boolean limited comment
+     */
+    public function limitComment($seconds) {
+        $user = Auth::user();
+        if (!$user)
+            return true;
+        return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
+    }
+
     public function adminOrFail() {
         if (!(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
@@ -64,6 +76,20 @@ class Lib {
 
         $context = stream_context_create($opts);
         file_get_contents($url, false, $context);
+    }
+
+    public function isImage($path) {
+        if (!is_array(getimagesize($path)))
+            return false;
+
+        $a = getimagesize($path);
+
+        $image_type = $a[2];
+
+        if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
+            return true;
+        }
+        return false;
     }
 
     public function crawlInfo() {

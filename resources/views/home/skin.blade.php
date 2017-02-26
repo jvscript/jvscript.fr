@@ -42,7 +42,7 @@
 
             </div>
 
-            <?php $src = $skin->photo_url == null ? "/assets/images/skin.jpg" : $skin->photo_url ?>
+            <?php $src = $skin->photo_url == null ? "/assets/images/skin.jpg" : $skin->photoSmall() ?>
             <div class="image">
                  @if($lazy)
                 <img data-src="{{$src}}" class="b-lazy" alt="{{$skin->name}} logo" /> 

@@ -179,6 +179,9 @@ table {
 .table-responsive {
   overflow-x: auto;
   min-height: 0.01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
+  background: #262627;
+  padding: 10px;
+  box-shadow: $shadow-panel;
 
   @media screen and (max-width: $screen-xs-max) {
     width: 100%;
@@ -243,4 +246,11 @@ table {
 
 thead {
     background: #434343;
+}
+.table-link {
+  &:hover,&:visited,&:active,&:focus {
+    color: $gray-base;
+  }
+    display:block;
+    color: $gray-base;
 }

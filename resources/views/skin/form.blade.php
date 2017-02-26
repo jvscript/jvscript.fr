@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content') 
+@section('content')
 
 @section('javascript')
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -32,15 +32,15 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h1>Ajouter un skin</h1>
-
+        <h1 style="margin-bottom: 22px">Ajouter un skin</h1>
+<div class="panel-body">
         @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
         </div>
         @endif
 
-        <form class="form-horizontal" role="form" method="POST" action="{{ route('skin.store') }}">
+        <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ route('skin.store') }}">
             {{ csrf_field() }}
 
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -88,12 +88,12 @@
                     </span>
                     @endif
                 </div>
-            </div>             
+            </div>
 
             <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
                 <label for="autor" class="col-md-4 control-label">Auteur du script </label>
 
-                <div class="col-md-6"> 
+                <div class="col-md-6">
                     <?php
                     $is_autor = $is_autor_class = $autor = '';
                     if (old('autor')) {
@@ -171,14 +171,28 @@
             </div>
 
             <div class="form-group{{ $errors->has('photo_url') ? ' has-error' : '' }}">
-                <label for="photo_url" class="col-md-4 control-label">Lien vers le logo/image </label>
+                <label for="photo_url" class="col-md-4 control-label">URL du logo/image </label>
 
                 <div class="col-md-6">
-                    <input id="photo_url" type="text" maxlength="255" placeholder="http://image.noelshack.com/..." class="form-control" name="photo_url" value="{{ old('photo_url') }}"  >
+                    <input id="photo_url" type="text" maxlength="255"  placeholder="http://image.noelshack.com/..." class="form-control" name="photo_url" value="{{ old('photo_url') }}"  >
 
                     @if ($errors->has('photo_url'))
                     <span class="help-block">
                         <strong>{{ $errors->first('photo_url') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+            
+            <div class="form-group{{ $errors->has('photo_file') ? ' has-error' : '' }}">
+                <label for="photo_file" class="col-md-4 control-label">Ou le fichier du logo/image </label>
+
+                <div class="col-md-6">
+                    <input id="photo_file" type="file"   placeholder="Votre image" class="form-control" name="photo_file" value="{{ old('photo_file') }}"  >
+
+                    @if ($errors->has('photo_file'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('photo_file') }}</strong>
                     </span>
                     @endif
                 </div>
@@ -224,7 +238,7 @@
                 </div>
             </div>
         </form>
-
+</div>
 
     </div>
 
