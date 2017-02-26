@@ -35,8 +35,15 @@ class Script extends Model {
         $label = ['En attente', 'Validé', 'Refusé'];
         return $label[$this->status];
     }
- 
-     protected $dates = [
+
+    /**
+     * Get all of the item's comments.
+     */
+    public function comments() {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+
+    protected $dates = [
         'last_update',
     ];
 
@@ -45,6 +52,6 @@ class Script extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'user_email', 'don_url','topic_url','website_url', 'sensibility','user_id'];
+    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'user_email', 'don_url', 'topic_url', 'website_url', 'sensibility', 'user_id'];
 
 }

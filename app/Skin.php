@@ -36,6 +36,13 @@ class Skin extends Model {
         return $label[$this->status];
     }
 
+    /**
+     * Get all of the item's comments.
+     */
+    public function comments() {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+
     protected $dates = [
         'last_update',
     ];

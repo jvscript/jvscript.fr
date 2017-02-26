@@ -13,6 +13,10 @@ return [
      */
 
     'name' => 'jvscript.io',
+    
+    
+    //version en cours
+    'version' => '1.0.2',
     /*
       |--------------------------------------------------------------------------
       | Application Environment

@@ -44,12 +44,12 @@
       <div class="panel-body">
         <div class="table-responsive">
 
-            <table id="example" class="table  table-condensed table-hover table-striped" cellspacing="0" width="100%">
+            <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th> Action </th>
                         <th> Nom </th>
-                        <th> Auteur </th>
+                    <!--    <th> Auteur </th> -->
                         <th> Note </th>
                         <th> Install </th>
                         <th> Status </th>
@@ -68,11 +68,11 @@
                         $item = "skin";
                     }
                     ?>
-                    <tr >
-                        <td> <a class="btn btn-sm btn-default" href="{{route($item.'.show',['slug' => $script->slug ])}}">Voir</a>
-                            <a  class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}">Editer</a> </td>
-                        <td> {{$script->name}} </td>
-                        <td> {{$script->autor}}   </td>
+                    <tr>
+                        <td>
+                            <a class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Editer le {{ucfirst($item)}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <td><a class='table-link' href="{{route($item.'.show',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Voir le {{ucfirst($item)}}"> {{$script->name}} </a></td>
+                      <!--  <td> {{$script->autor}}   </td> -->
                         <td> {{$script->note}}   </td>
                         <td> {{$script->install_count}}   </td>
                         <td> {{$script->statusLabel()}}   </td>

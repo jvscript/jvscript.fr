@@ -38,56 +38,66 @@
 <div class="row">
 
     <div>
-      <div class="panel-body">
-        <div class="table-responsive">
 
-            <table id="example" class="table  table-condensed table-hover table-striped" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th> Action </th>
-                        <th> Nom </th>
-                        <th> Auteur </th>
-                        <th> Note </th>
-                        <th> Install </th>
-                        <th> Status </th>
-                        <th> Version </th>
-                        <th> Last update </th>
-                        <th> Date Ajout </th>
-                        <th> Type </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($scripts as $script)
-                    <?php
-                    if (isset($script->js_url)) {
-                        $item = "script";
-                    } elseif (isset($script->skin_url)) {
-                        $item = "skin";
-                    }
-                    ?>
-                    <tr >
-                        <td> <a class="btn btn-sm btn-default" href="{{route($item.'.show',['slug' => $script->slug ])}}">Voir</a>
-                            <a  class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}">Editer</a> </td>
-                        <td> {{$script->name}} </td>
-                        <td> {{$script->autor}}   </td>
-                        <td> {{$script->note}}   </td>
-                        <td> {{$script->install_count}}   </td>
-                        <td> {{$script->statusLabel()}}   </td>
-                        <td>
-                            @if($script->version == null && $item == "script")
-                            <strong class="text-danger">PAS DE VERSION</strong>
-                            @else
-                            {{$script->version}}
-                            @endif
-                        </td>
-                        <td> {!!$script->last_update != null ? '<span class="hidden">'.$script->last_update.'</span>'. $script->last_update->format('d/m/Y') : '<strong class="text-danger">PAS DE DATE</strong> '!!}  </td>
-                        <td> {{$script->created_at->format('d/m/Y - H:i')}}  </td>
-                        <td> {{ucfirst($item)}} </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+
+        <div class="panel-body">
+            <p>
+                <a href="{{route('admin.comments')}}">Gestion des commentaires</a>
+                <br>
+                <br>
+                <br>
+            </p>
+
+            <div class="table-responsive">
+
+                <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th> Action </th>
+                            <th> Nom </th>
+                            <th> Auteur </th>
+                            <th> Note </th>
+                            <th> Install </th>
+                            <th> Status </th>
+                            <th> Version </th>
+                            <th> Last update </th>
+                            <th> Date Ajout </th>
+                            <th> Type </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($scripts as $script)
+                        <?php
+                        if (isset($script->js_url)) {
+                            $item = "script";
+                        } elseif (isset($script->skin_url)) {
+                            $item = "skin";
+                        }
+                        ?>
+                        <tr>
+                            <td>
+                                <a class="btn btn-sm btn-default" href="{{route($item.'.edit',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Editer le {{ucfirst($item)}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            <td><a class='table-link' href="{{route($item.'.show',['slug' => $script->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Voir le {{ucfirst($item)}}"> {{$script->name}} </a></td>
+                            <td> <a class='table-link' href="{{url('/search/'.$script->autor)}}"  data-toggle="tooltip" data-placement="bottom" title="Voir le profil de {{$script->autor}}">{{$script->autor}}   </a></td>
+                            <td> {{$script->note}}   </td>
+                            <td> {{$script->install_count}}  </td>
+                            <td> {{$script->statusLabel()}}  </td>
+                            <td>
+                                @if($script->version == null && $item == "script")
+                                <strong class="text-danger">PAS DE VERSION</strong>
+                                @else
+                                {{$script->version}}
+                                @endif
+
+                            </td>
+                            <td> {!!$script->last_update != null ? '<span class="hidden">'.$script->last_update.'</span>'. $script->last_update->format('d/m/Y') : '<strong class="text-danger">PAS DE DATE</strong> '!!} </td>
+                            <td> {{$script->created_at->format('d/m/Y - H:i')}}  </td>
+                            <td> {{ucfirst($item)}} </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 

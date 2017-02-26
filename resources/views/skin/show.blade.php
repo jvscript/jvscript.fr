@@ -5,7 +5,9 @@
 @section('javascript')
 <script>
     $('[data-toggle=confirmation]').confirmation();
-
+            $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+            })
 
 </script>
 @endsection
@@ -32,7 +34,7 @@
 
     <div class="col-md-6">
         <div class="panel-body">
-             @if ( $skin->photo_url != null )
+            @if ( $skin->photo_url != null )
             <div class="desc-img">
                 <p>
                     <a href="#" target="_blank" data-toggle="modal" data-target="#myModal">
@@ -63,7 +65,7 @@
                     <b> Mise à jour le : </b>  {{$skin->last_update->format('d/m/Y')}}
                 </p>
                 @endif                 
-                 @if(null != $skin->user_id)
+                @if(null != $skin->user_id)
                 <p>
                     <b> Auteur : </b> <a href="{{url('/search/'.$skin->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->user()->first()->name}}">{{$skin->user()->first()->name}}</a> 
                 </p>
@@ -73,24 +75,29 @@
                 </p>
                 @endif
 
-                <p>
+                <p> 
                     <b> Note : </b>
                     <?php $note = round($skin->note * 2) / 2; ?>
                     @for ($i = 1; $i <= $note ; $i++)
-                    <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}"><i class="fa fa-star" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star" aria-hidden="true"></i></a>
                     @endfor
                     <?php $stop = $i; ?>
                     @for ($i ; $i <= 5 ; $i++)
                     @if($i == $stop && $note > ( $i -1 ) )
-                    <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
                     @else
-                    <a href="{{route('skin.note',['slug' => $skin->slug , 'note' => $i ])}}"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-o" aria-hidden="true"></i></a>
                     @endif
-
                     @endfor
-
                     ({{$skin->note_count}} votes)
                 </p>
+
+                @for ($i = 1; $i <= 5 ; $i++)
+                <form id="note-{{$i}}" action="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                    <input type="submit" name="note-{{$i}}" style="display: none;" />
+                </form>              
+                @endfor 
 
                 <p>
                     <b>  Install : </b>   {{$skin->install_count}} fois
@@ -122,9 +129,9 @@
             </div>
         </div>
 
-@if ((Auth::check() && Auth::user()->isAdmin()))
-<!--<div class="row">
-    <div class="col-md-6">-->
+        @if ((Auth::check() && Auth::user()->isAdmin()))
+        <!--<div class="row">
+            <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
                 @if($skin->status == 0)
@@ -152,11 +159,11 @@
                 </p>
             </div>
         </div>
-<!--    </div>
-</div>-->
-@elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
-<!--<div class="row">
-    <div class="col-md-6">-->
+        <!--    </div>
+        </div>-->
+        @elseif ((Auth::check() && Auth::user()->id == $skin->user_id))
+        <!--<div class="row">
+            <div class="col-md-6">-->
         <div class="panel-body">
             <div class="admin">
 
@@ -181,10 +188,12 @@
             </div>
         </div>
 
-<!--    </div>
-</div>-->
+        <!--    </div>
+        </div>-->
 
-@endif
+        @endif 
+
+        @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm', 'recaptcha' => 1])
     </div>
 
     <div class="col-md-6">
@@ -195,8 +204,10 @@
         </div>
 
     </div>
-</div>
 
+
+    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6', 'recaptcha' => 2])
+</div>
 
 
 

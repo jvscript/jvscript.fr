@@ -6,14 +6,13 @@ use Illuminate\Http\Request;
 use App\Script,
     App\Skin,
     App\User,
+    App\Comment,
     App\History;
 use Validator;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\Notify;
 use Auth;
 use App;
 use App\Notifications\notifyStatus;
-use Image;
+use App\Lib\Lib;
 
 class JvscriptController extends Controller {
 
@@ -23,8 +22,6 @@ class JvscriptController extends Controller {
      * @return void
      */
     public function __construct() {
-//        $this->middleware('auth');
-
         if (App::environment('local', 'testing')) {
             $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
         } else { //prod
@@ -32,50 +29,83 @@ class JvscriptController extends Controller {
         }
 
         $this->discord_url = env('DISCORD_URL', '');
+        $this->min_time_comment = 30; //limite de temps entre chaque commentaire
+        $this->min_time_captcha = 60; //limite de temps entre chaque commentaire pour faire disparaitre le captcha
+        $this->lib = new Lib();
     }
 
-    public function index(Request $request, $keyword = null) {
-        $keyword = $keyword == null ? '' : $keyword;
-        $scripts = Script::where("status", 1)->get();
-        $skins = Skin::where("status", 1)->get();
-
-        $collection = collect([$scripts, $skins]);
-        $collapsed = $collection->collapse();
-        $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('install_count');
-
-        return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
-    }
-
-    public function admin(Request $request) {
-        $this->adminOrFail();
-        $scripts = Script::all();
-        $skins = Skin::all();
-
-        $collection = collect([$scripts, $skins]);
-        $collapsed = $collection->collapse();
-        $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('created_at');
-
-        return view('admin.index', ['scripts' => $scripts]);
-    }
-
-    public function mesScripts(Request $request) {
+    /**
+     * Delete comment
+     */
+    public function deleteComment($slug, $comment_id, Request $request) {
         $user = Auth::user();
-        $scripts = $user->scripts()->get();
-        $skins = $user->skins()->get();
-
-        $collection = collect([$scripts, $skins]);
-        $collapsed = $collection->collapse();
-        $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('created_at');
-
-        return view('moncompte.index', ['scripts' => $scripts]);
+        $route = \Request::route()->getName();
+        if (str_contains($route, "script")) {
+            $item = 'script';
+            $model = Script::where('slug', $slug)->firstOrFail();
+        } else if (str_contains($route, "skin")) {
+            $item = 'skin';
+            $model = Skin::where('slug', $slug)->firstOrFail();
+        }
+        $comment = Comment::findOrFail($comment_id);
+        $this->lib->ownerOradminOrFail($comment->user_id);
+        $comment->delete();
+        return redirect(route("$item.show", $slug) . "#comments");
     }
 
-    public function ajaxUsers(Request $request) {
-        $this->adminOrFail();
-        return \App\User::select('id', 'name')->get();
+    /**
+     * Renvoie true si l'user doit être limité
+     * @param int $seconds
+     * @return true if limited comment
+     */
+    public function limitComment($seconds) {
+        $user = Auth::user();
+        if (!$user)
+            return false;
+        return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
+    }
+
+    /**
+     * Store comment
+     */
+    public function storeComment($slug, Request $request) {
+        $user = Auth::user();
+        $route = \Request::route()->getName();
+        if (str_contains($route, "script")) {
+            $item = 'script';
+            $model = Script::where('slug', $slug)->firstOrFail();
+        } else if (str_contains($route, "skin")) {
+            $item = 'skin';
+            $model = Skin::where('slug', $slug)->firstOrFail();
+        }
+
+        $validator = Validator::make($request->all(), ['comment' => "required|max:255"]);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                    $request, $validator
+            );
+        } else {
+            //captcha validation
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
+            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
+            //Anti spam 30 secondes
+            if ($this->limitComment($this->min_time_comment)) {
+                $request->flash();
+                return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
+            }
+            //anti spam 60 secondes : besoin validation captcha
+            if ($this->limitComment($this->min_time_captcha)) {
+                if ((!App::environment('testing', 'local') && !$resp->isSuccess())) {
+                    $request->flash();
+                    return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
+                }
+            }
+            $comment = $request->input('comment');
+            $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
+            //_TODO : notify autor 
+            return redirect(route("$item.show", $slug) . "#comments");
+        }
     }
 
     function isImage($path) {
@@ -189,7 +219,7 @@ class JvscriptController extends Controller {
             $script->save();
 
             $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
-            $this->sendDiscord($message, $this->discord_url);
+            $this->lib->sendDiscord($message, $this->discord_url);
 
             return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
         }
@@ -255,7 +285,7 @@ class JvscriptController extends Controller {
             $script->save();
 
             $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show', ['slug' => $script->slug]);
-            $this->sendDiscord($message, $this->discord_url);
+            $this->lib->sendDiscord($message, $this->discord_url);
 
             return redirect(route('skin.form'))->with("message", "Merci, votre skin est en attente de validation.");
         }
@@ -266,7 +296,7 @@ class JvscriptController extends Controller {
      */
     public function updateScript(Request $request, $slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($script->user_id);
+        $this->lib->ownerOradminOrFail($script->user_id);
 
         $messages = [
             'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
@@ -313,7 +343,7 @@ class JvscriptController extends Controller {
 
     public function updateSkin(Request $request, $slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($skin->user_id);
+        $this->lib->ownerOradminOrFail($skin->user_id);
 
         $messages = [
             'skin_url.regex' => 'Le champ :attribute doit être un lien du format \'https://userstyles.org/styles/...\'',
@@ -357,7 +387,7 @@ class JvscriptController extends Controller {
 
     public function validateScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($script->status != 1) {
             $script->status = 1;
@@ -372,7 +402,7 @@ class JvscriptController extends Controller {
 
     public function validateSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($skin->status != 1) {
             $skin->status = 1;
@@ -387,7 +417,7 @@ class JvscriptController extends Controller {
 
     public function refuseScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($script->status != 2) {
             $script->status = 2;
@@ -402,7 +432,7 @@ class JvscriptController extends Controller {
 
     public function refuseSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->adminOrFail();
+        $this->lib->adminOrFail();
 
         if ($skin->status != 2) {
             $skin->status = 2;
@@ -421,12 +451,14 @@ class JvscriptController extends Controller {
     public function installScript($slug, Request $request) {
         $script = Script::where('slug', $slug)->firstOrFail();
 
-        //if no history install_count +1
-        $history = History::where(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
-        if ($history->count() == 0) {
-            History::create(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
-            $script->install_count++;
-            $script->save();
+        // protection referer to count
+        if (str_contains($request->headers->get('referer'), $slug)) {
+            $history = History::where(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
+            if ($history->count() == 0) {
+                History::create(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
+                $script->install_count++;
+                $script->save();
+            }
         }
         return redirect($script->js_url);
     }
@@ -457,11 +489,14 @@ class JvscriptController extends Controller {
         $skin = Skin::where('slug', $slug)->firstOrFail();
 
         //if no history install_count +1
-        $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-        if ($history->count() == 0) {
-            History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-            $skin->install_count++;
-            $skin->save();
+        // protection referer to count
+        if (str_contains($request->headers->get('referer'), $slug)) {
+            $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+            if ($history->count() == 0) {
+                History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+                $skin->install_count++;
+                $skin->save();
+            }
         }
         return redirect($skin->skin_url);
     }
@@ -486,43 +521,6 @@ class JvscriptController extends Controller {
     }
 
     /**
-     * Contact send (discord bot)
-     */
-    public function contactSend(Request $request) {
-        $validator = Validator::make($request->all(), [
-                    'email' => 'email',
-                    'message_body' => "required"
-        ]);
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-            );
-        } else {
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing') && !$resp->isSuccess()) {
-                $request->flash();
-                return redirect(route('contact.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-            }
-
-            //send discord 
-            $this->discord_url;
-            $message = "[contact form] ";
-            if ($request->input('email')) {
-                $message .= "Email : " . $request->input('email') . '.';
-            }
-            $message .= "Message : " . $request->input('message_body');
-            $this->sendDiscord($message, $this->discord_url);
-
-            return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");
-        }
-
-        return redirect(route('contact.form'));
-    }
-
-    /**
      * ============
      * Some Views bellow 
      * ============
@@ -537,7 +535,7 @@ class JvscriptController extends Controller {
 
     public function showScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-
+        $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
         //affiche les non validés seulement si admin
         if (!$script->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
@@ -546,12 +544,12 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $script->description = $Parsedown->text($script->description);
 
-        return view('script.show', ['script' => $script]);
+        return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->limitComment($this->min_time_captcha)]);
     }
 
     public function showSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-
+        $comments = $skin->comments()->orderBy('created_at', 'desc')->paginate(10);
         //affiche les non validés seulement si admin
         if (!$skin->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
@@ -560,27 +558,28 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $skin->description = $Parsedown->text($skin->description);
 
-        return view('skin.show', ['skin' => $skin]);
+        return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->limitComment($this->min_time_captcha)]);
     }
 
     public function editScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($script->user_id);
+        $this->lib->ownerOradminOrFail($script->user_id);
         return view('script.edit', ['script' => $script]);
     }
 
     public function editSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($skin->user_id);
+        $this->lib->ownerOradminOrFail($skin->user_id);
         return view('skin.edit', ['skin' => $skin]);
     }
 
     public function deleteScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($script->user_id);
+        $this->lib->ownerOradminOrFail($script->user_id);
+        $script->comments()->delete();
         $script->delete();
         $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
-        $this->sendDiscord($message, $this->discord_url);
+        $this->lib->sendDiscord($message, $this->discord_url);
         if (Auth::user()->isAdmin())
             return redirect(route('admin_index'));
         return redirect(route('index'));
@@ -588,34 +587,19 @@ class JvscriptController extends Controller {
 
     public function deleteSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->ownerOradminOrFail($skin->user_id);
+        $this->lib->ownerOradminOrFail($skin->user_id);
+        $skin->comments()->delete();
         $skin->delete();
-        $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
-        $this->sendDiscord($message, $this->discord_url);
+        $message = "[delete script] Skin supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
+        $this->lib->sendDiscord($message, $this->discord_url);
 
         if (Auth::user()->isAdmin())
             return redirect(route('admin_index'));
         return redirect(route('index'));
     }
 
-    /**
-     * Usefull functions 
-     */
-    public function adminOrFail() {
-        if (!(Auth::check() && Auth::user()->isAdmin())) {
-            abort(404);
-        }
-    }
-
-    public function ownerOradminOrFail($user_id) {
-        //si c'est l'owner de l'objet (script/skin) on laisse passer
-        if (!(Auth::check() && Auth::user()->id == $user_id)) {
-            $this->adminOrFail();
-        }
-    }
-
     public function slugifyScript($name) {
-        $slug = $this->slugify($name);
+        $slug = $this->lib->slugify($name);
         $i = 1;
         $baseSlug = $slug;
         while (Script::where('slug', $slug)->count() > 0) {
@@ -625,7 +609,7 @@ class JvscriptController extends Controller {
     }
 
     public function slugifySkin($name) {
-        $slug = $this->slugify($name);
+        $slug = $this->lib->slugify($name);
         $i = 1;
         $baseSlug = $slug;
         while (Skin::where('slug', $slug)->count() > 0) {
@@ -634,137 +618,9 @@ class JvscriptController extends Controller {
         return $slug;
     }
 
-    static public function slugify($text) {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-        // trim
-        $text = trim($text, '-');
-        // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
-        // lowercase
-        $text = strtolower($text);
-        if (empty($text)) {
-            return 'n-a';
-        }
-        return $text;
-    }
-
-    public function sendDiscord($content, $url) {
-        if (empty($content)) {
-            throw new NoContentException('No content provided');
-        }
-        if (empty($url)) {
-            throw new NoURLException('No URL provided');
-        }
-        $data = array("content" => $content);
-        $data_string = json_encode($data);
-        $opts = array(
-            'http' => array(
-                'method' => "POST",
-                "name" => "jvscript.io",
-                "user_name" => "jvscript.io",
-                'header' => "Content-Type: application/json\r\n",
-                'content' => $data_string
-            )
-        );
-
-        $context = stream_context_create($opts);
-        file_get_contents($url, false, $context);
-    }
-
-    public function githubDate($url) {
-
-//        return $date;
-    }
-
     public function crawlInfo() {
-        set_time_limit(600);
-        $scripts = Script::where("status", 1)->orderBy('last_update', 'asc')->get();
-        foreach ($scripts as $script) {
-            if (preg_match('/https:\/\/github\.com\/(.*)\/(.*)\/raw\/(.*)\/(.*)\.js/i', $script->js_url, $match) || preg_match('/https:\/\/raw\.githubusercontent\.com\/(.*)\/(.*)\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
-                $url_crawl = "https://github.com/$match[1]/$match[2]/blob/$match[3]/$match[4].js";
-                $crawl_content = @file_get_contents($url_crawl);
-                if (preg_match('/<relative-time datetime="(.*Z)">/i', $crawl_content, $match_date)) {
-                    $date = $match_date[1];
-                    $date = \Carbon\Carbon::parse($date);
-                    $script->last_update = $date;
-                    $script->save();
-                    echo $script->js_url . "|$url_crawl|$date\n";
-                } else {
-                    echo "fail : " . $script->js_url . "|$url_crawl\n";
-                }
-            } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
-                $url_crawl = "https://openuserjs.org/scripts/$match[1]/$match[2]";
-                $crawl_content = @file_get_contents($url_crawl);
-                if (preg_match('/<time class="script-updated" datetime="(.*Z)" title=/i', $crawl_content, $match_date)) {
-                    $date = $match_date[1];
-                    $date = \Carbon\Carbon::parse($date);
-                    $script->last_update = $date;
-                    $script->save();
-                    echo $script->js_url . "|$url_crawl|$date\n";
-                } else if (preg_match('/<b>Published:<\/b> <time datetime="(.*Z)"/i', $crawl_content, $match_date)) {
-                    $date = $match_date[1];
-                    $date = \Carbon\Carbon::parse($date);
-                    $script->last_update = $date;
-                    $script->save();
-                    echo $script->js_url . "|$url_crawl|$date\n";
-                } else {
-                    echo "fail : " . $script->js_url . "|$url_crawl\n";
-                }
-                //get version openuserjs same page
-                if (preg_match('/<code>(.*)<\/code>/i', $crawl_content, $match)) {
-                    $script->version = $match[1];
-                    $script->save();
-                    echo $script->js_url . "|$url_crawl|version : $script->version\n";
-                }
-            } elseif (preg_match('/https:\/\/greasyfork.org\/scripts\/(.*)\/code\/(.*)\.user\.js/i', $script->js_url, $match)) {
-                $url_crawl = "https://greasyfork.org/fr/scripts/$match[1]";
-                $crawl_content = @file_get_contents($url_crawl);
-                if (preg_match('/updated-date"><span><time datetime="(.*)">(.*)<\/time>/i', $crawl_content, $match_date)) {
-                    $date = $match_date[2];
-                    $date = \Carbon\Carbon::parse($date);
-                    $script->last_update = $date;
-                    $script->save();
-                    echo $script->js_url . "|$url_crawl|$date\n";
-                } else {
-                    echo "fail : " . $script->js_url . "|$url_crawl\n";
-                }
-            }
-
-            //get version
-            $url_crawl = $script->js_url;
-            $crawl_content = @file_get_contents($url_crawl);
-            {
-                if (preg_match('/\/\/\s*@version\s*(.*)/i', $crawl_content, $match_date)) {
-                    $version = $match_date[1];
-                    $script->version = $version;
-                    $script->save();
-                    echo $script->js_url . "|version : $version\n";
-                } else {
-                    echo "fail version : " . $script->js_url . "\n";
-                }
-            }
-            sleep(1);
-        }
-
-        $scripts = Skin::where("status", 1)->orderBy('last_update', 'asc')->get();
-        foreach ($scripts as $script) {
-            $url_crawl = $script->skin_url;
-            $crawl_content = @file_get_contents($url_crawl);
-            if (preg_match('/<th>Updated<\/th>\n\s*<td>(.*)<\/td>/i', $crawl_content, $match_date)) {
-                $date = $match_date[1];
-                $date = \Carbon\Carbon::parse($date);
-                $script->last_update = $date;
-                $script->save();
-                echo $script->js_url . "|$url_crawl|$date\n";
-            } else {
-                echo "fail : " . $script->js_url . "|$url_crawl\n";
-            }
-        }
+        $this->lib->adminOrFail();
+        $this->lib->crawlInfo();
     }
 
 }

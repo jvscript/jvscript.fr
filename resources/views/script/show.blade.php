@@ -3,12 +3,12 @@
 @section('title',$script->name.' | jvscript.io')
 
 @section('javascript')
-<script>
-    $('[data-toggle=confirmation]').confirmation();
 
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+<script type="text/javascript">
+    $('[data-toggle=confirmation]').confirmation();
+            $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+            })
 </script>
 @endsection
 
@@ -53,7 +53,7 @@
 
 <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-6" id="item-info">
         <div class="panel-body">
             @if ( $script->photo_url != null )
             <div class="desc-img">
@@ -102,24 +102,30 @@
                 </p>
                 @endif
 
-                <p>
+                <p> 
                     <b> Note : </b>
                     <?php $note = round($script->note * 2) / 2; ?>
                     @for ($i = 1; $i <= $note ; $i++)
-                    <a href="{{route('script.note',['slug' => $script->slug , 'note' => $i  ])}}"><i class="fa fa-star" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star" aria-hidden="true"></i></a>
                     @endfor
                     <?php $stop = $i; ?>
                     @for ($i ; $i <= 5 ; $i++)
                     @if($i == $stop && $note > ( $i -1 ) )
-                    <a href="{{route('script.note',['slug' => $script->slug , 'note' => $i  ])}}"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
                     @else
-                    <a href="{{route('script.note',['slug' => $script->slug , 'note' => $i ])}}"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-o" aria-hidden="true"></i></a>
                     @endif
-
                     @endfor
-
                     ({{$script->note_count}} votes)
+
                 </p>
+
+                @for ($i = 1; $i <= 5 ; $i++)
+                <form id="note-{{$i}}" action="{{route('script.note',['slug' => $script->slug , 'note' => $i  ])}}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                    <input type="submit" name="note-{{$i}}" style="display: none;" />
+                </form>              
+                @endfor 
 
                 <p>
                     <b>  Install : </b>   {{$script->install_count}} fois
@@ -214,18 +220,25 @@
         </div>-->
 
         @endif
+
+        @include('global.comments', ['commentClass' => 'hidden-xs hidden-sm' , 'recaptcha' => 1])
+
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6" id="item-description">
         <div class="panel-body desc">
             @if( $script->description != '' )
             {!! (($script->description )) !!}
             @endif
         </div>
     </div>
+
+    @include('global.comments', ['commentClass' => 'hidden-md hidden-lg col-md-6', 'recaptcha' => 2])
+
+
+
+
 </div>
-
-
 
 
 @endsection

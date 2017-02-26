@@ -2,13 +2,13 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title> @yield('title','jvscript.io | Banque de scripts pour JVC')</title> | 
+        <title> @yield('title','jvscript.io | Banque de scripts pour JVC')</title> |
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}"> 
-        <meta name="description" content="jvscript.io - Le site regroupant les scripts et skins du site jeuxvideo.com">
-        <meta name="keywords" content="jvscript.io, scripts, skins, jvc, jeuxvideo.com, marketplace, userscripts">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="description" content="jvscript.io - Le site regroupant les scripts et skins pour jeuxvideo.com">
+        <meta name="keywords" content="jvscript.io, scripts, skins, jvc, jeuxvideo.com, marketplace, userscripts, scripts jvc, script jvc, jv scripts, jvscript, scripts jvc">
 
         <link rel="stylesheet" href="/assets/stylesheets/jvscript.css" media="screen">
         <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
@@ -51,9 +51,16 @@ echo json_encode([
                             </div>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">                        
-                        <li>
-                            <a href="{{route('aide')}}">Aide</a>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Liens utiles <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li> <a href="{{route('aide')}}">Aide</a></li>
+                                <li> <a href="{{url('contact')}}">Nous contacter</a> </li>
+                                <!--        <li> <a href="{{url('developpeurs')}}">Développeurs</a></li> -->
+                                <li> <a href="https://github.com/jvscript">GitHub</a></li>
+                                <!--      <li> <a href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a></li> -->
+                            </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajouter <span class="caret"></span></a>
@@ -69,7 +76,7 @@ echo json_encode([
                                 @if(Auth::user()->scripts()->count() || Auth::user()->skins()->count() )
                                 <li>
                                     <a href="{{ route('messcripts') }}">
-                                        Mes scripts                                         
+                                        Mes scripts
                                     </a>
                                 </li>
                                 @endif
@@ -77,7 +84,7 @@ echo json_encode([
                                 @if(Auth::user()->isAdmin())
                                 <li>
                                     <a href="{{ route('admin_index') }}">
-                                        Admin                                         
+                                        Admin
                                     </a>
                                 </li>
                                 @endif
@@ -116,15 +123,11 @@ echo json_encode([
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p class="text-right">&COPY; {{ date('Y') }} jvscript.io  -
-                            <a target="_blank" href="https://github.com/jvscript"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a> -
-                            <a href="{{url('contact')}}">Nous contacter</a> - 
-                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a> -
-                            <a href="{{url('developpeurs')}}">Développeurs</a>  
+                        <p class="text-right">&COPY; {{ date('Y') }} jvscript.io -
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">v{{config('app.version')}}</a>
                         </p>
                     </div>
                 </div>
-
             </footer>
         </div>
 
@@ -132,7 +135,8 @@ echo json_encode([
         <script src="/assets/javascripts/bootstrap.min.js"></script>
         <script src="/js/list.min.js"></script>
         <script src="/js/confirm.min.js"></script>
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        @yield('recaptcha', "<script src='https://www.google.com/recaptcha/api.js'></script>")
+        
         @yield('javascript')
 
         <script>

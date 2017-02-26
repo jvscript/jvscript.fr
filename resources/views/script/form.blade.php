@@ -24,8 +24,6 @@
         });
     });
 
-
-
 </script>
 
 @endsection
@@ -232,7 +230,6 @@
 
                 </div>
             </div>
-
 
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
