@@ -23,7 +23,6 @@
 <div class="row">
 
     <div>
-        <div class="panel-body">
             <div class="table-responsive">
 
                 <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
@@ -53,7 +52,6 @@
 
                 {{ $comments->links() }}
             </div>
-        </div>
 
 
     </div>

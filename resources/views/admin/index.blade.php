@@ -40,16 +40,12 @@
     <div>
 
 
-        <div class="panel-body">
-            <p>
+              <p>
                 <a href="{{route('admin.comments')}}">Gestion des commentaires</a>
-                <br>
-                <br>
                 <br>
             </p>
 
             <div class="table-responsive">
-
                 <table id="example" class="table  table-condensed table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -98,7 +94,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+
 
 
     </div>
