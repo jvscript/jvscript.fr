@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.3 - 2017-02-26
+
+- Amélioration des performances (resize des images) 
+- Stockage en local des images
+- Possibilité d'upload des images venant de votre PC
+- Quelques retouches esthétiques
 
 ## v1.0.2 - 2017-02-23
 
