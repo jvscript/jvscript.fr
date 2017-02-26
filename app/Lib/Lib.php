@@ -7,10 +7,22 @@ use App\Script,
 use Auth;
 
 class Lib {
-
     /**
      * Usefull functions 
      */
+
+    /**
+     * Renvoie true si l'user doit être limité
+     * @param int $seconds
+     * @return boolean limited comment
+     */
+    public function limitComment($seconds) {
+        $user = Auth::user();
+        if (!$user)
+            return true;
+        return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
+    }
+
     public function adminOrFail() {
         if (!(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);

@@ -29,83 +29,9 @@ class JvscriptController extends Controller {
         }
 
         $this->discord_url = env('DISCORD_URL', '');
+        $this->lib = new Lib();
         $this->min_time_comment = 30; //limite de temps entre chaque commentaire
         $this->min_time_captcha = 60; //limite de temps entre chaque commentaire pour faire disparaitre le captcha
-        $this->lib = new Lib();
-    }
-
-    /**
-     * Delete comment
-     */
-    public function deleteComment($slug, $comment_id, Request $request) {
-        $user = Auth::user();
-        $route = \Request::route()->getName();
-        if (str_contains($route, "script")) {
-            $item = 'script';
-            $model = Script::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "skin")) {
-            $item = 'skin';
-            $model = Skin::where('slug', $slug)->firstOrFail();
-        }
-        $comment = Comment::findOrFail($comment_id);
-        $this->lib->ownerOradminOrFail($comment->user_id);
-        $comment->delete();
-        return redirect(route("$item.show", $slug) . "#comments");
-    }
-
-    /**
-     * Renvoie true si l'user doit être limité
-     * @param int $seconds
-     * @return true if limited comment
-     */
-    public function limitComment($seconds) {
-        $user = Auth::user();
-        if (!$user)
-            return false;
-        return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
-    }
-
-    /**
-     * Store comment
-     */
-    public function storeComment($slug, Request $request) {
-        $user = Auth::user();
-        $route = \Request::route()->getName();
-        if (str_contains($route, "script")) {
-            $item = 'script';
-            $model = Script::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "skin")) {
-            $item = 'skin';
-            $model = Skin::where('slug', $slug)->firstOrFail();
-        }
-
-        $validator = Validator::make($request->all(), ['comment' => "required|max:255"]);
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-            );
-        } else {
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            //Anti spam 30 secondes
-            if ($this->limitComment($this->min_time_comment)) {
-                $request->flash();
-                return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
-            }
-            //anti spam 60 secondes : besoin validation captcha
-            if ($this->limitComment($this->min_time_captcha)) {
-                if ((!App::environment('testing', 'local') && !$resp->isSuccess())) {
-                    $request->flash();
-                    return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-                }
-            }
-            $comment = $request->input('comment');
-            $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
-            //_TODO : notify autor 
-            return redirect(route("$item.show", $slug) . "#comments");
-        }
     }
 
     /**
@@ -442,14 +368,6 @@ class JvscriptController extends Controller {
      * Some Views bellow 
      * ============
      */
-    public function formScript() {
-        return view('script.form');
-    }
-
-    public function formSkin() {
-        return view('skin.form');
-    }
-
     public function showScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
         $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
@@ -461,7 +379,7 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $script->description = $Parsedown->text($script->description);
 
-        return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->limitComment($this->min_time_captcha)]);
+        return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
     }
 
     public function showSkin($slug) {
@@ -475,7 +393,7 @@ class JvscriptController extends Controller {
         $Parsedown->setMarkupEscaped(true);
         $skin->description = $Parsedown->text($skin->description);
 
-        return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->limitComment($this->min_time_captcha)]);
+        return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
     }
 
     public function editScript($slug) {
