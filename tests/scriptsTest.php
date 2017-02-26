@@ -17,9 +17,8 @@ class scriptsTest extends TestCase {
      * - noter le script
      * - installer le script 
      * - refuser le script (admin)     
-     * - supprimer le script (admin)     
-     * _TODO : page mescripts owner
-     * _TODO : admin comment delete
+     * - supprimer le script (admin)   
+     * _TODO : do file uplaod
      */
 
     public function testHomepage() {

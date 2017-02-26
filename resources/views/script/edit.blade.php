@@ -187,7 +187,7 @@
 
             @if($script->photo_url != null)
             <div class="form-group">
-                <label for="photo_url" class="col-md-4 control-label">Photo actuel du script </label>
+                <label for="photo_url" class="col-md-4 control-label">Photo actuelle du script </label>
 
                 <div class="col-md-6">
                     <img class="img-thumbnail img-responsive" style="max-width: 260px; max-height: 260px;" src="{{($script->photo_url)}}" alt="{{$script->name}} logo" />

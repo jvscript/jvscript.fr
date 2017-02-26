@@ -59,7 +59,7 @@ class JvscriptController extends Controller {
         });
 
         \File::exists(storage_path('app/public/images/')) or \File::makeDirectory(storage_path('app/public/images/'));
-        $img->save('storage/images/' . $filename, 90);
+        $img->save(storage_path('app/public/images/') . $filename, 90);
 
         //== RESIZE MINIATURE ==
         $img->resize(345, null, function ($constraint) {
@@ -70,7 +70,7 @@ class JvscriptController extends Controller {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
-        $img->save('storage/images/small-' . $filename, 85);
+        $img->save(storage_path('app/public/images/small-') . $filename, 85);
 
         //store photo in DB
         $item->photo_url = $filename;
