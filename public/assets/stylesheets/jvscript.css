@@ -2919,6 +2919,9 @@ table th[class*="col-"] {
 .table-responsive {
 				overflow-x: auto;
 				min-height: 0.01%;
+				background: #262627;
+				padding: 10px;
+				box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.19);
 }
 
 @media screen and (max-width: 767px) {

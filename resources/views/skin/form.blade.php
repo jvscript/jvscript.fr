@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content') 
+@section('content')
 
 @section('javascript')
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -32,8 +32,8 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h1>Ajouter un skin</h1>
-
+        <h1 style="margin-bottom: 22px">Ajouter un skin</h1>
+<div class="panel-body">
         @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -88,12 +88,12 @@
                     </span>
                     @endif
                 </div>
-            </div>             
+            </div>
 
             <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
                 <label for="autor" class="col-md-4 control-label">Auteur du script </label>
 
-                <div class="col-md-6"> 
+                <div class="col-md-6">
                     <?php
                     $is_autor = $is_autor_class = $autor = '';
                     if (old('autor')) {
@@ -224,7 +224,7 @@
                 </div>
             </div>
         </form>
-
+</div>
 
     </div>
 
