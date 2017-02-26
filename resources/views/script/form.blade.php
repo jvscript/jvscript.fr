@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content') 
+@section('content')
 
 @section('javascript')
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -32,8 +32,8 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h1>Ajouter un script</h1>
-
+        <h1 style="margin-bottom: 22px">Ajouter un script</h1>
+<div class="panel-body">
         @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -58,7 +58,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                <label for="description" class="col-md-4 control-label">Description *                
+                <label for="description" class="col-md-4 control-label">Description *
                     <br> (MarkDown compatible)
                 </label>
 
@@ -79,7 +79,7 @@
 
                 <div class="col-md-6">
 
-                    <p> 
+                    <p>
                         <input name="is_autor" id="is_autor" type="checkbox" {{ old('is_autor') ? 'checked' : ''}} data-toggle="toggle" data-on="Oui" data-off="Non">
                     </p>
 
@@ -94,7 +94,7 @@
             <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
                 <label for="autor" class="col-md-4 control-label">Auteur du script </label>
 
-                <div class="col-md-6"> 
+                <div class="col-md-6">
                     <?php
                     $is_autor = $is_autor_class = $autor = '';
                     if (old('autor')) {
@@ -225,7 +225,7 @@
                 </div>
             </div>
         </form>
-
+</div>
 
     </div>
 
