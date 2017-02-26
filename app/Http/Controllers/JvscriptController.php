@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Script,
     App\Skin,
     App\User,
-    App\Comment,
     App\History;
 use Validator;
 use Auth;
@@ -14,6 +13,7 @@ use App;
 use App\Notifications\notifyStatus;
 use App\Lib\Lib;
 use Image;
+use Illuminate\Support\Facades\Storage;
 
 class JvscriptController extends Controller {
 
@@ -35,26 +35,17 @@ class JvscriptController extends Controller {
         $this->min_time_captcha = 60; //limite de temps entre chaque commentaire pour faire disparaitre le captcha
     }
 
-    function isImage($path) {
-        $a = getimagesize($path);
-        $image_type = $a[2];
-
-        if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
-            return true;
-        }
-        return false;
-    }
-
-    public function storeImage($item, $file, $filename) {
+    public function storeImage($item, $file) {
+        $filename = $item->slug;
         $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
-        $filename = $item->id . '-' . $filename;
 
         $img = Image::make($file);
 
-        if ($img->mime() == 'image/png') {
-            //_TODO COMPRESS PNG pour garder la transparence
-        } else {
+        if ($img->mime() != 'image/png') {
             $img->encode('jpg');
+            $filename = $filename . ".jpg";
+        } else {
+            $filename = $filename . ".png";
         }
 
         //== RESIZE NORMAL ==
@@ -71,18 +62,18 @@ class JvscriptController extends Controller {
         $img->save('storage/images/' . $filename, 90);
 
         //== RESIZE MINIATURE ==
-        $img->resize(261, null, function ($constraint) {
+        $img->resize(345, null, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
-        $img->resize(null, 261, function ($constraint) {
+        $img->resize(null, 345, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
         $img->save('storage/images/small-' . $filename, 85);
 
         //store photo in DB
-        $item->photo_url = '/storage/images/' . $filename;
+        $item->photo_url = $filename;
         $item->save();
     }
 
@@ -119,6 +110,13 @@ class JvscriptController extends Controller {
                 $request->flash();
                 return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
+            }
 
             $script = Script::create($request->all());
             $script->slug = $this->slugifyScript($script->name);
@@ -131,16 +129,10 @@ class JvscriptController extends Controller {
 
             //store photo_file or photo_url  storage
             if ($request->file('photo_file')) {
-                $filename = $request->file('photo_file')->getClientOriginalName();
-                $this->storeImage($script, $request->file('photo_file'), $filename);
+                $this->storeImage($script, $request->file('photo_file'));
             } else if ($request->has('photo_url')) {
-                if ($this->isImage($request->input('photo_url'))) {
-                    $file = @file_get_contents($request->input('photo_url'));
-                    $filename = basename($request->input('photo_url'));
-                    $this->storeImage($script, $file, $filename);
-                } else {
-                    $script->photo_url = null;
-                }
+                $file = @file_get_contents($request->input('photo_url'));
+                $this->storeImage($script, $file);
             }
 
             $script->save();
@@ -185,6 +177,13 @@ class JvscriptController extends Controller {
                 $request->flash();
                 return redirect(route('skin.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
+            }
 
             $script = Skin::create($request->all());
             $script->slug = $this->slugifySkin($script->name);
@@ -198,13 +197,11 @@ class JvscriptController extends Controller {
             //_TODO : supprimer ancienne image si existe
             //store photo_file or photo_url  storage
             if ($request->file('photo_file')) {
-                $filename = $request->file('photo_file')->getClientOriginalName();
-                $this->storeImage($script, $request->file('photo_file'), $filename);
+                $this->storeImage($script, $request->file('photo_file'));
             } else if ($request->has('photo_url')) {
-                if ($this->isImage($request->input('photo_url'))) {
+                if ($this->lib->isImage($request->input('photo_url'))) {
                     $file = @file_get_contents($request->input('photo_url'));
-                    $filename = basename($request->input('photo_url'));
-                    $this->storeImage($script, $file, $filename);
+                    $this->storeImage($script, $file);
                 } else {
                     $script->photo_url = null;
                 }
@@ -233,6 +230,7 @@ class JvscriptController extends Controller {
                     'js_url' => "required|url|max:255|regex:/.*\.js$/",
                     'repo_url' => "url|max:255",
                     'photo_url' => "url|max:255",
+                    'photo_file' => "image",
                     'don_url' => "url|max:255",
                     'user_id' => "exists:users,id",
                     'sensibility' => "in:0,1,2",
@@ -242,9 +240,9 @@ class JvscriptController extends Controller {
                         ], $messages);
 
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'version', 'last_update'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
+            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
@@ -258,11 +256,35 @@ class JvscriptController extends Controller {
                     $request, $validator
             );
         } else {
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
+            }
+
             $script->fill($request->only($toUpdate));
-            $script->version = $request->input('version');
             if ($request->has('last_update')) {
                 $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             }
+
+            //gestion photo
+            if ($request->file('photo_file')) {
+                Storage::delete('public/images/' . $script->photoShortLink());
+                Storage::delete('public/images/small-' . $script->photoShortLink());
+                $this->storeImage($script, $request->file('photo_file'));
+            } else if ($request->has('photo_url')) {
+                if ($this->lib->isImage($request->input('photo_url'))) {
+                    $file = @file_get_contents($request->input('photo_url'));
+                    Storage::delete('public/images/' . $script->photoShortLink());
+                    Storage::delete('public/images/small-' . $script->photoShortLink());
+                    $this->storeImage($script, $file);
+                } else {
+                    $script->photo_url = null;
+                }
+            }
+
             $script->save();
             return redirect(route('script.show', ['slug' => $slug]));
         }
@@ -286,9 +308,9 @@ class JvscriptController extends Controller {
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'version', 'last_update'];
+        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'photo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version', 'last_update'];
+            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version'];
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
@@ -302,11 +324,35 @@ class JvscriptController extends Controller {
                     $request, $validator
             );
         } else {
+            //check image url
+            if ($request->has('photo_url')) {
+                if (!$this->lib->isImage($request->input('photo_url'))) {
+                    $request->flash();
+                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
+                }
+            }
+
             $skin->fill($request->only($toUpdate));
-            $skin->version = $request->input('version');
             if ($request->has('last_update')) {
                 $skin->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             }
+
+            //gestion photo
+            if ($request->file('photo_file')) {
+                Storage::delete('public/images/' . $skin->photoShortLink());
+                Storage::delete('public/images/small-' . $skin->photoShortLink());
+                $this->storeImage($skin, $request->file('photo_file'));
+            } else if ($request->has('photo_url')) {
+                if ($this->lib->isImage($request->input('photo_url'))) {
+                    $file = @file_get_contents($request->input('photo_url'));
+                    Storage::delete('public/images/' . $skin->photoShortLink());
+                    Storage::delete('public/images/small-' . $skin->photoShortLink());
+                    $this->storeImage($skin, $file);
+                } else {
+                    $skin->photo_url = null;
+                }
+            }
+
             $skin->save();
             return redirect(route('skin.show', ['slug' => $slug]));
         }
@@ -496,6 +542,11 @@ class JvscriptController extends Controller {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
         $script->comments()->delete();
+        //suprimes les images
+        if ($script->photoShortLink()) {
+            Storage::delete('public/images/' . $script->photoShortLink());
+            Storage::delete('public/images/small-' . $script->photoShortLink());
+        }
         $script->delete();
         $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
         $this->lib->sendDiscord($message, $this->discord_url);
@@ -508,6 +559,12 @@ class JvscriptController extends Controller {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($skin->user_id);
         $skin->comments()->delete();
+        //suprimes les images
+        if ($skin->photoShortLink()) {
+            Storage::delete('public/images/' . $skin->photoShortLink());
+            Storage::delete('public/images/small-' . $script->photoShortLink());
+        }
+
         $skin->delete();
         $message = "[delete script] Skin supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
         $this->lib->sendDiscord($message, $this->discord_url);
@@ -540,6 +597,12 @@ class JvscriptController extends Controller {
     public function crawlInfo() {
         $this->lib->adminOrFail();
         $this->lib->crawlInfo();
+    }
+
+    public function storeImages() {
+        $this->lib->adminOrFail();
+        $tool = new \App\Lib\Tool();
+        $tool->storeExternalImages();
     }
 
 }
