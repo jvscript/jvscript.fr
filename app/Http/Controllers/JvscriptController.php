@@ -13,6 +13,7 @@ use Auth;
 use App;
 use App\Notifications\notifyStatus;
 use App\Lib\Lib;
+use Image;
 
 class JvscriptController extends Controller {
 
