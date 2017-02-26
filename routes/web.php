@@ -91,6 +91,7 @@ Route::get('/aide', function () {
 })->name('aide');
 
 Route::get('/crawlInfo', 'JvscriptController@crawlInfo');
+Route::get('/storeImages', 'JvscriptController@storeImages');
 
 Auth::routes();
 

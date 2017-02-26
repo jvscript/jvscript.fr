@@ -31,6 +31,22 @@ class Script extends Model {
         return $this->status == 1;
     }
 
+    public function getPhotoUrlAttribute($value) {
+        if ($value)
+            return "/storage/images/" . $value;
+        return null;
+    }
+
+    public function photoShortLink() {
+        return str_replace("/storage/images/", '', $this->photo_url);
+    }
+
+    public function photoSmall() {
+        if ($this->photo_url)
+            return "/storage/images/small-" . $this->photoShortLink();
+        return null;
+    }
+
     public function statusLabel() {
         $label = ['En attente', 'Validé', 'Refusé'];
         return $label[$this->status];
@@ -52,6 +68,6 @@ class Script extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'user_email', 'don_url', 'topic_url', 'website_url', 'sensibility', 'user_id'];
+    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'version', 'last_update', 'user_email', 'don_url', 'topic_url', 'website_url', 'sensibility', 'user_id'];
 
 }

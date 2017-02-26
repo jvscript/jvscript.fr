@@ -78,6 +78,20 @@ class Lib {
         file_get_contents($url, false, $context);
     }
 
+    public function isImage($path) {
+        if (!is_array(getimagesize($path)))
+            return false;
+
+        $a = getimagesize($path);
+
+        $image_type = $a[2];
+
+        if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
+            return true;
+        }
+        return false;
+    }
+
     public function crawlInfo() {
         set_time_limit(600);
         $scripts = Script::where("status", 1)->orderBy('last_update', 'asc')->get();
