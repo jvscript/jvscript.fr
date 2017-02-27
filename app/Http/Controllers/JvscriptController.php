@@ -366,7 +366,6 @@ class JvscriptController extends Controller {
             $script->status = 1;
             $script->save();
             if ($script->poster_user_id != null) {
-//                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
                 $script->poster_user()->first()->notify(new notifyStatus($script));
             }
         }
@@ -381,7 +380,6 @@ class JvscriptController extends Controller {
             $skin->status = 1;
             $skin->save();
             if ($skin->poster_user_id != null) {
-//                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
                 $skin->poster_user()->first()->notify(new notifyStatus($skin));
             }
         }
