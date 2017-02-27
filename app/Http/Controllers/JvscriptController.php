@@ -365,8 +365,7 @@ class JvscriptController extends Controller {
         if ($script->status != 1) {
             $script->status = 1;
             $script->save();
-            if ($script->user_id != null) {
-//                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
+            if ($script->poster_user_id != null) {
                 $script->poster_user()->first()->notify(new notifyStatus($script));
             }
         }
@@ -380,8 +379,7 @@ class JvscriptController extends Controller {
         if ($skin->status != 1) {
             $skin->status = 1;
             $skin->save();
-            if ($skin->user_id != null) {
-//                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
+            if ($skin->poster_user_id != null) {
                 $skin->poster_user()->first()->notify(new notifyStatus($skin));
             }
         }
@@ -395,7 +393,7 @@ class JvscriptController extends Controller {
         if ($script->status != 2) {
             $script->status = 2;
             $script->save();
-            if ($script->user_id != null) {
+            if ($script->poster_user_id != null) {
 //                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
                 $script->poster_user()->first()->notify(new notifyStatus($script));
             }
@@ -410,7 +408,7 @@ class JvscriptController extends Controller {
         if ($skin->status != 2) {
             $skin->status = 2;
             $skin->save();
-            if ($skin->user_id != null) {
+            if ($skin->poster_user_id != null) {
 //                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
                 $skin->poster_user()->first()->notify(new notifyStatus($skin));
             }
