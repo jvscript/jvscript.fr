@@ -117,6 +117,8 @@ On en a besoin pour la suite.
     php artisan key:generate
 
 	php artisan migrate
+
+	php artisan storage:link
  
 
 ### Droit d'écriture de l'appli sous linux si besoin

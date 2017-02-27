@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.4 - 2017-03-
+
+- Notification (email) aux propriétaires de script lors de commentaire
+
 ## v1.0.3 - 2017-02-26
 
 - Amélioration des performances (resize des images) 
