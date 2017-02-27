@@ -1,17 +1,12 @@
 <?php
-if (isset($script->js_url)) {
-    $item = "script";
-} elseif (isset($skin->skin_url)) {
-    $item = "skin";
-    $script = $skin;
-}
+$item = "box";
 ?>
 
 <div id="comments" class="{{$commentClass}} ">
     <div class="panel-body">
         <h4 style="margin-top: 0px; margin-bottom: -10px">Commentaires</h4>
         <hr>
-        <form id="add_form" class="form-horizontal" role="form" method="POST" action="{{ route($item.'.comment', $script->slug) }}">
+        <form id="add_form" class="form-horizontal" role="form" method="POST" action="{{ route('box.comment', $idea->id) }}">
             {{ csrf_field() }}
 
             <div class="form-group{{ $errors->has('comment') ? ' has-error' : '' }}">
@@ -29,8 +24,8 @@ if (isset($script->js_url)) {
             @if($show_captcha)
             <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
                 <div class="col-md-6 ">
-                    <!--<div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>-->
-                    <div id="recaptcha-{{$recaptcha}}"></div> 
+                    <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>
+                    <!--<div id="recaptcha-{{$recaptcha}}"></div>--> 
 
                     @if ($errors->has('recaptcha'))
                     <span class="help-block">
@@ -38,8 +33,7 @@ if (isset($script->js_url)) {
                     </span>
                     @endif
                 </div>
-            </div> 
-
+            </div>  
             @endif
             <div class="form-group">
                 <div class="col-md-6 ">
@@ -75,11 +69,7 @@ if (isset($script->js_url)) {
                 <div class="panel comments">
                     <div class="panel-heading comments" style="text-align: left;">
 
-                        <b>{{$comment->user()->first()->name}}</b>
-
-                        @if($comment->user_id == $script->user_id)
-                        <i class="fa fa-check" aria-hidden="true" style="padding-right: 5px" data-toggle="tooltip" data-placement="right" title="Créateur du {{$item}}"></i>
-                        @endif
+                        <b>{{$comment->user()->first()->name}}</b> 
 
                         <span class="date pull-right">
                             {{$comment->created_at->format('d/m/Y à H:i')}} 
@@ -90,35 +80,19 @@ if (isset($script->js_url)) {
                         {{$comment->comment}}  
                         <span class="pull-right ">                             
                             @if (Auth::check() && ( Auth::user()->isAdmin() ||  Auth::user()->id == $comment->user_id ))
-                            <a name="delete-comment" title="Supprimer le commentaire ?" href="{{ route($item.'.comment.delete', ['slug' => $script->slug, 'comment_id' => $comment->id ])}}"><i class="fa fa-times text-danger" style="font-size: 15px; padding-left: 5px"></i></a>
+                            <a name="delete-comment" title="Supprimer le commentaire ?" href="{{ route('box.comment.delete', ['id' => $idea->id, 'comment_id' => $comment->id ])}}"><i class="fa fa-times text-danger" style="font-size: 15px; padding-left: 5px"></i></a>
                             @endif
                         </span>
                     </div>
                 </div>
-            </div>
-
+            </div> 
         </div>
 
         @endforeach
 
         {{ $comments->fragment('comments')->links() }}
 
-
-
-
         @endif
-
 
     </div>
 </div>
-
-@section('recaptcha')
-@if($show_captcha)
-<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
-<script type="text/javascript">
-var CaptchaCallback = function () {
-    grecaptcha.render('recaptcha-1', {'sitekey': '6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS'});
-    grecaptcha.render('recaptcha-2', {'sitekey': '6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS'});
-};</script>
-@endif
-@endsection

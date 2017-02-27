@@ -59,7 +59,7 @@
 
             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                 <label for="description" class="col-md-4 control-label">Description *
-                <br> (MarkDown compatible)
+                <br> <a href='https://guides.github.com/features/mastering-markdown/#syntax' target='_blank'>(MarkDown compatible)</a>
                 </label>
 
                 <div class="col-md-6">

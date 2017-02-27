@@ -52,6 +52,9 @@ echo json_encode([
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <li class=>
+                             <a href="{{route('box.index')}}">Boite à idées</a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Liens utiles <span class="caret"></span></a>
                             <ul class="dropdown-menu">
