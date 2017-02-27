@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Script extends Model {
 
     /**
-     * Get the user that owns the collection.
+     * Get the user (owner)
      */
     public function user() {
         return $this->belongsTo(User::class);
