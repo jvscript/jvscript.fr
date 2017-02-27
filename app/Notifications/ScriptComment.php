@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class notifyStatus extends Notification {
+class ScriptComment extends Notification {
 
     use Queueable;
 
@@ -48,15 +48,9 @@ class notifyStatus extends Notification {
         }
         $mail = (new MailMessage)
                 ->greeting('Bonjour,')
-                ->subject('Notification de jvscript.io');
-        if ($script->status == 1) {
-            $mail->line("Le $item que vous avez ajouté sur jvscript.io a été validé. ")
-                    ->action('Suivez ce lien pour le voir', route($item . '.show', $script->slug));
-        } elseif ($script->status == 2) {
-            $mail->greeting('Bonjour,')
-                    ->line("Le $item que vous avez ajouté sur jvscript.io a été refusé. ")
-                    ->action("Contactez-nous pour plus d'info", route('contact.form'));
-        }
+                ->subject("Nouveau commentaire sur votre $item : $script->name");
+        $mail->line("Vous avez recu un nouveau commentaire sur votre $item : $script->name")
+                ->action('Voir les commentaires', route($item . '.show', $script->slug) . '#comments');
 
         return $mail;
     }
@@ -71,8 +65,7 @@ class notifyStatus extends Notification {
         return [
             'item_id' => $this->script->id,
             'item_type' => $this->script->js_url ? 'script' : 'skin',
-            'notification_type' => 'script_status',
-            'status' => $this->script->status,
+            'notification_type' => 'script_comment',
         ];
     }
 

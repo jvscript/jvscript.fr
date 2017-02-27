@@ -10,6 +10,7 @@ use Validator;
 use Auth;
 use App;
 use App\Lib\Lib;
+use App\Notifications\ScriptComment;
 
 class CommentController extends Controller {
 
@@ -88,7 +89,10 @@ class CommentController extends Controller {
             }
             $comment = $request->input('comment');
             $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
-            //_TODO : notify autor 
+
+            if ($model->user_id != null) {
+                $model->user()->first()->notify(new ScriptComment($model));
+            }
             return redirect(route("$item.show", $slug) . "#comments");
         }
     }
