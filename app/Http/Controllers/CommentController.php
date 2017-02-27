@@ -90,7 +90,8 @@ class CommentController extends Controller {
             $comment = $request->input('comment');
             $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
 
-            if ($model->user_id != null) {
+            //notify user 
+            if ($model->user_id != null && $user->id != $model->user_id) {
                 $model->user()->first()->notify(new ScriptComment($model));
             }
             return redirect(route("$item.show", $slug) . "#comments");
