@@ -2,14 +2,7 @@
 
 @section('content')
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-
-
-
-<style>
-
-
-</style>
+ 
 
 @section('javascript')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">

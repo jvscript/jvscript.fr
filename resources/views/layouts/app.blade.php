@@ -10,7 +10,7 @@
         <meta name="description" content="jvscript.io - Le site regroupant les scripts et skins pour jeuxvideo.com">
         <meta name="keywords" content="jvscript.io, scripts, skins, jvc, jeuxvideo.com, marketplace, userscripts, scripts jvc, script jvc, jv scripts, jvscript, scripts jvc">
 
-        <link rel="stylesheet" href="/assets/stylesheets/jvscript.css" media="screen">
+        <link rel="stylesheet" href="/assets/stylesheets/jvscript.min.css" media="screen">
         <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 
         <!-- Scripts -->

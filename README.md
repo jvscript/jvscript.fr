@@ -18,7 +18,7 @@ Allez lire le guide [install.md](install.md)
 
 ## Comment mettre à jour l'appli
   
-      git pull && composer update
+      git pull && composer update && php artisan migrate
 
 ## Comment contribuer
 
