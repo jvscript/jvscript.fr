@@ -23,6 +23,11 @@
         <h1 style="margin-bottom: 22px">Proposer une idée de script/skin</h1>
         <div class="panel-body">
             @if (session('message'))
+            <script>
+                $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#success-alert").slideUp(500);
+                });
+            </script>
             <div class="alert alert-success">
                 {{ session('message') }}
             </div>

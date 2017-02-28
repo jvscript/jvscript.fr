@@ -53,7 +53,7 @@ echo json_encode([
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class=>
-                             <a href="{{route('box.index')}}">Boite à idées</a>
+                            <a href="{{route('box.index')}}">Boite à idées</a>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Liens utiles <span class="caret"></span></a>
@@ -139,15 +139,23 @@ echo json_encode([
         <script src="/js/list.min.js"></script>
         <script src="/js/confirm.min.js"></script>
         @yield('recaptcha', "<script src='https://www.google.com/recaptcha/api.js'></script>")
-        
+
         @yield('javascript')
 
         <script>
-                                           $.ajaxSetup({
-                                               headers: {
-                                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                               }
+
+                                           @if (session('message'))
+
+                                                   $(".alert-success").fadeTo(6000, 500).slideUp(500, function () {
+                                               $(".alert-success").slideUp(500);
                                            });
+                                                   @endif
+
+                                                   $.ajaxSetup({
+                                                       headers: {
+                                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                       }
+                                                   });
                                            //sync up 2 search bar
                                            $("#search-navbar").keyup(function () {
                                                var keyword = $(this).val().trim();
@@ -172,22 +180,20 @@ echo json_encode([
 
                                            @endif
 
-        </script>
-        <script>
-                    (function (i, s, o, g, r, a, m) {
-                        i['GoogleAnalyticsObject'] = r;
-                        i[r] = i[r] || function () {
-                            (i[r].q = i[r].q || []).push(arguments)
-                        }, i[r].l = 1 * new Date();
-                        a = s.createElement(o),
-                                m = s.getElementsByTagName(o)[0];
-                        a.async = 1;
-                        a.src = g;
-                        m.parentNode.insertBefore(a, m)
-                    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+                                                   (function (i, s, o, g, r, a, m) {
+                                                       i['GoogleAnalyticsObject'] = r;
+                                                       i[r] = i[r] || function () {
+                                                           (i[r].q = i[r].q || []).push(arguments)
+                                                       }, i[r].l = 1 * new Date();
+                                                       a = s.createElement(o),
+                                                               m = s.getElementsByTagName(o)[0];
+                                                       a.async = 1;
+                                                       a.src = g;
+                                                       m.parentNode.insertBefore(a, m)
+                                                   })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-            ga('create', 'UA-91627552-1', 'auto');
-            ga('send', 'pageview');
+                                           ga('create', 'UA-91627552-1', 'auto');
+                                           ga('send', 'pageview');
 
         </script>
     </body>

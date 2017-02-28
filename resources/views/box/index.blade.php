@@ -3,7 +3,7 @@
 @section('title','La boite à idées | jvscript.io')
 
 @section('content')
- 
+
 
 @section('javascript')
 
@@ -13,16 +13,20 @@
 
     <div class="col-md-8 col-md-offset-2">
 
-        @if (session('message'))
+        @if (session('message')) 
         <div class="alert alert-success">
             {{ session('message') }}
-        </div>
+        </div> 
         @endif
 
         <p class="text-center">
             <a href="{{route("box.form")}}" class="btn btn-default">Proposer une idée <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
             </a>
         </p>
+        <?php
+        
+        $types_label = ['Script', 'Skin'];
+        ?>
 
         @foreach ($ideas as $key => $idea)
         <div class="row">
@@ -39,6 +43,7 @@
             <div class="col-xs-10">
                 <div class=" panel panel-default">
                     <div class="panel-heading text-left " style='text-align: left'>
+                        [{{$types_label[$idea->type]}}]
                         <a href='{{route('box.show',$idea->id)}}'>{{$idea->title}}</a>
 
                         <span class="date pull-right">
