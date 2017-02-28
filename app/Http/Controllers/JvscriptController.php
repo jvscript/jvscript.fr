@@ -536,10 +536,10 @@ class JvscriptController extends Controller {
         $this->lib->crawlInfo();
     }
 
-    public function storeImages() {
-        $this->lib->adminOrFail();
-        $tool = new \App\Lib\Tool();
-        $tool->storeExternalImages();
-    }
+//    public function storeImages() {
+//        $this->lib->adminOrFail();
+//        $tool = new \App\Lib\Tool();
+//        $tool->storeExternalImages();
+//    }
 
 }

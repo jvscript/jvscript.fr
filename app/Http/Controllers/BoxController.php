@@ -70,6 +70,17 @@ class BoxController extends Controller {
         }
     }
 
+    public function likeBox($id, $dislike = false) {
+        $idea = Idea::findOrFail($id);
+        $user = Auth::user();
+
+        $liked = $dislike ? false : true;
+        $like = $idea->likes()->firstOrNew(['user_id' => $user->id]);
+        $like->liked = $liked;
+        $like->save();
+        return redirect(route('box.index'));
+    }
+
     public function validateBox($id) {
         $idea = Idea::findOrFail($id);
         $this->lib->adminOrFail();

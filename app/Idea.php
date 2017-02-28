@@ -20,6 +20,13 @@ class Idea extends Model {
         return $this->morphMany('App\Comment', 'commentable');
     }
 
+    /**
+     * Get all of the item's likes.
+     */
+    public function likes() {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+
     public function isValidated() {
         return $this->status == 1;
     }
@@ -35,7 +42,7 @@ class Idea extends Model {
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'type', 'user_id' ,'status'
+        'title', 'description', 'type', 'user_id', 'status'
     ];
 
 }
