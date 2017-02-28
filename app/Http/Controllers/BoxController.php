@@ -66,7 +66,7 @@ class BoxController extends Controller {
             $message = "[new idée] Nouvelle idée posté sur le site : '$idea->title' " . route('box.index');
             $this->lib->sendDiscord($message, $this->discord_url);
 
-            return redirect(route('box.index'))->with("message", "Merci, votre script a été ajoutée.");
+            return redirect(route('box.index'))->with("message", "Merci, votre idée a été ajoutée.");
         }
     }
 

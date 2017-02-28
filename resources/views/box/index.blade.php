@@ -1,13 +1,9 @@
 @extends('layouts.app')
 
+@section('title','La boite à idées | jvscript.io')
+
 @section('content')
-
-
-
-<style>
-
-
-</style>
+ 
 
 @section('javascript')
 
