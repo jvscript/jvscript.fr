@@ -107,8 +107,8 @@ Route::get('/boite-a-idees/ajout', 'BoxController@formAjout')->name('box.form')-
 Route::post('/boite-a-idees/ajout', 'BoxController@storeIdea')->name('box.store')->middleware('auth');
 Route::get('/boite-a-idees/{id}', 'BoxController@showIdea')->name('box.show');
 
-Route::get('/boite-a-idees/{id}/like', 'BoxController@likeBox')->name('box.like');
-Route::get('/boite-a-idees/{id}/like/{dislike}', 'BoxController@likeBox')->name('box.dislike');
+Route::get('/boite-a-idees/{id}/like', 'BoxController@likeBox')->name('box.like')->middleware('auth');
+Route::get('/boite-a-idees/{id}/like/{dislike}', 'BoxController@likeBox')->name('box.dislike')->middleware('auth');
 //refuse
 Route::get('/boite-a-idees/{id}/refuse', 'BoxController@refuseBox')->name('box.refuse');
 Route::get('/boite-a-idees/{id}/validate', 'BoxController@validateBox')->name('box.validate');
