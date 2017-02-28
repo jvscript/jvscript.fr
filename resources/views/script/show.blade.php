@@ -9,6 +9,16 @@
             $(function () {
             $('[data-toggle="tooltip"]').tooltip()
             })
+    $( ".script-danger" ).click(function() {
+      var r = confirm( "Ce script est interdit sur JVC, attention à vous." );
+      if (r == true) {
+        return true;
+      }
+      else {
+        return false;
+      }
+});
+
 </script>
 @endsection
 
@@ -25,22 +35,26 @@
     <div class="col-md-6" style="margin-top: -8px;margin-bottom: 22px;">
 
         <!--install -->
-        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+
         <?php
         if ($script->sensibility == 0) {
             $class = "success";
             $message = "Ce script est jugé safe à l'utilisation.";
             $icon = "fa-check";
+            $extra = "script-safe";
         } else if ($script->sensibility == 1) {
             $class = "warning";
             $message = "On ne peut dire si ce script est autorisé dans les forums de JVC.";
             $icon = "fa-exclamation-triangle";
+            $extra = "script-warning";
         } else if ($script->sensibility == 2) {
             $class = "danger";
             $message = "Attention, ce script est sensible, son utilisation peut mener à des sanctions.";
             $icon = "fa-exclamation-triangle";
+            $extra = "script-danger";
         }
         ?>
+        <a target="_blank" class="btn btn-primary btn-lg {{$extra}}" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
         <span class="sensibility sensibility-{{$class}} " >
             <span class="fa-stack fa-1x "  data-toggle="tooltip" data-placement="right" title="{{$message}}">
                 <i class="fa fa-stack-2x "></i>
@@ -69,7 +83,7 @@
                     <div class="modal-content">
                         <div class="modal-body text-center">
                             <img class="img-thumbnail img-responsive" src="{{($script->photo_url)}}"   alt="{{$script->name}} logo" />
-                        </div>                        
+                        </div>
                     </div>
 
                 </div>
@@ -94,15 +108,15 @@
                 @endif
                 @if(null != $script->user_id)
                 <p>
-                    <b> Auteur : </b> <a href="{{url('/search/'.$script->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->user()->first()->name}}">{{$script->user()->first()->name}}</a> 
+                    <b> Auteur : </b> <a href="{{url('/search/'.$script->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->user()->first()->name}}">{{$script->user()->first()->name}}</a>
                 </p>
                 @elseif($script->autor != null)
                 <p>
-                    <b> Auteur : </b> <a href="{{url('/search/'.$script->autor)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->autor}}">{{$script->autor}}</a> 
+                    <b> Auteur : </b> <a href="{{url('/search/'.$script->autor)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->autor}}">{{$script->autor}}</a>
                 </p>
                 @endif
 
-                <p> 
+                <p>
                     <b> Note : </b>
                     <?php $note = round($script->note * 2) / 2; ?>
                     @for ($i = 1; $i <= $note ; $i++)
@@ -124,8 +138,8 @@
                 <form id="note-{{$i}}" action="{{route('script.note',['slug' => $script->slug , 'note' => $i  ])}}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                     <input type="submit" name="note-{{$i}}" style="display: none;" />
-                </form>              
-                @endfor 
+                </form>
+                @endfor
 
                 <p>
                     <b>  Install : </b>   {{$script->install_count}} fois
