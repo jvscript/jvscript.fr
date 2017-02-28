@@ -26,8 +26,8 @@ class CreateCommentsTable extends Migration {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->boolean('liked');
-            $table->integer('likable_id');
-            $table->string('likable_type');
+            $table->integer('likeable_id');
+            $table->string('likeable_type');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });

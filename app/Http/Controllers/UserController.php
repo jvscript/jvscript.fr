@@ -13,22 +13,6 @@ use App\Lib\Lib;
 
 class UserController extends Controller {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        if (App::environment('local', 'testing')) {
-            $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-        } else { //prod
-            $this->recaptcha_key = env('RECAPTCHA_KEY', '');
-        }
-
-        $this->lib = new Lib();
-        $this->discord_url = env('DISCORD_URL', '');
-    }
-
     public function index(Request $request, $keyword = null) {
         $keyword = $keyword == null ? '' : $keyword;
         $scripts = Script::where("status", 1)->get();

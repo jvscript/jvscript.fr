@@ -23,7 +23,7 @@ class User extends Authenticatable {
 
     public function isAdmin() {
         return $this->admin; // this looks for an admin column in your users table
-    }
+    } 
 
     /**
      * Get all of the factures line  for the facture

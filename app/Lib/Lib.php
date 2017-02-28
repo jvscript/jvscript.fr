@@ -5,6 +5,7 @@ namespace App\Lib;
 use App\Script,
     App\Skin;
 use Auth;
+use Image;
 
 class Lib {
     /**
@@ -34,6 +35,48 @@ class Lib {
         if (!(Auth::check() && Auth::user()->id == $user_id)) {
             $this->adminOrFail();
         }
+    }
+
+    public function storeImage($item, $file) {
+        $filename = $item->slug;
+        $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
+
+        $img = Image::make($file);
+
+        if ($img->mime() != 'image/png') {
+            $img->encode('jpg');
+            $filename = $filename . ".jpg";
+        } else {
+            $filename = $filename . ".png";
+        }
+
+        //== RESIZE NORMAL ==
+        $img->resize(1000, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->resize(null, 1000, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        \File::exists(storage_path('app/public/images/')) or \File::makeDirectory(storage_path('app/public/images/'));
+        $img->save(storage_path('app/public/images/') . $filename, 90);
+
+        //== RESIZE MINIATURE ==
+        $img->resize(345, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->resize(null, 345, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->save(storage_path('app/public/images/small-') . $filename, 85);
+
+        //store photo in DB
+        $item->photo_url = $filename;
+        $item->save();
     }
 
     public function slugify($text) {
