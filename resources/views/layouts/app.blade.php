@@ -157,19 +157,23 @@ echo json_encode([
                                                        }
                                                    });
                                            //sync up 2 search bar
-                                           $("#search-navbar").keyup(function () {
+                                            $("#search-navbar").on('keyup', function (e) {
                                                var keyword = $(this).val().trim();
                                                $("#search-page").val(keyword);
                                                if (typeof scriptList == 'undefined') {
                                                    //redirect home with keyword
+                                                   if (e.keyCode == 13) {
                                                    window.location.href = "/search/" + keyword;
-
+                                                  }
                                                }
                                                else {
                                                    scriptList.search(keyword);
                                                }
                                            });
-
+                                           /*
+                                           $("#search-navbar").on('keyup', function (e) {
+                                             if (e.keyCode == 13) {
+*/
 //if we're not on the homepage
                                            @if (isset($keyword) && strlen($keyword) > 0)
                                                    var keyword = '{{$keyword}}';
