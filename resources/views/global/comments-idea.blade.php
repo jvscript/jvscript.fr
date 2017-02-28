@@ -1,12 +1,12 @@
 <?php
 $item = "box";
 ?>
-
-<div id="comments" class="{{$commentClass}} ">
+ 
+<div class="{{$commentClass}}" id="ajax-comment-{{$idea->id}}">
     <div class="panel-body">
         <h4 style="margin-top: 0px; margin-bottom: -10px">Commentaires</h4>
         <hr>
-        <form id="add_form" class="form-horizontal" role="form" method="POST" action="{{ route('box.comment', $idea->id) }}">
+        <form id="" class="form-horizontal ajax-comment"   role="form" method="POST" id-item='{{$idea->id}}' action="{{ route('box.comment', $idea->id) }}">
             {{ csrf_field() }}
 
             <div class="form-group{{ $errors->has('comment') ? ' has-error' : '' }}">
@@ -21,7 +21,7 @@ $item = "box";
                     @endif
                 </div>
             </div>
-            @if($show_captcha)
+            @if(isset($show_captcha) && $show_captcha )
             <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
                 <div class="col-md-6 ">
                     <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>

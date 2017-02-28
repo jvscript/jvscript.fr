@@ -44,12 +44,16 @@ class CommentController extends Controller {
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
             //Anti spam 30 secondes
             if ($this->lib->limitComment($this->min_time_comment)) {
+                if ($item == 'box') {//Return ajax error
+                    return view('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1])
+                                    ->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
+                }
                 $request->flash();
                 return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
             }
-            //anti spam 60 secondes : besoin validation captcha
-            if ($this->lib->limitComment($this->min_time_captcha)) {
-                if ((!App::environment('testing', 'local') && !$resp->isSuccess())) {
+            //anti spam 60 secondes : besoin validation captcha (bypass captcha comment boite à idée ajax)
+            if ($item != 'box' && $this->lib->limitComment($this->min_time_captcha)) {
+                if (!App::environment('testing') && !$resp->isSuccess()) {
                     $request->flash();
                     return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
                 }
@@ -57,9 +61,12 @@ class CommentController extends Controller {
             $comment = $request->input('comment');
             $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
 
-            //notify user 
+            //notify user script/skin note box
             if ($item != 'box' && $model->user_id != null && $user->id != $model->user_id) {
                 $model->user()->first()->notify(new ScriptComment($model));
+            }
+            if ($item == 'box') {//jax return
+                return view('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1]);
             }
             return redirect(route("$item.show", $slug) . "#comments");
         }

@@ -47,7 +47,7 @@ class UserController extends Controller {
      */
     public function adminComments(Request $request) {
         $this->lib->adminOrFail();
-        $comments = Comment::orderBy('created_at', 'desc')->paginate(20);
+        $comments = Comment::latest()->paginate(20);
         return view('admin.comments', ['comments' => $comments]);
     }
 

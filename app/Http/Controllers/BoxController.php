@@ -16,7 +16,10 @@ use App\Notifications\ScriptComment;
 class BoxController extends Controller {
 
     public function index(Request $request) {
-        $ideas = Idea::where("status", 1)->get();
+        $ideas = Idea::where("status", 1)->get()->sortByDesc(function ($idea, $key) {
+            return $idea->likes()->where('liked', 1)->count() - $idea->likes()->where('liked', 0)->count();
+        });
+        ;
         return view('box.index', ['ideas' => $ideas]);
     }
 
@@ -26,7 +29,7 @@ class BoxController extends Controller {
 
     public function showIdea(Request $request, $id) {
         $idea = Idea::findOrFail($id);
-        $comments = $idea->comments()->orderBy('created_at', 'desc')->paginate(10);
+        $comments = $idea->comments()->latest()->paginate(10);
         //affiche les non validés seulement si admin
         if (!$idea->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);

@@ -15,6 +15,7 @@ class CreateIdeasTable extends Migration {
         Schema::create('ideas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('like_count')->default(0)->comment("le nombre de like pour trier");
             $table->string('title')->unique();
             $table->text('description');
             $table->integer('type')->default(0)->comment("0 script / 1 skin");
