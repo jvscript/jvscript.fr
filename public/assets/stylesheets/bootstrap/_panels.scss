@@ -20,6 +20,11 @@
       box-shadow: 2px 2px 4px rgb(28, 28, 28);
       border: 1px solid #212121;
     }
+    &.idea {
+      background: #2b2b2b;
+      box-shadow: none;
+      border: none;
+    }
 }
 
 // Panel contents
@@ -50,6 +55,11 @@
      box-shadow: none;
      border-top: 1px solid #353535;
    }
+   &.idea {
+     background: #262627;
+     box-shadow: none;
+     border-top: 1px solid #353535;
+   }
 }
 
 .panel > .panel-body { margin-bottom: 0 }
@@ -70,6 +80,10 @@
   &.comments {
   border-bottom: 1px solid #232323;
   background: #2d2d2d;
+  }
+  &.idea {
+  border-bottom: 1px solid #232323;
+  background: #262627;
   }
 }
 

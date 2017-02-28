@@ -6399,6 +6399,12 @@ button.list-group-item-danger.active:focus {
 				border: 1px solid #212121;
 }
 
+.panel.idea {
+				background: #2b2b2b;
+				box-shadow: none;
+				border: none;
+}
+
 .panel-body {
 				padding: 15px;
 				background: #262627;
@@ -6438,6 +6444,12 @@ button.list-group-item-danger.active:focus {
 				border-top: 1px solid #353535;
 }
 
+.panel-body.idea {
+				background: #262627;
+				box-shadow: none;
+				border-top: 1px solid #353535;
+}
+
 .panel > .panel-body {
 				margin-bottom: 0;
 }
@@ -6459,6 +6471,11 @@ button.list-group-item-danger.active:focus {
 .panel-heading.comments {
 				border-bottom: 1px solid #232323;
 				background: #2d2d2d;
+}
+
+.panel-heading.idea {
+				border-bottom: 1px solid #232323;
+				background: #262627;
 }
 
 .panel-title {
@@ -8014,4 +8031,17 @@ div#ajax-content {
 
 table.dataTable.table-condensed .sorting:after, table.dataTable.table-condensed .sorting_asc:after, table.dataTable.table-condensed .sorting_desc:after {
 				display: none;
+}
+
+.like, .dislike {
+				color: #ccc;
+}
+
+.like:hover, .dislike:hover {
+				color: #cb931c;
+				text-decoration: none;
+}
+
+.like.clicked, .dislike.clicked {
+				color: #cb931c;
 }

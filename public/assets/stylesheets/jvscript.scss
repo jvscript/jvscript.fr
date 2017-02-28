@@ -95,3 +95,13 @@ div#ajax-content {
 table.dataTable.table-condensed .sorting:after, table.dataTable.table-condensed .sorting_asc:after, table.dataTable.table-condensed .sorting_desc:after {
   display: none;
 }
+.like, .dislike {
+  color: $gray-base;
+  &:hover {
+    color: $link-color;
+    text-decoration: none;
+  }
+  &.clicked {
+    color: $link-color;
+  }
+}
