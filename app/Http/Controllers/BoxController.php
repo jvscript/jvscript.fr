@@ -12,14 +12,21 @@ use Auth;
 use App;
 use App\Lib\Lib;
 use App\Notifications\ScriptComment;
-
+use View;
 class BoxController extends Controller {
 
     public function index(Request $request) {
+        if ($request->has('id_idea') && $request->has('page')) {
+            $idea = Idea::where(["status" => 1, "id" => $request->input('id_idea')])->firstOrFail();
+            return [
+                'html' => View::make('global.comments-idea', ['idea' => $idea, 'comments' => $idea->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1])->render(),
+                'count' => $idea->comments()->count()
+            ];
+        }
         $ideas = Idea::where("status", 1)->get()->sortByDesc(function ($idea, $key) {
+            //order by likes score
             return $idea->likes()->where('liked', 1)->count() - $idea->likes()->where('liked', 0)->count();
         });
-        ;
         return view('box.index', ['ideas' => $ideas]);
     }
 
@@ -76,7 +83,7 @@ class BoxController extends Controller {
     public function likeBox($id, $dislike = false) {
         $idea = Idea::findOrFail($id);
         $user = Auth::user();
-
+        //_TODO : if relike same = delete (cancel)
         $liked = $dislike ? false : true;
         $like = $idea->likes()->firstOrNew(['user_id' => $user->id]);
         $like->liked = $liked;

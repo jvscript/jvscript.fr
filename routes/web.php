@@ -103,6 +103,7 @@ Route::get('auth/github/callback', 'Auth\LoginController@handleProviderCallback'
  * boites à idées
  */
 Route::get('/boite-a-idees', 'BoxController@index')->name('box.index');
+
 Route::get('/boite-a-idees/ajout', 'BoxController@formAjout')->name('box.form')->middleware('auth');
 Route::post('/boite-a-idees/ajout', 'BoxController@storeIdea')->name('box.store')->middleware('auth');
 Route::get('/boite-a-idees/{id}', 'BoxController@showIdea')->name('box.show');

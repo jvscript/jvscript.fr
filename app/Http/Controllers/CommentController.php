@@ -12,6 +12,7 @@ use Auth;
 use App;
 use App\Lib\Lib;
 use App\Notifications\ScriptComment;
+use View;
 
 class CommentController extends Controller {
 
@@ -44,11 +45,14 @@ class CommentController extends Controller {
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
             //Anti spam 30 secondes
             if ($this->lib->limitComment($this->min_time_comment)) {
-                if ($item == 'box') {//Return ajax error
-                    return view('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1])
-                                    ->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
-                }
                 $request->flash();
+                if ($item == 'box') {//Return ajax error
+                    return [
+                        'html' => View::make('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1])
+                                ->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."])->render(),
+                        'count' => $model->comments()->count()
+                    ];
+                }
                 return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
             }
             //anti spam 60 secondes : besoin validation captcha (bypass captcha comment boite à idée ajax)
@@ -65,8 +69,11 @@ class CommentController extends Controller {
             if ($item != 'box' && $model->user_id != null && $user->id != $model->user_id) {
                 $model->user()->first()->notify(new ScriptComment($model));
             }
-            if ($item == 'box') {//jax return
-                return view('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1]);
+            if ($item == 'box') {//ajax return
+                return [
+                    'html' => View::make('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1])->render(),
+                    'count' => $model->comments()->count()
+                ];
             }
             return redirect(route("$item.show", $slug) . "#comments");
         }
@@ -92,7 +99,10 @@ class CommentController extends Controller {
         $this->lib->ownerOradminOrFail($comment->user_id);
         $comment->delete();
         if ($item == 'box') {//jax return
-            return view('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1]);
+            return [
+                'html' => View::make('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1])->render(),
+                'count' => $model->comments()->count()
+            ];
         }
         return redirect(route("$item.show", $slug) . "#comments");
     }

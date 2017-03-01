@@ -1,7 +1,7 @@
 <?php
 $item = "box";
 ?>
- 
+
 <div class="{{$commentClass}}" id="ajax-comment-{{$idea->id}}">
     <div class="panel-body">
         <h4 style="margin-top: 0px; margin-bottom: -10px">Commentaires</h4>
@@ -90,7 +90,7 @@ $item = "box";
 
         @endforeach
 
-        {{ $comments->fragment('comments')->links() }}
+        {{ $comments->fragment($idea->id)->links() }}
 
         @endif
 
