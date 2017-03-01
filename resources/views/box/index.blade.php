@@ -27,6 +27,28 @@
                 }
             });
         });
+        //delete comment en ajax
+        $(document).on('click', 'a[name="delete-comment"]', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var id_idea = $this.attr("data-idea-id"); //id de l'idée
+            var id_comment = $this.attr("data-comment-id"); //id du commentaire
+            console.log("url : " +  $this.attr('href'));
+            $.ajax({
+                url: $this.attr('href'),
+                type: 'GET',
+                data: $this.serialize(),
+//                dataType: 'json', // JSON
+                success: function (data) {
+                    if (data != "") {
+                        $("#comment-" + id_idea).html(data);
+                    }
+                    else {
+                        //_TODO show error wait 30 seconde
+                    }
+                }
+            });
+        });
 //            //_TODO pagination commentaire
 //                    function getAnomalies(page) {
 //                    $.ajax({
@@ -91,8 +113,7 @@
                 <div class="panel idea">
                     <div class="panel-heading idea " style='text-align: left'>
                         [{{$types_label[$idea->type]}}] 
-                        <!-- TODO: supprimer ce lien quand les commentaires accordéon sont prêts-->
-                        <a href='{{route('box.show',$idea->id)}}'>{{str_limit($idea->title,50)}}</a>
+                        {{str_limit($idea->title,50)}}
 
                         <span class="date pull-right hidden-xs">
                             Par {{$idea->user()->first()->name}} le

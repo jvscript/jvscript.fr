@@ -80,7 +80,7 @@ $item = "box";
                         {{$comment->comment}}  
                         <span class="pull-right ">                             
                             @if (Auth::check() && ( Auth::user()->isAdmin() ||  Auth::user()->id == $comment->user_id ))
-                            <a name="delete-comment" title="Supprimer le commentaire ?" href="{{ route('box.comment.delete', ['id' => $idea->id, 'comment_id' => $comment->id ])}}"><i class="fa fa-times text-danger" style="font-size: 15px; padding-left: 5px"></i></a>
+                            <a name="delete-comment" data-comment-id="{{$comment->id}}" data-idea-id="{{$idea->id}}" title="Supprimer le commentaire ?" href="{{ route('box.comment.delete', ['id' => $idea->id, 'comment_id' => $comment->id ])}}"><i class="fa fa-times text-danger" style="font-size: 15px; padding-left: 5px"></i></a>
                             @endif
                         </span>
                     </div>

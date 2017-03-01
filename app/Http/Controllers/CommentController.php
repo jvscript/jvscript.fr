@@ -91,6 +91,9 @@ class CommentController extends Controller {
         $comment = Comment::findOrFail($comment_id);
         $this->lib->ownerOradminOrFail($comment->user_id);
         $comment->delete();
+        if ($item == 'box') {//jax return
+            return view('global.comments-idea', ['idea' => $model, 'comments' => $model->comments()->latest()->paginate(5), 'commentClass' => ' ', 'recaptcha' => 1]);
+        }
         return redirect(route("$item.show", $slug) . "#comments");
     }
 
