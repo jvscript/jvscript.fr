@@ -134,10 +134,11 @@ echo json_encode([
             </footer>
         </div>
 
-        <script src="/js/jquery.min.js"></script>
+<!--        <script src="/js/jquery.min.js"></script>
         <script src="/assets/javascripts/bootstrap.min.js"></script>
         <script src="/js/list.min.js"></script>
-        <script src="/js/confirm.min.js"></script>
+        <script src="/js/confirm.min.js"></script>-->
+        <script src="/js/all.js"></script>
         @yield('recaptcha', "<script src='https://www.google.com/recaptcha/api.js'></script>")
 
         @yield('javascript')

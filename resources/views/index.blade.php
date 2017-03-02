@@ -18,7 +18,6 @@
 </div>
 -->
 @section('javascript')
-<script src="/js/blazy.min.js"></script>
 <script>
     var bLazy = new Blazy();
 
