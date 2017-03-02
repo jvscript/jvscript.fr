@@ -110,7 +110,7 @@
             <div class="col-xs-2 text-center" style="padding-top:44px; ">
 
                 <a class="{{$liked ? '' : 'like'}} center-block"  href="{{route('box.like',['id' => $idea->id])}}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                <b class="note center-block"> 
+                <b class="note center-block">
                     {{$idea->likes()->where('liked',1)->count() - $idea->likes()->where('liked',0)->count()}}
                 </b> <a class="{{$liked ? 'dislike' : ''}} center-block" href="{{route('box.dislike',['id' => $idea->id,'dislike' => true])}}"> <i class="fa fa-arrow-down" aria-hidden="true"></i> </a>
             </div>
@@ -118,20 +118,20 @@
             <div class="col-xs-10">
                 <div class="panel idea">
                     <div class="panel-heading idea " style='text-align: left'>
-                        [{{$types_label[$idea->type]}}] 
+                        [{{$types_label[$idea->type]}}]
                         {{str_limit($idea->title,50)}}
 
                         <span class="date pull-right hidden-xs">
                             Par {{$idea->user()->first()->name}} le
                             {{$idea->created_at->format('d/m/Y')}}
                         </span>
-                    </div> 
+                    </div>
                     <div class="panel-body idea" style="  word-wrap: break-word;  ">{{str_limit($idea->description,150)}}
                     </div>
-                    <div class="panel-body idea">  
-                        <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#comment-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
+                    <div class="panel idea">
+                        <div class="btn btn-default" type="button" data-toggle="collapse" data-target="#comment-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
                             <i class="fa fa-comment" aria-hidden="true"></i>   <span id="comment-count-{{$idea->id}}">{{$idea->comments()->count()}}</span>
-                        </button>
+                        </div>
                         <div class="collapse" id="comment-{{$idea->id}}">
                             @include('global.comments-idea', [ 'comments' =>  $idea->comments()->latest()->paginate(5) , 'commentClass' => ' ' , 'recaptcha' => 1])
                         </div>

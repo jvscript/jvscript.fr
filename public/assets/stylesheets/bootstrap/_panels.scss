@@ -60,6 +60,12 @@
      box-shadow: none;
      border-top: 1px solid #353535;
    }
+   &.ajax-comment {
+     background: #2b2b2b;
+     box-shadow: none;
+     margin-top: 10px;
+     border: 1px solid #2d2d2d;
+   }
 }
 
 .panel > .panel-body { margin-bottom: 0 }
@@ -118,6 +124,9 @@
 // any kind of custom content between the two.
 
 .panel {
+  &.idea {
+    background: #262627;
+  }
   > .list-group,
   > .panel-collapse > .list-group {
     margin-bottom: 0;
