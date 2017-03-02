@@ -37,6 +37,7 @@ class BoxController extends Controller {
 
     public function showIdea(Request $request, $id) {
         $idea = Idea::findOrFail($id);
+        $this->lib->adminOrFail();
         $comments = $idea->comments()->latest()->paginate(10);
         //affiche les non validés seulement si admin
         if (!$idea->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
@@ -86,9 +87,14 @@ class BoxController extends Controller {
         $user = Auth::user();
         //_TODO : if relike same = delete (cancel)
         $liked = $dislike ? false : true;
-        $like = $idea->likes()->firstOrNew(['user_id' => $user->id]);
-        $like->liked = $liked;
-        $like->save();
+        $alreadyLiked = $idea->likes()->where(['user_id' => $user->id, 'liked' => $liked]);
+        if ($alreadyLiked->count()) {
+            $alreadyLiked->delete();
+        } else {
+            $like = $idea->likes()->firstOrNew(['user_id' => $user->id]);
+            $like->liked = $liked;
+            $like->save();
+        }
         return redirect(route('box.index'));
     }
 
