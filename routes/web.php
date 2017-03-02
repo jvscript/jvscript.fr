@@ -59,9 +59,9 @@ Route::get('/skin/{slug}/comment/{comment_id}/delete', 'CommentController@delete
 
 
 //install, note
-Route::get('/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
+Route::match(['get', 'post'], '/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
+Route::match(['get', 'post'], '/skin/install/{slug}', 'JvscriptController@installSkin')->name('skin.install');
 Route::post('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');
-Route::get('/skin/install/{slug}', 'JvscriptController@installSkin')->name('skin.install');
 Route::post('/skin/note/{slug}/{note}', 'JvscriptController@noteSkin')->name('skin.note');
 
 

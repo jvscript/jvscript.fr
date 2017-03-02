@@ -11,8 +11,6 @@ use Validator;
 use Auth;
 use App;
 use App\Notifications\notifyStatus;
-
-
 use Illuminate\Support\Facades\Storage;
 
 class JvscriptController extends Controller {
@@ -362,7 +360,7 @@ class JvscriptController extends Controller {
         $script = Script::where('slug', $slug)->firstOrFail();
 
         // protection referer to count
-        if (str_contains($request->headers->get('referer'), $slug)) {
+        if ($request->method() == 'POST' && str_contains($request->headers->get('referer'), $slug)) {
             $history = History::where(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
             if ($history->count() == 0) {
                 History::create(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
@@ -371,6 +369,25 @@ class JvscriptController extends Controller {
             }
         }
         return redirect($script->js_url);
+    }
+
+    /**
+     * Install script : count & redirect 
+     */
+    public function installSkin($slug, Request $request) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+
+        //if no history install_count +1
+        // protection referer to count       
+        if ($request->method() == 'POST' && str_contains($request->headers->get('referer'), $slug)) {
+            $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+            if ($history->count() == 0) {
+                History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+                $skin->install_count++;
+                $skin->save();
+            }
+        }
+        return redirect($skin->skin_url);
     }
 
     /**
@@ -390,25 +407,6 @@ class JvscriptController extends Controller {
             }
         }
         return redirect(route('script.show', $slug));
-    }
-
-    /**
-     * Install script : count & redirect 
-     */
-    public function installSkin($slug, Request $request) {
-        $skin = Skin::where('slug', $slug)->firstOrFail();
-
-        //if no history install_count +1
-        // protection referer to count
-        if (str_contains($request->headers->get('referer'), $slug)) {
-            $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-            if ($history->count() == 0) {
-                History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-                $skin->install_count++;
-                $skin->save();
-            }
-        }
-        return redirect($skin->skin_url);
     }
 
     /**
@@ -541,5 +539,4 @@ class JvscriptController extends Controller {
 //        $tool = new \App\Lib\Tool();
 //        $tool->storeExternalImages();
 //    }
-
 }

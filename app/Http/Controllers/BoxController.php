@@ -13,6 +13,7 @@ use App;
 use App\Lib\Lib;
 use App\Notifications\ScriptComment;
 use View;
+
 class BoxController extends Controller {
 
     public function index(Request $request) {

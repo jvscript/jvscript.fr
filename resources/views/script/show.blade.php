@@ -9,17 +9,15 @@
             $(function () {
             $('[data-toggle="tooltip"]').tooltip()
             })
-    $( ".script-danger" ).click(function() {
-      var r = confirm( "Ce script est interdit sur JVC, attention à vous." );
-      if (r == true) {
-        return true;
-      }
-      else {
-        return false;
-      }
-});
-
-</script>
+            $(".script-danger").click(function() {
+    var r = confirm("Ce script est interdit sur JVC, attention à vous.");
+            if (r == true) {
+    return true;
+    }
+    else {
+    return false;
+    }
+    });</script>
 @endsection
 
 @section('content')
@@ -54,7 +52,11 @@
             $extra = "script-danger";
         }
         ?>
-        <a target="_blank" class="btn btn-primary btn-lg {{$extra}}" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
+
+        <a target="_blank" class="btn btn-primary btn-lg {{$extra}}" href="{{route('script.install',$script->slug)}}" onclick="document.getElementById('install').submit(); return false;"> Installer <i class="fa fa-download"></i> </a>
+        <form id="install" action="{{route('script.install',$script->slug)}}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
         <span class="sensibility sensibility-{{$class}} " >
             <span class="fa-stack fa-1x "  data-toggle="tooltip" data-placement="right" title="{{$message}}">
                 <i class="fa fa-stack-2x "></i>

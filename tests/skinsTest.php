@@ -184,7 +184,7 @@ class skinsTest extends TestCase {
         $this->visit('/skin/nom-du-skin')
                 ->see('0 fois');
 
-        $this->call('GET', '/skin/install/nom-du-skin', $parameters = [], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-skin']);
+        $this->call('POST', '/skin/install/nom-du-skin', $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-skin']);
         $this->visit('/skin/nom-du-skin')
                 ->see('1 fois');
     }

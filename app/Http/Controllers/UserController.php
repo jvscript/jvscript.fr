@@ -13,6 +13,9 @@ use App\Lib\Lib;
 
 class UserController extends Controller {
 
+    /**
+     * Homepage
+     */
     public function index(Request $request, $keyword = null) {
         $keyword = $keyword == null ? '' : $keyword;
         $scripts = Script::where("status", 1)->get();

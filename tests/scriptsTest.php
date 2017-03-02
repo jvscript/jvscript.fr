@@ -187,8 +187,8 @@ class scriptsTest extends TestCase {
         $this->call('GET', '/script/install/nom-du-script');
         $this->visit('/script/nom-du-script')
                 ->see('0 fois');
-
-        $this->call('GET', '/script/install/nom-du-script',  $parameters = [], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script' ] );
+         
+        $this->call('POST', '/script/install/nom-du-script',  $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script' ] );
         $this->visit('/script/nom-du-script')
                 ->see('1 fois');        
     }
