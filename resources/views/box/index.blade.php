@@ -128,16 +128,19 @@
                     </div>
                     <div class="panel-body idea" style="  word-wrap: break-word;  ">{{str_limit($idea->description,150)}}
                     </div>
-                    <div class="panel idea">
-                        <div class="btn btn-default" type="button" data-toggle="collapse" data-target="#comment-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="fa fa-comment" aria-hidden="true"></i>   <span id="comment-count-{{$idea->id}}">{{$idea->comments()->count()}}</span>
-                        </div>
-                        <div class="collapse" id="comment-{{$idea->id}}">
-                            @include('global.comments-idea', [ 'comments' =>  $idea->comments()->latest()->paginate(5) , 'commentClass' => ' ' , 'recaptcha' => 1])
-                        </div>
-                    </div>
+
                 </div>
             </div>
+            <div class="panel idea btn-comments">
+                <div class="btn btn-default" type="button" data-toggle="collapse" data-target="#comment-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fa fa-comment" aria-hidden="true"></i>   <span id="comment-count-{{$idea->id}}">{{$idea->comments()->count()}}</span>
+                </div>
+                <div class="collapse" id="comment-{{$idea->id}}">
+                    @include('global.comments-idea', [ 'comments' =>  $idea->comments()->latest()->paginate(5) , 'commentClass' => ' ' , 'recaptcha' => 1])
+                </div>
+            </div>
+
+
         </div>
 
         @endforeach

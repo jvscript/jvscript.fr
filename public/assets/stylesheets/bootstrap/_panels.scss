@@ -24,6 +24,9 @@
       background: #2b2b2b;
       box-shadow: none;
       border: none;
+      .btn-comments {
+        margin-bottom: 0px;
+      }
     }
 }
 
@@ -59,6 +62,7 @@
      background: #262627;
      box-shadow: none;
      border-top: 1px solid #353535;
+     padding: 10px 5px;
    }
    &.ajax-comment {
      background: #2b2b2b;
@@ -90,6 +94,7 @@
   &.idea {
   border-bottom: 1px solid #232323;
   background: #262627;
+  padding: 10px 5px;
   }
 }
 
