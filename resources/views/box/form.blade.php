@@ -91,9 +91,9 @@
                 <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
                     <div class="col-md-6 col-md-offset-4">
                         @if (App::environment('local'))
-                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" data-theme="dark"></div>
                         @else
-                        <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>
+                        <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS" data-theme="dark"></div>
                         @endif
 
                         @if ($errors->has('recaptcha'))
