@@ -99,7 +99,7 @@
         @foreach ($ideas as $key => $idea)
 
         <?php
-        $liked = 0;
+        $disliked = $liked = 0;
         if (!Auth::guest()) {
             $liked = $idea->likes()->where(['user_id' => Auth::user()->id, 'liked' => true])->count();
             $disliked = $idea->likes()->where(['user_id' => Auth::user()->id, 'liked' => false])->count();
