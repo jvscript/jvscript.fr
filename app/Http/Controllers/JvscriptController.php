@@ -435,9 +435,9 @@ class JvscriptController extends Controller {
      */
     public function showScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $comments = $script->comments()->latest()->paginate(10);
-        //affiche les non validés seulement si admin
-        if (!$script->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
+        $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
+        //si pas validé, on affiche seulement si admin/owner
+        if (!$script->isValidated() && $this->lib->ownerOradminOrFail($script->user_id)) {
             abort(404);
         }
         $Parsedown = new \Parsedown();
@@ -449,9 +449,9 @@ class JvscriptController extends Controller {
 
     public function showSkin($slug) {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $comments = $skin->comments()->latest()->paginate(10);
-        //affiche les non validés seulement si admin
-        if (!$skin->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
+        $comments = $skin->comments()->orderBy('created_at', 'desc')->paginate(10);
+        //si pas validé, on affiche seulement si admin/owner
+        if (!$skin->isValidated() && $this->lib->ownerOradminOrFail($skin->user_id)) {
             abort(404);
         }
         $Parsedown = new \Parsedown();
