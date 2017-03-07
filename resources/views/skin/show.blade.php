@@ -25,8 +25,12 @@
     </div>
 
     <div class="col-md-6" style="margin-top: -8px;margin-bottom: 22px;">
-        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"> Installer <i class="fa fa-download"></i> </a>
-
+        
+        
+        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"  onclick="document.getElementById('install').submit(); return false;"> Installer <i class="fa fa-download"></i> </a>
+        <form id="install" action="{{route('skin.install',$skin->slug)}}" target="_blank" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
     </div>
 </div>
 

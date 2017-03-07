@@ -16,7 +16,7 @@ return [
     
     
     //version en cours
-    'version' => '1.0.3',
+    'version' => '1.0.4',
     /*
       |--------------------------------------------------------------------------
       | Application Environment

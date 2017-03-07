@@ -6,8 +6,30 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App;
+use App\Lib\Lib;
 
-class Controller extends BaseController
-{
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+class Controller extends BaseController {
+
+    use AuthorizesRequests,
+        DispatchesJobs,
+        ValidatesRequests;
+
+    /**
+     * Create a new controller instance.     *
+     * @return void
+     */
+    public function __construct() {
+        if (App::environment('local', 'testing')) {
+            $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
+        } else { //prod
+            $this->recaptcha_key = env('RECAPTCHA_KEY', '');
+        }
+
+        $this->discord_url = env('DISCORD_URL', '');
+        $this->lib = new Lib();
+        $this->min_time_comment = 30; //limite de temps entre chaque commentaire
+        $this->min_time_captcha = 60; //limite de temps entre chaque commentaire pour faire disparaitre le captcha
+    }
+
 }

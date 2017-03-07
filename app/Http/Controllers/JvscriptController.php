@@ -11,71 +11,10 @@ use Validator;
 use Auth;
 use App;
 use App\Notifications\notifyStatus;
-use App\Lib\Lib;
-use Image;
 use Illuminate\Support\Facades\Storage;
 
 class JvscriptController extends Controller {
-
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
-    /**
-     * Create a new controller instance.     *
-     * @return void
-     */
-    public function __construct() {
-        if (App::environment('local', 'testing')) {
-            $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-        } else { //prod
-            $this->recaptcha_key = env('RECAPTCHA_KEY', '');
-        }
-
-        $this->discord_url = env('DISCORD_URL', '');
-        $this->lib = new Lib();
-        $this->min_time_comment = 30; //limite de temps entre chaque commentaire
-        $this->min_time_captcha = 60; //limite de temps entre chaque commentaire pour faire disparaitre le captcha
-    }
-
-    public function storeImage($item, $file) {
-        $filename = $item->slug;
-        $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
-
-        $img = Image::make($file);
-
-        if ($img->mime() != 'image/png') {
-            $img->encode('jpg');
-            $filename = $filename . ".jpg";
-        } else {
-            $filename = $filename . ".png";
-        }
-
-        //== RESIZE NORMAL ==
-        $img->resize(1000, null, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-        $img->resize(null, 1000, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-
-        \File::exists(storage_path('app/public/images/')) or \File::makeDirectory(storage_path('app/public/images/'));
-        $img->save(storage_path('app/public/images/') . $filename, 90);
-
-        //== RESIZE MINIATURE ==
-        $img->resize(345, null, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-        $img->resize(null, 345, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-        $img->save(storage_path('app/public/images/small-') . $filename, 85);
-
-        //store photo in DB
-        $item->photo_url = $filename;
-        $item->save();
-    }
 
     /**
      * Store a script in db
@@ -129,10 +68,10 @@ class JvscriptController extends Controller {
 
             //store photo_file or photo_url  storage
             if ($request->file('photo_file')) {
-                $this->storeImage($script, $request->file('photo_file'));
+                $this->lib->storeImage($script, $request->file('photo_file'));
             } else if ($request->has('photo_url')) {
                 $file = @file_get_contents($request->input('photo_url'));
-                $this->storeImage($script, $file);
+                $this->lib->storeImage($script, $file);
             }
 
             $script->save();
@@ -197,11 +136,11 @@ class JvscriptController extends Controller {
             //_TODO : supprimer ancienne image si existe
             //store photo_file or photo_url  storage
             if ($request->file('photo_file')) {
-                $this->storeImage($script, $request->file('photo_file'));
+                $this->lib->storeImage($script, $request->file('photo_file'));
             } else if ($request->has('photo_url')) {
                 if ($this->lib->isImage($request->input('photo_url'))) {
                     $file = @file_get_contents($request->input('photo_url'));
-                    $this->storeImage($script, $file);
+                    $this->lib->storeImage($script, $file);
                 } else {
                     $script->photo_url = null;
                 }
@@ -273,13 +212,13 @@ class JvscriptController extends Controller {
             if ($request->file('photo_file')) {
                 Storage::delete('public/images/' . $script->photoShortLink());
                 Storage::delete('public/images/small-' . $script->photoShortLink());
-                $this->storeImage($script, $request->file('photo_file'));
+                $this->lib->storeImage($script, $request->file('photo_file'));
             } else if ($request->has('photo_url')) {
                 if ($this->lib->isImage($request->input('photo_url'))) {
                     $file = @file_get_contents($request->input('photo_url'));
                     Storage::delete('public/images/' . $script->photoShortLink());
                     Storage::delete('public/images/small-' . $script->photoShortLink());
-                    $this->storeImage($script, $file);
+                    $this->lib->storeImage($script, $file);
                 } else {
                     $script->photo_url = null;
                 }
@@ -341,13 +280,13 @@ class JvscriptController extends Controller {
             if ($request->file('photo_file')) {
                 Storage::delete('public/images/' . $skin->photoShortLink());
                 Storage::delete('public/images/small-' . $skin->photoShortLink());
-                $this->storeImage($skin, $request->file('photo_file'));
+                $this->lib->storeImage($skin, $request->file('photo_file'));
             } else if ($request->has('photo_url')) {
                 if ($this->lib->isImage($request->input('photo_url'))) {
                     $file = @file_get_contents($request->input('photo_url'));
                     Storage::delete('public/images/' . $skin->photoShortLink());
                     Storage::delete('public/images/small-' . $skin->photoShortLink());
-                    $this->storeImage($skin, $file);
+                    $this->lib->storeImage($skin, $file);
                 } else {
                     $skin->photo_url = null;
                 }
@@ -394,7 +333,6 @@ class JvscriptController extends Controller {
             $script->status = 2;
             $script->save();
             if ($script->poster_user_id != null) {
-//                Mail::to($script->poster_user()->first()->email)->send(new Notify($script));
                 $script->poster_user()->first()->notify(new notifyStatus($script));
             }
         }
@@ -409,7 +347,6 @@ class JvscriptController extends Controller {
             $skin->status = 2;
             $skin->save();
             if ($skin->poster_user_id != null) {
-//                Mail::to($skin->poster_user()->first()->email)->send(new Notify($skin));
                 $skin->poster_user()->first()->notify(new notifyStatus($skin));
             }
         }
@@ -423,7 +360,7 @@ class JvscriptController extends Controller {
         $script = Script::where('slug', $slug)->firstOrFail();
 
         // protection referer to count
-        if (str_contains($request->headers->get('referer'), $slug)) {
+        if ($request->method() == 'POST' && str_contains($request->headers->get('referer'), $slug)) {
             $history = History::where(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
             if ($history->count() == 0) {
                 History::create(['ip' => $request->ip(), 'what' => $slug, 'action' => 'install']);
@@ -432,6 +369,25 @@ class JvscriptController extends Controller {
             }
         }
         return redirect($script->js_url);
+    }
+
+    /**
+     * Install script : count & redirect 
+     */
+    public function installSkin($slug, Request $request) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+
+        //if no history install_count +1
+        // protection referer to count       
+        if ($request->method() == 'POST' && str_contains($request->headers->get('referer'), $slug)) {
+            $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+            if ($history->count() == 0) {
+                History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
+                $skin->install_count++;
+                $skin->save();
+            }
+        }
+        return redirect($skin->skin_url);
     }
 
     /**
@@ -451,25 +407,6 @@ class JvscriptController extends Controller {
             }
         }
         return redirect(route('script.show', $slug));
-    }
-
-    /**
-     * Install script : count & redirect 
-     */
-    public function installSkin($slug, Request $request) {
-        $skin = Skin::where('slug', $slug)->firstOrFail();
-
-        //if no history install_count +1
-        // protection referer to count
-        if (str_contains($request->headers->get('referer'), $slug)) {
-            $history = History::where(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-            if ($history->count() == 0) {
-                History::create(['ip' => $request->ip(), 'what' => "skin_$slug", 'action' => 'install']);
-                $skin->install_count++;
-                $skin->save();
-            }
-        }
-        return redirect($skin->skin_url);
     }
 
     /**
@@ -597,10 +534,9 @@ class JvscriptController extends Controller {
         $this->lib->crawlInfo();
     }
 
-    public function storeImages() {
-        $this->lib->adminOrFail();
-        $tool = new \App\Lib\Tool();
-        $tool->storeExternalImages();
-    }
-
+//    public function storeImages() {
+//        $this->lib->adminOrFail();
+//        $tool = new \App\Lib\Tool();
+//        $tool->storeExternalImages();
+//    }
 }

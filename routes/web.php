@@ -59,9 +59,9 @@ Route::get('/skin/{slug}/comment/{comment_id}/delete', 'CommentController@delete
 
 
 //install, note
-Route::get('/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
+Route::match(['get', 'post'], '/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
+Route::match(['get', 'post'], '/skin/install/{slug}', 'JvscriptController@installSkin')->name('skin.install');
 Route::post('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');
-Route::get('/skin/install/{slug}', 'JvscriptController@installSkin')->name('skin.install');
 Route::post('/skin/note/{slug}/{note}', 'JvscriptController@noteSkin')->name('skin.note');
 
 
@@ -97,3 +97,25 @@ Auth::routes();
 
 Route::get('auth/github', 'Auth\LoginController@redirectToProvider');
 Route::get('auth/github/callback', 'Auth\LoginController@handleProviderCallback');
+
+
+/**
+ * boites à idées
+ */
+Route::get('/boite-a-idees', 'BoxController@index')->name('box.index');
+
+Route::get('/boite-a-idees/ajout', 'BoxController@formAjout')->name('box.form')->middleware('auth');
+Route::post('/boite-a-idees/ajout', 'BoxController@storeIdea')->name('box.store')->middleware('auth');
+Route::get('/boite-a-idees/{id}', 'BoxController@showIdea')->name('box.show');
+
+Route::get('/boite-a-idees/{id}/like', 'BoxController@likeBox')->name('box.like')->middleware('auth');
+Route::get('/boite-a-idees/{id}/like/{dislike}', 'BoxController@likeBox')->name('box.dislike')->middleware('auth');
+//refuse
+Route::get('/boite-a-idees/{id}/refuse', 'BoxController@refuseBox')->name('box.refuse');
+Route::get('/boite-a-idees/{id}/validate', 'BoxController@validateBox')->name('box.validate');
+Route::get('/boite-a-idees/{id}/delete', 'BoxController@deleteBox')->name('box.delete');
+
+// comment
+Route::post('/boite-a-idees/{id}/comment', 'CommentController@storeComment')->name('box.comment')->middleware('auth');
+//delete comment
+Route::get('/boite-a-idees/{id}/comment/{comment_id}/delete', 'CommentController@deleteComment')->name('box.comment.delete')->middleware('auth');

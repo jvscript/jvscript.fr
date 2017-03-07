@@ -20,6 +20,14 @@
       box-shadow: 2px 2px 4px rgb(28, 28, 28);
       border: 1px solid #212121;
     }
+    &.idea {
+      background: #2b2b2b;
+      box-shadow: none;
+      border: none;
+      .btn-comments {
+        margin-bottom: 0px;
+      }
+    }
 }
 
 // Panel contents
@@ -50,6 +58,18 @@
      box-shadow: none;
      border-top: 1px solid #353535;
    }
+   &.idea {
+     background: #262627;
+     box-shadow: none;
+     border-top: 1px solid #353535;
+     padding: 10px 5px;
+   }
+   &.ajax-comment {
+     background: #2b2b2b;
+     box-shadow: none;
+     margin-top: 10px;
+     border: 1px solid #2d2d2d;
+   }
 }
 
 .panel > .panel-body { margin-bottom: 0 }
@@ -70,6 +90,11 @@
   &.comments {
   border-bottom: 1px solid #232323;
   background: #2d2d2d;
+  }
+  &.idea {
+  border-bottom: 1px solid #232323;
+  background: #262627;
+  padding: 10px 5px;
   }
 }
 
@@ -104,6 +129,9 @@
 // any kind of custom content between the two.
 
 .panel {
+  &.idea {
+    background: #262627;
+  }
   > .list-group,
   > .panel-collapse > .list-group {
     margin-bottom: 0;
