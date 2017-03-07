@@ -53,7 +53,7 @@ class BoxController extends Controller {
         $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
-                    'title' => 'unique:ideas|required|max:100',
+                    'title' => 'unique:ideas|required|max:46',
                     'description' => 'required',
                     'type' => 'in:0,1',
         ]);

@@ -62,7 +62,7 @@
                     <label for="title" class="col-md-4 control-label">Titre de l'idée *</label>
 
                     <div class="col-md-6">
-                        <input id="title" type="text" maxlength="50" class="form-control" name="title" value="{{ old('title') }}" required autofocus>
+                        <input id="title" type="text" maxlength="46" class="form-control" name="title" value="{{ old('title') }}" required autofocus>
 
                         @if ($errors->has('title'))
                         <span class="help-block">
