@@ -1,8 +1,9 @@
 # Changelog
 
-## v1.0.4 - 2017-03-
+## v1.0.4 - 2017-03-07
 
 - Notification (email) aux propriétaires de script lors de commentaire
+- Boite à idée : les membres peuvent proposer leurs idées de scripts/skins et voter pour la meilleure idée
 
 ## v1.0.3 - 2017-02-26
 
