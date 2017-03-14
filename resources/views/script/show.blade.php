@@ -8,7 +8,7 @@
     $('[data-toggle=confirmation]').confirmation();
             $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-            })
+            });
             $(".script-danger").click(function() {
     var r = confirm("Ce script est interdit sur JVC, attention à vous.");
             if (r == true) {

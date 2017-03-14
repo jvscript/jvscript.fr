@@ -110,8 +110,7 @@
             if ($(this).attr('data-sort') == "date") {
                 $(this).children("span").text("(ancien)")
             }
-        }
-        else {
+        } else {
             $(this).children("i").addClass("fa-sort-desc");
             if ($(this).attr('data-sort') == "date") {
                 $(this).children("span").text("(récent)")
@@ -121,7 +120,9 @@
     });
 
 
-
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
 
 </script>
 @endsection

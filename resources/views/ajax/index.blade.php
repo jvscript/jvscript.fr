@@ -27,8 +27,8 @@
 
 
         <div class="btn-group pull-right" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <button type="button"   class="btn btn-default dropdown-toggle sort "  data-sort="date" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="btn-group" data-toggle="tooltip" data-placement="left" title="Date de MAJ des scripts/skins"  role="group">
+                <button type="button"  class="btn btn-default dropdown-toggle sort "  data-sort="date" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Date <span class="text"></span> <i class="fa fa-sort" aria-hidden="true"></i>
                 </button>
 
@@ -58,7 +58,7 @@
                 $item = "skin";
                 $skin = $script;
             }
-            $autor = (null != $script->user_id ) ? $script->user()->first()->name :  $script->autor;
+            $autor = (null != $script->user_id ) ? $script->user()->first()->name : $script->autor;
             $i++;
             $lazy = $i > 8 ? true : false;
             ?>
@@ -70,9 +70,9 @@
                 <span class="install_count display_none">{{$script->install_count}}</span>
                 <span class="category display_none">{{$item}}</span>
                 <span class="description display_none">{{$script->description}}</span>
-                
+
                 @include('home.'.$item,['lazy' => $lazy])
- 
+
             </div>
 
             @endforeach
