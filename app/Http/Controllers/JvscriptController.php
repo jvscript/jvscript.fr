@@ -497,7 +497,7 @@ class JvscriptController extends Controller {
         //suprimes les images
         if ($skin->photoShortLink()) {
             Storage::delete('public/images/' . $skin->photoShortLink());
-            Storage::delete('public/images/small-' . $script->photoShortLink());
+            Storage::delete('public/images/small-' . $skin->photoShortLink());
         }
 
         $skin->delete();
