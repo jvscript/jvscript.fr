@@ -13,8 +13,9 @@ use App;
 use App\Notifications\notifyStatus;
 use Illuminate\Support\Facades\Storage;
 
-class JvscriptController extends Controller {
+class ScriptController extends Controller {
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
+    //_TODO : séparation des concerns : role, slugify (event save)
 
     /**
      * Store a script in db
@@ -428,51 +429,6 @@ class JvscriptController extends Controller {
         return redirect(route('skin.show', $slug));
     }
 
-    /**
-     * ============
-     * Some Views bellow 
-     * ============
-     */
-    public function showScript($slug) {
-        $script = Script::where('slug', $slug)->firstOrFail();
-        $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
-        //si pas validé, on affiche seulement si admin/owner
-        if (!$script->isValidated() && $this->lib->ownerOradminOrFail($script->user_id)) {
-            abort(404);
-        }
-        $Parsedown = new \Parsedown();
-        $Parsedown->setMarkupEscaped(true);
-        $script->description = $Parsedown->text($script->description);
-
-        return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
-    }
-
-    public function showSkin($slug) {
-        $skin = Skin::where('slug', $slug)->firstOrFail();
-        $comments = $skin->comments()->orderBy('created_at', 'desc')->paginate(10);
-        //si pas validé, on affiche seulement si admin/owner
-        if (!$skin->isValidated() && $this->lib->ownerOradminOrFail($skin->user_id)) {
-            abort(404);
-        }
-        $Parsedown = new \Parsedown();
-        $Parsedown->setMarkupEscaped(true);
-        $skin->description = $Parsedown->text($skin->description);
-
-        return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
-    }
-
-    public function editScript($slug) {
-        $script = Script::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($script->user_id);
-        return view('script.edit', ['script' => $script]);
-    }
-
-    public function editSkin($slug) {
-        $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($skin->user_id);
-        return view('skin.edit', ['skin' => $skin]);
-    }
-
     public function deleteScript($slug) {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
@@ -527,6 +483,51 @@ class JvscriptController extends Controller {
             $slug = $baseSlug . "-" . $i++;
         }
         return $slug;
+    }
+
+    /**
+     * ============
+     * Some Views bellow 
+     * ============
+     */
+    public function showScript($slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
+        //si pas validé, on affiche seulement si admin/owner
+        if (!$script->isValidated() && $this->lib->ownerOradminOrFail($script->user_id)) {
+            abort(404);
+        }
+        $Parsedown = new \Parsedown();
+        $Parsedown->setMarkupEscaped(true);
+        $script->description = $Parsedown->text($script->description);
+
+        return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
+    }
+
+    public function showSkin($slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $comments = $skin->comments()->orderBy('created_at', 'desc')->paginate(10);
+        //si pas validé, on affiche seulement si admin/owner
+        if (!$skin->isValidated() && $this->lib->ownerOradminOrFail($skin->user_id)) {
+            abort(404);
+        }
+        $Parsedown = new \Parsedown();
+        $Parsedown->setMarkupEscaped(true);
+        $skin->description = $Parsedown->text($skin->description);
+
+        return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
+    }
+
+    public function editScript($slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->lib->ownerOradminOrFail($script->user_id);
+        return view('script.edit', ['script' => $script]);
+    }
+
+    public function editSkin($slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->lib->ownerOradminOrFail($skin->user_id);
+        return view('skin.edit', ['skin' => $skin]);
     }
 
     public function crawlInfo() {
