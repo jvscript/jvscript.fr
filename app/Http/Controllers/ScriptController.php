@@ -13,8 +13,9 @@ use App;
 use App\Notifications\notifyStatus;
 use Illuminate\Support\Facades\Storage;
 
-class JvscriptController extends Controller {
+class ScriptController extends Controller {
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
+    //_TODO : séparation des concerns : role, slugify (event save)
 
     /**
      * Store a script in db
@@ -428,6 +429,62 @@ class JvscriptController extends Controller {
         return redirect(route('skin.show', $slug));
     }
 
+    public function deleteScript($slug) {
+        $script = Script::where('slug', $slug)->firstOrFail();
+        $this->lib->ownerOradminOrFail($script->user_id);
+        $script->comments()->delete();
+        //suprimes les images
+        if ($script->photoShortLink()) {
+            Storage::delete('public/images/' . $script->photoShortLink());
+            Storage::delete('public/images/small-' . $script->photoShortLink());
+        }
+        $script->delete();
+        $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
+        $this->lib->sendDiscord($message, $this->discord_url);
+        if (Auth::user()->isAdmin())
+            return redirect(route('admin_index'));
+        return redirect(route('index'));
+    }
+
+    public function deleteSkin($slug) {
+        $skin = Skin::where('slug', $slug)->firstOrFail();
+        $this->lib->ownerOradminOrFail($skin->user_id);
+        $skin->comments()->delete();
+        //suprimes les images
+        if ($skin->photoShortLink()) {
+            Storage::delete('public/images/' . $skin->photoShortLink());
+            Storage::delete('public/images/small-' . $skin->photoShortLink());
+        }
+
+        $skin->delete();
+        $message = "[delete script] Skin supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
+        $this->lib->sendDiscord($message, $this->discord_url);
+
+        if (Auth::user()->isAdmin())
+            return redirect(route('admin_index'));
+        return redirect(route('index'));
+    }
+
+    public function slugifyScript($name) {
+        $slug = $this->lib->slugify($name);
+        $i = 1;
+        $baseSlug = $slug;
+        while (Script::where('slug', $slug)->count() > 0) {
+            $slug = $baseSlug . "-" . $i++;
+        }
+        return $slug;
+    }
+
+    public function slugifySkin($name) {
+        $slug = $this->lib->slugify($name);
+        $i = 1;
+        $baseSlug = $slug;
+        while (Skin::where('slug', $slug)->count() > 0) {
+            $slug = $baseSlug . "-" . $i++;
+        }
+        return $slug;
+    }
+
     /**
      * ============
      * Some Views bellow 
@@ -471,62 +528,6 @@ class JvscriptController extends Controller {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($skin->user_id);
         return view('skin.edit', ['skin' => $skin]);
-    }
-
-    public function deleteScript($slug) {
-        $script = Script::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($script->user_id);
-        $script->comments()->delete();
-        //suprimes les images
-        if ($script->photoShortLink()) {
-            Storage::delete('public/images/' . $script->photoShortLink());
-            Storage::delete('public/images/small-' . $script->photoShortLink());
-        }
-        $script->delete();
-        $message = "[delete script] Script supprimé par " . Auth::user()->name . " : $script->name | $script->slug ";
-        $this->lib->sendDiscord($message, $this->discord_url);
-        if (Auth::user()->isAdmin())
-            return redirect(route('admin_index'));
-        return redirect(route('index'));
-    }
-
-    public function deleteSkin($slug) {
-        $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($skin->user_id);
-        $skin->comments()->delete();
-        //suprimes les images
-        if ($skin->photoShortLink()) {
-            Storage::delete('public/images/' . $skin->photoShortLink());
-            Storage::delete('public/images/small-' . $script->photoShortLink());
-        }
-
-        $skin->delete();
-        $message = "[delete script] Skin supprimé par " . Auth::user()->name . " : $skin->name | $skin->slug ";
-        $this->lib->sendDiscord($message, $this->discord_url);
-
-        if (Auth::user()->isAdmin())
-            return redirect(route('admin_index'));
-        return redirect(route('index'));
-    }
-
-    public function slugifyScript($name) {
-        $slug = $this->lib->slugify($name);
-        $i = 1;
-        $baseSlug = $slug;
-        while (Script::where('slug', $slug)->count() > 0) {
-            $slug = $baseSlug . "-" . $i++;
-        }
-        return $slug;
-    }
-
-    public function slugifySkin($name) {
-        $slug = $this->lib->slugify($name);
-        $i = 1;
-        $baseSlug = $slug;
-        while (Skin::where('slug', $slug)->count() > 0) {
-            $slug = $baseSlug . "-" . $i++;
-        }
-        return $slug;
     }
 
     public function crawlInfo() {

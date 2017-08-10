@@ -16,12 +16,7 @@ use View;
 
 class CommentController extends Controller {
 
-    /**
-     * Store comment
-     */
-    public function storeComment($slug, Request $request) {
-        $user = Auth::user();
-        $route = \Request::route()->getName();
+    private function dispatchModel($route, $slug) {
         if (str_contains($route, "script")) {
             $item = 'script';
             $model = Script::where('slug', $slug)->firstOrFail();
@@ -32,6 +27,18 @@ class CommentController extends Controller {
             $item = 'box';
             $model = Idea::findOrFail($slug);
         }
+        return ['item' => $item, 'model' => $model];
+    }
+
+    /**
+     * Store comment
+     */
+    public function storeComment($slug, Request $request) {
+        $user = Auth::user();
+        $route = \Request::route()->getName();
+        $dispatcher = $this->dispatchModel($route, $slug);
+        $item = $dispatcher['item'];
+        $model = $dispatcher['model'];
 
         $validator = Validator::make($request->all(), ['comment' => "required|max:255"]);
 
@@ -85,16 +92,10 @@ class CommentController extends Controller {
     public function deleteComment($slug, $comment_id, Request $request) {
         $user = Auth::user();
         $route = \Request::route()->getName();
-        if (str_contains($route, "script")) {
-            $item = 'script';
-            $model = Script::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "skin")) {
-            $item = 'skin';
-            $model = Skin::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "box")) {
-            $item = 'box';
-            $model = Idea::findOrFail($slug);
-        }
+        $dispatcher = $this->dispatchModel($route, $slug);
+        $item = $dispatcher['item'];
+        $model = $dispatcher['model'];
+
         $comment = Comment::findOrFail($comment_id);
         $this->lib->ownerOradminOrFail($comment->user_id);
         $comment->delete();
