@@ -33,7 +33,7 @@ Route::get('/contact/{message_body?}', function ($message_body = null) {
 Route::post('/contact', 'UserController@contactSend')->name('contact.send');
 
 
-//==JvscriptController==
+//==ScriptController==
 //forms
 Route::get('/script/ajout', function () {
     return view('script.form');
@@ -43,12 +43,12 @@ Route::get('/skin/ajout', function () {
 })->name('skin.form')->middleware('auth');
 
 //form action (store in db)
-Route::post('/script/ajout', 'JvscriptController@storeScript')->name('script.store')->middleware('auth');
-Route::post('/skin/ajout', 'JvscriptController@storeSkin')->name('skin.store')->middleware('auth');
+Route::post('/script/ajout', 'ScriptController@storeScript')->name('script.store')->middleware('auth');
+Route::post('/skin/ajout', 'SkinController@storeSkin')->name('skin.store')->middleware('auth');
 
 //show 1 item
-Route::get('/script/{slug}', 'JvscriptController@showScript')->name('script.show');
-Route::get('/skin/{slug}', 'JvscriptController@showSkin')->name('skin.show');
+Route::get('/script/{slug}', 'ScriptController@showScript')->name('script.show');
+Route::get('/skin/{slug}', 'SkinController@showSkin')->name('skin.show');
 
 //scripts comment
 Route::post('/script/{slug}/comment', 'CommentController@storeComment')->name('script.comment')->middleware('auth');
@@ -59,26 +59,26 @@ Route::get('/skin/{slug}/comment/{comment_id}/delete', 'CommentController@delete
 
 
 //install, note
-Route::match(['get', 'post'], '/script/install/{slug}', 'JvscriptController@installScript')->name('script.install');
-Route::match(['get', 'post'], '/skin/install/{slug}', 'JvscriptController@installSkin')->name('skin.install');
-Route::post('/script/note/{slug}/{note}', 'JvscriptController@noteScript')->name('script.note');
-Route::post('/skin/note/{slug}/{note}', 'JvscriptController@noteSkin')->name('skin.note');
+Route::match(['get', 'post'], '/script/install/{slug}', 'ScriptController@installScript')->name('script.install');
+Route::match(['get', 'post'], '/skin/install/{slug}', 'SkinController@installSkin')->name('skin.install');
+Route::post('/script/note/{slug}/{note}', 'ScriptController@noteScript')->name('script.note');
+Route::post('/skin/note/{slug}/{note}', 'SkinController@noteSkin')->name('skin.note');
 
 
 //updates
-Route::get('/script/{slug}/edit', 'JvscriptController@editScript')->name('script.edit')->middleware('auth');
-Route::get('/skin/{slug}/edit', 'JvscriptController@editSkin')->name('skin.edit')->middleware('auth');
-Route::put('/script/{slug}/edit', 'JvscriptController@updateScript')->name('script.update')->middleware('auth');
-Route::put('/skin/{slug}/edit', 'JvscriptController@updateSkin')->name('skin.update')->middleware('auth');
+Route::get('/script/{slug}/edit', 'ScriptController@editScript')->name('script.edit')->middleware('auth');
+Route::get('/skin/{slug}/edit', 'SkinController@editSkin')->name('skin.edit')->middleware('auth');
+Route::put('/script/{slug}/edit', 'ScriptController@updateScript')->name('script.update')->middleware('auth');
+Route::put('/skin/{slug}/edit', 'SkinController@updateSkin')->name('skin.update')->middleware('auth');
 //delete
-Route::get('/script/{slug}/delete', 'JvscriptController@deleteScript')->name('script.delete');
-Route::get('/skin/{slug}/delete', 'JvscriptController@deleteSkin')->name('skin.delete');
+Route::get('/script/{slug}/delete', 'ScriptController@deleteScript')->name('script.delete');
+Route::get('/skin/{slug}/delete', 'SkinController@deleteSkin')->name('skin.delete');
 
 //validate script/skin
-Route::get('/script/{slug}/validate', 'JvscriptController@validateScript')->name('script.validate');
-Route::get('/skin/{slug}/validate', 'JvscriptController@validateSkin')->name('skin.validate');
-Route::get('/script/{slug}/refuse', 'JvscriptController@refuseScript')->name('script.refuse');
-Route::get('/skin/{slug}/refuse', 'JvscriptController@refuseSkin')->name('skin.refuse');
+Route::get('/script/{slug}/validate', 'ScriptController@validateScript')->name('script.validate');
+Route::get('/skin/{slug}/validate', 'SkinController@validateSkin')->name('skin.validate');
+Route::get('/script/{slug}/refuse', 'ScriptController@refuseScript')->name('script.refuse');
+Route::get('/skin/{slug}/refuse', 'SkinController@refuseSkin')->name('skin.refuse');
 
 
 
@@ -90,8 +90,8 @@ Route::get('/aide', function () {
     return view('statics.comment-installer');
 })->name('aide');
 
-Route::get('/crawlInfo', 'JvscriptController@crawlInfo');
-Route::get('/storeImages', 'JvscriptController@storeImages');
+Route::get('/crawlInfo', 'ScriptController@crawlInfo');
+Route::get('/storeImages', 'ScriptController@storeImages');
 
 Auth::routes();
 
