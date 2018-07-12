@@ -14,8 +14,6 @@ use App\Notifications\notifyStatus;
 use Illuminate\Support\Facades\Storage;
 
 class SkinController extends Controller {
-    //_TODO : retenir le filtre/sort en session/cookie utilisateur 
-    //_TODO : séparation des concerns : role, slugify (event save)
 
     /**
      * Store a skin in db

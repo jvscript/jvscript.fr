@@ -28,8 +28,8 @@ class Controller extends BaseController {
 
         $this->discord_url = env('DISCORD_URL', '');
         $this->lib = new Lib();
-        $this->min_time_comment = 30; //limite de temps entre chaque commentaire
-        $this->min_time_captcha = 60; //limite de temps entre chaque commentaire pour faire disparaitre le captcha
+        $this->min_time_comment = 30; //Interval de temps entre chaque commentaire ou le captcha apparait
+        $this->min_time_captcha = 60; //Interval de temps entre chaque commentaire ou le captcha apparait
     }
 
 }
