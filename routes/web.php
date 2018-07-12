@@ -91,7 +91,6 @@ Route::get('/aide', function () {
 })->name('aide');
 
 Route::get('/crawlInfo', 'ScriptController@crawlInfo');
-Route::get('/storeImages', 'ScriptController@storeImages');
 
 Auth::routes();
 
@@ -111,9 +110,9 @@ Route::get('/boite-a-idees/{id}', 'BoxController@showIdea')->name('box.show');
 Route::get('/boite-a-idees/{id}/like', 'BoxController@likeBox')->name('box.like')->middleware('auth');
 Route::get('/boite-a-idees/{id}/like/{dislike}', 'BoxController@likeBox')->name('box.dislike')->middleware('auth');
 //refuse
-Route::get('/boite-a-idees/{id}/refuse', 'BoxController@refuseBox')->name('box.refuse');
-Route::get('/boite-a-idees/{id}/validate', 'BoxController@validateBox')->name('box.validate');
-Route::get('/boite-a-idees/{id}/delete', 'BoxController@deleteBox')->name('box.delete');
+Route::get('/boite-a-idees/{id}/refuse', 'BoxController@refuseBox')->name('box.refuse')->middleware('auth');
+Route::get('/boite-a-idees/{id}/validate', 'BoxController@validateBox')->name('box.validate')->middleware('auth');
+Route::get('/boite-a-idees/{id}/delete', 'BoxController@deleteBox')->name('box.delete')->middleware('auth');
 
 // comment
 Route::post('/boite-a-idees/{id}/comment', 'CommentController@storeComment')->name('box.comment')->middleware('auth');

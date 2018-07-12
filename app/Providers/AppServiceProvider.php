@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
+use App\Lib\Lib;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->lib = new Lib();
+        Validator::extend('image_url', function ($attribute, $value) {
+            return $this->lib->isImage($value);
+        });
+        
     }
 
     /**
