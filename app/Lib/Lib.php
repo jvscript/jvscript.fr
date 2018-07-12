@@ -184,8 +184,8 @@ class Lib {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
                 }
                 //get version openuserjs in same page
-                if (preg_match('/<code>(.*)<\/code>/i', $crawl_content, $match)) {
-                    $script->version = $match[1];
+                if (preg_match('/<code>([0-9.]+).*<\/code>/i', $crawl_content, $match)) {
+                    $script->version = strip_tags($match[1]);
                     $script->save();
                     echo $script->js_url . "|$url_crawl|version : $script->version\n";
                 }
