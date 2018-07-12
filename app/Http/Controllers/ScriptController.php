@@ -11,6 +11,7 @@ use Auth;
 use App;
 use App\Notifications\notifyStatus;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreScript;
 
 class ScriptController extends Controller {
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
@@ -19,68 +20,39 @@ class ScriptController extends Controller {
     /**
      * Store a script in db
      */
-    public function storeScript(Request $request) {
+    public function storeScript(StoreScript $request) {
         $user = Auth::user();
-        $messages = [
-            'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
-        ];
-        $validator = Validator::make($request->all(), [
-                    'name' => 'required|max:50|unique:scripts|not_in:ajout',
-                    'description' => 'required',
-                    "autor" => "max:255",
-                    'js_url' => "required|url|max:255|regex:/.*\.js$/",
-                    'repo_url' => "url|max:255",
-                    'photo_url' => "url|max:255",
-                    'photo_file' => "image",
-                    'don_url' => "url|max:255",
-                    'website_url' => "url|max:255",
-                    'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
-                        ], $messages);
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-            );
-        } else { //sucess > insert  
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
-                $request->flash();
-                return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-            }
-            //check image url
-            if ($request->has('photo_url')) {
-                if (!$this->lib->isImage($request->input('photo_url'))) {
-                    $request->flash();
-                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
-                }
-            }
-
-            $script = Script::create($request->all());
-            $script->slug = $this->slugifyScript($script->name);
-
-            if ($request->input("is_autor") == 'on') {
-                $script->user_id = $user->id; //owner du script               
-                $script->autor = $user->name;
-            }
-            $script->poster_user_id = $user->id;
-
-            //store photo_file or photo_url  storage
-            if ($request->file('photo_file')) {
-                $this->lib->storeImage($script, $request->file('photo_file'));
-            } else if ($request->has('photo_url')) {
-                $file = @file_get_contents($request->input('photo_url'));
-                $this->lib->storeImage($script, $file);
-            }
-
-            $script->save();
-
-            $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
-            $this->lib->sendDiscord($message, $this->discord_url);
-
-            return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
+        //captcha validation
+        $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
+        $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
+        if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
+            $request->flash();
+            return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
         }
+
+        $script = Script::create($request->all());
+        $script->slug = $this->slugifyScript($script->name);
+
+        if ($request->input("is_autor") == 'on') {
+            $script->user_id = $user->id; //owner du script               
+            $script->autor = $user->name;
+        }
+        $script->poster_user_id = $user->id;
+
+        //store photo_file or photo_url  storage
+        if ($request->file('photo_file')) {
+            $this->lib->storeImage($script, $request->file('photo_file'));
+        } else if ($request->has('photo_url')) {
+            $file = @file_get_contents($request->input('photo_url'));
+            $this->lib->storeImage($script, $file);
+        }
+
+        $script->save();
+
+        $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
+        $this->lib->sendDiscord($message, $this->discord_url);
+
+        return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
     }
 
     /**
@@ -92,12 +64,13 @@ class ScriptController extends Controller {
 
         $messages = [
             'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
+            'photo_url.image_url' => "L'url de l'image est invalide."
         ];
         $validator = Validator::make($request->all(), [
                     "autor" => "max:255",
                     'js_url' => "required|url|max:255|regex:/.*\.js$/",
                     'repo_url' => "url|max:255",
-                    'photo_url' => "url|max:255",
+                    'photo_url' => "url|max:255|image_url",
                     'photo_file' => "image",
                     'don_url' => "url|max:255",
                     'user_id' => "exists:users,id",
@@ -124,14 +97,6 @@ class ScriptController extends Controller {
                     $request, $validator
             );
         } else {
-            //check image url
-            if ($request->has('photo_url')) {
-                if (!$this->lib->isImage($request->input('photo_url'))) {
-                    $request->flash();
-                    return redirect(route('script.form'))->withErrors(['photo_url' => "L'url de l'image est invalide."]);
-                }
-            }
-
             $script->fill($request->only($toUpdate));
             if ($request->has('last_update')) {
                 $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
@@ -143,14 +108,10 @@ class ScriptController extends Controller {
                 Storage::delete('public/images/small-' . $script->photoShortLink());
                 $this->lib->storeImage($script, $request->file('photo_file'));
             } else if ($request->has('photo_url')) {
-                if ($this->lib->isImage($request->input('photo_url'))) {
-                    $file = @file_get_contents($request->input('photo_url'));
-                    Storage::delete('public/images/' . $script->photoShortLink());
-                    Storage::delete('public/images/small-' . $script->photoShortLink());
-                    $this->lib->storeImage($script, $file);
-                } else {
-                    $script->photo_url = null;
-                }
+                $file = @file_get_contents($request->input('photo_url'));
+                Storage::delete('public/images/' . $script->photoShortLink());
+                Storage::delete('public/images/small-' . $script->photoShortLink());
+                $this->lib->storeImage($script, $file);
             }
 
             $script->save();
