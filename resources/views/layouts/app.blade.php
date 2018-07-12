@@ -127,17 +127,13 @@ echo json_encode([
                 <div class="row">
                     <div class="col-lg-12">
                         <p class="text-right">&COPY; {{ date('Y') }} jvscript.io -
-                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">v{{config('app.version')}}</a>
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md#changelog">v{{config('app.version')}}</a>
                         </p>
                     </div>
                 </div>
             </footer>
         </div>
 
-<!--        <script src="/js/jquery.min.js"></script>
-        <script src="/assets/javascripts/bootstrap.min.js"></script>
-        <script src="/js/list.min.js"></script>
-        <script src="/js/confirm.min.js"></script>-->
         <script src="/js/all.js"></script>
         @yield('recaptcha', "<script src='https://www.google.com/recaptcha/api.js'></script>")
 

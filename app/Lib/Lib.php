@@ -99,12 +99,6 @@ class Lib {
     }
 
     public function sendDiscord($content, $url) {
-        if (empty($content)) {
-            throw new NoContentException('No content provided');
-        }
-        if (empty($url)) {
-            throw new NoURLException('No URL provided');
-        }
         $data = array("content" => $content);
         $data_string = json_encode($data);
         $opts = array(
@@ -117,22 +111,31 @@ class Lib {
             )
         );
 
-        $context = stream_context_create($opts);
-        file_get_contents($url, false, $context);
+        try {
+            $context = stream_context_create($opts);
+            file_get_contents($url, false, $context);
+        } catch (\Exception $ex) {
+            return;
+        }
     }
 
     public function isImage($path) {
-        if (!is_array(getimagesize($path)))
+        try {
+            if (!is_array(getimagesize($path))) {
+                return false;
+            }
+
+            $a = getimagesize($path);
+
+            $image_type = $a[2];
+
+            if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
+                return true;
+            }
             return false;
-
-        $a = getimagesize($path);
-
-        $image_type = $a[2];
-
-        if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
-            return true;
+        } catch (\Exception $ex) {
+            return false;
         }
-        return false;
     }
 
     public function crawlInfo() {
