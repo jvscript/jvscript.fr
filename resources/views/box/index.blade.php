@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','La boite à idées | jvscript.io')
+@section('title','La boite à idées | jvscript.fr')
 
 @section('content')
 

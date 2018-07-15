@@ -48,13 +48,13 @@ class notifyStatus extends Notification {
         }
         $mail = (new MailMessage)
                 ->greeting('Bonjour,')
-                ->subject('Notification de jvscript.io');
+                ->subject('Notification de jvscript.fr');
         if ($script->status == 1) {
-            $mail->line("Le $item que vous avez ajouté sur jvscript.io a été validé. ")
+            $mail->line("Le $item que vous avez ajouté sur jvscript.fr a été validé. ")
                     ->action('Suivez ce lien pour le voir', route($item . '.show', $script->slug));
         } elseif ($script->status == 2) {
             $mail->greeting('Bonjour,')
-                    ->line("Le $item que vous avez ajouté sur jvscript.io a été refusé. ")
+                    ->line("Le $item que vous avez ajouté sur jvscript.fr a été refusé. ")
                     ->action("Contactez-nous pour plus d'info", route('contact.form'));
         }
 

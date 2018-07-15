@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',$script->name.' | jvscript.io')
+@section('title',$script->name.' | jvscript.fr')
 
 @section('javascript')
 

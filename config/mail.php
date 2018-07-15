@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'contact@jvscript.io'),
-        'name' => env('MAIL_FROM_NAME', 'jvscript.io'),
+        'address' => env('MAIL_FROM_ADDRESS', 'contact@jvscript.fr'),
+        'name' => env('MAIL_FROM_NAME', 'jvscript.fr'),
     ],
 
     /*

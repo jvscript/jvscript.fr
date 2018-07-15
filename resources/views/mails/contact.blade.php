@@ -1,4 +1,4 @@
-Nouveau message du formulaire de contact de jvscript.io <br>
+Nouveau message du formulaire de contact de jvscript.fr <br>
 
 <p>
     Sender : {{$email}}

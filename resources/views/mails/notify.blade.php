@@ -7,7 +7,7 @@ if (isset($script->js_url)) {
     $item = "skin";
 }
 ?> 
-Le {{$item}} que vous avez ajouté sur jvscript.io 
+Le {{$item}} que vous avez ajouté sur jvscript.fr 
 @if($script->status == 1)
 a été validé. <a href="{{route($item.'.show',$script->slug)}}">Suivez ce lien pour le voir.</a> 
 @elseif($script->status == 2)
@@ -17,4 +17,4 @@ a été refusé. <a href="{{route('contact.form')}}">Contactez-nous</a> pour plu
 <br>
 
 Cordialement, <br>
-jvscript.io
+jvscript.fr

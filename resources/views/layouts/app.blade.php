@@ -2,13 +2,13 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title> @yield('title','jvscript.io | Banque de scripts pour JVC')</title> |
+        <title> @yield('title','jvscript.fr | Banque de scripts pour JVC')</title> |
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="description" content="jvscript.io - Le site regroupant les scripts et skins pour jeuxvideo.com">
-        <meta name="keywords" content="jvscript.io, scripts, skins, jvc, jeuxvideo.com, marketplace, userscripts, scripts jvc, script jvc, jv scripts, jvscript, scripts jvc">
+        <meta name="description" content="jvscript.fr - Le site regroupant les scripts et skins pour jeuxvideo.com">
+        <meta name="keywords" content="jvscript.fr, scripts, skins, jvc, jeuxvideo.com, marketplace, userscripts, scripts jvc, script jvc, jv scripts, jvscript, scripts jvc">
 
         <link rel="stylesheet" href="/assets/stylesheets/jvscript.min.css" media="screen">
         <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
@@ -62,7 +62,7 @@ echo json_encode([
                                 <li> <a href="{{url('contact')}}">Nous contacter</a> </li>
                                 <!--        <li> <a href="{{url('developpeurs')}}">Développeurs</a></li> -->
                                 <li> <a href="https://github.com/jvscript">GitHub</a></li>
-                                <!--      <li> <a href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md">Changelog</a></li> -->
+                                <!--      <li> <a href="https://github.com/jvscript/jvscript.fr/blob/master/changelog.md">Changelog</a></li> -->
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -126,8 +126,8 @@ echo json_encode([
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p class="text-right">&COPY; {{ date('Y') }} jvscript.io -
-                            <a target="_blank" href="https://github.com/jvscript/jvscript.io/blob/master/changelog.md#changelog">v{{config('app.version')}}</a>
+                        <p class="text-right">&COPY; {{ date('Y') }} jvscript.fr -
+                            <a target="_blank" href="https://github.com/jvscript/jvscript.fr/blob/master/changelog.md#changelog">v{{config('app.version')}}</a>
                         </p>
                     </div>
                 </div>

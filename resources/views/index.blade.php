@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h1>Bienvenue sur jvscript.io</h1>
+        <h1>Bienvenue sur jvscript.fr</h1>
 
         <img style="max-height: 230px" class="img-responsive  center-block" src="/assets/images/jvscript.png"/>
 

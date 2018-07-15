@@ -12,7 +12,7 @@ return [
       | any other location as required by the application or its packages.
      */
 
-    'name' => 'jvscript.io',
+    'name' => 'jvscript.fr',
     
     
     //version en cours
