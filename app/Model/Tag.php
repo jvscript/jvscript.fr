@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +11,7 @@ class Tag extends Model
      */
     public function scripts()
     {
-        return $this->morphedByMany('App\Script', 'taggable');
+        return $this->morphedByMany('App\Model\Script', 'taggable');
     }
 
     /**
@@ -19,6 +19,6 @@ class Tag extends Model
      */
 //    public function skins()
 //    {
-//        return $this->morphedByMany('App\Skins', 'taggable');
+//        return $this->morphedByMany('App\Model\Skin', 'taggable');
 //    }
 }

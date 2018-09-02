@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Script,
-    App\Skin,
-    App\Comment;
+use App\Model\Script,
+    App\Model\Skin,
+    App\Model\Comment;
 use Validator;
 use Auth;
 use App;
@@ -79,7 +79,7 @@ class UserController extends Controller {
 
     public function ajaxUsers(Request $request) {
         $this->lib->adminOrFail();
-        return \App\User::select('id', 'name')->get();
+        return \App\Model\User::select('id', 'name')->get();
     }
 
     /**

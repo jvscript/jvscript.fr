@@ -23,7 +23,7 @@ class scriptsTest extends TestCase {
 
     public function testHomepage() {
         $this->visit('/')
-                ->see('jvscript.io');
+                ->see('jvscript.fr');
     }
 
     /**

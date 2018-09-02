@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +24,7 @@ class Script extends Model {
      * Get all of the tags for the post.
      */
     public function tags() {
-        return $this->morphToMany('App\Tag', 'taggable');
+        return $this->morphToMany('App\Model\Tag', 'taggable');
     }
 
     public function isValidated() {
@@ -56,7 +56,7 @@ class Script extends Model {
      * Get all of the item's comments.
      */
     public function comments() {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->morphMany('App\Model\Comment', 'commentable');
     }
 
     protected $dates = [

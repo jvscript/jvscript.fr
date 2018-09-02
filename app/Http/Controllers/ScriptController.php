@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Script,
-    App\User,
-    App\History;
+use App\Model\Script,
+    App\Model\User,
+    App\Model\History;
 use Validator;
 use Auth;
 use App;

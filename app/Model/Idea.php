@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,14 +17,14 @@ class Idea extends Model {
      * Get all of the item's comments.
      */
     public function comments() {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->morphMany('App\Model\Comment', 'commentable');
     }
 
     /**
      * Get all of the item's likes.
      */
     public function likes() {
-        return $this->morphMany('App\Like', 'likeable');
+        return $this->morphMany('App\Model\Like', 'likeable');
     }
 
     public function isValidated() {

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Script,
-    App\Skin,
-    App\Idea,
-    App\Comment;
+use App\Model\Script,
+    App\Model\Skin,
+    App\Model\Idea,
+    App\Model\Comment;
 use Validator;
 use Auth;
 use App;

@@ -2,8 +2,8 @@
 
 namespace App\Lib;
 
-use App\Script,
-    App\Skin;
+use App\Model\Script,
+    App\Model\Skin;
 use Auth;
 use Image;
 
