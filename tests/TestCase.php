@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Artisan as Artisan;
+use Illuminate\Support\Facades\Mail;
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
@@ -21,6 +22,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
             Artisan::call('migrate:refresh');
             Artisan::call('db:seed');
         }
+        Mail::fake();
+
     }
 
     /**
