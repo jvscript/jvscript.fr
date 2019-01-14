@@ -48,3 +48,8 @@ Le controller principal (`JvscriptController.php`) est dans `App\Http\Controller
 ## Todolist (dev du site)
 
 ### [C'est par ici ](https://github.com/jvscript/jvscript.github.io/projects/1)
+
+
+## Phpunit
+
+  GRANT ALL PRIVILEGES ON `jvscript\_testing`.* TO 'travis'@'localhost';
