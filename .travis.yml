@@ -1,9 +1,9 @@
 language: php
 php:
 - 7.1
+- 7.2
+- 7.3
 before_script:
-- openssl aes-256-cbc -K $encrypted_e716847f456e_key -iv $encrypted_e716847f456e_iv
-  -in .env.travis.enc -out .env.travis -d
 - cp .env.travis .env
 - mysql -e 'create database jvscript_testing;'
 - composer self-update
