@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -9,14 +12,15 @@
         "erusev/parsedown": "^1.6",
         "google/recaptcha": "^1.1",
         "intervention/image": "^2.3",
-        "laravel/framework": "5.3.*",
-        "laravel/socialite": "2.*",
+        "laravel/framework": "5.5.*",
+        "laravel/socialite": "3.*",
         "guzzlehttp/guzzle": "~6.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
+        "laravel/browser-kit-testing": "1.*",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
+        "phpunit/phpunit": "~6.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*"
     },
@@ -29,9 +33,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [

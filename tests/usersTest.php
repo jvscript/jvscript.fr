@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class usersTest extends TestCase {
+class usersTest extends BrowserKitTestCase {
     /*
      * page contact
      * _TODO : page mescripts owner -> edit 

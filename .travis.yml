@@ -2,7 +2,6 @@ language: php
 php:
 - 7.1
 - 7.2
-- 7.3
 before_script:
 - cp .env.travis .env
 - mysql -e 'create database jvscript_testing;'

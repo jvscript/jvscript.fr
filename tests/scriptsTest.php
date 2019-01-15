@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class scriptsTest extends TestCase
+class scriptsTest extends BrowserKitTestCase
 {
     /*
      * - connexion -> admin 
@@ -19,7 +19,8 @@ class scriptsTest extends TestCase
      * - installer le script 
      * - refuser le script (admin)     
      * - supprimer le script (admin)   
-     * _TODO : do file uplaod
+     * _TODO : do file upload, update js_url, skin_url
+     * 
      */
 
     public function testHomepage()

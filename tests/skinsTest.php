@@ -1,6 +1,6 @@
 <?php
 
-class skinsTest extends TestCase
+class skinsTest extends BrowserKitTestCase
 {
     /*
      * - connexion -> admin 
