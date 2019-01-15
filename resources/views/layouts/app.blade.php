@@ -95,7 +95,7 @@ echo json_encode([
 
                                     <a href="{{ url('/logout') }}"
                                        onclick="event.preventDefault();
-                                               document.getElementById('logout-form').submit();">
+                                           document.getElementById('logout-form').submit();">
                                         Déconnexion <i class="fa fa-sign-out text-right" aria-hidden="true"></i>
                                     </a>
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
@@ -135,7 +135,11 @@ echo json_encode([
         </div>
 
         <script src="/js/all.js"></script>
-        @yield('recaptcha', "<script src='https://www.google.com/recaptcha/api.js'></script>")
+        @if(View::hasSection('recaptcha'))
+        @yield('recaptcha')
+        @else
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        @endif
 
         @yield('javascript')
 
@@ -144,33 +148,33 @@ echo json_encode([
                                            @if (session('message'))
 
                                                    $(".alert-success").fadeTo(6000, 500).slideUp(500, function () {
-                                               $(".alert-success").slideUp(500);
+                                           $(".alert-success").slideUp(500);
                                            });
-                                                   @endif
+                                           @endif
 
                                                    $.ajaxSetup({
-                                                       headers: {
-                                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                                       }
+                                                   headers: {
+                                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                   }
                                                    });
                                            //sync up 2 search bar
-                                            $("#search-navbar").on('keyup', function (e) {
-                                               var keyword = $(this).val().trim();
-                                               $("#search-page").val(keyword);
-                                               if (typeof scriptList == 'undefined') {
-                                                   //redirect home with keyword
-                                                   if (e.keyCode == 13) {
-                                                   window.location.href = "/search/" + keyword;
-                                                  }
-                                               }
-                                               else {
-                                                   scriptList.search(keyword);
-                                               }
+                                           $("#search-navbar").on('keyup', function (e) {
+                                           var keyword = $(this).val().trim();
+                                           $("#search-page").val(keyword);
+                                           if (typeof scriptList == 'undefined') {
+                                           //redirect home with keyword
+                                           if (e.keyCode == 13) {
+                                           window.location.href = "/search/" + keyword;
+                                           }
+                                           }
+                                           else {
+                                           scriptList.search(keyword);
+                                           }
                                            });
                                            /*
-                                           $("#search-navbar").on('keyup', function (e) {
-                                             if (e.keyCode == 13) {
-*/
+                                            $("#search-navbar").on('keyup', function (e) {
+                                            if (e.keyCode == 13) {
+                                            */
 //if we're not on the homepage
                                            @if (isset($keyword) && strlen($keyword) > 0)
                                                    var keyword = '{{$keyword}}';
@@ -178,21 +182,19 @@ echo json_encode([
                                            $("#search-page").val(keyword);
                                            $("#search-navbar").val(keyword);
                                            $("#search-navbar").focus();
-
                                            @endif
 
                                                    (function (i, s, o, g, r, a, m) {
-                                                       i['GoogleAnalyticsObject'] = r;
-                                                       i[r] = i[r] || function () {
-                                                           (i[r].q = i[r].q || []).push(arguments)
-                                                       }, i[r].l = 1 * new Date();
-                                                       a = s.createElement(o),
-                                                               m = s.getElementsByTagName(o)[0];
-                                                       a.async = 1;
-                                                       a.src = g;
-                                                       m.parentNode.insertBefore(a, m)
+                                                   i['GoogleAnalyticsObject'] = r;
+                                                   i[r] = i[r] || function () {
+                                                   (i[r].q = i[r].q || []).push(arguments)
+                                                   }, i[r].l = 1 * new Date();
+                                                   a = s.createElement(o),
+                                                           m = s.getElementsByTagName(o)[0];
+                                                   a.async = 1;
+                                                   a.src = g;
+                                                   m.parentNode.insertBefore(a, m)
                                                    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
                                            ga('create', 'UA-91627552-1', 'auto');
                                            ga('send', 'pageview');
 
