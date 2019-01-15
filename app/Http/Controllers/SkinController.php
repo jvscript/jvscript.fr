@@ -14,12 +14,14 @@ use App\Notifications\notifyStatus;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreSkin;
 
-class SkinController extends Controller {
+class SkinController extends Controller
+{
 
     /**
      * Store a skin in db
      */
-    public function storeSkin(StoreSkin $request) {
+    public function storeSkin(StoreSkin $request)
+    {
         $user = Auth::user();
         //captcha validation
         $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
@@ -50,14 +52,15 @@ class SkinController extends Controller {
 
         $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show', ['slug' => $skin->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
-        \Mail::raw($message, function ($message)  { 
-          $message->to(env('ADMIN_EMAIL'))->subject("Nouveau skin");
+        \Mail::raw($message, function ($message) {
+            $message->to(env('ADMIN_EMAIL'))->subject("Nouveau skin");
         });
-        
+
         return redirect(route('skin.form'))->with("message", "Merci, votre skin est en attente de validation.");
     }
 
-    public function updateSkin(Request $request, $slug) {
+    public function updateSkin(Request $request, $slug)
+    {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($skin->user_id);
 
@@ -76,9 +79,9 @@ class SkinController extends Controller {
                     'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
                         ], $messages);
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
+        $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version'];
+            $toUpdate[] = 'user_id';
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
@@ -114,7 +117,8 @@ class SkinController extends Controller {
         }
     }
 
-    public function validateSkin($slug) {
+    public function validateSkin($slug)
+    {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->adminOrFail();
 
@@ -128,7 +132,8 @@ class SkinController extends Controller {
         return redirect(route('skin.show', ['slug' => $slug]));
     }
 
-    public function refuseSkin($slug) {
+    public function refuseSkin($slug)
+    {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->adminOrFail();
 
@@ -145,7 +150,8 @@ class SkinController extends Controller {
     /**
      * Install skin : count & redirect 
      */
-    public function installSkin($slug, Request $request) {
+    public function installSkin($slug, Request $request)
+    {
         $skin = Skin::where('slug', $slug)->firstOrFail();
 
         //if no history install_count +1
@@ -161,7 +167,8 @@ class SkinController extends Controller {
         return redirect($skin->skin_url);
     }
 
-    public function noteSkin($slug, $note, Request $request) {
+    public function noteSkin($slug, $note, Request $request)
+    {
         $note = intval($note);
         if ($note > 0 && $note <= 5) {
             $skin = Skin::where('slug', $slug)->firstOrFail();
@@ -177,7 +184,8 @@ class SkinController extends Controller {
         return redirect(route('skin.show', $slug));
     }
 
-    public function deleteSkin($slug) {
+    public function deleteSkin($slug)
+    {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($skin->user_id);
         $skin->comments()->delete();
@@ -196,7 +204,8 @@ class SkinController extends Controller {
         return redirect(route('index'));
     }
 
-    public function slugifySkin($name) {
+    public function slugifySkin($name)
+    {
         $slug = str_slug($name);
         $i = 1;
         $baseSlug = $slug;
@@ -211,7 +220,8 @@ class SkinController extends Controller {
      * Some Views bellow 
      * ============
      */
-    public function showSkin($slug) {
+    public function showSkin($slug)
+    {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $comments = $skin->comments()->orderBy('created_at', 'desc')->paginate(10);
         //si pas validé, on affiche seulement si admin/owner
@@ -225,7 +235,8 @@ class SkinController extends Controller {
         return view('skin.show', ['skin' => $skin, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
     }
 
-    public function editSkin($slug) {
+    public function editSkin($slug)
+    {
         $skin = Skin::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($skin->user_id);
         return view('skin.edit', ['skin' => $skin]);

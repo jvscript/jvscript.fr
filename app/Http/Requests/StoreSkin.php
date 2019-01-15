@@ -4,14 +4,16 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSkin extends FormRequest {
+class StoreSkin extends FormRequest
+{
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -20,7 +22,8 @@ class StoreSkin extends FormRequest {
      *
      * @return array
      */
-    public function messages() {
+    public function messages()
+    {
         return [
             'skin_url.regex' => 'Le champ :attribute doit être un lien du format \'https://userstyles.org/styles/...\'',
             'topic_url.regex' => 'Le lien du topic devrait être du format : http://www.jeuxvideo.com/forums/...',
@@ -33,7 +36,8 @@ class StoreSkin extends FormRequest {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'name' => 'required|max:50|unique:skins|not_in:ajout',
             'description' => 'required',

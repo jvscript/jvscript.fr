@@ -14,14 +14,16 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreScript;
 use Illuminate\Support\Facades\Mail;
 
-class ScriptController extends Controller {
+class ScriptController extends Controller
+{
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
     //_TODO : séparation des concerns : role, slugify (event save)
 
     /**
      * Store a script in db
      */
-    public function storeScript(StoreScript $request) {
+    public function storeScript(StoreScript $request)
+    {
         $user = Auth::user();
         //captcha validation
         $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
@@ -52,8 +54,8 @@ class ScriptController extends Controller {
 
         $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
-        \Mail::raw($message, function ($message)  { 
-          $message->to(env('ADMIN_EMAIL'))->subject("Nouveau script");
+        \Mail::raw($message, function ($message) {
+            $message->to(env('ADMIN_EMAIL'))->subject("Nouveau script");
         });
         return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
     }
@@ -61,7 +63,8 @@ class ScriptController extends Controller {
     /**
      * admin or owner
      */
-    public function updateScript(Request $request, $slug) {
+    public function updateScript(Request $request, $slug)
+    {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
 
@@ -86,7 +89,7 @@ class ScriptController extends Controller {
         //update only this fields
         $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'user_id', 'version'];
+            $toUpdate[] = 'user_id';
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
@@ -122,7 +125,8 @@ class ScriptController extends Controller {
         }
     }
 
-    public function validateScript($slug) {
+    public function validateScript($slug)
+    {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->adminOrFail();
 
@@ -136,7 +140,8 @@ class ScriptController extends Controller {
         return redirect(route('script.show', ['slug' => $slug]));
     }
 
-    public function refuseScript($slug) {
+    public function refuseScript($slug)
+    {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->adminOrFail();
 
@@ -153,7 +158,8 @@ class ScriptController extends Controller {
     /**
      * Install script : count & redirect 
      */
-    public function installScript($slug, Request $request) {
+    public function installScript($slug, Request $request)
+    {
         $script = Script::where('slug', $slug)->firstOrFail();
 
         // protection referer to count
@@ -171,7 +177,8 @@ class ScriptController extends Controller {
     /**
      * Note script : note & redirect 
      */
-    public function noteScript($slug, $note, Request $request) {
+    public function noteScript($slug, $note, Request $request)
+    {
         $note = intval($note);
         if ($note > 0 && $note <= 5) {
             $script = Script::where('slug', $slug)->firstOrFail();
@@ -187,7 +194,8 @@ class ScriptController extends Controller {
         return redirect(route('script.show', $slug));
     }
 
-    public function deleteScript($slug) {
+    public function deleteScript($slug)
+    {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
         $script->comments()->delete();
@@ -204,7 +212,8 @@ class ScriptController extends Controller {
         return redirect(route('index'));
     }
 
-    public function slugifyScript($name) {
+    public function slugifyScript($name)
+    {
         $slug = str_slug($name);
         $i = 1;
         $baseSlug = $slug;
@@ -219,7 +228,8 @@ class ScriptController extends Controller {
      * Some Views bellow 
      * ============
      */
-    public function showScript($slug) {
+    public function showScript($slug)
+    {
         $script = Script::where('slug', $slug)->firstOrFail();
         $comments = $script->comments()->orderBy('created_at', 'desc')->paginate(10);
         //si pas validé, on affiche seulement si admin/owner
@@ -233,13 +243,15 @@ class ScriptController extends Controller {
         return view('script.show', ['script' => $script, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
     }
 
-    public function editScript($slug) {
+    public function editScript($slug)
+    {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
         return view('script.edit', ['script' => $script]);
     }
 
-    public function crawlInfo() {
+    public function crawlInfo()
+    {
         $this->lib->adminOrFail();
         $this->lib->crawlInfo();
     }

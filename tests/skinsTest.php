@@ -1,6 +1,7 @@
 <?php
 
-class skinsTest extends TestCase {
+class skinsTest extends TestCase
+{
     /*
      * - connexion -> admin 
      * - ajout skin
@@ -18,7 +19,8 @@ class skinsTest extends TestCase {
      * - supprimer le skin (admin)     
      */
 
-    public function testHomepage() {
+    public function testHomepage()
+    {
         $this->visit('/')
                 ->see('jvscript.fr');
     }
@@ -26,7 +28,8 @@ class skinsTest extends TestCase {
     /**
      * Connexion superadmin
      */
-    public function testConnexion($login = 'superadmin', $password = 'superadmin') {
+    public function testConnexion($login = 'superadmin', $password = 'superadmin')
+    {
         $this->visit('/')
                 ->click('Connexion')
                 ->seePageIs('/login')
@@ -37,7 +40,8 @@ class skinsTest extends TestCase {
                 ->see("Bonjour $login");
     }
 
-    public function testAjoutSkin() {
+    public function testAjoutSkin()
+    {
         $this->testConnexion();
         $this->visit('/skin/ajout')
                 ->type('nom du skin', 'name')
@@ -57,7 +61,8 @@ class skinsTest extends TestCase {
     /**
      * Skin non validé en guest
      */
-    public function testVoirSkin404() {
+    public function testVoirSkin404()
+    {
         $response = $this->call('GET', '/skin/nom-du-skin');
         $this->assertEquals(404, $response->status());
     }
@@ -65,7 +70,8 @@ class skinsTest extends TestCase {
     /**
      * Voir Skin non validé avaec les droits admin
      */
-    public function testVoirSkinAdmin() {
+    public function testVoirSkinAdmin()
+    {
         $this->testConnexion();
         $this->visit('/skin/nom-du-skin')
                 ->see('nom du skin')
@@ -94,7 +100,8 @@ class skinsTest extends TestCase {
     /**
      * Editer le skin en admin & changer l'owner
      */
-    public function testEditerSkinAdmin() {
+    public function testEditerSkinAdmin()
+    {
         $this->testConnexion();
         $this->visit('/skin/nom-du-skin')
                 ->click('Editer')
@@ -117,7 +124,8 @@ class skinsTest extends TestCase {
     /**
      * accès au skin par owner
      */
-    public function testVoirEditerSkinOwner() {
+    public function testVoirEditerSkinOwner()
+    {
         $this->testConnexion('owner', 'password');
         $this->visit('/skin/nom-du-skin')
                 ->click('Editer')
@@ -133,7 +141,8 @@ class skinsTest extends TestCase {
     /**
      * Commenter skin owner
      */
-    public function testCommenterScriptOwner() {
+    public function testCommenterScriptOwner()
+    {
         $this->testConnexion('owner', 'password');
         $this->visit('/skin/nom-du-skin')
                 ->type('Ceci est un commentaire', 'comment')
@@ -153,7 +162,8 @@ class skinsTest extends TestCase {
     /**
      * Skin non validé Sans les droits admin
      */
-    public function testGuestAdmin404() {
+    public function testGuestAdmin404()
+    {
         $this->visit('/admin')
                 ->seePageIs('/login');
     }
@@ -161,7 +171,8 @@ class skinsTest extends TestCase {
     /**
      * accès au skin par guest
      */
-    public function testVoirSkinGuest() {
+    public function testVoirSkinGuest()
+    {
         $this->visit('/skin/nom-du-skin')
                 ->seePageIs('/skin/nom-du-skin')
                 ->dontSee('Editer')
@@ -173,7 +184,8 @@ class skinsTest extends TestCase {
     /**
      * accès au skin par guest
      */
-    public function testNoterInstallerScriptGuest() {
+    public function testNoterInstallerScriptGuest()
+    {
         $note = rand(1, 5);
         $this->visit('/skin/nom-du-skin')
                 ->press("note-$note")
@@ -189,7 +201,8 @@ class skinsTest extends TestCase {
                 ->see('1 fois');
     }
 
-    public function testRefuserSkinAdmin() {
+    public function testRefuserSkinAdmin()
+    {
         $this->testConnexion();
         $this->visit('/skin/nom-du-skin')
                 ->click('Refuser')
@@ -197,11 +210,13 @@ class skinsTest extends TestCase {
                 ->see('Ce skin a été refusé.');
     }
 
-    public function test404Again() {
+    public function test404Again()
+    {
         $this->testVoirSkin404();
     }
 
-    public function testSupprimerSkinAdmin() {
+    public function testSupprimerSkinAdmin()
+    {
         $this->testConnexion();
         $this->visit('/skin/nom-du-skin')
                 ->click('Supprimer')

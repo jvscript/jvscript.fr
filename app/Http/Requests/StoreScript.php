@@ -4,14 +4,16 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreScript extends FormRequest {
+class StoreScript extends FormRequest
+{
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -20,7 +22,8 @@ class StoreScript extends FormRequest {
      *
      * @return array
      */
-    public function messages() {
+    public function messages()
+    {
         return [
             'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
             'topic_url.regex' => 'Le lien du topic devrait être de type http://www.jeuxvideo.com/forums/...',
@@ -33,7 +36,8 @@ class StoreScript extends FormRequest {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'name' => 'required|max:50|unique:scripts|not_in:ajout',
             'description' => 'required',
