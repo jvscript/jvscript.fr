@@ -12,6 +12,7 @@ use App;
 use App\Notifications\notifyStatus;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreScript;
+use Illuminate\Support\Facades\Mail;
 
 class ScriptController extends Controller {
     //_TODO : retenir le filtre/sort en session/cookie utilisateur 
@@ -51,7 +52,9 @@ class ScriptController extends Controller {
 
         $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
-
+        \Mail::raw($message, function ($message)  { 
+          $message->to(env('ADMIN_EMAIL'))->subject("Nouveau script");
+        });
         return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
     }
 
@@ -202,7 +205,7 @@ class ScriptController extends Controller {
     }
 
     public function slugifyScript($name) {
-        $slug = $this->lib->slugify($name);
+        $slug = str_slug($name);
         $i = 1;
         $baseSlug = $slug;
         while (Script::where('slug', $slug)->count() > 0) {

@@ -50,7 +50,10 @@ class SkinController extends Controller {
 
         $message = "[new skin] Nouveau skin posté sur le site : " . route('skin.show', ['slug' => $skin->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
-
+        \Mail::raw($message, function ($message)  { 
+          $message->to(env('ADMIN_EMAIL'))->subject("Nouveau skin");
+        });
+        
         return redirect(route('skin.form'))->with("message", "Merci, votre skin est en attente de validation.");
     }
 
@@ -194,7 +197,7 @@ class SkinController extends Controller {
     }
 
     public function slugifySkin($name) {
-        $slug = $this->lib->slugify($name);
+        $slug = str_slug($name);
         $i = 1;
         $baseSlug = $slug;
         while (Skin::where('slug', $slug)->count() > 0) {
