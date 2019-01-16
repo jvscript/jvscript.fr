@@ -45,7 +45,7 @@ class ScriptController extends Controller
         //store photo_file or photo_url  storage
         if ($request->file('photo_file')) {
             $this->lib->storeImage($script, $request->file('photo_file'));
-        } else if ($request->has('photo_url')) {
+        } else if ($request->filled('photo_url')) {
             $file = @file_get_contents($request->input('photo_url'));
             $this->lib->storeImage($script, $file);
         }
@@ -104,7 +104,7 @@ class ScriptController extends Controller
             );
         } else {
             $script->fill($request->only($toUpdate));
-            if ($request->has('last_update')) {
+            if ($request->filled('last_update')) {
                 $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             }
 
@@ -113,7 +113,7 @@ class ScriptController extends Controller
                 Storage::delete('public/images/' . $script->photoShortLink());
                 Storage::delete('public/images/small-' . $script->photoShortLink());
                 $this->lib->storeImage($script, $request->file('photo_file'));
-            } else if ($request->has('photo_url')) {
+            } else if ($request->filled('photo_url')) {
                 $file = @file_get_contents($request->input('photo_url'));
                 Storage::delete('public/images/' . $script->photoShortLink());
                 Storage::delete('public/images/small-' . $script->photoShortLink());

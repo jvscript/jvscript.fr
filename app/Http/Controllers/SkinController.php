@@ -44,7 +44,7 @@ class SkinController extends Controller
         //store photo_file or photo_url  storage
         if ($request->file('photo_file')) {
             $this->lib->storeImage($skin, $request->file('photo_file'));
-        } else if ($request->has('photo_url')) {
+        } else if ($request->filled('photo_url')) {
             $file = @file_get_contents($request->input('photo_url'));
             $this->lib->storeImage($skin, $file);
         }
@@ -96,7 +96,7 @@ class SkinController extends Controller
             );
         } else {
             $skin->fill($request->only($toUpdate));
-            if ($request->has('last_update')) {
+            if ($request->filled('last_update')) {
                 $skin->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
             }
 
@@ -105,7 +105,7 @@ class SkinController extends Controller
                 Storage::delete('public/images/' . $skin->photoShortLink());
                 Storage::delete('public/images/small-' . $skin->photoShortLink());
                 $this->lib->storeImage($skin, $request->file('photo_file'));
-            } else if ($request->has('photo_url')) {
+            } else if ($request->filled('photo_url')) {
                 $file = @file_get_contents($request->input('photo_url'));
                 Storage::delete('public/images/' . $skin->photoShortLink());
                 Storage::delete('public/images/small-' . $skin->photoShortLink());
