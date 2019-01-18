@@ -12,6 +12,7 @@ use App;
 use App\Notifications\notifyStatus;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreScript;
+use App\Http\Requests\UpdateScript;
 use Illuminate\Support\Facades\Mail;
 
 class ScriptController extends Controller
@@ -63,33 +64,14 @@ class ScriptController extends Controller
     /**
      * admin or owner
      */
-    public function updateScript(Request $request, $slug)
+    public function updateScript(UpdateScript $request, $slug)
     {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
-
-        $messages = [
-            'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
-            'photo_url.image_url' => "L'url de l'image est invalide."
-        ];
-        $validator = Validator::make($request->all(), [
-                    "autor" => "max:255",
-                    'js_url' => "required|url|max:255|regex:/.*\.js$/",
-                    'repo_url' => "url|max:255",
-                    'photo_url' => "url|max:255|image_url",
-                    'photo_file' => "image",
-                    'don_url' => "url|max:255",
-                    'user_id' => "exists:users,id",
-                    'sensibility' => "in:0,1,2",
-                    'last_update' => "date_format:d/m/Y",
-                    'website_url' => "url|max:255",
-                    'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
-                        ], $messages);
-
         //update only this fields
-        $toUpdate = ['sensibility', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
+        $toUpdate = ['autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            $toUpdate[] = 'user_id';
+            array_push($toUpdate, "user_id", "sensibility");
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
@@ -98,31 +80,25 @@ class ScriptController extends Controller
             }
         }
 
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-            );
-        } else {
-            $script->fill($request->only($toUpdate));
-            if ($request->filled('last_update')) {
-                $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
-            }
-
-            //gestion photo
-            if ($request->file('photo_file')) {
-                Storage::delete('public/images/' . $script->photoShortLink());
-                Storage::delete('public/images/small-' . $script->photoShortLink());
-                $this->lib->storeImage($script, $request->file('photo_file'));
-            } else if ($request->filled('photo_url')) {
-                $file = @file_get_contents($request->input('photo_url'));
-                Storage::delete('public/images/' . $script->photoShortLink());
-                Storage::delete('public/images/small-' . $script->photoShortLink());
-                $this->lib->storeImage($script, $file);
-            }
-
-            $script->save();
-            return redirect(route('script.show', ['slug' => $slug]));
+        $script->fill($request->only($toUpdate));
+        if ($request->filled('last_update')) {
+            $script->last_update = \Carbon\Carbon::createFromFormat('d/m/Y', $request->input('last_update'));
         }
+
+        //gestion photo
+        if ($request->file('photo_file')) {
+            Storage::delete('public/images/' . $script->photoShortLink());
+            Storage::delete('public/images/small-' . $script->photoShortLink());
+            $this->lib->storeImage($script, $request->file('photo_file'));
+        } else if ($request->filled('photo_url')) {
+            $file = @file_get_contents($request->input('photo_url'));
+            Storage::delete('public/images/' . $script->photoShortLink());
+            Storage::delete('public/images/small-' . $script->photoShortLink());
+            $this->lib->storeImage($script, $file);
+        }
+
+        $script->save();
+        return redirect(route('script.show', ['slug' => $slug]));
     }
 
     public function validateScript($slug)

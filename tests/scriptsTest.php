@@ -90,14 +90,14 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Inscription compte owner
      */
-    public function testInscriptionOwner()
+    public function testInscription($username = 'owner', $password = 'password')
     {
         $this->visit('/')
                 ->click('Inscription')
-                ->type('owner', 'name')
-                ->type('owner@fakemail.com', 'email')
-                ->type('password', 'password')
-                ->type('password', 'password_confirmation')
+                ->type($username, 'name')
+                ->type($username . '@fakemail.com', 'email')
+                ->type($password, 'password')
+                ->type($password, 'password_confirmation')
                 ->press('S\'inscrire')
                 ->seePageIs('/');
     }
@@ -163,6 +163,16 @@ class scriptsTest extends BrowserKitTestCase
                 ->dontSee('Ceci est un commentaire')
                 ->dontSee('2eme commentaire')
         ;
+    }
+
+    /**
+     * Random user can't edit owner script
+     */
+    public function testRandomUserCantEditOwnerScript()
+    {
+        $this->testInscription('random', 'password');
+        $this->visit('/script/nom-du-script')
+                ->dontSee('Editer');
     }
 
     /**
