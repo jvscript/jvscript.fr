@@ -214,7 +214,7 @@
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
+            <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
                 <div class="col-md-6 col-md-offset-4">
                     @if (App::environment('local'))
                     <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" data-theme="dark"></div>
@@ -222,9 +222,9 @@
                     <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS" data-theme="dark"></div>
                     @endif
 
-                    @if ($errors->has('recaptcha'))
+                    @if ($errors->has('g-recaptcha-response'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('recaptcha') }}</strong>
+                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
                     </span>
                     @endif
 

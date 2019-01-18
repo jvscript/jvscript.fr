@@ -6,6 +6,7 @@ use App\Model\Script,
     App\Model\Skin;
 use Auth;
 use Image;
+use Illuminate\Support\Facades\Storage;
 
 class Lib
 {
@@ -43,6 +44,8 @@ class Lib
 
     public function storeImage($item, $file)
     {
+        Storage::delete('public/images/' . $item->photoShortLink());
+        Storage::delete('public/images/small-' . $item->photoShortLink());
         $filename = $item->slug;
         $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
 

@@ -26,14 +26,6 @@ class ScriptController extends Controller
     public function storeScript(StoreScript $request)
     {
         $user = Auth::user();
-        //captcha validation
-        $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-        $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-        if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
-            $request->flash();
-            return redirect(route('script.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-        }
-
         $script = Script::create($request->all());
         $script->slug = $this->slugifyScript($script->name);
 
@@ -55,9 +47,12 @@ class ScriptController extends Controller
 
         $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
-        \Mail::raw($message, function ($message) {
-            $message->to(env('ADMIN_EMAIL'))->subject("Nouveau script");
-        });
+        if (!App::environment('testing', 'local')) {
+            \Mail::raw($message, function ($message) {
+                $message->to(env('ADMIN_EMAIL'))->subject("Nouveau script");
+            });
+        }
+
         return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
     }
 
@@ -87,13 +82,9 @@ class ScriptController extends Controller
 
         //gestion photo
         if ($request->file('photo_file')) {
-            Storage::delete('public/images/' . $script->photoShortLink());
-            Storage::delete('public/images/small-' . $script->photoShortLink());
             $this->lib->storeImage($script, $request->file('photo_file'));
         } else if ($request->filled('photo_url')) {
             $file = @file_get_contents($request->input('photo_url'));
-            Storage::delete('public/images/' . $script->photoShortLink());
-            Storage::delete('public/images/small-' . $script->photoShortLink());
             $this->lib->storeImage($script, $file);
         }
 
@@ -201,7 +192,7 @@ class ScriptController extends Controller
 
     /**
      * ============
-     * Some Views bellow 
+     * Views bellow 
      * ============
      */
     public function showScript($slug)

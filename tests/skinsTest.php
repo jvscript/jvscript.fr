@@ -51,7 +51,7 @@ class skinsTest extends BrowserKitTestCase
                 ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
                 ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
                 ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
-//                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
+                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
                 ->type('https://www.paypal.me/vplancke/', 'don_url')
                 ->press('Ajouter')
                 ->seePageIs('/skin/ajout')
