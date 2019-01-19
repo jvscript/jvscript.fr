@@ -79,23 +79,9 @@ class skinsTest extends BrowserKitTestCase
                 ->see('https://github.com/jvscript/jvscript.github.io')
                 ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
                 ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
-//                ->see('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif')
+                ->see('nom-du-skin.jpg')
                 ->see('https://www.paypal.me/vplancke/');
     }
-
-    /**
-     * Inscription compte owner
-     */
-//    public function testInscriptionOwner() {
-//        $this->visit('/')
-//                ->click('Inscription')
-//                ->type('owner', 'name')
-//                ->type('owner@fakemail.com', 'email')
-//                ->type('password', 'password')
-//                ->type('password', 'password_confirmation')
-//                ->press('S\'inscrire')
-//                ->seePageIs('/');
-//    }
 
     /**
      * Editer le skin en admin & changer l'owner
@@ -134,6 +120,7 @@ class skinsTest extends BrowserKitTestCase
                 ->type('desc_edit_owner', 'description')
                 ->press('Editer')
                 ->seePageIs('/skin/nom-du-skin')
+                ->see('nom-du-skin.jpg')
                 ->see('owner')
                 ->see('desc_edit_owner');
     }

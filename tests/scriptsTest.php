@@ -65,7 +65,7 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Script non validé en guest
      */
-    public function testVoirScript404()
+    public function testGuestTryingToSeeScriptShouldGet404()
     {
         $response = $this->call('GET', '/script/nom-du-script');
         $this->assertEquals(404, $response->status());
@@ -83,7 +83,7 @@ class scriptsTest extends BrowserKitTestCase
                 ->see('https://github.com/jvscript/jvscript.github.io')
                 ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
                 ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
-//                ->see('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif')
+                ->see('nom-du-script.jpg')
                 ->see('https://www.paypal.me/vplancke/');
     }
 
@@ -193,6 +193,7 @@ class scriptsTest extends BrowserKitTestCase
                 ->seePageIs('/script/nom-du-script')
                 ->dontSee('Editer')
                 ->dontSee('Valider')
+                ->see('nom-du-script.jpg')
                 ->see('owner')
                 ->see('desc_edit_owner');
     }
@@ -228,7 +229,7 @@ class scriptsTest extends BrowserKitTestCase
 
     public function test404Again()
     {
-        $this->testVoirScript404();
+        $this->testGuestTryingToSeeScriptShouldGet404();
     }
 
     public function testSupprimerScriptAdmin()
@@ -237,7 +238,7 @@ class scriptsTest extends BrowserKitTestCase
         $this->visit('/script/nom-du-script')
                 ->click('Supprimer')
                 ->seePageIs('/admin');
-        $this->testVoirScript404();
+        $this->testGuestTryingToSeeScriptShouldGet404();
     }
 
 }
