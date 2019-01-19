@@ -47,8 +47,8 @@ Route::post('/script/ajout', 'ScriptController@storeScript')->name('script.store
 Route::post('/skin/ajout', 'SkinController@storeSkin')->name('skin.store')->middleware('auth');
 
 //show 1 item
-Route::get('/script/{slug}', 'ScriptController@showScript')->name('script.show');
-Route::get('/skin/{slug}', 'SkinController@showSkin')->name('skin.show');
+Route::get('/script/{slug}', 'ScriptController@show')->name('script.show');
+Route::get('/skin/{slug}', 'SkinController@show')->name('skin.show');
 
 //scripts comment
 Route::post('/script/{slug}/comment', 'CommentController@storeComment')->name('script.comment')->middleware('auth');
@@ -59,27 +59,26 @@ Route::get('/skin/{slug}/comment/{comment_id}/delete', 'CommentController@delete
 
 
 //install, note
-Route::match(['get', 'post'], '/script/install/{slug}', 'ScriptController@installScript')->name('script.install');
-Route::match(['get', 'post'], '/skin/install/{slug}', 'SkinController@installSkin')->name('skin.install');
-Route::post('/script/note/{slug}/{note}', 'ScriptController@noteScript')->name('script.note');
-Route::post('/skin/note/{slug}/{note}', 'SkinController@noteSkin')->name('skin.note');
+Route::match(['get', 'post'], '/script/install/{slug}', 'ScriptController@install')->name('script.install');
+Route::match(['get', 'post'], '/skin/install/{slug}', 'SkinController@install')->name('skin.install');
+Route::post('/script/note/{slug}/{note}', 'ScriptController@note')->name('script.note');
+Route::post('/skin/note/{slug}/{note}', 'SkinController@note')->name('skin.note');
 
 
 //updates
-Route::get('/script/{slug}/edit', 'ScriptController@editScript')->name('script.edit')->middleware('auth');
-Route::get('/skin/{slug}/edit', 'SkinController@editSkin')->name('skin.edit')->middleware('auth');
+Route::get('/script/{slug}/edit', 'ScriptController@edit')->name('script.edit')->middleware('auth');
+Route::get('/skin/{slug}/edit', 'SkinController@edit')->name('skin.edit')->middleware('auth');
 Route::put('/script/{slug}/edit', 'ScriptController@updateScript')->name('script.update')->middleware('auth');
 Route::put('/skin/{slug}/edit', 'SkinController@updateSkin')->name('skin.update')->middleware('auth');
 //delete
-Route::get('/script/{slug}/delete', 'ScriptController@deleteScript')->name('script.delete');
-Route::get('/skin/{slug}/delete', 'SkinController@deleteSkin')->name('skin.delete');
+Route::get('/script/{slug}/delete', 'ScriptController@delete')->name('script.delete');
+Route::get('/skin/{slug}/delete', 'SkinController@delete')->name('skin.delete');
 
 //validate script/skin
-Route::get('/script/{slug}/validate', 'ScriptController@validateScript')->name('script.validate');
-Route::get('/skin/{slug}/validate', 'SkinController@validateSkin')->name('skin.validate');
-Route::get('/script/{slug}/refuse', 'ScriptController@refuseScript')->name('script.refuse');
-Route::get('/skin/{slug}/refuse', 'SkinController@refuseSkin')->name('skin.refuse');
-
+Route::get('/script/{slug}/validate', 'ScriptController@validateItem')->name('script.validate');
+Route::get('/skin/{slug}/validate', 'SkinController@validateItem')->name('skin.validate');
+Route::get('/script/{slug}/refuse', 'ScriptController@refuse')->name('script.refuse');
+Route::get('/skin/{slug}/refuse', 'SkinController@refuse')->name('skin.refuse');
 
 
 //static views 

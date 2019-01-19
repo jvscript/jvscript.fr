@@ -9,17 +9,19 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App;
 use App\Lib\Lib;
 
-class Controller extends BaseController {
+class Controller extends BaseController
+{
 
     use AuthorizesRequests,
         DispatchesJobs,
         ValidatesRequests;
 
     /**
-     * Create a new controller instance.     *
+     * Create a new controller instance.     
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         if (App::environment('local', 'testing')) {
             $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
         } else { //prod

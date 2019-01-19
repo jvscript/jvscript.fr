@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
 
     use Notifiable;
 
@@ -21,28 +22,32 @@ class User extends Authenticatable {
         'admin' => 'boolean',
     ];
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->admin; // this looks for an admin column in your users table
-    } 
+    }
 
     /**
      * Get all of the factures line  for the facture
      */
-    public function scripts() {
+    public function scripts()
+    {
         return $this->hasMany(Script::class);
     }
 
     /**
      * Get all of the factures line  for the facture
      */
-    public function skins() {
+    public function skins()
+    {
         return $this->hasMany(Skin::class);
     }
 
     /**
      * Get all of the comments
      */
-    public function comments() {
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 

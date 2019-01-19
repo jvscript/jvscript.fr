@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSkin extends FormRequest
+class UpdateScript extends FormRequest
 {
 
     /**
@@ -25,10 +25,9 @@ class StoreSkin extends FormRequest
     public function messages()
     {
         return [
-            'skin_url.regex' => 'Le champ :attribute doit être un lien du format \'https://userstyles.org/styles/...\'',
-            'topic_url.regex' => 'Le lien du topic devrait être du format : http://www.jeuxvideo.com/forums/...',
-            'photo_url.image_url' => "L'url de l'image est invalide.",
-            'g-recaptcha-response.required' => "Veuillez valider le captcha svp."
+            'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
+            'topic_url.regex' => 'Le lien du topic devrait être de type http://www.jeuxvideo.com/forums/...',
+            'photo_url.image_url' => "L'url de l'image est invalide."
         ];
     }
 
@@ -39,19 +38,18 @@ class StoreSkin extends FormRequest
      */
     public function rules()
     {
-        $recaptchaRequired = \App::environment('production') ? 'required' : 'sometimes';
         return [
-            'name' => 'required|max:50|unique:skins|not_in:ajout',
-            'description' => 'required',
             "autor" => "max:255",
-            'skin_url' => "required|url|max:255|regex:/^https:\/\/userstyles\.org\/styles\/.*/",
+            'js_url' => "required|url|max:255|regex:/.*\.js$/",
             'repo_url' => "url|max:255",
             'photo_url' => "url|max:255|image_url",
             'photo_file' => "image",
             'don_url' => "url|max:255",
+            'user_id' => "exists:users,id",
+            'sensibility' => "in:0,1,2",
+            'last_update' => "date_format:d/m/Y",
             'website_url' => "url|max:255",
             'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
-            'g-recaptcha-response' => [$recaptchaRequired, new \App\Rules\Recaptcha],
         ];
     }
 

@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Artisan as Artisan;
 use Illuminate\Support\Facades\Mail;
 
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
+abstract class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
+{
 
     /**
      * The base URL to use while testing the application.
@@ -13,7 +14,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
     protected $baseUrl = 'http://localhost';
     protected static $db_inited = false;
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
 
         if (!static::$db_inited) {
@@ -23,7 +25,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
             Artisan::call('db:seed');
         }
         Mail::fake();
-
     }
 
     /**
@@ -31,7 +32,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
      *
      * @return \Illuminate\Foundation\Application
      */
-    public function createApplication() {
+    public function createApplication()
+    {
         $app = require __DIR__ . '/../bootstrap/app.php';
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();

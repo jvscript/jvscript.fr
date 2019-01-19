@@ -62,6 +62,11 @@ class Script extends Model {
     protected $dates = [
         'last_update',
     ];
+    
+    public function getUrlAttribute()
+    {
+        return $this->js_url;
+    }
 
     /**
      * The attributes that are mass assignable.

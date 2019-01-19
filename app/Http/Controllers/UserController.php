@@ -10,6 +10,7 @@ use Validator;
 use Auth;
 use App;
 use App\Lib\Lib;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller {
 
@@ -112,6 +113,10 @@ class UserController extends Controller {
             }
             $message .= "Message : " . $request->input('message_body');
             $this->lib->sendDiscord($message, $this->discord_url);
+            
+            \Mail::raw($message, function ($message)  { 
+              $message->to(env('ADMIN_EMAIL'))->subject("Jvscript : contact form");
+            });
 
             return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");
         }

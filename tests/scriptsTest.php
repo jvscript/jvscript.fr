@@ -2,7 +2,8 @@
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class scriptsTest extends TestCase {
+class scriptsTest extends BrowserKitTestCase
+{
     /*
      * - connexion -> admin 
      * - ajout script
@@ -18,10 +19,12 @@ class scriptsTest extends TestCase {
      * - installer le script 
      * - refuser le script (admin)     
      * - supprimer le script (admin)   
-     * _TODO : do file uplaod
+     * _TODO : do file upload, update js_url, skin_url
+     * 
      */
 
-    public function testHomepage() {
+    public function testHomepage()
+    {
         $this->visit('/')
                 ->see('jvscript.fr');
     }
@@ -29,7 +32,8 @@ class scriptsTest extends TestCase {
     /**
      * Connexion superadmin
      */
-    public function testConnexion($login = 'superadmin', $password = 'superadmin') {
+    public function testConnexion($login = 'superadmin', $password = 'superadmin')
+    {
         $this->visit('/')
                 ->click('Connexion')
                 ->seePageIs('/login')
@@ -40,7 +44,8 @@ class scriptsTest extends TestCase {
                 ->see("Bonjour $login");
     }
 
-    public function testAjoutScript() {
+    public function testAjoutScript()
+    {
         $this->testConnexion();
         $this->visit('/script/ajout')
                 ->type('nom du script', 'name')
@@ -50,7 +55,7 @@ class scriptsTest extends TestCase {
                 ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
                 ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
                 ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
-//                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
+                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
                 ->type('https://www.paypal.me/vplancke/', 'don_url')
                 ->press('Ajouter')
                 ->seePageIs('/script/ajout')
@@ -60,7 +65,8 @@ class scriptsTest extends TestCase {
     /**
      * Script non validé en guest
      */
-    public function testVoirScript404() {
+    public function testGuestTryingToSeeScriptShouldGet404()
+    {
         $response = $this->call('GET', '/script/nom-du-script');
         $this->assertEquals(404, $response->status());
     }
@@ -68,7 +74,8 @@ class scriptsTest extends TestCase {
     /**
      * Voir Script non validé avaec les droits admin
      */
-    public function testVoirScriptAdmin() {
+    public function testVoirScriptAdmin()
+    {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
                 ->see('nom du script')
@@ -76,20 +83,21 @@ class scriptsTest extends TestCase {
                 ->see('https://github.com/jvscript/jvscript.github.io')
                 ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
                 ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
-//                ->see('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif')
+                ->see('nom-du-script.jpg')
                 ->see('https://www.paypal.me/vplancke/');
     }
 
     /**
      * Inscription compte owner
      */
-    public function testInscriptionOwner() {
+    public function testInscription($username = 'owner', $password = 'password')
+    {
         $this->visit('/')
                 ->click('Inscription')
-                ->type('owner', 'name')
-                ->type('owner@fakemail.com', 'email')
-                ->type('password', 'password')
-                ->type('password', 'password_confirmation')
+                ->type($username, 'name')
+                ->type($username . '@fakemail.com', 'email')
+                ->type($password, 'password')
+                ->type($password, 'password_confirmation')
                 ->press('S\'inscrire')
                 ->seePageIs('/');
     }
@@ -97,7 +105,8 @@ class scriptsTest extends TestCase {
     /**
      * Editer le script en admin & changer l'owner
      */
-    public function testEditerScriptAdmin() {
+    public function testEditerScriptAdmin()
+    {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
                 ->click('Editer')
@@ -121,7 +130,8 @@ class scriptsTest extends TestCase {
     /**
      * accès au script par owner
      */
-    public function testVoirEditerScriptOwner() {
+    public function testVoirEditerScriptOwner()
+    {
         $this->testConnexion('owner', 'password');
         $this->visit('/script/nom-du-script')
                 ->click('Editer')
@@ -137,7 +147,8 @@ class scriptsTest extends TestCase {
     /**
      * Commenter script owner
      */
-    public function testCommenterScriptOwner() {
+    public function testCommenterScriptOwner()
+    {
         $this->testConnexion('owner', 'password');
         $this->visit('/script/nom-du-script')
                 ->type('Ceci est un commentaire', 'comment')
@@ -155,9 +166,20 @@ class scriptsTest extends TestCase {
     }
 
     /**
+     * Random user can't edit owner script
+     */
+    public function testRandomUserCantEditOwnerScript()
+    {
+        $this->testInscription('random', 'password');
+        $this->visit('/script/nom-du-script')
+                ->dontSee('Editer');
+    }
+
+    /**
      * Page admin en guest
      */
-    public function testGuestAdmin404() {
+    public function testGuestAdmin404()
+    {
         $this->visit('/admin')
                 ->seePageIs('/login');
     }
@@ -165,11 +187,13 @@ class scriptsTest extends TestCase {
     /**
      * accès au script par guest
      */
-    public function testVoirScriptGuest() {
+    public function testVoirScriptGuest()
+    {
         $this->visit('/script/nom-du-script')
                 ->seePageIs('/script/nom-du-script')
                 ->dontSee('Editer')
                 ->dontSee('Valider')
+                ->see('nom-du-script.jpg')
                 ->see('owner')
                 ->see('desc_edit_owner');
     }
@@ -177,7 +201,8 @@ class scriptsTest extends TestCase {
     /**
      * accès au script par guest
      */
-    public function testNoterInstallerScriptGuest() {
+    public function testNoterInstallerScriptGuest()
+    {
         $note = rand(1, 5);
         $this->visit('/script/nom-du-script')
                 ->press("note-$note")
@@ -187,13 +212,14 @@ class scriptsTest extends TestCase {
         $this->call('GET', '/script/install/nom-du-script');
         $this->visit('/script/nom-du-script')
                 ->see('0 fois');
-         
-        $this->call('POST', '/script/install/nom-du-script',  $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script' ] );
+
+        $this->call('POST', '/script/install/nom-du-script', $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script']);
         $this->visit('/script/nom-du-script')
-                ->see('1 fois');        
+                ->see('1 fois');
     }
 
-    public function testRefuserScriptAdmin() {
+    public function testRefuserScriptAdmin()
+    {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
                 ->click('Refuser')
@@ -201,16 +227,18 @@ class scriptsTest extends TestCase {
                 ->see('Ce script a été refusé.');
     }
 
-    public function test404Again() {
-        $this->testVoirScript404();
+    public function test404Again()
+    {
+        $this->testGuestTryingToSeeScriptShouldGet404();
     }
 
-    public function testSupprimerScriptAdmin() {
+    public function testSupprimerScriptAdmin()
+    {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
                 ->click('Supprimer')
                 ->seePageIs('/admin');
-        $this->testVoirScript404();
+        $this->testGuestTryingToSeeScriptShouldGet404();
     }
 
 }

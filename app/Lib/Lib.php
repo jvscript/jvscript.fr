@@ -6,8 +6,10 @@ use App\Model\Script,
     App\Model\Skin;
 use Auth;
 use Image;
+use Illuminate\Support\Facades\Storage;
 
-class Lib {
+class Lib
+{
     /**
      * Usefull functions 
      */
@@ -17,27 +19,33 @@ class Lib {
      * @param int $seconds
      * @return boolean limited comment
      */
-    public function limitComment($seconds) {
+    public function limitComment($seconds)
+    {
         $user = Auth::user();
         if (!$user)
             return true;
         return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
     }
 
-    public function adminOrFail() {
+    public function adminOrFail()
+    {
         if (!(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
         }
     }
 
-    public function ownerOradminOrFail($user_id) {
+    public function ownerOradminOrFail($user_id)
+    {
         //si c'est l'owner de l'objet (script/skin) on laisse passer
         if (!(Auth::check() && Auth::user()->id == $user_id)) {
             $this->adminOrFail();
         }
     }
 
-    public function storeImage($item, $file) {
+    public function storeImage($item, $file)
+    {
+        Storage::delete('public/images/' . $item->photoShortLink());
+        Storage::delete('public/images/small-' . $item->photoShortLink());
         $filename = $item->slug;
         $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
 
@@ -79,26 +87,8 @@ class Lib {
         $item->save();
     }
 
-    public function slugify($text) {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-        // trim
-        $text = trim($text, '-');
-        // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
-        // lowercase
-        $text = strtolower($text);
-        if (empty($text)) {
-            return 'n-a';
-        }
-        return $text;
-    }
-
-    public function sendDiscord($content, $url) {
+    public function sendDiscord($content, $url)
+    {
         $data = array("content" => $content);
         $data_string = json_encode($data);
         $opts = array(
@@ -119,7 +109,8 @@ class Lib {
         }
     }
 
-    public function isImage($path) {
+    public function isImage($path)
+    {
         try {
             if (!is_array(getimagesize($path))) {
                 return false;
@@ -138,7 +129,8 @@ class Lib {
         }
     }
 
-    public function crawlInfo() {
+    public function crawlInfo()
+    {
         set_time_limit(600);
         $scripts = Script::where("status", 1)->orderBy('last_update', 'asc')->get();
         foreach ($scripts as $script) {

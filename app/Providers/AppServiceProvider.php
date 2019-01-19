@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use App\Lib\Lib;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('image_url', function ($attribute, $value) {
             return $this->lib->isImage($value);
         });
+        Paginator::useBootstrapThree();
         
     }
 
