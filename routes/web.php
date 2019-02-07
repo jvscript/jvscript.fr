@@ -81,7 +81,7 @@ Route::get('/script/{slug}/refuse', 'ScriptController@refuse')->name('script.ref
 Route::get('/skin/{slug}/refuse', 'SkinController@refuse')->name('skin.refuse');
 
 
-//static views 
+//static views
 Route::get('/developpeurs', function () {
     return view('statics.developpeurs');
 });

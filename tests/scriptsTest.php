@@ -1,26 +1,25 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class scriptsTest extends BrowserKitTestCase
 {
     /*
-     * - connexion -> admin 
+     * - connexion -> admin
      * - ajout script
      * - visualiser le script guest 404
      * - visualiser le script > admin
      * - créate compte owner
-     * - éditer le script en admin : edit and change owner     
+     * - éditer le script en admin : edit and change owner
      * - accès/edition du script par owner
-     * - accès page admin (guest) > 404 
-     * - valider le script 
+     * - accès page admin (guest) > 404
+     * - valider le script
      * - visualiser le script (guest)
      * - noter le script
-     * - installer le script 
-     * - refuser le script (admin)     
-     * - supprimer le script (admin)   
+     * - installer le script
+     * - refuser le script (admin)
+     * - supprimer le script (admin)
      * _TODO : do file upload, update js_url, skin_url
-     * 
+     *
      */
 
     public function testHomepage()
@@ -240,5 +239,4 @@ class scriptsTest extends BrowserKitTestCase
                 ->seePageIs('/admin');
         $this->testGuestTryingToSeeScriptShouldGet404();
     }
-
 }

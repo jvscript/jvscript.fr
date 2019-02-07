@@ -52,5 +52,4 @@ class UpdateScript extends FormRequest
             'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
         ];
     }
-
 }

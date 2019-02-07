@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Model\Script,
-    App\Model\Skin,
-    App\Model\User,
-    App\Model\History;
-use Validator;
-use Auth;
 use App;
-use App\Notifications\notifyStatus;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreScript;
 use App\Http\Requests\UpdateScript;
-use Illuminate\Support\Facades\Mail;
+use App\Model\History;
+use App\Model\Script;
+use App\Model\User;
+use App\Notifications\notifyStatus;
+use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ScriptController extends Controller
 {
 
-    //_TODO : retenir le filtre/sort en session/cookie utilisateur 
-    //_TODO : Event create / update : move code 
+    //_TODO : retenir le filtre/sort en session/cookie utilisateur
+    //_TODO : Event create / update : move code
 
     public function __construct()
     {
@@ -39,7 +36,7 @@ class ScriptController extends Controller
         $script->slug = $this->slugify($script->name);
 
         if ($request->input("is_autor") == 'on') {
-            $script->user_id = $user->id; //owner du script               
+            $script->user_id = $user->id; //owner du script
             $script->autor = $user->name;
         }
         $script->poster_user_id = $user->id;
@@ -47,7 +44,7 @@ class ScriptController extends Controller
         //store photo_file or photo_url  storage
         if ($request->file('photo_file')) {
             $this->lib->storeImage($script, $request->file('photo_file'));
-        } else if ($request->filled('photo_url')) {
+        } elseif ($request->filled('photo_url')) {
             $file = @file_get_contents($request->input('photo_url'));
             $this->lib->storeImage($script, $file);
         }
@@ -79,7 +76,7 @@ class ScriptController extends Controller
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
-                //force username of owner 
+                //force username of owner
                 $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
         }
@@ -91,7 +88,7 @@ class ScriptController extends Controller
 
         if ($request->file('photo_file')) {
             $this->lib->storeImage($script, $request->file('photo_file'));
-        } else if ($request->filled('photo_url')) {
+        } elseif ($request->filled('photo_url')) {
             $file = @file_get_contents($request->input('photo_url'));
             $this->lib->storeImage($script, $file);
         }
@@ -131,7 +128,7 @@ class ScriptController extends Controller
     }
 
     /**
-     * Install : count & redirect 
+     * Install : count & redirect
      */
     public function install($slug, Request $request)
     {
@@ -150,7 +147,7 @@ class ScriptController extends Controller
     }
 
     /**
-     * Note & redirect 
+     * Note & redirect
      */
     public function note($slug, $note, Request $request)
     {
@@ -161,7 +158,7 @@ class ScriptController extends Controller
             $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'note']);
             if ($history->count() == 0) {
                 History::create(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'note']);
-                $item->note = ( $item->note * $item->note_count + $note ) / ($item->note_count + 1);
+                $item->note = ($item->note * $item->note_count + $note) / ($item->note_count + 1);
                 $item->note_count++;
                 $item->save();
             }
@@ -182,8 +179,9 @@ class ScriptController extends Controller
         $item->delete();
         $message = "[delete $this->modelName] $this->modelName supprimé par " . Auth::user()->name . " : $item->name | $item->slug ";
         $this->lib->sendDiscord($message, $this->discord_url);
-        if (Auth::user()->isAdmin())
+        if (Auth::user()->isAdmin()) {
             return redirect(route('admin_index'));
+        }
         return redirect(route('index'));
     }
 
@@ -200,7 +198,7 @@ class ScriptController extends Controller
 
     /**
      * ============
-     * Views bellow 
+     * Views bellow
      * ============
      */
     public function show($slug)
@@ -230,5 +228,4 @@ class ScriptController extends Controller
         $this->lib->adminOrFail();
         $this->lib->crawlInfo();
     }
-
 }

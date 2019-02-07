@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
 use App\Lib\Lib;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
             return $this->lib->isImage($value);
         });
         Paginator::useBootstrapThree();
-        
     }
 
     /**

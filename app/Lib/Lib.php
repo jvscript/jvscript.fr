@@ -2,16 +2,16 @@
 
 namespace App\Lib;
 
-use App\Model\Script,
-    App\Model\Skin;
+use App\Model\Script;
+use App\Model\Skin;
 use Auth;
-use Image;
 use Illuminate\Support\Facades\Storage;
+use Image;
 
 class Lib
 {
     /**
-     * Usefull functions 
+     * Usefull functions
      */
 
     /**
@@ -22,8 +22,9 @@ class Lib
     public function limitComment($seconds)
     {
         $user = Auth::user();
-        if (!$user)
+        if (!$user) {
             return true;
+        }
         return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
     }
 
@@ -89,17 +90,17 @@ class Lib
 
     public function sendDiscord($content, $url)
     {
-        $data = array("content" => $content);
+        $data = ["content" => $content];
         $data_string = json_encode($data);
-        $opts = array(
-            'http' => array(
+        $opts = [
+            'http' => [
                 'method' => "POST",
                 "name" => "jvscript.io",
                 "user_name" => "jvscript.io",
                 'header' => "Content-Type: application/json\r\n",
                 'content' => $data_string
-            )
-        );
+            ]
+        ];
 
         try {
             $context = stream_context_create($opts);
@@ -120,7 +121,7 @@ class Lib
 
             $image_type = $a[2];
 
-            if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
+            if (in_array($image_type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP])) {
                 return true;
             }
             return false;
@@ -147,7 +148,7 @@ class Lib
                 } else {
                     echo "fail : " . $script->js_url . "|$url_crawl\n";
                 }
-            } else if (preg_match('/https:\/\/(.*)\.github\.io\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
+            } elseif (preg_match('/https:\/\/(.*)\.github\.io\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
                 //GITHUB PAGES
                 $url_crawl = "https://github.com/$match[1]/$match[2]/blob/master/$match[3].js";
                 $crawl_content = @file_get_contents($url_crawl);
@@ -169,7 +170,7 @@ class Lib
                     $script->last_update = $date;
                     $script->save();
                     echo $script->js_url . "|$url_crawl|$date\n";
-                } else if (preg_match('/<b>Published:<\/b> <time datetime="(.*Z)"/i', $crawl_content, $match_date)) {
+                } elseif (preg_match('/<b>Published:<\/b> <time datetime="(.*Z)"/i', $crawl_content, $match_date)) {
                     $date = $match_date[1];
                     $date = \Carbon\Carbon::parse($date);
                     $script->last_update = $date;
@@ -229,5 +230,4 @@ class Lib
             }
         }
     }
-
 }

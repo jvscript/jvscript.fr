@@ -3,20 +3,20 @@
 class skinsTest extends BrowserKitTestCase
 {
     /*
-     * - connexion -> admin 
+     * - connexion -> admin
      * - ajout skin
      * - visualiser le skin guest 404
      * - visualiser le skin > admin
      * - créate compte owner
-     * - éditer le skin en admin : edit and change owner     
+     * - éditer le skin en admin : edit and change owner
      * - accès/edition du skin par owner
-     * - accès page admin (guest) > 404 
-     * - valider le skin 
+     * - accès page admin (guest) > 404
+     * - valider le skin
      * - visualiser le skin (guest)
      * - noter le skin
-     * - installer le skin 
-     * - refuser le skin (admin)     
-     * - supprimer le skin (admin)     
+     * - installer le skin
+     * - refuser le skin (admin)
+     * - supprimer le skin (admin)
      */
 
     public function testHomepage()
@@ -210,5 +210,4 @@ class skinsTest extends BrowserKitTestCase
                 ->seePageIs('/admin');
         $this->testVoirSkin404();
     }
-
 }

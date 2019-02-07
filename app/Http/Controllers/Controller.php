@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App;
 use App\Lib\Lib;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-
     use AuthorizesRequests,
         DispatchesJobs,
         ValidatesRequests;
 
     /**
-     * Create a new controller instance.     
+     * Create a new controller instance.
      * @return void
      */
     public function __construct()
@@ -33,5 +32,4 @@ class Controller extends BaseController
         $this->min_time_comment = 30; //Interval de temps entre chaque commentaire ou le captcha apparait
         $this->min_time_captcha = 60; //Interval de temps entre chaque commentaire ou le captcha apparait
     }
-
 }
