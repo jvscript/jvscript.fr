@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Helpers\ParsedownExtended;
 use App\Http\Requests\StoreScript;
 use App\Http\Requests\UpdateScript;
 use App\Model\History;
@@ -213,7 +214,7 @@ class ScriptController extends Controller
         if (!$item->isValidated() && $this->lib->ownerOradminOrFail($item->user_id)) {
             abort(404);
         }
-        $Parsedown = new \Parsedown();
+        $Parsedown = new ParsedownExtended();
         $Parsedown->setMarkupEscaped(true);
         $item->description = $Parsedown->text($item->description);
 
