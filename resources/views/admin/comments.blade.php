@@ -35,14 +35,25 @@
                     </thead>
                     <tbody>
                         @foreach ($comments as $comment)
+                        @php
+                            $subject = $comment->commentable()->first();
 
+                            if ($subject && isset($subject->js_url)) {
+                                $item = "script";
+                            } elseif ($subject && isset($subject->skin_url)) {
+                                $item = "skin";
+                            }
+                        @endphp
                         <tr>
-                            <td>
-                                <a class="btn btn-sm btn-default" href="{{route('admin.comment.delete',$comment->id)}}" data-toggle="confirmation">Supprimer</a> </td>
-                            <td> {{$comment->user()->first()->name}} </td>
+                            <td><a class="btn btn-sm btn-default" href="{{route('admin.comment.delete',$comment->id)}}" data-toggle="confirmation">Supprimer</a> </td>
+                            <td><a class='table-link' href="{{ url('/search/'.$comment->user()->first()->name) }}"  data-toggle="tooltip" data-placement="bottom" title="Voir le profil de {{$comment->user()->first()->name}}">{{$comment->user()->first()->name}}   </a></td>
                             <td style="max-width:500px;"> {{$comment->comment}}   </td>
-                            <td> {{$comment->created_at}}   </td>
-                            <td> {{ $comment->commentable()->first() ?  $comment->commentable()->first()->name : '* Script supprimé *' }}   </td>
+                            <td> {{$comment->created_at->format('d/m/Y - H:i')}}   </td>
+                            @if ($subject = $comment->commentable()->first())
+                                <td><a class="btn btn-sm btn-default" href="{{route($item . '.show',['slug' => $subject->slug ])}}" data-toggle="tooltip" data-placement="bottom" title="Voir le {{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                            @else
+                                <td>* Script supprimé *</td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>
