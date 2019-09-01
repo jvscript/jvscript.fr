@@ -111,11 +111,21 @@
 
                 <div class="col-xs-2 text-center" style="padding-top:44px; ">
 
-                    <a class="{{$liked ? '' : 'like'}} center-block"  href="{{route('box.like',['id' => $idea->id])}}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                    <a class="{{$liked ? '' : 'like'}} center-block"   href="#" onclick="document.getElementById('like-{{$idea->id}}').submit(); return false;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
                     <b class="note center-block">
                         {{$idea->likes()->where('liked',1)->count() - $idea->likes()->where('liked',0)->count()}}
-                    </b> <a class="{{$disliked ? '' : 'dislike'}} center-block" href="{{route('box.dislike',['id' => $idea->id,'dislike' => true])}}"> <i class="fa fa-arrow-down" aria-hidden="true"></i> </a>
-                </div> 
+                    </b> <a class="{{$disliked ? '' : 'dislike'}} center-block" href="#" onclick="document.getElementById('dislike-{{$idea->id}}').submit(); return false;"> <i class="fa fa-arrow-down" aria-hidden="true"></i> </a>
+
+                    <form id="like-{{$idea->id}}" action="{{route('box.like',['id' => $idea->id])}}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                        <input type="submit" name="like-{{$idea->id}}" style="display: none;" />
+                    </form>
+
+                    <form id="dislike-{{$idea->id}}" action="{{route('box.dislike',['id' => $idea->id, 'dislike' => true])}}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                        <input type="submit" name="dislike-{{$idea->id}}" style="display: none;" />
+                    </form>
+                </div>
                 <div class="col-xs-10">
                     <div class="panel idea">
                         <div class="panel-heading idea " style='text-align: left'>
@@ -131,31 +141,31 @@
                             @if(strlen($idea->description) > 150)
                             <a class="btn btn-default" type="button" data-toggle="collapse" data-target="#description-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
                                 Lire la suite...
-                            </a>  
-                            <div class="collapse" id='description-{{$idea->id}}'> 
+                            </a>
+                            <div class="collapse" id='description-{{$idea->id}}'>
                                 {{substr($idea->description,153)}}
                             </div>
                             @endif
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-xs-2 text-center">                                 
+                <div class="col-xs-2 text-center">
                 </div>
                 <div class="col-xs-10">
 
                     <div class="panel idea btn-com ments">
                         <a class="btn btn-default" type="button" data-toggle="collapse" data-target="#comment-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
                             <i class="fa fa-comment" aria-hidden="true"></i>   <span id="comment-count-{{$idea->id}}">{{$idea->comments()->count()}}</span>
-                        </a>                    
+                        </a>
                     </div>
-                </div>           
-            </div>      
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="panel idea btn-comments">                   
+                    <div class="panel idea btn-comments">
                         <div class="collapse" id="comment-{{$idea->id}}">
                             @include('global.comments-idea', [ 'comments' =>  $idea->comments()->latest()->paginate(5) , 'commentClass' => ' ' , 'recaptcha' => 1])
                         </div>
