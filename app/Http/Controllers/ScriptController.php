@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Helpers\ParsedownExtended;
 use App\Http\Requests\StoreScript;
 use App\Http\Requests\UpdateScript;
 use App\Model\History;
@@ -70,7 +71,7 @@ class ScriptController extends Controller
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);
         //update only this fields
-        $toUpdate = ['autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
+        $toUpdate = ['name', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
             array_push($toUpdate, "user_id", "sensibility");
             if ($request->input('user_id') == '') {
@@ -79,6 +80,10 @@ class ScriptController extends Controller
                 //force username of owner
                 $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
+        }
+
+        if ($script->name != $request->input('name')) {
+            $slug = $script->slug = $this->slugify($request->input('name'));
         }
 
         $script->fill($request->only($toUpdate));
@@ -209,7 +214,7 @@ class ScriptController extends Controller
         if (!$item->isValidated() && $this->lib->ownerOradminOrFail($item->user_id)) {
             abort(404);
         }
-        $Parsedown = new \Parsedown();
+        $Parsedown = new ParsedownExtended();
         $Parsedown->setMarkupEscaped(true);
         $item->description = $Parsedown->text($item->description);
 

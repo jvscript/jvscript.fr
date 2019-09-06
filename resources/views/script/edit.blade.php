@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content') 
+@section('content')
 
 @section('javascript')
 <script src="/js/bootstrap-typeahead.min.js" type="text/javascript"></script>
@@ -43,7 +43,7 @@
         <div class="alert alert-success">
             {{ session('message') }}
         </div>
-        @endif 
+        @endif
 
         <form id="add_form" class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="{{ route('script.update',$script->slug) }}">
             {{ csrf_field() }}
@@ -74,7 +74,7 @@
                 <label for="name" class="col-md-4 control-label">Nom du script *</label>
 
                 <div class="col-md-6">
-                    <input id="name" type="text" readonly="true" disabled="true" class="form-control disabled" name="name" value="{{ old('name',$script->name) }}" required autofocus>
+                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name',$script->name) }}" required autofocus>
 
                     @if ($errors->has('name'))
                     <span class="help-block">
@@ -192,7 +192,7 @@
                 <div class="col-md-6">
                     <img class="img-thumbnail img-responsive" style="max-width: 260px; max-height: 260px;" src="{{($script->photo_url)}}" alt="{{$script->name}} logo" />
                 </div>
-            </div> 
+            </div>
             @endif
 
             <div class="form-group{{ $errors->has('photo_url') ? ' has-error' : '' }}">
@@ -250,7 +250,7 @@
                         $user_name = $script->user()->first()->name;
                         $user_id = $script->user()->first()->id;
                     }
-                    ?> 
+                    ?>
                     <input id="user_name" type="text" class="form-control typeahead" placeholder="Aucun owner" autocomplete="off" name="user_name" value="{{ old('user_name', $user_name ) }}">
                     <input id="user_id" type="hidden" class="form-control" autocomplete="off" name="user_id" value="{{ old('user_id', $user_id ) }}">
 
@@ -263,12 +263,12 @@
             </div>
 
             <div class="form-group{{ $errors->has('autor') ? ' has-error' : '' }}">
-                <label for="autor" class="col-md-4 control-label" >Auteur du script (libellé) 
+                <label for="autor" class="col-md-4 control-label" >Auteur du script (libellé)
                     <span class="fa-stack fa-1x " data-toggle="tooltip"  title="" data-original-title="Si l'auteur n'a pas de compte">
                         <i class="fa fa-stack-2x "></i>
                         <i class="fa fa-question fa-stack-1x "></i>
                     </span>
-                </label> 
+                </label>
 
                 <div class="col-md-6">
                     @if($user_id != '' and $user_name != '')
@@ -293,7 +293,7 @@
                 <div class="col-md-6">
                     <input id="poster_user" type="text" readonly="true" disabled="true" class="form-control disabled" name="poster_user" value="{{ $script->poster_user()->first()->name }}">
                 </div>
-            </div> 
+            </div>
 
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
