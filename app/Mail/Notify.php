@@ -5,10 +5,9 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Notify extends Mailable {
-
+class Notify extends Mailable
+{
     use Queueable,
         SerializesModels;
 
@@ -19,7 +18,8 @@ class Notify extends Mailable {
      *
      * @return void
      */
-    public function __construct($script) {
+    public function __construct($script)
+    {
         $this->script = $script;
     }
 
@@ -28,8 +28,8 @@ class Notify extends Mailable {
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         return $this->view('mails.notify')->subject("Notification de jvscript.fr");
     }
-
 }

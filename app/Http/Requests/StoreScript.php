@@ -54,5 +54,4 @@ class StoreScript extends FormRequest
             'g-recaptcha-response' => [$recaptchaRequired, new \App\Rules\Recaptcha],
         ];
     }
-
 }

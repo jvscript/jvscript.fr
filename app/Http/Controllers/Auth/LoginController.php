@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Socialite;
 use App\Model\User;
-use Auth,
-    Redirect;
+use Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Redirect;
+use Socialite;
 
-class LoginController extends Controller {
+class LoginController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
       | Login Controller
@@ -21,7 +22,7 @@ class LoginController extends Controller {
       |
      */
 
-use AuthenticatesUsers;
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -35,7 +36,8 @@ use AuthenticatesUsers;
      *
      * @return string
      */
-    public function username() {
+    public function username()
+    {
         return 'name';
     }
 
@@ -44,7 +46,8 @@ use AuthenticatesUsers;
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('guest', ['except' => 'logout']);
     }
 
@@ -53,7 +56,8 @@ use AuthenticatesUsers;
      *
      * @return Response
      */
-    public function redirectToProvider() {
+    public function redirectToProvider()
+    {
         return Socialite::driver('github')->redirect();
     }
 
@@ -62,7 +66,8 @@ use AuthenticatesUsers;
      *
      * @return Response
      */
-    public function handleProviderCallback() {
+    public function handleProviderCallback()
+    {
         try {
             $user = Socialite::driver('github')->user();
         } catch (Exception $e) {
@@ -85,12 +90,13 @@ use AuthenticatesUsers;
      * @param $githubUser
      * @return User
      */
-    private function findOrCreateUser($githubUser) {
+    private function findOrCreateUser($githubUser)
+    {
         if ($authUser = User::where('github_id', $githubUser->id)->first()) {
             return $authUser;
         }
 
-        //if email existe en base pour un compte non github 
+        //if email existe en base pour un compte non github
         //->where('github_id',null)
         if (User::where('email', $githubUser->email)->count() > 0) {
             return "error.email";
@@ -111,5 +117,4 @@ use AuthenticatesUsers;
 //                    'password' => bcrypt('secret'),
         ]);
     }
-
 }

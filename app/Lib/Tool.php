@@ -2,11 +2,12 @@
 
 namespace App\Lib;
 
-use App\Model\Script,
-    App\Model\Skin;
+use App\Model\Script;
+use App\Model\Skin;
 use Illuminate\Support\Facades\Storage;
 
-class Tool {
+class Tool
+{
 
 //    public function storeExternalImages() {
 //        set_time_limit(60);
@@ -33,5 +34,4 @@ class Tool {
 //            }
 //        }
 //    }
-
 }

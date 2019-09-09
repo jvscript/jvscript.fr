@@ -9,7 +9,8 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         DB::table('users')->insert([
             'name' => 'superadmin',
             'email' => 'jvscript@yopmail.com',

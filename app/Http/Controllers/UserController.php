@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Model\Script,
-    App\Model\Skin,
-    App\Model\Comment;
-use Validator;
-use Auth;
 use App;
-use App\Lib\Lib;
-use Illuminate\Support\Facades\Mail;
+use App\Model\Comment;
+use App\Model\Script;
+use App\Model\Skin;
+use Auth;
+use Illuminate\Http\Request;
+use Validator;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     /**
      * Homepage
      */
-    public function index(Request $request, $keyword = null) {
+    public function index(Request $request, $keyword = null)
+    {
         $keyword = $keyword == null ? '' : $keyword;
         $scripts = Script::where("status", 1)->get();
         $skins = Skin::where("status", 1)->get();
@@ -33,7 +33,8 @@ class UserController extends Controller {
     /**
      * admin index
      */
-    public function admin(Request $request) {
+    public function admin(Request $request)
+    {
         $this->lib->adminOrFail();
         $scripts = Script::all();
         $skins = Skin::all();
@@ -49,7 +50,8 @@ class UserController extends Controller {
     /**
      * Admin comment
      */
-    public function adminComments(Request $request) {
+    public function adminComments(Request $request)
+    {
         $this->lib->adminOrFail();
         $comments = Comment::latest()->paginate(20);
         return view('admin.comments', ['comments' => $comments]);
@@ -58,14 +60,16 @@ class UserController extends Controller {
     /**
      * Admin delete comment
      */
-    public function adminDeleteComment($comment_id) {
+    public function adminDeleteComment($comment_id)
+    {
         $this->lib->adminOrFail();
         $comment = Comment::findOrFail($comment_id);
         $comment->delete();
         return redirect(route("admin.comments"));
     }
 
-    public function mesScripts(Request $request) {
+    public function mesScripts(Request $request)
+    {
         $user = Auth::user();
         $scripts = $user->scripts()->get();
         $skins = $user->skins()->get();
@@ -78,7 +82,8 @@ class UserController extends Controller {
         return view('moncompte.index', ['scripts' => $scripts]);
     }
 
-    public function ajaxUsers(Request $request) {
+    public function ajaxUsers(Request $request)
+    {
         $this->lib->adminOrFail();
         return \App\Model\User::select('id', 'name')->get();
     }
@@ -86,7 +91,8 @@ class UserController extends Controller {
     /**
      * Contact send (discord bot)
      */
-    public function contactSend(Request $request) {
+    public function contactSend(Request $request)
+    {
         $validator = Validator::make($request->all(), [
                     'email' => 'email',
                     'message_body' => "required"
@@ -94,7 +100,8 @@ class UserController extends Controller {
 
         if ($validator->fails()) {
             $this->throwValidationException(
-                    $request, $validator
+                    $request,
+                $validator
             );
         } else {
             //captcha validation
@@ -105,7 +112,7 @@ class UserController extends Controller {
                 return redirect(route('contact.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
             }
 
-            //send discord 
+            //send discord
             $this->discord_url;
             $message = "[contact form] ";
             if ($request->input('email')) {
@@ -114,8 +121,8 @@ class UserController extends Controller {
             $message .= "Message : " . $request->input('message_body');
             $this->lib->sendDiscord($message, $this->discord_url);
             
-            \Mail::raw($message, function ($message)  { 
-              $message->to(env('ADMIN_EMAIL'))->subject("Jvscript : contact form");
+            \Mail::raw($message, function ($message) {
+                $message->to(env('ADMIN_EMAIL'))->subject("Jvscript : contact form");
             });
 
             return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");
@@ -123,5 +130,4 @@ class UserController extends Controller {
 
         return redirect(route('contact.form'));
     }
-
 }

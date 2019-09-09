@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Model\Script,
-    App\Model\Skin,
-    App\Model\Idea,
-    App\Model\Comment;
-use Validator;
-use Auth;
 use App;
-use App\Lib\Lib;
+use App\Model\Comment;
+use App\Model\Idea;
+use App\Model\Script;
+use App\Model\Skin;
 use App\Notifications\ScriptComment;
+use Auth;
+use Illuminate\Http\Request;
+use Validator;
 use View;
 
-class CommentController extends Controller {
-
-    private function dispatchModel($route, $slug) {
+class CommentController extends Controller
+{
+    private function dispatchModel($route, $slug)
+    {
         if (str_contains($route, "script")) {
             $item = 'script';
             $model = Script::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "skin")) {
+        } elseif (str_contains($route, "skin")) {
             $item = 'skin';
             $model = Skin::where('slug', $slug)->firstOrFail();
-        } else if (str_contains($route, "box")) {
+        } elseif (str_contains($route, "box")) {
             $item = 'box';
             $model = Idea::findOrFail($slug);
         }
@@ -33,7 +33,8 @@ class CommentController extends Controller {
     /**
      * Store comment
      */
-    public function storeComment($slug, Request $request) {
+    public function storeComment($slug, Request $request)
+    {
         $user = Auth::user();
         $route = \Request::route()->getName();
         $dispatcher = $this->dispatchModel($route, $slug);
@@ -44,7 +45,8 @@ class CommentController extends Controller {
 
         if ($validator->fails()) {
             $this->throwValidationException(
-                    $request, $validator
+                    $request,
+                $validator
             );
         } else {
             //captcha validation
@@ -89,7 +91,8 @@ class CommentController extends Controller {
     /**
      * Delete comment
      */
-    public function deleteComment($slug, $comment_id, Request $request) {
+    public function deleteComment($slug, $comment_id, Request $request)
+    {
         $user = Auth::user();
         $route = \Request::route()->getName();
         $dispatcher = $this->dispatchModel($route, $slug);
@@ -107,5 +110,4 @@ class CommentController extends Controller {
         }
         return redirect(route("$item.show", $slug) . "#comments");
     }
-
 }

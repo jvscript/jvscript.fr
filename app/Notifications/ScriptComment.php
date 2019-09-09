@@ -3,12 +3,11 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class ScriptComment extends Notification {
-
+class ScriptComment extends Notification
+{
     use Queueable;
 
     public $script;
@@ -18,7 +17,8 @@ class ScriptComment extends Notification {
      *
      * @return void
      */
-    public function __construct($script) {
+    public function __construct($script)
+    {
         //
         $this->script = $script;
     }
@@ -29,7 +29,8 @@ class ScriptComment extends Notification {
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable) {
+    public function via($notifiable)
+    {
         return ['mail', 'database'];
     }
 
@@ -39,7 +40,8 @@ class ScriptComment extends Notification {
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable) {
+    public function toMail($notifiable)
+    {
         $script = $this->script;
         if (isset($script->js_url)) {
             $item = "script";
@@ -61,12 +63,12 @@ class ScriptComment extends Notification {
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable) {
+    public function toArray($notifiable)
+    {
         return [
             'item_id' => $this->script->id,
             'item_type' => $this->script->js_url ? 'script' : 'skin',
             'notification_type' => 'script_comment',
         ];
     }
-
 }

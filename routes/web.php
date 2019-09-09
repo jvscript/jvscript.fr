@@ -81,7 +81,7 @@ Route::get('/script/{slug}/refuse', 'ScriptController@refuse')->name('script.ref
 Route::get('/skin/{slug}/refuse', 'SkinController@refuse')->name('skin.refuse');
 
 
-//static views 
+//static views
 Route::get('/developpeurs', function () {
     return view('statics.developpeurs');
 });
@@ -106,8 +106,8 @@ Route::get('/boite-a-idees/ajout', 'BoxController@formAjout')->name('box.form')-
 Route::post('/boite-a-idees/ajout', 'BoxController@storeIdea')->name('box.store')->middleware('auth');
 Route::get('/boite-a-idees/{id}', 'BoxController@showIdea')->name('box.show');
 
-Route::get('/boite-a-idees/{id}/like', 'BoxController@likeBox')->name('box.like')->middleware('auth');
-Route::get('/boite-a-idees/{id}/like/{dislike}', 'BoxController@likeBox')->name('box.dislike')->middleware('auth');
+Route::post('/boite-a-idees/{id}/like', 'BoxController@likeBox')->name('box.like')->middleware('auth');
+Route::post('/boite-a-idees/{id}/like/{dislike}', 'BoxController@likeBox')->name('box.dislike')->middleware('auth');
 //refuse
 Route::get('/boite-a-idees/{id}/refuse', 'BoxController@refuseBox')->name('box.refuse')->middleware('auth');
 Route::get('/boite-a-idees/{id}/validate', 'BoxController@validateBox')->name('box.validate')->middleware('auth');

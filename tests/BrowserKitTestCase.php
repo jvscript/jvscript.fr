@@ -40,5 +40,4 @@ abstract class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
 
         return $app;
     }
-
 }

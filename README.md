@@ -1,13 +1,13 @@
 # jvscript.github.io 
 
 <p align="center">
-<img src='http://puu.sh/tHiGz/82a5db58df.png' width='450px' /> 
+<img src='https://jvscript.fr/assets/images/banniere2.png' width='450px' /> 
 </p>
 <p align="center">
 Le site regroupant les scripts JVC
 </p>
 <p align="center">
-<a target="_blank" href="https://travis-ci.org/jvscript/jvscript.io"><img src="https://travis-ci.org/jvscript/jvscript.io.svg?branch=master" alt="Build Status"></a>
+<a target="_blank" href="https://travis-ci.org/jvscript/jvscript.fr"><img src="https://travis-ci.org/jvscript/jvscript.fr.svg?branch=master" alt="Build Status"></a>
 
 </p>
  

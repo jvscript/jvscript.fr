@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Model\Script,
-    App\Model\Skin,
-    App\Model\Idea,
-    App\Model\Comment;
-use Validator;
-use Auth;
 use App;
-use App\Lib\Lib;
-use App\Notifications\ScriptComment;
+use App\Model\Idea;
+use Auth;
+use Illuminate\Http\Request;
+use Validator;
 use View;
 
-class BoxController extends Controller {
-
-    public function index(Request $request) {
+class BoxController extends Controller
+{
+    public function index(Request $request)
+    {
         if ($request->has('id_idea') && $request->has('page')) {
             $idea = Idea::where(["status" => 1, "id" => $request->input('id_idea')])->firstOrFail();
             return [
@@ -31,11 +27,13 @@ class BoxController extends Controller {
         return view('box.index', ['ideas' => $ideas]);
     }
 
-    public function formAjout(Request $request) {
+    public function formAjout(Request $request)
+    {
         return view('box.form');
     }
 
-    public function showIdea(Request $request, $id) {
+    public function showIdea(Request $request, $id)
+    {
         $idea = Idea::findOrFail($id);
         $this->lib->adminOrFail();
         $comments = $idea->comments()->latest()->paginate(10);
@@ -49,7 +47,8 @@ class BoxController extends Controller {
     /**
      * Store an idea in db
      */
-    public function storeIdea(Request $request) {
+    public function storeIdea(Request $request)
+    {
         $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
@@ -60,9 +59,10 @@ class BoxController extends Controller {
 
         if ($validator->fails()) {
             $this->throwValidationException(
-                    $request, $validator
+                    $request,
+                $validator
             );
-        } else { //sucess > insert  
+        } else { //sucess > insert
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
             $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
@@ -82,7 +82,8 @@ class BoxController extends Controller {
         }
     }
 
-    public function likeBox($id, $dislike = false) {
+    public function likeBox($id, $dislike = false)
+    {
         $idea = Idea::findOrFail($id);
         $user = Auth::user();
         //_TODO : if relike same = delete (cancel)
@@ -98,7 +99,8 @@ class BoxController extends Controller {
         return redirect(route('box.index'));
     }
 
-    public function validateBox($id) {
+    public function validateBox($id)
+    {
         $idea = Idea::findOrFail($id);
         $this->lib->adminOrFail();
         echo "before status = $idea->status";
@@ -109,7 +111,8 @@ class BoxController extends Controller {
         return redirect(route('box.show', ['id' => $id]));
     }
 
-    public function refuseBox($id) {
+    public function refuseBox($id)
+    {
         $idea = Idea::findOrFail($id);
         $this->lib->adminOrFail();
         echo "before status = $idea->status";
@@ -120,7 +123,8 @@ class BoxController extends Controller {
         return redirect(route('box.show', ['id' => $id]));
     }
 
-    public function deleteBox($id) {
+    public function deleteBox($id)
+    {
         $idea = Idea::findOrFail($id);
         $this->lib->ownerOradminOrFail($idea->user_id);
         $idea->comments()->delete();
@@ -129,5 +133,4 @@ class BoxController extends Controller {
         $this->lib->sendDiscord($message, $this->discord_url);
         return redirect(route('box.index'));
     }
-
 }

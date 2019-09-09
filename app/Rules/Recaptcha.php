@@ -45,5 +45,4 @@ class Recaptcha implements Rule
     {
         return 'Veuillez valider le captcha svp.';
     }
-
 }

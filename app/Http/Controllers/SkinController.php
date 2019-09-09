@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Model\Script,
-    App\Model\Skin,
-    App\Model\User,
-    App\Model\History;
-use Validator;
-use Auth;
 use App;
-use App\Notifications\notifyStatus;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreSkin;
 use App\Http\Requests\UpdateSkin;
+use App\Model\Skin;
+use App\Model\User;
+use Auth;
 
 class SkinController extends ScriptController
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -35,14 +28,14 @@ class SkinController extends ScriptController
         $skin->slug = $this->slugify($skin->name);
 
         if ($request->input("is_autor") == 'on') {
-            $skin->user_id = $user->id; //owner 
+            $skin->user_id = $user->id; //owner
             $skin->autor = $user->name;
         }
         $skin->poster_user_id = $user->id;
 
         if ($request->file('photo_file')) {
             $this->lib->storeImage($skin, $request->file('photo_file'));
-        } else if ($request->filled('photo_url')) {
+        } elseif ($request->filled('photo_url')) {
             $file = @file_get_contents($request->input('photo_url'));
             $this->lib->storeImage($skin, $file);
         }
@@ -70,7 +63,7 @@ class SkinController extends ScriptController
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
-                //force username of owner 
+                //force username of owner
                 $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
         }
@@ -82,7 +75,7 @@ class SkinController extends ScriptController
 
         if ($request->file('photo_file')) {
             $this->lib->storeImage($skin, $request->file('photo_file'));
-        } else if ($request->filled('photo_url')) {
+        } elseif ($request->filled('photo_url')) {
             $file = @file_get_contents($request->input('photo_url'));
             $this->lib->storeImage($skin, $file);
         }
@@ -90,5 +83,4 @@ class SkinController extends ScriptController
         $skin->save();
         return redirect(route('skin.show', ['slug' => $slug]));
     }
-
 }
