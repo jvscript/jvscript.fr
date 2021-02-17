@@ -140,7 +140,7 @@ class ScriptController extends Controller
         $item = $this->model::where('slug', $slug)->firstOrFail();
 
         // protection referer to count
-        if ($request->method() == 'POST' && str_contains($request->headers->get('referer'), $slug)) {
+        if ($request->method() == 'POST' && str_contains((string) $request->headers->get('referer'), $slug)) {
             $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'install']);
             if ($history->count() == 0) {
                 History::create(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'install']);

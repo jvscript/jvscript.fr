@@ -57,7 +57,7 @@ return [
             'username' => 'Jvscript',
             'emoji' => ':boom:',
             'level' => 'debug',
-            'channel' => 'jvscript'
+            'channel' => '#jvscript'
         ],
 
         'stderr' => [

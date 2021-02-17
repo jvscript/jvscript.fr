@@ -9,6 +9,7 @@ use App\Model\Skin;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
