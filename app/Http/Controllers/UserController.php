@@ -8,7 +8,7 @@ use App\Model\Script;
 use App\Model\Skin;
 use Auth;
 use Illuminate\Http\Request;
-use Validator;
+use Validator; 
 
 class UserController extends Controller
 {
@@ -21,6 +21,7 @@ class UserController extends Controller
         $keyword = $keyword == null ? '' : $keyword;
         $scripts = Script::where("status", 1)->get();
         $skins = Skin::where("status", 1)->get();
+ 
 
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();

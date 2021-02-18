@@ -7,12 +7,13 @@ use App\Model\Idea;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
-use View;
+use View; 
 
 class BoxController extends Controller
 {
     public function index(Request $request)
     {
+       
         if ($request->has('id_idea') && $request->has('page')) {
             $idea = Idea::where(["status" => 1, "id" => $request->input('id_idea')])->firstOrFail();
             return [
