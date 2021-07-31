@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Log;
 
+
 class UserController extends Controller
 {
 
@@ -98,7 +99,6 @@ class UserController extends Controller
                     'email' => 'email',
                     'message_body' => "required"
         ]);
-
 
         if ($validator->fails()) {
 
