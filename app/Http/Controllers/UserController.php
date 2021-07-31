@@ -99,11 +99,9 @@ class UserController extends Controller
                     'message_body' => "required"
         ]);
 
+
         if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request,
-                $validator
-            );
+
         } else {
             //captcha validation
             $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
