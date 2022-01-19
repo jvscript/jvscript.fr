@@ -21,13 +21,15 @@ class UserController extends Controller
     public function index(Request $request, $keyword = null)
     {
         $keyword = $keyword == null ? '' : $keyword;
-        $scripts = Script::where("status", 1)->get();
+        $scripts = Script::where("status", 1)
+            ->orderBy('pinned','desc')
+            ->orderBy('install_count','desc')
+            ->get();
         $skins = Skin::where("status", 1)->get();
 
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();
-        $scripts = $collapsed->all(); //
-        $scripts = $collapsed->sortByDesc('install_count');
+        $scripts = $collapsed->all();
 
         return view('index', ['scripts' => $scripts, 'keyword' => $keyword]);
     }
