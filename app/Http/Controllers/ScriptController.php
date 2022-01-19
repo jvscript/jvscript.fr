@@ -52,7 +52,7 @@ class ScriptController extends Controller
 
         $script->save();
 
-        $message = "[new script] Nouveau script posté sur le site : " . route('script.show', ['slug' => $script->slug]);
+        $message = "[new script] Nouveau script posté sur le site : ".route('script.show', ['slug' => $script->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
         if (!App::environment('testing', 'local')) {
             \Mail::raw($message, function ($message) {
@@ -73,12 +73,17 @@ class ScriptController extends Controller
         //update only this fields
         $toUpdate = ['name', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            array_push($toUpdate, "user_id", "sensibility");
+            array_push($toUpdate, "user_id", "sensibility", 'pinned');
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
                 //force username of owner
                 $request->merge(['autor' => User::find($request->input('user_id'))->name]);
+            }
+            if ($request->input('pinned')) {
+                $request->merge(['pinned' => true]);
+            } else {
+                $request->merge(['pinned' => false]);
             }
         }
 
@@ -114,7 +119,7 @@ class ScriptController extends Controller
                 $item->poster_user()->first()->notify(new notifyStatus($item));
             }
         }
-        return redirect(route($this->modelName . '.show', ['slug' => $slug]));
+        return redirect(route($this->modelName.'.show', ['slug' => $slug]));
     }
 
     public function refuse($slug)
@@ -129,7 +134,7 @@ class ScriptController extends Controller
                 $item->poster_user()->first()->notify(new notifyStatus($item));
             }
         }
-        return redirect(route($this->modelName . '.show', ['slug' => $slug]));
+        return redirect(route($this->modelName.'.show', ['slug' => $slug]));
     }
 
     /**
@@ -140,10 +145,10 @@ class ScriptController extends Controller
         $item = $this->model::where('slug', $slug)->firstOrFail();
 
         // protection referer to count
-        if ($request->method() == 'POST' && str_contains((string) $request->headers->get('referer'), $slug)) {
-            $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'install']);
+        if ($request->method() == 'POST' && str_contains((string)$request->headers->get('referer'), $slug)) {
+            $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
             if ($history->count() == 0) {
-                History::create(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'install']);
+                History::create(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
                 $item->install_count++;
                 $item->save();
             }
@@ -160,15 +165,15 @@ class ScriptController extends Controller
         if ($note > 0 && $note <= 5) {
             $item = $this->model::where('slug', $slug)->firstOrFail();
             //if no history note_count +1
-            $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'note']);
+            $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
             if ($history->count() == 0) {
-                History::create(['ip' => $request->ip(), 'what' => $this->modelName . '_' . $slug, 'action' => 'note']);
+                History::create(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
                 $item->note = ($item->note * $item->note_count + $note) / ($item->note_count + 1);
                 $item->note_count++;
                 $item->save();
             }
         }
-        return redirect(route($this->modelName . '.show', $slug));
+        return redirect(route($this->modelName.'.show', $slug));
     }
 
     public function delete($slug)
@@ -178,11 +183,11 @@ class ScriptController extends Controller
         $item->comments()->delete();
         //suprimes les images
         if ($item->photoShortLink()) {
-            Storage::delete('public/images/' . $item->photoShortLink());
-            Storage::delete('public/images/small-' . $item->photoShortLink());
+            Storage::delete('public/images/'.$item->photoShortLink());
+            Storage::delete('public/images/small-'.$item->photoShortLink());
         }
         $item->delete();
-        $message = "[delete $this->modelName] $this->modelName supprimé par " . Auth::user()->name . " : $item->name | $item->slug ";
+        $message = "[delete $this->modelName] $this->modelName supprimé par ".Auth::user()->name." : $item->name | $item->slug ";
         $this->lib->sendDiscord($message, $this->discord_url);
         if (Auth::user()->isAdmin()) {
             return redirect(route('admin_index'));
@@ -196,7 +201,7 @@ class ScriptController extends Controller
         $i = 1;
         $baseSlug = $slug;
         while ($this->model::where('slug', $slug)->count() > 0) {
-            $slug = $baseSlug . "-" . $i++;
+            $slug = $baseSlug."-".$i++;
         }
         return $slug;
     }
@@ -218,14 +223,14 @@ class ScriptController extends Controller
         $Parsedown->setMarkupEscaped(true);
         $item->description = $Parsedown->text($item->description);
 
-        return view($this->modelName . '.show', [$this->modelName => $item, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
+        return view($this->modelName.'.show', [$this->modelName => $item, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
     }
 
     public function edit($slug)
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($item->user_id);
-        return view($this->modelName . '.edit', [$this->modelName => $item]);
+        return view($this->modelName.'.edit', [$this->modelName => $item]);
     }
 
     public function crawlInfo()

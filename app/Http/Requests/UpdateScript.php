@@ -25,9 +25,9 @@ class UpdateScript extends FormRequest
     public function messages()
     {
         return [
-            'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
-            'topic_url.regex' => 'Le lien du topic devrait être de type http://www.jeuxvideo.com/forums/...',
-            'photo_url.image_url' => "L'url de l'image est invalide."
+            'js_url.regex'        => 'Le lien du script doit terminer par \'.js\'',
+            'topic_url.regex'     => 'Le lien du topic devrait être de type http://www.jeuxvideo.com/forums/...',
+            'photo_url.image_url' => "L'url de l'image est invalide.",
         ];
     }
 
@@ -39,17 +39,17 @@ class UpdateScript extends FormRequest
     public function rules()
     {
         return [
-            "autor" => "max:255",
-            'js_url' => "required|url|max:255|regex:/.*\.js$/",
-            'repo_url' => "url|max:255",
-            'photo_url' => "url|max:255|image_url",
-            'photo_file' => "image",
-            'don_url' => "url|max:255",
-            'user_id' => "exists:users,id",
+            "autor"       => "max:255",
+            'js_url'      => "required|url|max:255|regex:/.*\.js$/",
+            'repo_url'    => "url|max:255",
+            'photo_url'   => "url|max:255|image_url",
+            'photo_file'  => "image",
+            'don_url'     => "url|max:255",
+            'user_id'     => "exists:users,id",
             'sensibility' => "in:0,1,2",
             'last_update' => "date_format:d/m/Y",
             'website_url' => "url|max:255",
-            'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
+            'topic_url'   => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
         ];
     }
 }

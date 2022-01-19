@@ -39,7 +39,7 @@ class Script extends Model
     public function getPhotoUrlAttribute($value)
     {
         if ($value) {
-            return "/storage/images/" . $value;
+            return "/storage/images/".$value;
         }
         return null;
     }
@@ -52,7 +52,7 @@ class Script extends Model
     public function photoSmall()
     {
         if ($this->photo_url) {
-            return "/storage/images/small-" . $this->photoShortLink();
+            return "/storage/images/small-".$this->photoShortLink();
         }
         return null;
     }
@@ -74,7 +74,7 @@ class Script extends Model
     protected $dates = [
         'last_update',
     ];
-    
+
     public function getUrlAttribute()
     {
         return $this->js_url;
@@ -85,5 +85,6 @@ class Script extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'version', 'last_update', 'user_email', 'don_url', 'topic_url', 'website_url', 'sensibility', 'user_id'];
+    protected $fillable = ['name', 'description', 'autor', 'js_url', 'repo_url', 'photo_url', 'version', 'last_update',
+                           'user_email', 'don_url', 'topic_url', 'website_url', 'sensibility', 'user_id', 'pinned'];
 }

@@ -5,12 +5,7 @@
 </p>
 <p align="center">
 Le site regroupant les scripts JVC
-</p>
-<p align="center">
-<a target="_blank" href="https://travis-ci.org/jvscript/jvscript.fr"><img src="https://travis-ci.org/jvscript/jvscript.fr.svg?branch=master" alt="Build Status"></a>
 
-</p>
- 
 
 ## Comment déployer l'appli (laravel) en local
 
