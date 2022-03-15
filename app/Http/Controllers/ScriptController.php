@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use App\Helpers\ParsedownExtended;
 use App\Http\Requests\StoreScript;
-use App\Http\Requests\UpdateScript;
+use App\Http\Requests\UpdateScriptRequest;
 use App\Model\History;
 use App\Model\Script;
 use App\Model\User;
@@ -66,7 +66,7 @@ class ScriptController extends Controller
     /**
      * admin or owner
      */
-    public function updateScript(UpdateScript $request, $slug)
+    public function updateScript(UpdateScriptRequest $request, $slug)
     {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id);

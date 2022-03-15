@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateScript extends FormRequest
+class UpdateScriptRequest extends FormRequest
 {
 
     /**

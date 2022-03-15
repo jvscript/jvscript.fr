@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Script extends Model
 {
+    protected $casts = ['pinned' => 'boolean'];
 
     /**
      * Get the user (owner)
