@@ -52,17 +52,12 @@ echo json_encode([
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class=>
-                            <a href="{{route('box.index')}}">Boite à idées</a>
-                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Liens utiles <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li> <a href="{{route('aide')}}">Aide</a></li>
                                 <li> <a href="{{url('contact')}}">Nous contacter</a> </li>
-                                <!--        <li> <a href="{{url('developpeurs')}}">Développeurs</a></li> -->
                                 <li> <a href="https://github.com/jvscript">GitHub</a></li>
-                                <!--      <li> <a href="https://github.com/jvscript/jvscript.fr/blob/master/changelog.md">Changelog</a></li> -->
                             </ul>
                         </li>
                         <li class="dropdown">
