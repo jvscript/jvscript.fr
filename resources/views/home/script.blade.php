@@ -4,12 +4,12 @@
 
             <div class="hover-caption hidden-xs">
                 <p class="pull-left">
-                <h4>{{$script->name}} sqfqs
+                <h4>{{$script->name}}
 
                     @if($script->pinned)
-                        <p class="pull-right">
+                        <span class="pull-right">
                             <i class="fa fa-solid fa-thumb-tack" title="Épinglé"></i>
-                        </p>
+                        </span>
                     @endif
 
                 </h4>
@@ -66,9 +66,9 @@
             <div class="caption">
                 <h4>{{$script->name}}
                     @if($script->pinned)
-                        <p class="pull-right">
+                        <span class="pull-right">
                             <i class="fa fa-solid fa-thumb-tack" title="Épinglé"></i>
-                        </p>
+                        </span>
                     @endif
                 </h4>
 
