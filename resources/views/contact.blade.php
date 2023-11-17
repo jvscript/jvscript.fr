@@ -13,62 +13,9 @@
         </div>
         @endif
 
-
-
-        <form class="form-horizontal" role="form" method="POST" action="{{ route('contact.send') }}">
-            {{ csrf_field() }}
-
-            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                <label for="email" class="col-md-4 control-label">Votre email </label>
-
-                <div class="col-md-6">
-                    <input id="email" type="email" class="form-control" name="email" autofocus value="{{ old('email') }}">
-
-                    @if ($errors->has('email'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-
-
-            <div class="form-group{{ $errors->has('message_body') ? ' has-error' : '' }}">
-                <label for="message_body" class="col-md-4 control-label">Message *</label>
-
-                <div class="col-md-6">
-                    <?php $message_body = isset($message_body) ? $message_body : old('message_body'); ?>
-                    <textarea id="message_body"   class="form-control" name="message_body" required>{{ $message_body }}</textarea>
-
-                    @if ($errors->has('message_body'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('message_body') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
-                <div class="col-md-6 col-md-offset-4">
-                    <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS" data-theme="dark"></div>
-
-                    @if ($errors->has('recaptcha'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('recaptcha') }}</strong>
-                    </span>
-                    @endif
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-6 col-md-offset-4">
-                    <button type="submit" class="btn btn-primary">
-                        Envoyer
-                    </button>
-                </div>
-            </div>
-        </form>
+        <p>
+			Envoyez nous un email à : <br>  contact @ plkproduction.com 
+		</p>
 
 
 </div>
