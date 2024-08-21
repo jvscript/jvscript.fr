@@ -143,17 +143,16 @@ class ScriptController extends Controller
     public function install($slug, Request $request)
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
-
-        // protection referer to count
-        if ($request->method() == 'POST' && str_contains((string)$request->headers->get('referer'), $slug)) {
-            $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
-            if ($history->count() == 0) {
-                History::create(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
-                $item->install_count++;
-                $item->save();
-            }
+         
+        $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
+        if ($history->count() == 0) {
+            History::create(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
+            $item->install_count++;
+            $item->save();
         }
-        return redirect($item->url);
+   
+        return "<html><head><meta http-equiv='refresh' content='0;url=$item->url'><style>body, a { color: #ccc; 
+        background-color: #1E1E1F; font-size:30px}</style></head><body><a href='$item->url'>Installation du script $item->name ...</a></body></html>";
     }
 
     /**
