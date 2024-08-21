@@ -151,8 +151,15 @@ class ScriptController extends Controller
             $item->save();
         }
    
-        return "<html><head><meta http-equiv='refresh' content='0;url=$item->url'><style>body, a { color: #ccc; 
-        background-color: #1E1E1F; font-size:30px}</style></head><body><a href='$item->url'>Installation du script $item->name ...</a></body></html>";
+        return "<html>
+        <head><meta http-equiv='refresh' content='0;url=$item->url'>
+            <style>body, a { color: #ccc; 
+            background-color: #1E1E1F; font-size:30px}</style>
+        </head>
+        <body>         
+            <script>setTimeout(function(){window.close();}, 3000);</script>
+            <a href='$item->url'>Installation du script $item->name ...</a>
+        </body></html>";
     }
 
     /**
