@@ -22,9 +22,9 @@
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "laravel/browser-kit-testing": "4.*",
+        "laravel/envoy": "*",
         "mockery/mockery": "1.0",
-        "phpunit/phpunit": "^7.0",
-         "laravel/envoy": "^2.8"
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "classmap": [
