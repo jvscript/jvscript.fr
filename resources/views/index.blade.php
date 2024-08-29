@@ -31,6 +31,7 @@
      * Filter action
      */
     $('.filter').click(function () {
+        $('.skin').show();
         var target = $(this).attr('target');
         //reset filter
         if (target == "reset") {
@@ -121,7 +122,8 @@
 
 
     $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.skin').hide();        
     });
 
 </script>

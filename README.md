@@ -1,7 +1,7 @@
 # jvscript.github.io 
 
 <p align="center">
-<img src='https://jvscript.fr/assets/images/banniere2.png' width='450px' /> 
+<img src='https://jvscript.fr/assets/images/banniere2-min.png' width='450px' /> 
 </p>
 <p align="center">
 Le site regroupant les scripts JVC

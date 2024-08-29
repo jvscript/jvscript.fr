@@ -9,7 +9,6 @@
 
     <div id="scripts">
         <div class="btn-group " role="group">
-            <button type="button" target="reset" class="filter btn btn-default">Tous</button>
             <button type="button" target="script" class="filter btn btn-default">Scripts</button>
             <button type="button" target="skin" class="filter btn btn-default">Skins</button>
         </div>
@@ -41,9 +40,8 @@
 
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle sort desc" data-sort="install_count" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Installation <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                    Popularité <i class="fa fa-sort-desc" aria-hidden="true"></i>
                 </button>
-
             </div>
         </div>
 
@@ -62,7 +60,7 @@
             $i++;
             $lazy = $i > 8 ? true : false;
             ?>
-            <div id="{{$script->id}}-{{$item}}">
+            <div id="{{$script->id}}-{{$item}}" class="{{$item}}">
                 <span class="date display_none">{{$script->last_update != null ? $script->last_update :  $script->created_at}}</span>
                 <span class="note display_none">{{$script->note}}</span>
                 <span class="name display_none">{{$script->name}}</span>
