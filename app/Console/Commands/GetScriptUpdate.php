@@ -47,6 +47,7 @@ class GetScriptUpdate extends Command
     {
         $scripts = Script::where("status", 1)
         ->orderBy('last_update', 'asc')
+        // ->where('id', 185)
         ->get();
         foreach ($scripts as $script) {
             echo "start   : " . $script->name . "\n";
@@ -69,6 +70,8 @@ class GetScriptUpdate extends Command
                 $file_path = ($match[4] . '.js');
                 //replace space by %20 in file path
                 $file_path = str_replace(' ', '%20', $file_path);
+                //replace + by %2B in file path
+                $file_path = str_replace('+', '%2B', $file_path);
                 $url_crawl = "https://github.com/$owner/$repo/raw/$branch/$file_path";
                 $api_url = "https://api.github.com/repos/$owner/$repo/commits?path=$file_path&sha=$branch";
                 
@@ -158,7 +161,7 @@ class GetScriptUpdate extends Command
 
             if (!str_contains($url_crawl, 'openuserjs')) {
                 $crawl_content = @file_get_contents($url_crawl);
-                if (preg_match('/\/\/\s*@version\s+([\d\.]+)/i', $crawl_content, $match_date)) {
+                if (preg_match('/\/\/\s*@version\s+([\d\.\w\-_]+)/i', $crawl_content, $match_date)) {
                     $version = $match_date[1];
                     $script->version = $version;
                     $script->save();
