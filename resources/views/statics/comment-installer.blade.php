@@ -39,8 +39,7 @@ Il vous suffit de cliquer sur le script de votre choix dans la page d'accueil du
             <hr>
 <h2 id="aidez-moi-mon-script-plante">Aidez-moi ! Mon script plante !</h2>
 
-<p>Des extensions, particulièrement les bloqueurs de pubs (Ad-Block, uBlock…) peuvent bloquer les scripts. Dans ce cas nous vous conseillons de vérifier cela en éteignant votre bloqueur de pubs. <br>
-Aussi, des scripts combinés ensemble peuvent provoquer des erreurs, vous pouvez vérifier cela en vérifiant la console du navigateur (Ctrl+Maj+J).</p>
+<p>Des scripts combinés ensemble peuvent provoquer des erreurs, vous pouvez vérifier cela en vérifiant la console du navigateur (F12).</p>
 
             <hr>
 <h2 id="comment-mettre-à-jour-les-scripts-et-skins">Comment mettre à jour les scripts et skins ?</h2>
