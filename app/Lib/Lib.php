@@ -156,7 +156,9 @@ class Lib
                 $owner = $match[1];
                 $repo = $match[2];
                 $branch = $match[3];
-                $file_path = rawurlencode($match[4] . '.js');
+                $file_path = ($match[4] . '.js');
+                //replace space by %20 in file path
+                $file_path = str_replace(' ', '%20', $file_path);
                 $url_crawl = "https://github.com/$owner/$repo/raw/$branch/$file_path";
                 $api_url = "https://api.github.com/repos/$owner/$repo/commits?path=$file_path&sha=$branch";
                 
