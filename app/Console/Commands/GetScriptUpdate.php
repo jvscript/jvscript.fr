@@ -47,8 +47,10 @@ class GetScriptUpdate extends Command
     {
         $scripts = Script::where("status", 1)
         ->orderBy('last_update', 'asc')
-        // ->where('id', 185)
+        ->where('updated_at', '<', \Carbon\Carbon::now()->subWeek())
+        // ->where('NAME', 'like', '%FIXATION%')
         ->get();
+
         foreach ($scripts as $script) {
             echo "start   : " . $script->name . "\n";
 
@@ -139,7 +141,7 @@ class GetScriptUpdate extends Command
                 if (preg_match('/<code>([0-9.]+).*<\/code>/i', $crawl_content, $match)) {
                     $script->version = strip_tags($match[1]);
                     $script->save();
-                    echo "$script->version\n";
+                    echo "Openuserjs version : $script->version\n";
                 }
             } elseif (preg_match('/https:\/\/(?:update\.)?greasyfork\.org\/scripts\/([^\/]+)(?:\/code)?\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://greasyfork.org/fr/scripts/$match[1]";
@@ -160,17 +162,24 @@ class GetScriptUpdate extends Command
             $url_crawl = $script->js_url;
 
             if (!str_contains($url_crawl, 'openuserjs')) {
-                $crawl_content = @file_get_contents($url_crawl);
-                if (preg_match('/\/\/\s*@version\s+([\d\.\w\-_]+)/i', $crawl_content, $match_date)) {
-                    $version = $match_date[1];
-                    $script->version = $version;
-                    $script->save();
-                    echo "version : $version\n";
-                } else {
-                    echo "fail version : " . $script->js_url . "\n";
-                    Log::error("fail version : " . $script->name . " | " . $script->js_url);
+                $client = new Client();
+                try {
+                    $response = $client->request('GET', $url_crawl);
+                    $content = $response->getBody()->getContents();
+                    if (preg_match('/\/\/\s*@version\s+([\d\.\w\-_]+)/i', $content, $match_date)) {
+                        $version = $match_date[1];
+                        $script->version = $version;
+                        $script->save();
+                        echo "version : $version\n";
+                    } else {
+                        echo "fail version : " . $script->js_url . "\n";
+                        Log::error("fail version : " . $script->name . " | " . $script->js_url);
+                        // die;
+                    }
+                } catch (\Exception $ex) {
+                    echo "fail: Could not fetch data  | " . $url_crawl .  $ex->getMessage() . "\n";
                     // die;
-                }
+                } 
             }
         }
 
