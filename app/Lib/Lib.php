@@ -228,7 +228,7 @@ class Lib
                     $script->save();
                     echo "$script->version\n";
                 }
-            } elseif (preg_match('/https:\/\/greasyfork.org\/scripts\/(.*)\/code\/(.*)\.user\.js/i', $script->js_url, $match)) {
+            } elseif (preg_match('/https:\/\/(?:update\.)?greasyfork\.org\/scripts\/([^\/]+)(?:\/code)?\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://greasyfork.org/fr/scripts/$match[1]";
                 $crawl_content = @file_get_contents($url_crawl);
                 if (preg_match('/script-show-updated-date.* datetime="(.*)" prefix="/i', $crawl_content, $match_date)) {
