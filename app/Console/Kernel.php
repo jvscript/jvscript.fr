@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         //* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
 
 //        $schedule->call('App\Http\Controllers\JvscriptController@crawlInfo')->hourly();
-        $schedule->call('get-script-update')->hourly();
+        $schedule->command('get-script-update')->hourly();
     }
 
     /**
