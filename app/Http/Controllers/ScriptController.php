@@ -52,7 +52,7 @@ class ScriptController extends Controller
 
         $script->save();
 
-        $message = "[new script] Nouveau script posté sur le site : ".route('script.show', ['slug' => $script->slug]);
+        $message = "Nouveau script posté sur le site : ".route('script.show', ['slug' => $script->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
         if (!App::environment('testing', 'local')) {
             \Mail::raw($message, function ($message) {

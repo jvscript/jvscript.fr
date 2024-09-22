@@ -47,7 +47,7 @@ class GetScriptUpdate extends Command
     {
         $scripts = Script::where("status", 1)
         ->orderBy('last_update', 'asc')
-        ->where('updated_at', '<', \Carbon\Carbon::now()->subWeek())
+        ->where('updated_at', '<', \Carbon\Carbon::now()->subDay(1))
         // ->where('NAME', 'like', '%FIXATION%')
         ->get();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateSkin extends FormRequest
 {
@@ -39,7 +40,7 @@ class UpdateSkin extends FormRequest
     public function rules()
     {
         return [
-            'skin_url' => "required|url|max:255|regex:/^https:\/\/userstyles\.org\/styles\/.*/",
+            'skin_url' => ['required', 'url', 'max:255', 'regex:/^https:\/\/userstyles\.(org|world)\/styles?\/.*/'],
             'repo_url' => "url|max:255",
             'photo_url' => "url|max:255|image_url",
             'user_id' => "exists:users,id",

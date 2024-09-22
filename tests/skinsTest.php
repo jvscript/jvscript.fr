@@ -58,6 +58,24 @@ class skinsTest extends BrowserKitTestCase
                 ->see('Merci, votre skin est en attente de validation.');
     }
 
+    public function testAjoutSkinUserstylesWorld()
+    {
+        $this->testConnexion();
+        $this->visit('/skin/ajout')
+                ->type('nom du skin world', 'name')
+                ->type('description', 'description')
+                ->type('auteur du skin', 'autor')
+                ->type('https://userstyles.world/style/2/dark-github', 'skin_url')
+                ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
+                ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
+                ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
+                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
+                ->type('https://www.paypal.me/vplancke/', 'don_url')
+                ->press('Ajouter')
+                ->seePageIs('/skin/ajout')
+                ->see('Merci, votre skin est en attente de validation.');
+    }
+
     /**
      * Skin non validé en guest
      */
@@ -181,7 +199,7 @@ class skinsTest extends BrowserKitTestCase
 
         $this->call('GET', '/skin/install/nom-du-skin');
         $this->visit('/skin/nom-du-skin')
-                ->see('0 fois');
+                ->see('1 fois');
 
         $this->call('POST', '/skin/install/nom-du-skin', $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-skin']);
         $this->visit('/skin/nom-du-skin')

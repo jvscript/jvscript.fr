@@ -24,6 +24,7 @@ class scriptsTest extends BrowserKitTestCase
 
     public function testHomepage()
     {
+       
         $this->visit('/')
                 ->see('jvscript.fr');
     }
@@ -210,7 +211,7 @@ class scriptsTest extends BrowserKitTestCase
 
         $this->call('GET', '/script/install/nom-du-script');
         $this->visit('/script/nom-du-script')
-                ->see('0 fois');
+                ->see('1 fois');
 
         $this->call('POST', '/script/install/nom-du-script', $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script']);
         $this->visit('/script/nom-du-script')

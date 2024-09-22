@@ -44,7 +44,7 @@ class StoreSkin extends FormRequest
             'name' => 'required|max:50|unique:skins|not_in:ajout',
             'description' => 'required',
             "autor" => "max:255",
-            'skin_url' => "required|url|max:255|regex:/^https:\/\/userstyles\.org\/styles\/.*/",
+            'skin_url' => ['required', 'url', 'max:255', 'regex:/^https:\/\/userstyles\.(org|world)\/styles?\/.*/'],
             'repo_url' => "url|max:255",
             'photo_url' => "url|max:255|image_url",
             'photo_file' => "image",
