@@ -46,9 +46,10 @@ class GetScriptUpdate extends Command
     private function crawlInfo()
     {
         $scripts = Script::where("status", 1)
-        ->orderBy('last_update', 'asc')
-        ->where('updated_at', '<', \Carbon\Carbon::now()->subDay(1))
-        // ->where('NAME', 'like', '%FIXATION%')
+        ->orderBy('updated_at', 'desc')
+        ->where('last_update', '<', \Carbon\Carbon::now()->subDay(1))
+        ->orWhereNull('last_update')
+        // ->where('name', '=', 'Jvc Antigolem Haut Niveau')
         ->get();
 
         foreach ($scripts as $script) {
@@ -151,7 +152,7 @@ class GetScriptUpdate extends Command
                     $date = \Carbon\Carbon::parse($date);
                     $script->last_update = $date;
                     $script->save();
-                    echo "date: $date\n"; 
+                    echo "date: $date\n";                   
                 } else {
                     echo "fail : " . $script->js_url . " | $url_crawl\n";
                     // die;
@@ -170,6 +171,10 @@ class GetScriptUpdate extends Command
                         $version = $match_date[1];
                         $script->version = $version;
                         $script->save();
+                        if($script->wasCHanged() && $script->last_update === NULL){
+                            $script->update(['last_update' => \Carbon\Carbon::now()]);
+                          echo "version changed but last_update is null : $version \n";
+                        }
                         echo "version : $version\n";
                     } else {
                         echo "fail version : " . $script->js_url . "\n";
@@ -178,6 +183,7 @@ class GetScriptUpdate extends Command
                     }
                 } catch (\Exception $ex) {
                     echo "fail: Could not fetch data  | " . $url_crawl .  $ex->getMessage() . "\n";
+                    Log::error("Could not fetch data  | " . $url_crawl .  $ex->getMessage());
                     // die;
                 } 
             }
