@@ -9,7 +9,7 @@
 
     <div id="scripts">
         <div class="btn-group " role="group">
-            <button type="button" target="script" class="filter btn btn-default">Scripts</button>
+            <button type="button" target="script" class="filter btn btn-default active">Scripts</button>
             <button type="button" target="skin" class="filter btn btn-default">Skins</button>
         </div>
 

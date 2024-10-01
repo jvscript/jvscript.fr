@@ -4,19 +4,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
-<!--
-<div class="row">
-    <div class="col-md-12">
 
-        <h1>Bienvenue sur jvscript.fr</h1>
-
-        <img style="max-height: 230px" class="img-responsive  center-block" src="/assets/images/jvscript.png"/>
-
-        <p class="text-center"> Un site pour regrouper les scripts JVC et rapprocher les développeurs.</p>
-
-    </div>
-</div>
--->
 @section('javascript')
 <script>
     var bLazy = new Blazy();
@@ -33,11 +21,10 @@
     $('.filter').click(function () {
         $('.skin').show();
         var target = $(this).attr('target');
-        //reset filter
-        if (target == "reset") {
-            scriptList.filter();
-            return false;
-        }
+
+        $('[target="' + target + '"]').addClass('active');
+        $('[target!="' + target + '"]').removeClass('active');
+        
         //or filter category
         scriptList.filter(function (item) {
             if (item.values().category == target) {
@@ -123,7 +110,8 @@
 
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        $('.skin').hide();        
+        $('.skin').hide();     
+        $('[target="script"]').addClass('active');   
     });
 
 </script>
