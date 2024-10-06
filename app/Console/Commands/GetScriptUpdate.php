@@ -46,10 +46,7 @@ class GetScriptUpdate extends Command
     private function crawlInfo()
     {
         $scripts = Script::where("status", 1)
-            ->where(function ($query) {
-                $query->where('last_update', '<', \Carbon\Carbon::now()->subDay(1))
-                    ->orWhereNull('last_update');
-            })
+            ->where('updated_at', '<', \Carbon\Carbon::now()->subDay(1))
             ->orderBy('updated_at', 'asc')
             ->get();
 
@@ -163,7 +160,7 @@ class GetScriptUpdate extends Command
             if (!str_contains($url_crawl, 'openuserjs')) {
                 $client = new Client();
                 try {
-                    $response = $client->request('GET', $url_crawl);
+                    $response = $client->request('GET', $url_crawl, ['timeout' => 3]);
                     $content = $response->getBody()->getContents();
                     if (preg_match('/\/\/\s*@version\s+([\d\.\w\-_]+)/i', $content, $match_date)) {
                         $version = $match_date[1];
@@ -187,6 +184,7 @@ class GetScriptUpdate extends Command
                     // die;
                 }
             }
+            $script->touch();
             $this->info("");
         }
 
