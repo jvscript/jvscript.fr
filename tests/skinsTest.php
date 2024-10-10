@@ -54,8 +54,8 @@ class skinsTest extends BrowserKitTestCase
                 ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
                 ->type('https://www.paypal.me/vplancke/', 'don_url')
                 ->press('Ajouter')
-                ->seePageIs('/skin/ajout')
-                ->see('Merci, votre skin est en attente de validation.');
+                ->seePageIs('/skin/nom-du-skin')
+                ->see("Merci d'avoir ajouté un skin mon crayon de couleur.");
     }
 
     public function testAjoutSkinUserstylesWorld()
@@ -72,8 +72,8 @@ class skinsTest extends BrowserKitTestCase
                 ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
                 ->type('https://www.paypal.me/vplancke/', 'don_url')
                 ->press('Ajouter')
-                ->seePageIs('/skin/ajout')
-                ->see('Merci, votre skin est en attente de validation.');
+                ->seePageIs('/skin/nom-du-skin-world')
+                ->see("Merci d'avoir ajouté un skin mon crayon de couleur.");
     }
 
 

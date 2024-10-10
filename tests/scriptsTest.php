@@ -58,7 +58,7 @@ class scriptsTest extends BrowserKitTestCase
                 ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
                 ->type('https://www.paypal.me/vplancke/', 'don_url')
                 ->press('Ajouter')
-                ->seePageIs('/script/ajout')
+                ->seePageIs('/script/nom-du-script')
                 ->see('Merci d\'avoir poster un script mon khey.');
     }
 

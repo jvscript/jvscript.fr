@@ -48,7 +48,7 @@ class SkinController extends ScriptController
                 $message->to(env('ADMIN_EMAIL'))->subject("Nouveau skin");
             });
         }
-        return redirect(route('skin.form'))->with("message", "Merci, votre skin est en attente de validation.");
+        return redirect(route('skin.show', ['slug' => $skin->slug]))->with("message", "Merci d'avoir ajouté un skin mon crayon de couleur.");
     }
 
     public function updateSkin(UpdateSkin $request, $slug)

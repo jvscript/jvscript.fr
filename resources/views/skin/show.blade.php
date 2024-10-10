@@ -17,6 +17,13 @@
 
 <div class="row">
 
+    @if (session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+    @endif
+
+
     <div class="col-md-6">
         <h1>{{$skin->name}}
 

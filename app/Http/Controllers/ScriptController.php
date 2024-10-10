@@ -61,8 +61,7 @@ class ScriptController extends Controller
         }
 
        
-
-        return redirect(route('script.form'))->with("message", "Merci d'avoir poster un script mon khey.");
+        return redirect(route('script.show', ['slug' => $script->slug]))->with("message", "Merci d'avoir poster un script mon khey.");
     }
 
     /**
