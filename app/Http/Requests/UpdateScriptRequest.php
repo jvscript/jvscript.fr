@@ -52,7 +52,7 @@ class UpdateScriptRequest extends FormRequest
             'js_url'      => "required|url|max:255|regex:/.*\.js$/",
             'repo_url'    => "url|max:255",
             'photo_url'   => "url|max:255|image_url",
-            'photo_file'  => "image",
+            'photo_file' => 'nullable|mimes:jpeg,jpg,png,gif',
             'don_url'     => "url|max:255",
             'user_id'     => "exists:users,id",
             'sensibility' => "in:0,1,2",
