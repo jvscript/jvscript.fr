@@ -57,7 +57,7 @@ class SkinController extends ScriptController
         $this->lib->ownerOradminOrFail($skin->user_id);
 
         //update only this fields
-        $toUpdate = ['autor', 'description', 'skin_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
+        $toUpdate = ['name', 'autor', 'description', 'skin_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
             $toUpdate[] = 'user_id';
             if ($request->input('user_id') == '') {
@@ -66,6 +66,10 @@ class SkinController extends ScriptController
                 //force username of owner
                 $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
+        }
+
+        if ($skin->name != $request->input('name')) {
+            $slug = $skin->slug = $this->slugify($request->input('name'));
         }
 
         $skin->fill($request->only($toUpdate));

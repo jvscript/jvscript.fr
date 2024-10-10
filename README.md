@@ -1,4 +1,4 @@
-# jvscript.github.io 
+# jvscript.fr
 
 <p align="center">
 <img src='https://jvscript.fr/assets/images/banniere2-min.png' width='450px' /> 

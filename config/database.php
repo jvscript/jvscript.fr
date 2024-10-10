@@ -71,7 +71,6 @@ return [
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => 'jvscript_testing',
-            'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',

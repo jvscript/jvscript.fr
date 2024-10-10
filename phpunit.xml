@@ -24,6 +24,7 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_CONNECTION" value="testing"/>
+        <env name="DB_DATABASE" value="jvscript_testing"/>
         <env name="DISCORD_URL" value="null"/>
     </php>
 </phpunit>

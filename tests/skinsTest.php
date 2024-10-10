@@ -76,14 +76,7 @@ class skinsTest extends BrowserKitTestCase
                 ->see('Merci, votre skin est en attente de validation.');
     }
 
-    /**
-     * Skin non validé en guest
-     */
-    public function testVoirSkin404()
-    {
-        $response = $this->call('GET', '/skin/nom-du-skin');
-        $this->assertEquals(404, $response->status());
-    }
+
 
     /**
      * Voir Skin non validé avaec les droits admin
@@ -135,7 +128,13 @@ class skinsTest extends BrowserKitTestCase
                 ->click('Editer')
                 ->seePageIs('/skin/nom-du-skin/edit')
                 ->dontSee('Auteur du skin')
+                ->type('nom du skin edited', 'name')
                 ->type('desc_edit_owner', 'description')
+                ->press('Editer')
+                ->seePageIs('/skin/nom-du-skin-edited')
+                ->click('Editer')
+                ->seePageIs('/skin/nom-du-skin-edited/edit')
+                ->type('nom du skin', 'name')
                 ->press('Editer')
                 ->seePageIs('/skin/nom-du-skin')
                 ->see('nom-du-skin.jpg')
@@ -215,9 +214,13 @@ class skinsTest extends BrowserKitTestCase
                 ->see('Ce skin a été refusé.');
     }
 
-    public function test404Again()
+    /**
+     * Skin non validé en guest
+     */
+    public function testVoirSkin404()
     {
-        $this->testVoirSkin404();
+        $response = $this->call('GET', '/skin/nom-du-skin');
+        $this->assertEquals(404, $response->status());
     }
 
     public function testSupprimerSkinAdmin()

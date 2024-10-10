@@ -60,7 +60,9 @@ class ScriptController extends Controller
             });
         }
 
-        return redirect(route('script.form'))->with("message", "Merci, votre script est en attente de validation.");
+       
+
+        return redirect(route('script.form'))->with("message", "Merci d'avoir poster un script mon khey.");
     }
 
     /**

@@ -59,17 +59,10 @@ class scriptsTest extends BrowserKitTestCase
                 ->type('https://www.paypal.me/vplancke/', 'don_url')
                 ->press('Ajouter')
                 ->seePageIs('/script/ajout')
-                ->see('Merci, votre script est en attente de validation.');
+                ->see('Merci d\'avoir poster un script mon khey.');
     }
 
-    /**
-     * Script non validé en guest
-     */
-    public function testGuestTryingToSeeScriptShouldGet404()
-    {
-        $response = $this->call('GET', '/script/nom-du-script');
-        $this->assertEquals(404, $response->status());
-    }
+
 
     /**
      * Voir Script non validé avaec les droits admin
@@ -137,11 +130,17 @@ class scriptsTest extends BrowserKitTestCase
                 ->click('Editer')
                 ->seePageIs('/script/nom-du-script/edit')
                 ->dontSee('Auteur du script')
+                ->type('nom du script edited', 'name')
                 ->type('desc_edit_owner', 'description')
                 ->press('Editer')
-                ->seePageIs('/script/nom-du-script')
+                ->seePageIs('/script/nom-du-script-edited')
                 ->see('owner')
-                ->see('desc_edit_owner');
+                ->see('desc_edit_owner')
+                ->click('Editer')
+                ->seePageIs('/script/nom-du-script-edited/edit')
+                ->type('nom du script', 'name')
+                ->press('Editer')
+                ->seePageIs('/script/nom-du-script');
     }
 
     /**
@@ -227,9 +226,13 @@ class scriptsTest extends BrowserKitTestCase
                 ->see('Ce script a été refusé.');
     }
 
-    public function test404Again()
+    /**
+     * Script non validé en guest
+     */
+    public function testGuestTryingToSeeScriptShouldGet404()
     {
-        $this->testGuestTryingToSeeScriptShouldGet404();
+        $response = $this->call('GET', '/script/nom-du-script');
+        $this->assertEquals(404, $response->status());
     }
 
     public function testSupprimerScriptAdmin()

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Model\Script;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateScriptRequest extends FormRequest
@@ -38,7 +40,14 @@ class UpdateScriptRequest extends FormRequest
      */
     public function rules()
     {
+        $currentScript = Script::where('slug', $this->route('slug'))->firstOrFail();
         return [
+            'name' => [
+                'required',
+                'max:50',
+                 Rule::unique('scripts')->ignore($currentScript->id),  
+                'not_in:ajout',
+            ],
             "autor"       => "max:255",
             'js_url'      => "required|url|max:255|regex:/.*\.js$/",
             'repo_url'    => "url|max:255",

@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Model\Skin;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\Rule;
 
 class UpdateSkin extends FormRequest
 {
@@ -39,7 +41,14 @@ class UpdateSkin extends FormRequest
      */
     public function rules()
     {
+        $currentSkin = Skin::where('slug', $this->route('slug'))->firstOrFail();
         return [
+            'name' => [
+                'required',
+                'max:50',
+                 Rule::unique('skins')->ignore($currentSkin->id),  
+                'not_in:ajout',
+            ],
             'skin_url' => ['required', 'url', 'max:255', 'regex:/^https:\/\/userstyles\.(org|world)\/styles?\/.*/'],
             'repo_url' => "url|max:255",
             'photo_url' => "url|max:255|image_url",
