@@ -50,9 +50,11 @@ class GetScriptUpdate extends Command
             ->orderBy('updated_at', 'asc')
             ->get();
 
+
+
         foreach ($scripts as $script) {
             $this->info("Script : " . $script->name);
-
+            $error = false;
             $newDate = null;
 
             //transform github blob url to raw
@@ -100,6 +102,7 @@ class GetScriptUpdate extends Command
                     }
                 } catch (\Exception $ex) {
                     $this->error("fail: Could not fetch data from GitHub API | " . $api_url .  $ex->getMessage());
+                    $error = true;
                     // die;
                 }
             } elseif (preg_match('/https:\/\/(.*)\.github\.io\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
@@ -111,6 +114,7 @@ class GetScriptUpdate extends Command
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
                     $this->error("fail date : " . $script->js_url . " | $url_crawl");
+                    $error = true;
                     // die;
                 }
             } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match) || preg_match('/https:\/\/openuserjs\.org\/src\/scripts\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
@@ -127,6 +131,7 @@ class GetScriptUpdate extends Command
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
                     $this->error("fail date : " . $script->js_url . " | $url_crawl");
+                    $error = true;
                     // die;
                 }
                 //get version openuserjs in same page
@@ -142,6 +147,7 @@ class GetScriptUpdate extends Command
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
                     $this->error("fail date : " . $script->js_url . " | $url_crawl");
+                    $error = true;
                     // die;
                 }
             }
@@ -149,7 +155,7 @@ class GetScriptUpdate extends Command
             if (
                 $newDate &&
                 $newDate->toDateString() != ($script->last_update !== null ? $script->last_update->toDateString() : null)
-            ){
+            ) {
                 $this->warn("date changed : $script->last_update => $newDate");
                 $script->update(['last_update' => $newDate]);
             }
@@ -171,20 +177,23 @@ class GetScriptUpdate extends Command
                             if ($script->last_update === NULL) {
                                 $script->update(['last_update' => \Carbon\Carbon::now()]);
                                 $this->warn("version changed but last_update is null : $version");
-                            } 
-                        }                       
+                            }
+                        }
                     } else {
                         $this->error("fail version : " . $script->js_url);
                         Log::error("fail version : " . $script->name . " | " . $script->js_url);
+                        $error = true;
                         // die;
                     }
                 } catch (\Exception $ex) {
                     $this->error("fail: Could not fetch data  | " . $url_crawl .  $ex->getMessage());
                     Log::error("Could not fetch data  | " . $url_crawl .  $ex->getMessage());
+                    $error = true;
                     // die;
                 }
             }
-            $script->touch();
+            if (!$error)
+                $script->touch();
             $this->info("");
         }
 
