@@ -46,11 +46,10 @@ class GetScriptUpdate extends Command
     private function crawlInfo()
     {
         $scripts = Script::where("status", 1)
+            // ->where('slug', 'jvc-imageviewer')
             ->where('updated_at', '<', \Carbon\Carbon::now()->subDay(1))
             ->orderBy('updated_at', 'asc')
             ->get();
-
-
 
         foreach ($scripts as $script) {
             $this->info("Script : " . $script->name);
@@ -136,8 +135,7 @@ class GetScriptUpdate extends Command
                 }
                 //get version openuserjs in same page
                 if (preg_match('/<code>([0-9.]+).*<\/code>/i', $crawl_content, $match)) {
-                    $script->version = strip_tags($match[1]);
-                    $script->save();
+                    $script->update(['version' => strip_tags($match[1]) ]);
                 }
             } elseif (preg_match('/https:\/\/(?:update\.)?greasyfork\.org\/scripts\/([^\/]+)(?:\/code)?\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://greasyfork.org/fr/scripts/$match[1]";
@@ -170,8 +168,7 @@ class GetScriptUpdate extends Command
                     $content = $response->getBody()->getContents();
                     if (preg_match('/\/\/\s*@version\s+([\d\.\w\-_]+)/i', $content, $match_date)) {
                         $version = $match_date[1];
-                        $script->version = $version;
-                        $script->save();
+                        $script->update(['version' => $version]);
                         if ($script->wasCHanged()) {
                             $this->info("version updated : $version");
                             if ($script->last_update === NULL) {
