@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\User;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Redirect;
 use Socialite;
 
@@ -24,12 +25,6 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
 
     /**
      * Get the login username to be used by the controller.
@@ -39,6 +34,27 @@ class LoginController extends Controller
     public function username()
     {
         return 'name';
+    }
+
+    public function logout(Request $request)
+    {
+        $redirectUrl = url()->previous(); 
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect($redirectUrl); 
+    }
+
+    private function redirectTo()
+    {
+        return session('redir');
+    }
+
+    public function showLoginForm()
+    {
+        session(['redir' => url()->previous()]);
+        return view('auth.login');
     }
 
     /**
@@ -80,7 +96,7 @@ class LoginController extends Controller
         }
 
         Auth::login($authUser, true);
-        
+
         return Redirect::to('/');
     }
 
@@ -110,11 +126,10 @@ class LoginController extends Controller
         }
 
         return User::create([
-                    'name' => $name,
-                    'email' => $githubUser->email,
-                    'github_id' => $githubUser->id,
-                    'password' => bcrypt(str_random(7))
-//                    'password' => bcrypt('secret'),
+            'name' => $name,
+            'email' => $githubUser->email,
+            'github_id' => $githubUser->id,
+            'password' => bcrypt(str_random(7))
         ]);
     }
 }
