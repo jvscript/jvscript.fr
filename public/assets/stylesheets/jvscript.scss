@@ -105,3 +105,36 @@ table.dataTable.table-condensed .sorting:after, table.dataTable.table-condensed 
     color: $link-color;
   }
 }
+
+.thumbnail .caption h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Small screens (centered layout) */
+@media (max-width: 767px) {
+    #scripts {
+      text-align: center;
+    }
+    
+    #scripts .btn-group {
+    //   float: none !important;
+      display: inline-block;
+      vertical-align: middle;
+     }
+    
+    /* Remove pull-right class effect on small screens */
+    #scripts .btn-group.pull-right {
+      float: none !important;
+    }
+    
+}
+
+@media (max-width: 470px) {
+    #scripts .btn-group.pull-right {
+      margin-top: 20px;
+    }
+}
