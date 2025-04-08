@@ -121,7 +121,6 @@ table.dataTable.table-condensed .sorting:after, table.dataTable.table-condensed 
     }
     
     #scripts .btn-group {
-    //   float: none !important;
       display: inline-block;
       vertical-align: middle;
      }
@@ -133,8 +132,12 @@ table.dataTable.table-condensed .sorting:after, table.dataTable.table-condensed 
     
 }
 
-@media (max-width: 470px) {
+@media (max-width: 455px) {
     #scripts .btn-group.pull-right {
       margin-top: 20px;
+    }
+
+    .nav .input-group{
+        margin: 0 15px;
     }
 }
