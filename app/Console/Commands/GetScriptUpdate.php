@@ -100,7 +100,7 @@ class GetScriptUpdate extends Command
                         }
                     }
                 } catch (\Exception $ex) {
-                    $this->error("fail: Could not fetch data from GitHub API | " . $api_url .  $ex->getMessage());
+                    $this->error("fail: Could not fetch data from GitHub API | " . $api_url . " " .  $ex->getMessage());
                     $error = true;
                     // die;
                 }
@@ -183,8 +183,8 @@ class GetScriptUpdate extends Command
                         // die;
                     }
                 } catch (\Exception $ex) {
-                    $this->error("fail: Could not fetch data  | " . $url_crawl .  $ex->getMessage());
-                    Log::error("Could not fetch data  | " . $url_crawl .  $ex->getMessage());
+                    $this->error("fail: Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
+                    Log::error("Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
                     $error = true;
                     // die;
                 }
