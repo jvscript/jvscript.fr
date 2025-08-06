@@ -52,13 +52,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirmer mot de passe</label>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
+                        <div class="form-group" style="display:none;">
+                            <label for="fax">Fax</label>
+                            <input id="fax" type="text" name="fax" tabindex="-1" autocomplete="off">
                         </div>
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
