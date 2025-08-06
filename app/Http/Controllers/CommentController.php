@@ -100,7 +100,7 @@ class CommentController extends Controller
         $model = $dispatcher['model'];
 
         $comment = Comment::findOrFail($comment_id);
-        $this->lib->ownerOradminOrFail($comment->user_id);
+        $this->lib->ownerOradminOrFail($comment->user_id, null);
         $comment->delete();
         if ($item == 'box') {//jax return
             return [

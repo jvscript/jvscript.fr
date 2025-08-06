@@ -37,10 +37,10 @@ class Lib
         }
     }
 
-    public function ownerOradminOrFail($user_id)
+    public function ownerOradminOrFail($user_id, $poster_user_id)
     {
-        //si c'est l'owner de l'objet (script/skin) on laisse passer
-        if (!(Auth::check() && Auth::user()->id == $user_id)) {
+        //si c'est l'owner / poster de l'objet (script/skin) on laisse passer
+        if (!(Auth::check() && ( Auth::user()->id == $user_id || Auth::user()->id == $poster_user_id))) {
             $this->adminOrFail();
         }
     }

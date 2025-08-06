@@ -211,7 +211,7 @@
         </div>
         <!--    </div>
         </div>-->
-        @elseif ((Auth::check() && Auth::user()->id == $script->user_id))
+        @elseif ((Auth::check() && ( Auth::user()->id == $script->user_id || Auth::user()->id == $script->poster_user_id )))
         <!--<div class="row">
             <div class="col-md-6">-->
         <div class="panel-body">

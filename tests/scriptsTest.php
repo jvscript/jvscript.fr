@@ -50,7 +50,7 @@ class scriptsTest extends BrowserKitTestCase
         $this->visit('/script/ajout')
                 ->type('nom du script', 'name')
                 ->type('description', 'description')
-                ->type('auteur du script', 'autor')
+                ->type('toto', 'autor')
                 ->type('https://github.com/vitoo/jvc-mp-plus/raw/master/jvc-mp-plus.user.js', 'js_url')
                 ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
                 ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
@@ -62,8 +62,6 @@ class scriptsTest extends BrowserKitTestCase
                 ->see('Merci d\'avoir poster un script mon khey.');
     }
 
-
-
     /**
      * Voir Script non validé avaec les droits admin
      */
@@ -72,7 +70,7 @@ class scriptsTest extends BrowserKitTestCase
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
                 ->see('nom du script')
-                ->see('auteur du script')
+                ->see('toto')
                 ->see('https://github.com/jvscript/jvscript.github.io')
                 ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
                 ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
@@ -115,7 +113,7 @@ class scriptsTest extends BrowserKitTestCase
                 ->see('2.0')
                 ->see('31/12/2016')
                 ->see('desc_edit')
-                ->dontSee('auteur du script')
+                ->dontSee('toto')
                 ->click('Valider')
                 ->see('Ce script a été validé.');
     }
@@ -129,7 +127,7 @@ class scriptsTest extends BrowserKitTestCase
         $this->visit('/script/nom-du-script')
                 ->click('Editer')
                 ->seePageIs('/script/nom-du-script/edit')
-                ->dontSee('Auteur du script')
+                ->dontSee('toto')
                 ->type('nom du script edited', 'name')
                 ->type('desc_edit_owner', 'description')
                 ->press('Editer')

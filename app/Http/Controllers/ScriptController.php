@@ -70,7 +70,7 @@ class ScriptController extends Controller
     public function updateScript(UpdateScriptRequest $request, $slug)
     {
         $script = Script::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($script->user_id);
+        $this->lib->ownerOradminOrFail($script->user_id, $script->poster_user_id);
         //update only this fields
         $toUpdate = ['name', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
@@ -186,7 +186,7 @@ class ScriptController extends Controller
     public function delete($slug)
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($item->user_id);
+        $this->lib->ownerOradminOrFail($item->user_id, $item->poster_user_id);
         $item->comments()->delete();
         //suprimes les images
         if ($item->photoShortLink()) {
@@ -223,7 +223,7 @@ class ScriptController extends Controller
         $item = $this->model::where('slug', $slug)->firstOrFail();
         $comments = $item->comments()->orderBy('created_at', 'desc')->paginate(10);
         //si pas validé, on affiche seulement si admin/owner
-        if (!$item->isValidated() && $this->lib->ownerOradminOrFail($item->user_id)) {
+        if (!$item->isValidated() &&  $this->lib->ownerOradminOrFail($item->user_id, $item->poster_user_id) ) {
             abort(404);
         }
         $Parsedown = new ParsedownExtended();
@@ -236,7 +236,7 @@ class ScriptController extends Controller
     public function edit($slug)
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($item->user_id);
+        $this->lib->ownerOradminOrFail($item->user_id, $item->poster_user_id);
         return view($this->modelName.'.edit', [$this->modelName => $item]);
     }
 

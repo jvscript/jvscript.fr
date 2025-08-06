@@ -54,7 +54,7 @@ class SkinController extends ScriptController
     public function updateSkin(UpdateSkin $request, $slug)
     {
         $skin = Skin::where('slug', $slug)->firstOrFail();
-        $this->lib->ownerOradminOrFail($skin->user_id);
+        $this->lib->ownerOradminOrFail($skin->user_id, $skin->poster_user_id);
 
         //update only this fields
         $toUpdate = ['name', 'autor', 'description', 'skin_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
