@@ -104,14 +104,7 @@ class UserController extends Controller
 
         if ($validator->fails()) {
 
-        } else {
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing') && !$resp->isSuccess()) {
-                $request->flash();
-                return redirect(route('contact.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-            }
+        } else {       
 
             //send discord
             $this->discord_url;

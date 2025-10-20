@@ -26,21 +26,7 @@ if (isset($script->js_url)) {
                     @endif
                 </div>
             </div>
-            @if($show_captcha)
-            <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
-                <div class="col-md-6 ">
-                    <!--<div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS"></div>-->
-                    <div id="recaptcha-{{$recaptcha}}"></div> 
 
-                    @if ($errors->has('recaptcha'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('recaptcha') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div> 
-
-            @endif
             <div class="form-group">
                 <div class="col-md-6 ">
                     @if (Auth::guest())
@@ -112,13 +98,3 @@ if (isset($script->js_url)) {
     </div>
 </div>
 
-@section('recaptcha')
-@if($show_captcha)
-<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
-<script type="text/javascript">
-var CaptchaCallback = function () {
-    grecaptcha.render('recaptcha-1', {'sitekey': '6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS'});
-    grecaptcha.render('recaptcha-2', {'sitekey': '6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS'});
-};</script>
-@endif
-@endsection

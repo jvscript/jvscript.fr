@@ -131,11 +131,7 @@
     </div>
 
     <script src="/js/all.js"></script>
-    @if(View::hasSection('recaptcha'))
-    @yield('recaptcha')
-    @else
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    @endif
+
 
     @yield('javascript')
 

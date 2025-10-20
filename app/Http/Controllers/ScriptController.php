@@ -230,7 +230,7 @@ class ScriptController extends Controller
         $Parsedown->setMarkupEscaped(true);
         $item->description = $Parsedown->text($item->description);
 
-        return view($this->modelName.'.show', [$this->modelName => $item, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
+        return view($this->modelName.'.show', [$this->modelName => $item, 'comments' => $comments]);
     }
 
     public function edit($slug)

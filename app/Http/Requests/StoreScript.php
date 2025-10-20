@@ -28,7 +28,6 @@ class StoreScript extends FormRequest
             'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
             'topic_url.regex' => 'Le lien du topic devrait être de type http://www.jeuxvideo.com/forums/...',
             'photo_url.image_url' => "L'url de l'image est invalide.",
-            'g-recaptcha-response.required' => "Veuillez valider le captcha svp."
         ];
     }
 
@@ -39,7 +38,6 @@ class StoreScript extends FormRequest
      */
     public function rules()
     {
-        $recaptchaRequired = \App::environment('production') ? 'required' : 'sometimes';
         return [
             'name' => 'required|max:50|unique:scripts|not_in:ajout',
             'description' => 'required',
@@ -51,7 +49,6 @@ class StoreScript extends FormRequest
             'don_url' => "url|max:255",
             'website_url' => "url|max:255",
             'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
-            'g-recaptcha-response' => [$recaptchaRequired, new \App\Rules\Recaptcha],
         ];
     }
 }

@@ -20,13 +20,7 @@ class Controller extends BaseController
      * @return void
      */
     public function __construct()
-    {
-        if (App::environment('local', 'testing')) {
-            $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-        } else { //prod
-            $this->recaptcha_key = env('RECAPTCHA_KEY', '');
-        }
-
+    {   
         $this->discord_url = env('DISCORD_URL', '');
         $this->lib = new Lib();
         $this->min_time_comment = 30; //Interval de temps entre chaque commentaire ou le captcha apparait

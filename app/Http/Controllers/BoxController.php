@@ -42,7 +42,7 @@ class BoxController extends Controller
         if (!$idea->isValidated() && !(Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
         }
-        return view('box.show', ['idea' => $idea, 'comments' => $comments, 'show_captcha' => $this->lib->limitComment($this->min_time_captcha)]);
+        return view('box.show', ['idea' => $idea, 'comments' => $comments]);
     }
 
     /**
@@ -63,14 +63,7 @@ class BoxController extends Controller
                     $request,
                 $validator
             );
-        } else { //sucess > insert
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
-            if (!App::environment('testing', 'local') && !$resp->isSuccess()) {
-                $request->flash();
-                return redirect(route('box.form'))->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-            }
+        } else { //sucess > insert          
 
             $request->merge(['user_id' => $user->id]);
             $request->merge(['status' => 1]);

@@ -49,9 +49,7 @@ class CommentController extends Controller
                 $validator
             );
         } else {
-            //captcha validation
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
-            $resp = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
+        
             //Anti spam 30 secondes
             if ($this->lib->limitComment($this->min_time_comment)) {
                 $request->flash();
@@ -64,13 +62,7 @@ class CommentController extends Controller
                 }
                 return redirect(route("$item.show", $slug) . "#comments")->withErrors(['comment' => "Veuillez attendre $this->min_time_comment secondes entre chaque commentaire svp."]);
             }
-            //anti spam 60 secondes : besoin validation captcha (bypass captcha comment boite à idée ajax)
-            if ($item != 'box' && $this->lib->limitComment($this->min_time_captcha)) {
-                if (!App::environment('testing') && !$resp->isSuccess()) {
-                    $request->flash();
-                    return redirect(route("$item.show", $slug) . "#comments")->withErrors(['recaptcha' => 'Veuillez valider le captcha svp.']);
-                }
-            }
+           
             $comment = $request->input('comment');
             $model->comments()->create(['comment' => $comment, 'user_id' => $user->id]);
 

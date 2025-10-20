@@ -21,20 +21,7 @@ $item = "box";
                     @endif
                 </div>
             </div>
-            @if(isset($show_captcha) && $show_captcha )
-            <div class="form-group{{ $errors->has('recaptcha') ? ' has-error' : '' }}">
-                <div class="col-md-6 ">
-                    <div class="g-recaptcha" data-sitekey="6LdaMRMUAAAAAN08nMXHLEe_gULU6wRyGSyENHkS" data-theme="dark"></div>
-                    <!--<div id="recaptcha-{{$recaptcha}}"></div>-->
-
-                    @if ($errors->has('recaptcha'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('recaptcha') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-            @endif
+ 
             <div class="form-group">
                 <div class="col-md-6 ">
                     @if (Auth::guest())

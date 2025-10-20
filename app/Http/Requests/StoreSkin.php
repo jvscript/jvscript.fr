@@ -28,7 +28,6 @@ class StoreSkin extends FormRequest
             'skin_url.regex' => 'Le champ :attribute doit être un lien du format \'https://userstyles.org/styles/...\'',
             'topic_url.regex' => 'Le lien du topic devrait être du format : http://www.jeuxvideo.com/forums/...',
             'photo_url.image_url' => "L'url de l'image est invalide.",
-            'g-recaptcha-response.required' => "Veuillez valider le captcha svp."
         ];
     }
 
@@ -39,7 +38,6 @@ class StoreSkin extends FormRequest
      */
     public function rules()
     {
-        $recaptchaRequired = \App::environment('production') ? 'required' : 'sometimes';
         return [
             'name' => 'required|max:50|unique:skins|not_in:ajout',
             'description' => 'required',
@@ -51,7 +49,6 @@ class StoreSkin extends FormRequest
             'don_url' => "url|max:255",
             'website_url' => "url|max:255",
             'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
-            'g-recaptcha-response' => [$recaptchaRequired, new \App\Rules\Recaptcha],
         ];
     }
 }

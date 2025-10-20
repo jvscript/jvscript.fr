@@ -88,7 +88,6 @@ class scriptsTest extends BrowserKitTestCase
                 ->type($username, 'name')
                 ->type($username . '@fakemail.com', 'email')
                 ->type($password, 'password')
-                ->type($password, 'password_confirmation')
                 ->press('S\'inscrire')
                 ->seePageIs('/');
     }
