@@ -164,7 +164,7 @@ class GetScriptUpdate extends Command
             if (!str_contains($url_crawl, 'openuserjs')) {
                 $client = new Client();
                 try {
-                    $response = $client->request('GET', $url_crawl, ['timeout' => 3]);
+                    $response = $client->request('GET', $url_crawl);
                     $content = $response->getBody()->getContents();
                     if (preg_match('/\/\/\s*@version\s+([\d\.\w\-_]+)/i', $content, $match_date)) {
                         $version = $match_date[1];
@@ -184,7 +184,7 @@ class GetScriptUpdate extends Command
                     }
                 } catch (\Exception $ex) {
                     $this->error("fail: Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
-                    Log::error("Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
+                    // Log::error("Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
                     $error = true;
                     // die;
                 }
