@@ -58,6 +58,16 @@
                             <input id="fax" type="text" name="fax" tabindex="-1" autocomplete="off">
                         </div>
 
+                        <div class="form-group{{ $errors->has('cf-turnstile-response') ? ' has-error' : '' }}">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="cf-turnstile" data-sitekey="{{ config('turnstile.site_key') }}"></div>
+                                @if ($errors->has('cf-turnstile-response'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('cf-turnstile-response') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -83,10 +93,13 @@
                         </div>
                     </div>
 
-                    <link href="/css/bootstrap-social.css" rel="stylesheet" >
+                    <link href="/css/bootstrap-social.css" rel="stylesheet">
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 @endsection
