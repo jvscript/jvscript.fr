@@ -36,15 +36,7 @@ Les vues sont dans `/ressources/views`
 
 Elles sont définies dans le routeur : `/routes/web.php` et pointe soit directement vers une vue, ou vers un controller.
 
-### Controller
-
-Le controller principal (`JvscriptController.php`) est dans `App\Http\Controllers\`
-
-## Todolist (dev du site)
-
-### [C'est par ici ](https://github.com/jvscript/jvscript.github.io/projects/1)
 
 
-## Phpunit
 
-  GRANT ALL PRIVILEGES ON `jvscript\_testing`.* TO 'travis'@'localhost';
+

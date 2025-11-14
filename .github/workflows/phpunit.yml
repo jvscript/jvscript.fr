@@ -1,0 +1,41 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches: [ production, develop ]
+  pull_request:
+    branches: [ production, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: mirromutth/mysql-action@v1.1
+      with:
+        container port: 3306
+        mysql version: '5.7'
+        mysql database: 'jvscript_testing'
+        mysql root password: 'root'
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup PHP 7.4
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        extensions: mbstring, dom, fileinfo, mysql, gd
+        coverage: none
+
+    - name: Prepare env
+      run: |
+        mv .env.testing_ .env
+        composer install --no-interaction --prefer-dist --no-progress
+        php artisan key:generate --env=testing
+        mysql -h 127.0.0.1 -u root -proot -e "CREATE DATABASE IF NOT EXISTS jvscript_testing;"
+        php artisan migrate --force
+
+    - name: Run PHPUnit tests
+      run: vendor/bin/phpunit
