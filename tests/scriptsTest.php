@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Model\User;
 
 class scriptsTest extends BrowserKitTestCase

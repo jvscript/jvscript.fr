@@ -1,9 +1,12 @@
 <?php
 
+namespace Tests;
+
 use Illuminate\Support\Facades\Artisan as Artisan;
 use Illuminate\Support\Facades\Mail;
+use Laravel\BrowserKitTesting\TestCase;
 
-abstract class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
+abstract class BrowserKitTestCase extends TestCase
 {
 
     /**
@@ -36,7 +39,7 @@ abstract class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
     {
         $app = require __DIR__ . '/../bootstrap/app.php';
 
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
     }

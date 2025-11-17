@@ -92,6 +92,10 @@ class Lib
 
     public function sendDiscord($content, $url)
     {
+        if (empty($url)) {
+            return;
+        }
+
         $data = ["content" => $content];
         $data_string = json_encode($data);
         $opts = [

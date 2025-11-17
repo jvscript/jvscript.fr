@@ -8,41 +8,33 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.4",
+        "php": "^8.2",
         "erusev/parsedown": "^1.6",
-        "fideloper/proxy": "^4.0",
-        "guzzlehttp/guzzle": "~6.3",
-        "intervention/image": "^2.3",
-        "laravel/framework": "^7.0",
-        "laravel/socialite": "4.*",
-        "laravel/ui": "2.0"
+        "laravel/framework": "^12.0",
+        "laravel/socialite": "5.*",
+        "laravel/ui": "4.*",
+        "intervention/image": "^2.3"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.2",
         "driftingly/rector-laravel": "^2.1",
-        "filp/whoops": "~2.0",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/browser-kit-testing": "6.*",
+        "fakerphp/faker": "^1.23",
+        "laravel/browser-kit-testing": "7.*",
         "laravel/envoy": "*",
-        "mockery/mockery": "1.0",
-        "phpunit/phpunit": "^8.5",
+        "mockery/mockery": "^1.6",
+        "phpunit/phpunit": "^11.0",
         "rector/rector": "^2.2"
     },
     "autoload": {
-        "classmap": [
-            "database"
-        ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        },
-       "classmap": [
-            "tests/BrowserKitTestCase.php"
-        ]
+        }
     },
     "scripts": {
         "post-root-package-install": [
@@ -58,15 +50,17 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ],
         "post-autoload-dump": [
-          "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-          "@php artisan package:discover"
-        ] 
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ]
     },
     "config": {
+        "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "kylekatarnls/update-helper": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     }
 }
