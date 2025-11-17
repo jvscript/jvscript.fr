@@ -129,7 +129,7 @@ class LoginController extends Controller
             'name' => $name,
             'email' => $githubUser->email,
             'github_id' => $githubUser->id,
-            'password' => bcrypt(str_random(7))
+            'password' => bcrypt(\Illuminate\Support\Str::random(7))
         ]);
     }
 }

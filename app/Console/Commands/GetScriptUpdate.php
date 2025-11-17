@@ -161,7 +161,7 @@ class GetScriptUpdate extends Command
             //===GET  VERSION===
             $url_crawl = $script->js_url;
 
-            if (!str_contains($url_crawl, 'openuserjs')) {
+            if (!\Illuminate\Support\Str::contains($url_crawl, 'openuserjs')) {
                 $client = new Client();
                 try {
                     $response = $client->request('GET', $url_crawl);

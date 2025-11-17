@@ -17,13 +17,13 @@ class CommentController extends Controller
 {
     private function dispatchModel($route, $slug)
     {
-        if (str_contains($route, "script")) {
+        if (\Illuminate\Support\Str::contains($route, "script")) {
             $item = 'script';
             $model = Script::where('slug', $slug)->firstOrFail();
-        } elseif (str_contains($route, "skin")) {
+        } elseif (\Illuminate\Support\Str::contains($route, "skin")) {
             $item = 'skin';
             $model = Skin::where('slug', $slug)->firstOrFail();
-        } elseif (str_contains($route, "box")) {
+        } elseif (\Illuminate\Support\Str::contains($route, "box")) {
             $item = 'box';
             $model = Idea::findOrFail($slug);
         }

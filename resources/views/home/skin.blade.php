@@ -30,7 +30,7 @@
                 elseif ($skin->autor != null)
                     $autor = $skin->autor;
 
-                $autor = str_limit($autor, 14);
+                $autor = \Illuminate\Support\Str::limit($autor, 14);
                 ?>
 
                 <p class="pull-left"><i class="fa fa-user" aria-hidden="true"></i> {{$autor}}</p>

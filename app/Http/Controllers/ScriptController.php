@@ -204,7 +204,7 @@ class ScriptController extends Controller
 
     public function slugify($name)
     {
-        $slug = str_slug($name);
+        $slug = \Illuminate\Support\Str::slug($name);
         $i = 1;
         $baseSlug = $slug;
         while ($this->model::where('slug', $slug)->count() > 0) {
