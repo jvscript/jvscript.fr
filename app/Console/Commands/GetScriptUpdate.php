@@ -41,6 +41,7 @@ class GetScriptUpdate extends Command
     public function handle()
     {
         $this->crawlInfo();
+        return 0;
     }
 
     private function crawlInfo()

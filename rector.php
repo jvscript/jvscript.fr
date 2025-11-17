@@ -29,7 +29,7 @@ return RectorConfig::configure()
         The sets in LaravelSetList only contain changes related to a specific version upgrade. 
         For example, the rules in LaravelSetList::LARAVEL_110 apply when upgrading to Laravel 11.
         */
-        LaravelLevelSetList::UP_TO_LARAVEL_60,
+        LaravelLevelSetList::UP_TO_LARAVEL_70,
         
         /*
         Additional Sets, to improve different aspects of your code.

@@ -13,3 +13,4 @@ Homestead.yaml
 .history
 Envoy.blade.php
 Makefile
+*.cache
