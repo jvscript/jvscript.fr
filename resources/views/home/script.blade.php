@@ -48,7 +48,7 @@
                     <span class=" label label-script">Script</span>
                 </p>
 
-                <p class="desc">{{str_limit($script->description,350)}}</p>
+                <p class="desc">{{\Illuminate\Support\Str::limit($script->description,350)}}</p>
 
             </div>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Model\User;
 
 class scriptsTest extends BrowserKitTestCase
 {
@@ -24,9 +25,8 @@ class scriptsTest extends BrowserKitTestCase
 
     public function testHomepage()
     {
-       
         $this->visit('/')
-                ->see('jvscript.fr');
+            ->see('jvscript.fr');
     }
 
     /**
@@ -35,31 +35,31 @@ class scriptsTest extends BrowserKitTestCase
     public function testConnexion($login = 'superadmin', $password = 'superadmin')
     {
         $this->visit('/')
-                ->click('Connexion')
-                ->seePageIs('/login')
-                ->type($login, 'name')
-                ->type($password, 'password')
-                ->press('Se connecter')
-                ->seePageIs('/')
-                ->see("Bonjour $login");
+            ->click('Connexion')
+            ->seePageIs('/login')
+            ->type($login, 'name')
+            ->type($password, 'password')
+            ->press('Se connecter')
+            ->seePageIs('/')
+            ->see("Bonjour $login");
     }
 
     public function testAjoutScript()
     {
         $this->testConnexion();
         $this->visit('/script/ajout')
-                ->type('nom du script', 'name')
-                ->type('description', 'description')
-                ->type('toto', 'autor')
-                ->type('https://github.com/vitoo/jvc-mp-plus/raw/master/jvc-mp-plus.user.js', 'js_url')
-                ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
-                ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
-                ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
-                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
-                ->type('https://www.paypal.me/vplancke/', 'don_url')
-                ->press('Ajouter')
-                ->seePageIs('/script/nom-du-script')
-                ->see('Merci d\'avoir poster un script mon khey.');
+            ->type('nom du script', 'name')
+            ->type('description', 'description')
+            ->type('toto', 'autor')
+            ->type('https://github.com/vitoo/jvc-mp-plus/raw/master/jvc-mp-plus.user.js', 'js_url')
+            ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
+            ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
+            ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
+            ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
+            ->type('https://www.paypal.me/vplancke/', 'don_url')
+            ->press('Ajouter')
+            ->seePageIs('/script/nom-du-script')
+            ->see('Merci d\'avoir poster un script mon khey.');
     }
 
     /**
@@ -69,13 +69,13 @@ class scriptsTest extends BrowserKitTestCase
     {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
-                ->see('nom du script')
-                ->see('toto')
-                ->see('https://github.com/jvscript/jvscript.github.io')
-                ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
-                ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
-                ->see('nom-du-script.jpg')
-                ->see('https://www.paypal.me/vplancke/');
+            ->see('nom du script')
+            ->see('toto')
+            ->see('https://github.com/jvscript/jvscript.github.io')
+            ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
+            ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
+            ->see('nom-du-script.jpg')
+            ->see('https://www.paypal.me/vplancke/');
     }
 
     /**
@@ -84,12 +84,12 @@ class scriptsTest extends BrowserKitTestCase
     public function testInscription($username = 'owner', $password = 'password')
     {
         $this->visit('/')
-                ->click('Inscription')
-                ->type($username, 'name')
-                ->type($username . '@fakemail.com', 'email')
-                ->type($password, 'password')
-                ->press('S\'inscrire')
-                ->seePageIs('/');
+            ->click('Inscription')
+            ->type($username, 'name')
+            ->type($username . '@fakemail.com', 'email')
+            ->type($password, 'password')
+            ->press('S\'inscrire')
+            ->seePageIs('/');
     }
 
     /**
@@ -99,22 +99,22 @@ class scriptsTest extends BrowserKitTestCase
     {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
-                ->click('Editer')
-                ->seePageIs('/script/nom-du-script/edit')
-                ->type('desc_edit', 'description')
-                ->type('2', 'user_id')
-                ->type('2.0', 'version')
-                ->type('31/12/2016', 'last_update')
-                ->type('owner', 'autor')
-                ->press('Editer')
-                ->seePageIs('/script/nom-du-script')
-                ->see('owner')
-                ->see('2.0')
-                ->see('31/12/2016')
-                ->see('desc_edit')
-                ->dontSee('toto')
-                ->click('Valider')
-                ->see('Ce script a été validé.');
+            ->click('Editer')
+            ->seePageIs('/script/nom-du-script/edit')
+            ->type('desc_edit', 'description')
+            ->type('2', 'user_id')
+            ->type('2.0', 'version')
+            ->type('31/12/2016', 'last_update')
+            ->type('owner', 'autor')
+            ->press('Editer')
+            ->seePageIs('/script/nom-du-script')
+            ->see('owner')
+            ->see('2.0')
+            ->see('31/12/2016')
+            ->see('desc_edit')
+            ->dontSee('toto')
+            ->click('Valider')
+            ->see('Ce script a été validé.');
     }
 
     /**
@@ -124,20 +124,20 @@ class scriptsTest extends BrowserKitTestCase
     {
         $this->testConnexion('owner', 'password');
         $this->visit('/script/nom-du-script')
-                ->click('Editer')
-                ->seePageIs('/script/nom-du-script/edit')
-                ->dontSee('toto')
-                ->type('nom du script edited', 'name')
-                ->type('desc_edit_owner', 'description')
-                ->press('Editer')
-                ->seePageIs('/script/nom-du-script-edited')
-                ->see('owner')
-                ->see('desc_edit_owner')
-                ->click('Editer')
-                ->seePageIs('/script/nom-du-script-edited/edit')
-                ->type('nom du script', 'name')
-                ->press('Editer')
-                ->seePageIs('/script/nom-du-script');
+            ->click('Editer')
+            ->seePageIs('/script/nom-du-script/edit')
+            ->dontSee('toto')
+            ->type('nom du script edited', 'name')
+            ->type('desc_edit_owner', 'description')
+            ->press('Editer')
+            ->seePageIs('/script/nom-du-script-edited')
+            ->see('owner')
+            ->see('desc_edit_owner')
+            ->click('Editer')
+            ->seePageIs('/script/nom-du-script-edited/edit')
+            ->type('nom du script', 'name')
+            ->press('Editer')
+            ->seePageIs('/script/nom-du-script');
     }
 
     /**
@@ -147,17 +147,17 @@ class scriptsTest extends BrowserKitTestCase
     {
         $this->testConnexion('owner', 'password');
         $this->visit('/script/nom-du-script')
-                ->type('Ceci est un commentaire', 'comment')
-                ->press('Commenter')
-                ->seePageIs('/script/nom-du-script')
-                ->see('Ceci est un commentaire')
-                ->type('2eme commentaire', 'comment')
-                ->press('Commenter')
-                ->see('Veuillez attendre 30 secondes entre chaque commentaire svp')
-                ->click('delete-comment')
-                ->seePageIs('/script/nom-du-script')
-                ->dontSee('Ceci est un commentaire')
-                ->dontSee('2eme commentaire')
+            ->type('Ceci est un commentaire', 'comment')
+            ->press('Commenter')
+            ->seePageIs('/script/nom-du-script')
+            ->see('Ceci est un commentaire')
+            ->type('2eme commentaire', 'comment')
+            ->press('Commenter')
+            ->see('Veuillez attendre 30 secondes entre chaque commentaire svp')
+            ->click('delete-comment')
+            ->seePageIs('/script/nom-du-script')
+            ->dontSee('Ceci est un commentaire')
+            ->dontSee('2eme commentaire')
         ;
     }
 
@@ -168,7 +168,7 @@ class scriptsTest extends BrowserKitTestCase
     {
         $this->testInscription('random', 'password');
         $this->visit('/script/nom-du-script')
-                ->dontSee('Editer');
+            ->dontSee('Editer');
     }
 
     /**
@@ -177,7 +177,7 @@ class scriptsTest extends BrowserKitTestCase
     public function testGuestAdmin404()
     {
         $this->visit('/admin')
-                ->seePageIs('/login');
+            ->seePageIs('/login');
     }
 
     /**
@@ -186,12 +186,12 @@ class scriptsTest extends BrowserKitTestCase
     public function testVoirScriptGuest()
     {
         $this->visit('/script/nom-du-script')
-                ->seePageIs('/script/nom-du-script')
-                ->dontSee('Editer')
-                ->dontSee('Valider')
-                ->see('nom-du-script.jpg')
-                ->see('owner')
-                ->see('desc_edit_owner');
+            ->seePageIs('/script/nom-du-script')
+            ->dontSee('Editer')
+            ->dontSee('Valider')
+            ->see('nom-du-script.jpg')
+            ->see('owner')
+            ->see('desc_edit_owner');
     }
 
     /**
@@ -201,26 +201,26 @@ class scriptsTest extends BrowserKitTestCase
     {
         $note = rand(1, 5);
         $this->visit('/script/nom-du-script')
-                ->press("note-$note")
-                ->seePageIs('/script/nom-du-script')
-                ->see('1 votes');
+            ->press("note-$note")
+            ->seePageIs('/script/nom-du-script')
+            ->see('1 votes');
 
         $this->call('GET', '/script/install/nom-du-script');
         $this->visit('/script/nom-du-script')
-                ->see('1 fois');
+            ->see('1 fois');
 
         $this->call('POST', '/script/install/nom-du-script', $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-script']);
         $this->visit('/script/nom-du-script')
-                ->see('1 fois');
+            ->see('1 fois');
     }
 
     public function testRefuserScriptAdmin()
     {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
-                ->click('Refuser')
-                ->seePageIs('/script/nom-du-script')
-                ->see('Ce script a été refusé.');
+            ->click('Refuser')
+            ->seePageIs('/script/nom-du-script')
+            ->see('Ce script a été refusé.');
     }
 
     /**
@@ -236,8 +236,8 @@ class scriptsTest extends BrowserKitTestCase
     {
         $this->testConnexion();
         $this->visit('/script/nom-du-script')
-                ->click('Supprimer')
-                ->seePageIs('/admin');
+            ->click('Supprimer')
+            ->seePageIs('/admin');
         $this->testGuestTryingToSeeScriptShouldGet404();
     }
 }

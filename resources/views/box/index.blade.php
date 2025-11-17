@@ -6,9 +6,9 @@
 
 @section('javascript')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         //envoie du formulaire de commentaire en ajax
-        $(document).on('submit', '.ajax-comment', function (e) {
+        $(document).on('submit', '.ajax-comment', function(e) {
             e.preventDefault();
             var $this = $(this);
             var id_idea = $this.attr("id-item"); //id de l'idée
@@ -17,9 +17,9 @@
                 type: $this.attr('method'),
                 data: $this.serialize(),
                 dataType: 'json', // JSON
-                success: function (data) {
+                success: function(data) {
                     if (data != "") {
-//                        $("#comment-" + id_item).html(data);
+                        //                        $("#comment-" + id_item).html(data);
                         $("#comment-" + id_idea).html(data.html);
                         $("#comment-count-" + id_idea).text(data.count);
                     }
@@ -27,7 +27,7 @@
             });
         });
         //delete comment en ajax
-        $(document).on('click', 'a[name="delete-comment"]', function (e) {
+        $(document).on('click', 'a[name="delete-comment"]', function(e) {
             e.preventDefault();
             var $this = $(this);
             var id_idea = $this.attr("data-idea-id"); //id de l'idée
@@ -38,7 +38,7 @@
                 type: 'GET',
                 data: $this.serialize(),
                 dataType: 'json', // JSON
-                success: function (data) {
+                success: function(data) {
                     if (data != "") {
                         $("#comment-" + id_idea).html(data.html);
                         $("#comment-count-" + id_idea).text(data.count);
@@ -53,15 +53,15 @@
             $.ajax({
                 url: '?id_idea=' + id_idea + '&page=' + page,
                 dataType: 'json',
-            }).done(function (data) {
+            }).done(function(data) {
                 $("#comment-" + id_idea).html(data.html);
                 $("#comment-count-" + id_idea).text(data.count);
-            }).fail(function () {
+            }).fail(function() {
                 console.log("Erreur lors de l'affichage des commentaires.");
             });
         }
 
-        $(document).on('click', '.pagination a', function (e) {
+        $(document).on('click', '.pagination a', function(e) {
             var page = $(this).attr('href').split('page=')[1].replace(/#\d*/, '');
             var id_idea = $(this).attr('href').split('#')[1];
             getComments(id_idea, page);
@@ -111,7 +111,7 @@
 
                 <div class="col-xs-2 text-center" style="padding-top:44px; ">
 
-                    <a class="{{$liked ? '' : 'like'}} center-block"   href="#" onclick="document.getElementById('like-{{$idea->id}}').submit(); return false;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                    <a class="{{$liked ? '' : 'like'}} center-block" href="#" onclick="document.getElementById('like-{{$idea->id}}').submit(); return false;"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
                     <b class="note center-block">
                         {{$idea->likes()->where('liked',1)->count() - $idea->likes()->where('liked',0)->count()}}
                     </b> <a class="{{$disliked ? '' : 'dislike'}} center-block" href="#" onclick="document.getElementById('dislike-{{$idea->id}}').submit(); return false;"> <i class="fa fa-arrow-down" aria-hidden="true"></i> </a>
@@ -130,14 +130,14 @@
                     <div class="panel idea">
                         <div class="panel-heading idea " style='text-align: left'>
                             [{{$types_label[$idea->type]}}]
-                            {{str_limit($idea->title,50)}}
+                            {{\Illuminate\Support\Str::limit($idea->title,50)}}
 
                             <span class="date pull-right hidden-xs">
                                 Par {{$idea->user()->first()->name}} le
                                 {{$idea->created_at->format('d/m/Y')}}
                             </span>
                         </div>
-                        <div class="panel-body idea" style="  word-wrap: break-word;  ">{{str_limit($idea->description,150,'')}}
+                        <div class="panel-body idea" style="  word-wrap: break-word;  ">{{\Illuminate\Support\Str::limit($idea->description,150,'')}}
                             @if(strlen($idea->description) > 150)
                             <a class="btn btn-default" type="button" data-toggle="collapse" data-target="#description-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
                                 Lire la suite...
@@ -158,7 +158,7 @@
 
                     <div class="panel idea btn-com ments">
                         <a class="btn btn-default" type="button" data-toggle="collapse" data-target="#comment-{{$idea->id}}" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="fa fa-comment" aria-hidden="true"></i>   <span id="comment-count-{{$idea->id}}">{{$idea->comments()->count()}}</span>
+                            <i class="fa fa-comment" aria-hidden="true"></i> <span id="comment-count-{{$idea->id}}">{{$idea->comments()->count()}}</span>
                         </a>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                 <div class="col-xs-12">
                     <div class="panel idea btn-comments">
                         <div class="collapse" id="comment-{{$idea->id}}">
-                            @include('global.comments-idea', [ 'comments' =>  $idea->comments()->latest()->paginate(5) , 'commentClass' => ' ' , 'recaptcha' => 1])
+                            @include('global.comments-idea', [ 'comments' => $idea->comments()->latest()->paginate(5) , 'commentClass' => ' ' , 'recaptcha' => 1])
                         </div>
                     </div>
                 </div>

@@ -38,7 +38,7 @@
                 <p class="text-right">
                     <span class=" label label-skin">Skin</span>
                 </p>
-                <p class="desc">{{str_limit($skin->description,350)}}</p>
+                <p class="desc">{{\Illuminate\Support\Str::limit($skin->description,350)}}</p>
 
             </div>
 

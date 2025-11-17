@@ -14,7 +14,7 @@ abstract class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
     protected $baseUrl = 'http://localhost';
     protected static $db_inited = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

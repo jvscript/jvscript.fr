@@ -116,7 +116,7 @@
 
                 @if ( $skin->repo_url != null )
                 <p>
-                    <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{str_limit($skin->repo_url,40)}}</a>  </b>
+                    <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{\Illuminate\Support\Str::limit($skin->repo_url,40)}}</a>  </b>
                 </p>
                 @endif
 
