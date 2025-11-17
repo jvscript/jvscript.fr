@@ -90,7 +90,7 @@ $style = [
                                                 @if ($level == 'error')
                                                     Whoops!
                                                 @else
-                                                    Hello!
+                                                    Bonjour,
                                                 @endif
                                             @endif
                                         </h1>
@@ -177,7 +177,7 @@ $style = [
                                         <p style="{{ $style['paragraph-sub'] }}">
                                             &copy; {{ date('Y') }}
                                             <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ config('app.name') }}</a>.
-                                            All rights reserved.
+                                            Tout droits réservés.
                                         </p>
                                     </td>
                                 </tr>
