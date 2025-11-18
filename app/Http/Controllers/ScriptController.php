@@ -144,10 +144,10 @@ class ScriptController extends Controller
     public function install($slug, Request $request)
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
-         
-        $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? request()->ip();
+        $history = History::where(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
         if ($history->count() == 0) {
-            History::create(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
+            History::create(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
             $item->install_count++;
             $item->save();
         }
@@ -171,10 +171,11 @@ class ScriptController extends Controller
         $note = intval($note);
         if ($note > 0 && $note <= 5) {
             $item = $this->model::where('slug', $slug)->firstOrFail();
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? request()->ip();
             //if no history note_count +1
-            $history = History::where(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
+            $history = History::where(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
             if ($history->count() == 0) {
-                History::create(['ip' => $request->ip(), 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
+                History::create(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
                 $item->note = ($item->note * $item->note_count + $note) / ($item->note_count + 1);
                 $item->note_count++;
                 $item->save();
