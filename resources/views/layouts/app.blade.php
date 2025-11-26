@@ -59,7 +59,6 @@
                         <ul class="dropdown-menu">
                             <li> <a href="{{route('aide')}}">Aide</a></li>
                             <li> <a href="{{url('contact')}}">Nous contacter</a> </li>
-                            <li> <a href="https://github.com/jvscript">GitHub</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

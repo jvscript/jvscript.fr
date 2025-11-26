@@ -50,14 +50,14 @@ class UpdateSkin extends FormRequest
                 'not_in:ajout',
             ],
             'skin_url' => ['required', 'url', 'max:255', 'regex:/^https:\/\/userstyles\.(org|world)\/styles?\/.*/'],
-            'repo_url' => "url|max:255",
-            'photo_url' => "url|max:255|image_url",
+            'repo_url' => "nullable|url|max:255",
+            'photo_url' => "nullable|url|max:255|image_url",
             'photo_file' => 'nullable|mimes:jpeg,jpg,png,gif',
             'user_id' => "exists:users,id",
-            'don_url' => "url|max:255",
+            'don_url' => "nullable|url|max:255",
             'last_update' => "date_format:d/m/Y",
-            'website_url' => "url|max:255",
-            'topic_url' => "url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
+            'website_url' => "nullable|url|max:255",
+            'topic_url' => "nullable|url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
         ];
     }
 }

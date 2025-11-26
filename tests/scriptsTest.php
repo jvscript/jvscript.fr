@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use App\Model\User;
-
 class scriptsTest extends BrowserKitTestCase
 {
     /*
@@ -108,6 +106,7 @@ class scriptsTest extends BrowserKitTestCase
             ->type('2.0', 'version')
             ->type('31/12/2016', 'last_update')
             ->type('owner', 'autor')
+            ->attach(__DIR__ . '/images/image.jpg', 'photo_file')
             ->press('Editer')
             ->seePageIs('/script/nom-du-script')
             ->see('owner')

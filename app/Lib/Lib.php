@@ -119,6 +119,9 @@ class Lib
     public function isImage($path)
     {
         try {
+            if(empty($path)) {
+                return false;
+            }
             if (!is_array(getimagesize($path))) {
                 return false;
             }
