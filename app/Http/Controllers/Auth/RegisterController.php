@@ -119,7 +119,7 @@ class RegisterController extends Controller
     {
         $lib = new Lib();
         $message = "[Inscription] Nouveau user : " . $data['name'] . '/' . $data['email'];
-        $lib->sendDiscord($message, env('DISCORD_URL', ''));
+        $lib->sendDiscord($message, config('services.discord.webhook_url'));
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

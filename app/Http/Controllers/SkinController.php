@@ -45,7 +45,7 @@ class SkinController extends ScriptController
         $this->lib->sendDiscord($message, $this->discord_url);
         if (!App::environment('testing', 'local')) {
             \Mail::raw($message, function ($message) {
-                $message->to(env('ADMIN_EMAIL'))->subject("Nouveau skin");
+                $message->to(config('mail.admin_email'))->subject("Nouveau skin");
             });
         }
         return redirect(route('skin.show', ['slug' => $skin->slug]))->with("message", "Merci d'avoir ajouté un skin mon crayon de couleur.");

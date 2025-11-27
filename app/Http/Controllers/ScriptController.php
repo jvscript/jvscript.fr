@@ -56,7 +56,7 @@ class ScriptController extends Controller
         $this->lib->sendDiscord($message, $this->discord_url);
         if (!App::environment('testing', 'local')) {
             \Mail::raw($message, function ($message) {
-                $message->to(env('ADMIN_EMAIL'))->subject("Nouveau script");
+                $message->to(config('mail.admin_email'))->subject("Nouveau script");
             });
         }
 

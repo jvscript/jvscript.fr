@@ -84,7 +84,7 @@ class GetScriptUpdate extends Command
 
                 $client = new Client();
                 $headers = [
-                    "Authorization: Bearer " . env('GITHUB_TOKEN'),
+                    "Authorization: Bearer " . config('services.github.token'),
                     "User-Agent: My-GitHub-App"  // GitHub requires a user-agent string
                 ];
                 try {

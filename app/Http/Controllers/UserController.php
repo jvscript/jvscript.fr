@@ -116,7 +116,7 @@ class UserController extends Controller
             $this->lib->sendDiscord($message, $this->discord_url);
             
             \Mail::raw($message, function ($message) {
-                $message->to(env('ADMIN_EMAIL'))->subject("Jvscript : contact form");
+                $message->to(config('mail.admin_email'))->subject("Jvscript : contact form");
             });
 
             return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");

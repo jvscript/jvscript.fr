@@ -21,7 +21,7 @@ class Controller extends BaseController
      */
     public function __construct()
     {   
-        $this->discord_url = env('DISCORD_URL', '');
+        $this->discord_url = config('services.discord.webhook_url');
         $this->lib = new Lib();
         $this->min_time_comment = 30; //Interval de temps entre chaque commentaire ou le captcha apparait
         $this->min_time_captcha = 60; //Interval de temps entre chaque commentaire ou le captcha apparait

@@ -112,4 +112,15 @@ return [
 
     'sendmail' => '/usr/sbin/sendmail -bs',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Email
+    |--------------------------------------------------------------------------
+    |
+    | The email address used for admin notifications
+    |
+    */
+
+    'admin_email' => env('ADMIN_EMAIL'),
+
 ];

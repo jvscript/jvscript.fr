@@ -39,6 +39,15 @@ return [
         'client_id' => env('GITHUB_ID'),
         'client_secret' => env('GITHUB_SECRET'),
         'redirect' => env('GITHUB_URL'),
+        'token' => env('GITHUB_TOKEN'),
+    ],
+
+    'discord' => [
+        'webhook_url' => env('DISCORD_URL', ''),
+    ],
+
+    'recaptcha' => [
+        'key' => env('RECAPTCHA_KEY', '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'),
     ],
     
 ];

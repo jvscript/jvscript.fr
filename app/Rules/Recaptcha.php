@@ -15,11 +15,7 @@ class Recaptcha implements Rule
     public function __construct()
     {
         $this->ip = request()->ip();
-        if (\App::environment('local', 'testing')) {
-            $this->recaptcha_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-        } else { //prod
-            $this->recaptcha_key = env('RECAPTCHA_KEY', '');
-        }
+        $this->recaptcha_key = config('services.recaptcha.key');
     }
 
     /**
