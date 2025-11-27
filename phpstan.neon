@@ -1,0 +1,19 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+
+    # Level 10 is the highest level
+    level: 5
+
+    ignoreErrors:
+        - '#PHPDoc type array#'
+        - '#Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable#'
+        - '#LoginController::redirectTo\(\) is unused#'
+#
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php

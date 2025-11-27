@@ -43,11 +43,10 @@ class ScriptComment extends Notification
     public function toMail($notifiable)
     {
         $script = $this->script;
+         $item = 'skin';
         if (isset($script->js_url)) {
             $item = 'script';
-        } elseif (isset($script->skin_url)) {
-            $item = 'skin';
-        }
+        } 
         $mail = (new MailMessage)
             ->greeting('Bonjour,')
             ->subject("Nouveau commentaire sur votre $item : $script->name");

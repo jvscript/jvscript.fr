@@ -61,12 +61,8 @@ class BoxController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $this->throwValidationException(
-                $request,
-                $validator
-            );
+            return redirect()->back()->withErrors($validator)->withInput();
         } else { // sucess > insert
-
             $request->merge(['user_id' => $user->id]);
             $request->merge(['status' => 1]);
             $idea = Idea::create($request->all());

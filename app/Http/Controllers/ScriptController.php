@@ -19,6 +19,9 @@ class ScriptController extends Controller
     // _TODO : retenir le filtre/sort en session/cookie utilisateur
     // _TODO : Event create / update : move code
 
+    protected $model;
+    protected $modelName;
+
     public function __construct()
     {
         parent::__construct();

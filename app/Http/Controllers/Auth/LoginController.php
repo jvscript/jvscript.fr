@@ -70,9 +70,9 @@ class LoginController extends Controller
     /**
      * Redirect the user to the GitHub authentication page.
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirectToProvider()
+    public function redirectToProvider(): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return Socialite::driver('github')->redirect();
     }
@@ -80,19 +80,19 @@ class LoginController extends Controller
     /**
      * Obtain the user information from GitHub.
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(): \Illuminate\Http\RedirectResponse
     {
         try {
             $user = Socialite::driver('github')->user();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return Redirect::to('auth/github');
         }
 
         $authUser = $this->findOrCreateUser($user);
         if ($authUser == 'error.email') {
-            return redirect(url('/login'))->withErrors(['github' => 'Votre email \''.$user->email.'\' est déjà utilisée pour un compte classique en BDD.']);
+            return redirect(url('/login'))->withErrors(['github' => 'Votre email \''.$user->getEmail().'\' est déjà utilisée pour un compte classique en BDD.']);
         }
 
         Auth::login($authUser, true);
@@ -103,7 +103,7 @@ class LoginController extends Controller
     /**
      * Return user if exists; create and return if doesn't
      *
-     * @return User
+     * @return User|string
      */
     private function findOrCreateUser($githubUser)
     {

@@ -14,6 +14,11 @@ class Controller extends BaseController
         DispatchesJobs,
         ValidatesRequests;
 
+    protected $lib;
+    protected $discord_url;
+    protected $min_time_comment;
+    
+
     /**
      * Create a new controller instance.
      *
@@ -24,6 +29,5 @@ class Controller extends BaseController
         $this->discord_url = config('services.discord.webhook_url');
         $this->lib = new Lib;
         $this->min_time_comment = 30; // Interval de temps entre chaque commentaire ou le captcha apparait
-        $this->min_time_captcha = 60; // Interval de temps entre chaque commentaire ou le captcha apparait
     }
 }

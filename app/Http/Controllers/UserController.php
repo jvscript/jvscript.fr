@@ -106,7 +106,6 @@ class UserController extends Controller
         } else {
 
             // send discord
-            $this->discord_url;
             $message = '[contact form] ';
             if ($request->input('email')) {
                 $message .= 'Email : '.$request->input('email').'.';
