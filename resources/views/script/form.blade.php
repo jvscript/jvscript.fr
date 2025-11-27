@@ -190,7 +190,7 @@
                 <label for="photo_file" class="col-md-4 control-label">Ou le fichier du logo/image </label>
 
                 <div class="col-md-6">
-                    <input id="photo_file" type="file"   placeholder="Votre image" class="form-control" name="photo_file" value="{{ old('photo_file') }}"  >
+                    <input id="photo_file" type="file"   accept="image/*"  placeholder="Votre image" class="form-control" name="photo_file" value="{{ old('photo_file') }}"  >
 
                     @if ($errors->has('photo_file'))
                     <span class="help-block">
