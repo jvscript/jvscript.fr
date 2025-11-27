@@ -16,9 +16,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ScriptController extends Controller
 {
-
-    //_TODO : retenir le filtre/sort en session/cookie utilisateur
-    //_TODO : Event create / update : move code
+    // _TODO : retenir le filtre/sort en session/cookie utilisateur
+    // _TODO : Event create / update : move code
 
     public function __construct()
     {
@@ -36,13 +35,13 @@ class ScriptController extends Controller
         $script = Script::create($request->all());
         $script->slug = $this->slugify($script->name);
 
-        if ($request->input("is_autor") == 'on') {
-            $script->user_id = $user->id; //owner du script
+        if ($request->input('is_autor') == 'on') {
+            $script->user_id = $user->id; // owner du script
             $script->autor = $user->name;
         }
         $script->poster_user_id = $user->id;
 
-        //store photo_file or photo_url  storage
+        // store photo_file or photo_url  storage
         if ($request->file('photo_file')) {
             $this->lib->storeImage($script, $request->file('photo_file'));
         } elseif ($request->filled('photo_url')) {
@@ -52,16 +51,15 @@ class ScriptController extends Controller
 
         $script->save();
 
-        $message = "Nouveau script posté sur le site : ".route('script.show', ['slug' => $script->slug]);
+        $message = 'Nouveau script posté sur le site : '.route('script.show', ['slug' => $script->slug]);
         $this->lib->sendDiscord($message, $this->discord_url);
-        if (!App::environment('testing', 'local')) {
+        if (! App::environment('testing', 'local')) {
             \Mail::raw($message, function ($message) {
-                $message->to(config('mail.admin_email'))->subject("Nouveau script");
+                $message->to(config('mail.admin_email'))->subject('Nouveau script');
             });
         }
 
-       
-        return redirect(route('script.show', ['slug' => $script->slug]))->with("message", "Merci d'avoir poster un script mon khey.");
+        return redirect(route('script.show', ['slug' => $script->slug]))->with('message', "Merci d'avoir poster un script mon khey.");
     }
 
     /**
@@ -71,14 +69,14 @@ class ScriptController extends Controller
     {
         $script = Script::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($script->user_id, $script->poster_user_id);
-        //update only this fields
+        // update only this fields
         $toUpdate = ['name', 'autor', 'description', 'js_url', 'repo_url', 'don_url', 'website_url', 'topic_url', 'version'];
         if (Auth::user()->isAdmin()) {
-            array_push($toUpdate, "user_id", "sensibility", 'pinned');
+            array_push($toUpdate, 'user_id', 'sensibility', 'pinned');
             if ($request->input('user_id') == '') {
                 $request->merge(['user_id' => null]);
             } else {
-                //force username of owner
+                // force username of owner
                 $request->merge(['autor' => User::find($request->input('user_id'))->name]);
             }
             if ($request->input('pinned')) {
@@ -105,6 +103,7 @@ class ScriptController extends Controller
         }
 
         $script->save();
+
         return redirect(route('script.show', ['slug' => $slug]));
     }
 
@@ -120,6 +119,7 @@ class ScriptController extends Controller
                 $item->poster_user()->first()->notify(new notifyStatus($item));
             }
         }
+
         return redirect(route($this->modelName.'.show', ['slug' => $slug]));
     }
 
@@ -135,6 +135,7 @@ class ScriptController extends Controller
                 $item->poster_user()->first()->notify(new notifyStatus($item));
             }
         }
+
         return redirect(route($this->modelName.'.show', ['slug' => $slug]));
     }
 
@@ -145,13 +146,13 @@ class ScriptController extends Controller
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? request()->ip();
-        $history = History::where(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
+        $history = History::where(['ip' => $ip, 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
         if ($history->count() == 0) {
-            History::create(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
+            History::create(['ip' => $ip, 'what' => $this->modelName.'_'.$slug, 'action' => 'install']);
             $item->install_count++;
             $item->save();
         }
-   
+
         return "<html>
         <head><meta http-equiv='refresh' content='0;url=$item->url'>
             <style>body, a { color: #ccc; 
@@ -172,15 +173,16 @@ class ScriptController extends Controller
         if ($note > 0 && $note <= 5) {
             $item = $this->model::where('slug', $slug)->firstOrFail();
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? request()->ip();
-            //if no history note_count +1
-            $history = History::where(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
+            // if no history note_count +1
+            $history = History::where(['ip' => $ip, 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
             if ($history->count() == 0) {
-                History::create(['ip' => $ip , 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
+                History::create(['ip' => $ip, 'what' => $this->modelName.'_'.$slug, 'action' => 'note']);
                 $item->note = ($item->note * $item->note_count + $note) / ($item->note_count + 1);
                 $item->note_count++;
                 $item->save();
             }
         }
+
         return redirect(route($this->modelName.'.show', $slug));
     }
 
@@ -189,7 +191,7 @@ class ScriptController extends Controller
         $item = $this->model::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($item->user_id, $item->poster_user_id);
         $item->comments()->delete();
-        //suprimes les images
+        // suprimes les images
         if ($item->photoShortLink()) {
             Storage::delete('public/images/'.$item->photoShortLink());
             Storage::delete('public/images/small-'.$item->photoShortLink());
@@ -200,6 +202,7 @@ class ScriptController extends Controller
         if (Auth::user()->isAdmin()) {
             return redirect(route('admin_index'));
         }
+
         return redirect(route('index'));
     }
 
@@ -209,8 +212,9 @@ class ScriptController extends Controller
         $i = 1;
         $baseSlug = $slug;
         while ($this->model::where('slug', $slug)->count() > 0) {
-            $slug = $baseSlug."-".$i++;
+            $slug = $baseSlug.'-'.$i++;
         }
+
         return $slug;
     }
 
@@ -223,11 +227,11 @@ class ScriptController extends Controller
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
         $comments = $item->comments()->orderBy('created_at', 'desc')->paginate(10);
-        //si pas validé, on affiche seulement si admin/owner
-        if (!$item->isValidated() &&  $this->lib->ownerOradminOrFail($item->user_id, $item->poster_user_id) ) {
+        // si pas validé, on affiche seulement si admin/owner
+        if (! $item->isValidated() && $this->lib->ownerOradminOrFail($item->user_id, $item->poster_user_id)) {
             abort(404);
         }
-        $Parsedown = new ParsedownExtended();
+        $Parsedown = new ParsedownExtended;
         $Parsedown->setMarkupEscaped(true);
         $item->description = $Parsedown->text($item->description);
 
@@ -238,6 +242,7 @@ class ScriptController extends Controller
     {
         $item = $this->model::where('slug', $slug)->firstOrFail();
         $this->lib->ownerOradminOrFail($item->user_id, $item->poster_user_id);
+
         return view($this->modelName.'.edit', [$this->modelName => $item]);
     }
 

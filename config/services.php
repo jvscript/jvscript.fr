@@ -34,7 +34,7 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-        
+
     'github' => [
         'client_id' => env('GITHUB_ID'),
         'client_secret' => env('GITHUB_SECRET'),
@@ -49,5 +49,5 @@ return [
     'recaptcha' => [
         'key' => env('RECAPTCHA_KEY', '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'),
     ],
-    
+
 ];

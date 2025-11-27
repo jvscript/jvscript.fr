@@ -12,6 +12,7 @@ class Contact extends Mailable
         SerializesModels;
 
     public $email;
+
     public $message_body;
 
     /**

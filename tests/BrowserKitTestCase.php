@@ -2,27 +2,27 @@
 
 namespace Tests;
 
-use Illuminate\Support\Facades\Artisan as Artisan;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Laravel\BrowserKitTesting\TestCase;
 
 abstract class BrowserKitTestCase extends TestCase
 {
-
     /**
      * The base URL to use while testing the application.
      *
      * @var string
      */
     protected $baseUrl = 'http://localhost';
+
     protected static $db_inited = false;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        if (!static::$db_inited) {
-            //on reset la bdd avant les tests, une seul fois
+        if (! static::$db_inited) {
+            // on reset la bdd avant les tests, une seul fois
             static::$db_inited = true;
             Artisan::call('migrate:refresh');
             Artisan::call('db:seed');
@@ -37,7 +37,7 @@ abstract class BrowserKitTestCase extends TestCase
      */
     public function createApplication()
     {
-        $app = require __DIR__ . '/../bootstrap/app.php';
+        $app = require __DIR__.'/../bootstrap/app.php';
 
         $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 

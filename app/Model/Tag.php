@@ -17,8 +17,8 @@ class Tag extends Model
     /**
      * Get all of the skins that are assigned this tag.
      */
-//    public function skins()
-//    {
-//        return $this->morphedByMany('App\Model\Skin', 'taggable');
-//    }
+    //    public function skins()
+    //    {
+    //        return $this->morphedByMany('App\Model\Skin', 'taggable');
+    //    }
 }

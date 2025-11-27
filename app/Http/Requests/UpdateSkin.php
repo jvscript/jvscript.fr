@@ -4,12 +4,10 @@ namespace App\Http\Requests;
 
 use App\Model\Skin;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\Rule;
 
 class UpdateSkin extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -30,7 +28,7 @@ class UpdateSkin extends FormRequest
         return [
             'js_url.regex' => 'Le lien du script doit terminer par \'.js\'',
             'topic_url.regex' => 'Le lien du topic devrait être de type http://www.jeuxvideo.com/forums/...',
-            'photo_url.image_url' => "L'url de l'image est invalide."
+            'photo_url.image_url' => "L'url de l'image est invalide.",
         ];
     }
 
@@ -42,21 +40,22 @@ class UpdateSkin extends FormRequest
     public function rules()
     {
         $currentSkin = Skin::where('slug', $this->route('slug'))->firstOrFail();
+
         return [
             'name' => [
                 'required',
                 'max:50',
-                 Rule::unique('skins')->ignore($currentSkin->id),  
+                Rule::unique('skins')->ignore($currentSkin->id),
                 'not_in:ajout',
             ],
             'skin_url' => ['required', 'url', 'max:255', 'regex:/^https:\/\/userstyles\.(org|world)\/styles?\/.*/'],
-            'repo_url' => "nullable|url|max:255",
-            'photo_url' => "nullable|url|max:255|image_url",
+            'repo_url' => 'nullable|url|max:255',
+            'photo_url' => 'nullable|url|max:255|image_url',
             'photo_file' => 'nullable|mimes:jpeg,jpg,png,gif',
-            'user_id' => "exists:users,id",
-            'don_url' => "nullable|url|max:255",
-            'last_update' => "date_format:d/m/Y",
-            'website_url' => "nullable|url|max:255",
+            'user_id' => 'exists:users,id',
+            'don_url' => 'nullable|url|max:255',
+            'last_update' => 'date_format:d/m/Y',
+            'website_url' => 'nullable|url|max:255',
             'topic_url' => "nullable|url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
         ];
     }

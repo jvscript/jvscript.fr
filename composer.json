@@ -20,6 +20,7 @@
         "fakerphp/faker": "^1.23",
         "laravel/browser-kit-testing": "7.*",
         "laravel/envoy": "*",
+        "laravel/pint": "^1.26",
         "mockery/mockery": "^1.6",
         "phpunit/phpunit": "^11.0",
         "rector/rector": "^2.2"

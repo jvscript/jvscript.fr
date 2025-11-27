@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Idea extends Model
 {
-
     /**
      * Get the user that had writed the comment.
      */
@@ -39,6 +38,7 @@ class Idea extends Model
     public function statusLabel()
     {
         $label = ['En attente', 'Validé', 'Refusé'];
+
         return $label[$this->status];
     }
 
@@ -48,6 +48,6 @@ class Idea extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'type', 'user_id', 'status'
+        'title', 'description', 'type', 'user_id', 'status',
     ];
 }

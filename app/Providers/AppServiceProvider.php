@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->lib = new Lib();
+        $this->lib = new Lib;
         Validator::extend('image_url', function ($attribute, $value) {
             return $this->lib->isImage($value);
         });

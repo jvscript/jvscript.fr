@@ -44,20 +44,20 @@ class notifyStatus extends Notification
     {
         $script = $this->script;
         if (isset($script->js_url)) {
-            $item = "script";
+            $item = 'script';
         } elseif (isset($script->skin_url)) {
-            $item = "skin";
+            $item = 'skin';
         }
         $mail = (new MailMessage)
-                ->greeting('Bonjour,')
-                ->subject('Notification de jvscript.fr');
+            ->greeting('Bonjour,')
+            ->subject('Notification de jvscript.fr');
         if ($script->status == 1) {
             $mail->line("Le $item que vous avez ajouté sur jvscript.fr a été validé. ")
-                    ->action('Suivez ce lien pour le voir', route($item . '.show', $script->slug));
+                ->action('Suivez ce lien pour le voir', route($item.'.show', $script->slug));
         } elseif ($script->status == 2) {
             $mail->greeting('Bonjour,')
-                    ->line("Le $item que vous avez ajouté sur jvscript.fr a été refusé. ")
-                    ->action("Contactez-nous pour plus d'info", route('contact.form'));
+                ->line("Le $item que vous avez ajouté sur jvscript.fr a été refusé. ")
+                ->action("Contactez-nous pour plus d'info", route('contact.form'));
         }
 
         return $mail;

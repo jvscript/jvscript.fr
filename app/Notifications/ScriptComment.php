@@ -44,15 +44,15 @@ class ScriptComment extends Notification
     {
         $script = $this->script;
         if (isset($script->js_url)) {
-            $item = "script";
+            $item = 'script';
         } elseif (isset($script->skin_url)) {
-            $item = "skin";
+            $item = 'skin';
         }
         $mail = (new MailMessage)
-                ->greeting('Bonjour,')
-                ->subject("Nouveau commentaire sur votre $item : $script->name");
+            ->greeting('Bonjour,')
+            ->subject("Nouveau commentaire sur votre $item : $script->name");
         $mail->line("Vous avez recu un nouveau commentaire sur votre $item : $script->name")
-                ->action('Voir les commentaires', route($item . '.show', $script->slug) . '#comments');
+            ->action('Voir les commentaires', route($item.'.show', $script->slug).'#comments');
 
         return $mail;
     }

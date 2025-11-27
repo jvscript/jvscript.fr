@@ -7,8 +7,6 @@ use App\Model\Skin;
 use Auth;
 use Illuminate\Support\Facades\Storage;
 use Image;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Log;
 
 class Lib
 {
@@ -18,37 +16,39 @@ class Lib
 
     /**
      * Renvoie true si l'user doit être limité
-     * @param int $seconds
-     * @return boolean limited comment
+     *
+     * @param  int  $seconds
+     * @return bool limited comment
      */
     public function limitComment($seconds)
     {
         $user = Auth::user();
-        if (!$user) {
+        if (! $user) {
             return true;
         }
+
         return $user->comments()->where('created_at', '>', \Carbon\Carbon::now()->subSeconds($seconds))->count();
     }
 
     public function adminOrFail()
     {
-        if (!(Auth::check() && Auth::user()->isAdmin())) {
+        if (! (Auth::check() && Auth::user()->isAdmin())) {
             abort(404);
         }
     }
 
     public function ownerOradminOrFail($user_id, $poster_user_id)
     {
-        //si c'est l'owner / poster de l'objet (script/skin) on laisse passer
-        if (!(Auth::check() && ( Auth::user()->id == $user_id || Auth::user()->id == $poster_user_id))) {
+        // si c'est l'owner / poster de l'objet (script/skin) on laisse passer
+        if (! (Auth::check() && (Auth::user()->id == $user_id || Auth::user()->id == $poster_user_id))) {
             $this->adminOrFail();
         }
     }
 
     public function storeImage($item, $file)
     {
-        Storage::delete('public/images/' . $item->photoShortLink());
-        Storage::delete('public/images/small-' . $item->photoShortLink());
+        Storage::delete('public/images/'.$item->photoShortLink());
+        Storage::delete('public/images/small-'.$item->photoShortLink());
         $filename = $item->slug;
         $filename = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $filename));
 
@@ -56,12 +56,12 @@ class Lib
 
         if ($img->mime() != 'image/png') {
             $img->encode('jpg');
-            $filename = $filename . ".jpg";
+            $filename = $filename.'.jpg';
         } else {
-            $filename = $filename . ".png";
+            $filename = $filename.'.png';
         }
 
-        //== RESIZE NORMAL ==
+        // == RESIZE NORMAL ==
         $img->resize(1000, null, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
@@ -72,9 +72,9 @@ class Lib
         });
 
         \File::exists(storage_path('app/public/images/')) or \File::makeDirectory(storage_path('app/public/images/'));
-        $img->save(storage_path('app/public/images/') . $filename, 90);
+        $img->save(storage_path('app/public/images/').$filename, 90);
 
-        //== RESIZE MINIATURE ==
+        // == RESIZE MINIATURE ==
         $img->resize(345, null, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
@@ -83,9 +83,9 @@ class Lib
             $constraint->aspectRatio();
             $constraint->upsize();
         });
-        $img->save(storage_path('app/public/images/small-') . $filename, 85);
+        $img->save(storage_path('app/public/images/small-').$filename, 85);
 
-        //store photo in DB
+        // store photo in DB
         $item->photo_url = $filename;
         $item->save();
     }
@@ -96,16 +96,16 @@ class Lib
             return;
         }
 
-        $data = ["content" => $content];
+        $data = ['content' => $content];
         $data_string = json_encode($data);
         $opts = [
             'http' => [
-                'method' => "POST",
-                "name" => "jvscript.io",
-                "user_name" => "jvscript.io",
+                'method' => 'POST',
+                'name' => 'jvscript.io',
+                'user_name' => 'jvscript.io',
                 'header' => "Content-Type: application/json\r\n",
-                'content' => $data_string
-            ]
+                'content' => $data_string,
+            ],
         ];
 
         try {
@@ -119,10 +119,10 @@ class Lib
     public function isImage($path)
     {
         try {
-            if(empty($path)) {
+            if (empty($path)) {
                 return false;
             }
-            if (!is_array(getimagesize($path))) {
+            if (! is_array(getimagesize($path))) {
                 return false;
             }
 
@@ -133,10 +133,10 @@ class Lib
             if (in_array($image_type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP])) {
                 return true;
             }
+
             return false;
         } catch (\Exception $ex) {
             return false;
         }
     }
-
 }

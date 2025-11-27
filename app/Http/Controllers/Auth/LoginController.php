@@ -25,7 +25,6 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-
     /**
      * Get the login username to be used by the controller.
      *
@@ -38,12 +37,12 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $redirectUrl = url()->previous(); 
+        $redirectUrl = url()->previous();
         $this->guard()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect($redirectUrl); 
+        return redirect($redirectUrl);
     }
 
     private function redirectTo()
@@ -54,6 +53,7 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         session(['redir' => url()->previous()]);
+
         return view('auth.login');
     }
 
@@ -91,8 +91,8 @@ class LoginController extends Controller
         }
 
         $authUser = $this->findOrCreateUser($user);
-        if ($authUser == "error.email") {
-            return redirect(url('/login'))->withErrors(['github' => 'Votre email \'' . $user->email . '\' est déjà utilisée pour un compte classique en BDD.']);
+        if ($authUser == 'error.email') {
+            return redirect(url('/login'))->withErrors(['github' => 'Votre email \''.$user->email.'\' est déjà utilisée pour un compte classique en BDD.']);
         }
 
         Auth::login($authUser, true);
@@ -103,7 +103,6 @@ class LoginController extends Controller
     /**
      * Return user if exists; create and return if doesn't
      *
-     * @param $githubUser
      * @return User
      */
     private function findOrCreateUser($githubUser)
@@ -112,24 +111,24 @@ class LoginController extends Controller
             return $authUser;
         }
 
-        //if email existe en base pour un compte non github
-        //->where('github_id',null)
+        // if email existe en base pour un compte non github
+        // ->where('github_id',null)
         if (User::where('email', $githubUser->email)->count() > 0) {
-            return "error.email";
+            return 'error.email';
         }
 
-        //if github name existe déjà en base, generate unique name
+        // if github name existe déjà en base, generate unique name
         $baseName = $name = $githubUser->nickname;
         $i = 1;
         while (User::where('name', $name)->count() > 0) {
-            $name = $baseName . "-" . $i++;
+            $name = $baseName.'-'.$i++;
         }
 
         return User::create([
             'name' => $name,
             'email' => $githubUser->email,
             'github_id' => $githubUser->id,
-            'password' => bcrypt(\Illuminate\Support\Str::random(7))
+            'password' => bcrypt(\Illuminate\Support\Str::random(7)),
         ]);
     }
 }

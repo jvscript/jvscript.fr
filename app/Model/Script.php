@@ -10,6 +10,7 @@ class Script extends Model
         'pinned' => 'boolean',
         'last_update' => 'datetime',
     ];
+
     /**
      * Get the user (owner)
      */
@@ -42,27 +43,30 @@ class Script extends Model
     public function getPhotoUrlAttribute($value)
     {
         if ($value) {
-            return "/storage/images/" . $value;
+            return '/storage/images/'.$value;
         }
+
         return null;
     }
 
     public function photoShortLink()
     {
-        return str_replace("/storage/images/", '', $this->photo_url);
+        return str_replace('/storage/images/', '', $this->photo_url);
     }
 
     public function photoSmall()
     {
         if ($this->photo_url) {
-            return "/storage/images/small-" . $this->photoShortLink();
+            return '/storage/images/small-'.$this->photoShortLink();
         }
+
         return null;
     }
 
     public function statusLabel()
     {
         $label = ['En attente', 'Validé', 'Refusé'];
+
         return $label[$this->status];
     }
 
@@ -73,8 +77,6 @@ class Script extends Model
     {
         return $this->morphMany('App\Model\Comment', 'commentable');
     }
-
-
 
     public function getUrlAttribute()
     {
@@ -101,6 +103,6 @@ class Script extends Model
         'website_url',
         'sensibility',
         'user_id',
-        'pinned'
+        'pinned',
     ];
 }

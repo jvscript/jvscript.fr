@@ -23,7 +23,7 @@ class scriptsTest extends BrowserKitTestCase
      *
      */
 
-    public function testHomepage()
+    public function test_homepage()
     {
         $this->visit('/')
             ->see('jvscript.fr');
@@ -32,7 +32,7 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Connexion superadmin
      */
-    public function testConnexion($login = 'superadmin', $password = 'superadmin')
+    public function test_connexion($login = 'superadmin', $password = 'superadmin')
     {
         $this->visit('/')
             ->click('Connexion')
@@ -44,9 +44,9 @@ class scriptsTest extends BrowserKitTestCase
             ->see("Bonjour $login");
     }
 
-    public function testAjoutScript()
+    public function test_ajout_script()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/script/ajout')
             ->type('nom du script', 'name')
             ->type('description', 'description')
@@ -65,9 +65,9 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Voir Script non validé avaec les droits admin
      */
-    public function testVoirScriptAdmin()
+    public function test_voir_script_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/script/nom-du-script')
             ->see('nom du script')
             ->see('toto')
@@ -81,12 +81,12 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Inscription compte owner
      */
-    public function testInscription($username = 'owner', $password = 'password')
+    public function test_inscription($username = 'owner', $password = 'password')
     {
         $this->visit('/')
             ->click('Inscription')
             ->type($username, 'name')
-            ->type($username . '@fakemail.com', 'email')
+            ->type($username.'@fakemail.com', 'email')
             ->type($password, 'password')
             ->press('S\'inscrire')
             ->seePageIs('/');
@@ -95,9 +95,9 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Editer le script en admin & changer l'owner
      */
-    public function testEditerScriptAdmin()
+    public function test_editer_script_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/script/nom-du-script')
             ->click('Editer')
             ->seePageIs('/script/nom-du-script/edit')
@@ -106,7 +106,7 @@ class scriptsTest extends BrowserKitTestCase
             ->type('2.0', 'version')
             ->type('31/12/2016', 'last_update')
             ->type('owner', 'autor')
-            ->attach(__DIR__ . '/images/image.jpg', 'photo_file')
+            ->attach(__DIR__.'/images/image.jpg', 'photo_file')
             ->press('Editer')
             ->seePageIs('/script/nom-du-script')
             ->see('owner')
@@ -121,9 +121,9 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * accès au script par owner
      */
-    public function testVoirEditerScriptOwner()
+    public function test_voir_editer_script_owner()
     {
-        $this->testConnexion('owner', 'password');
+        $this->test_connexion('owner', 'password');
         $this->visit('/script/nom-du-script')
             ->click('Editer')
             ->seePageIs('/script/nom-du-script/edit')
@@ -144,9 +144,9 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Commenter script owner
      */
-    public function testCommenterScriptOwner()
+    public function test_commenter_script_owner()
     {
-        $this->testConnexion('owner', 'password');
+        $this->test_connexion('owner', 'password');
         $this->visit('/script/nom-du-script')
             ->type('Ceci est un commentaire', 'comment')
             ->press('Commenter')
@@ -158,16 +158,15 @@ class scriptsTest extends BrowserKitTestCase
             ->click('delete-comment')
             ->seePageIs('/script/nom-du-script')
             ->dontSee('Ceci est un commentaire')
-            ->dontSee('2eme commentaire')
-        ;
+            ->dontSee('2eme commentaire');
     }
 
     /**
      * Random user can't edit owner script
      */
-    public function testRandomUserCantEditOwnerScript()
+    public function test_random_user_cant_edit_owner_script()
     {
-        $this->testInscription('random', 'password');
+        $this->test_inscription('random', 'password');
         $this->visit('/script/nom-du-script')
             ->dontSee('Editer');
     }
@@ -175,7 +174,7 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Page admin en guest
      */
-    public function testGuestAdmin404()
+    public function test_guest_admin404()
     {
         $this->visit('/admin')
             ->seePageIs('/login');
@@ -184,7 +183,7 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * accès au script par guest
      */
-    public function testVoirScriptGuest()
+    public function test_voir_script_guest()
     {
         $this->visit('/script/nom-du-script')
             ->seePageIs('/script/nom-du-script')
@@ -198,7 +197,7 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * accès au script par guest
      */
-    public function testNoterInstallerScriptGuest()
+    public function test_noter_installer_script_guest()
     {
         $note = rand(1, 5);
         $this->visit('/script/nom-du-script')
@@ -215,9 +214,9 @@ class scriptsTest extends BrowserKitTestCase
             ->see('1 fois');
     }
 
-    public function testRefuserScriptAdmin()
+    public function test_refuser_script_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/script/nom-du-script')
             ->click('Refuser')
             ->seePageIs('/script/nom-du-script')
@@ -227,18 +226,18 @@ class scriptsTest extends BrowserKitTestCase
     /**
      * Script non validé en guest
      */
-    public function testGuestTryingToSeeScriptShouldGet404()
+    public function test_guest_trying_to_see_script_should_get404()
     {
         $response = $this->call('GET', '/script/nom-du-script');
         $this->assertEquals(404, $response->status());
     }
 
-    public function testSupprimerScriptAdmin()
+    public function test_supprimer_script_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/script/nom-du-script')
             ->click('Supprimer')
             ->seePageIs('/admin');
-        $this->testGuestTryingToSeeScriptShouldGet404();
+        $this->test_guest_trying_to_see_script_should_get404();
     }
 }

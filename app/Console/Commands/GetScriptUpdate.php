@@ -41,30 +41,31 @@ class GetScriptUpdate extends Command
     public function handle()
     {
         $this->crawlInfo();
+
         return 0;
     }
 
     private function crawlInfo()
     {
-        $scripts = Script::where("status", 1)
+        $scripts = Script::where('status', 1)
             // ->where('slug', 'jvc-imageviewer')
             ->where('updated_at', '<', \Carbon\Carbon::now()->subDay(1))
             ->orderBy('updated_at', 'asc')
             ->get();
 
         foreach ($scripts as $script) {
-            $this->info("Script : " . $script->name);
+            $this->info('Script : '.$script->name);
             $error = false;
             $newDate = null;
 
-            //transform github blob url to raw
+            // transform github blob url to raw
             $pattern = '/(https:\/\/github\.com\/[^\/]+\/[^\/]+)\/blob\/(.+)/';
             if (preg_match($pattern, $script->js_url)) {
                 $replacement = '$1/raw/$2';
                 $raw_url = preg_replace($pattern, $replacement, $script->js_url);
                 $script->js_url = $raw_url;
                 $script->save();
-                $this->warn("fixed : " .  $raw_url);
+                $this->warn('fixed : '.$raw_url);
             }
 
             if (
@@ -74,52 +75,52 @@ class GetScriptUpdate extends Command
                 $owner = $match[1];
                 $repo = $match[2];
                 $branch = $match[3];
-                $file_path = ($match[4] . '.js');
-                //replace space by %20 in file path
+                $file_path = ($match[4].'.js');
+                // replace space by %20 in file path
                 $file_path = str_replace(' ', '%20', $file_path);
-                //replace + by %2B in file path
+                // replace + by %2B in file path
                 $file_path = str_replace('+', '%2B', $file_path);
                 $url_crawl = "https://github.com/$owner/$repo/raw/$branch/$file_path";
                 $api_url = "https://api.github.com/repos/$owner/$repo/commits?path=$file_path&sha=$branch";
 
-                $client = new Client();
+                $client = new Client;
                 $headers = [
-                    "Authorization: Bearer " . config('services.github.token'),
-                    "User-Agent: My-GitHub-App"  // GitHub requires a user-agent string
+                    'Authorization: Bearer '.config('services.github.token'),
+                    'User-Agent: My-GitHub-App',  // GitHub requires a user-agent string
                 ];
                 try {
                     $response = $client->request('GET', $api_url, ['headers' => $headers]);
                     if ($response->getStatusCode() == 200) {
                         $commits = json_decode($response->getBody()->getContents(), true);
-                        if (!empty($commits) && isset($commits[0]['commit']['committer']['date'])) {
+                        if (! empty($commits) && isset($commits[0]['commit']['committer']['date'])) {
                             $date = $commits[0]['commit']['committer']['date'];
                             $newDate = \Carbon\Carbon::parse($date);
-                            //TODO: front : update il y a XX mois ou XX jours
+                            // TODO: front : update il y a XX mois ou XX jours
                         } else {
-                            $this->error("fail github get date : " . $script->js_url . " |  $api_url");
+                            $this->error('fail github get date : '.$script->js_url." |  $api_url");
                             // die;
                         }
                     }
                 } catch (\Exception $ex) {
-                    $this->error("fail: Could not fetch data from GitHub API | " . $api_url . " " .  $ex->getMessage());
+                    $this->error('fail: Could not fetch data from GitHub API | '.$api_url.' '.$ex->getMessage());
                     $error = true;
                     // die;
                 }
             } elseif (preg_match('/https:\/\/(.*)\.github\.io\/(.*)\/(.*)\.js/i', $script->js_url, $match)) {
-                //GITHUB PAGES
+                // GITHUB PAGES
                 $url_crawl = "https://github.com/$match[1]/$match[2]/blob/master/$match[3].js";
                 $crawl_content = @file_get_contents($url_crawl);
                 if (preg_match('/<relative-time datetime="(.*Z)">/i', $crawl_content, $match_date)) {
                     $date = $match_date[1];
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
-                    $this->error("fail date : " . $script->js_url . " | $url_crawl");
+                    $this->error('fail date : '.$script->js_url." | $url_crawl");
                     $error = true;
                     // die;
                 }
             } elseif (preg_match('/https:\/\/openuserjs\.org\/install\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match) || preg_match('/https:\/\/openuserjs\.org\/src\/scripts\/(.*)\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://openuserjs.org/scripts/$match[1]/$match[2]";
-                //remove .min at the end of url 
+                // remove .min at the end of url
                 $url_crawl = str_replace('.min', '', $url_crawl);
 
                 $crawl_content = @file_get_contents($url_crawl);
@@ -130,13 +131,13 @@ class GetScriptUpdate extends Command
                     $date = $match_date[1];
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
-                    $this->error("fail date : " . $script->js_url . " | $url_crawl");
+                    $this->error('fail date : '.$script->js_url." | $url_crawl");
                     $error = true;
                     // die;
                 }
-                //get version openuserjs in same page
+                // get version openuserjs in same page
                 if (preg_match('/<code>([0-9.]+).*<\/code>/i', $crawl_content, $match)) {
-                    $script->update(['version' => strip_tags($match[1]) ]);
+                    $script->update(['version' => strip_tags($match[1])]);
                 }
             } elseif (preg_match('/https:\/\/(?:update\.)?greasyfork\.org\/scripts\/([^\/]+)(?:\/code)?\/(.*)\.user\.js/i', $script->js_url, $match)) {
                 $url_crawl = "https://greasyfork.org/fr/scripts/$match[1]";
@@ -145,7 +146,7 @@ class GetScriptUpdate extends Command
                     $date = $match_date[1];
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
-                    $this->error("fail date : " . $script->js_url . " | $url_crawl");
+                    $this->error('fail date : '.$script->js_url." | $url_crawl");
                     $error = true;
                     // die;
                 }
@@ -159,11 +160,11 @@ class GetScriptUpdate extends Command
                 $script->update(['last_update' => $newDate]);
             }
 
-            //===GET  VERSION===
+            // ===GET  VERSION===
             $url_crawl = $script->js_url;
 
-            if (!\Illuminate\Support\Str::contains($url_crawl, 'openuserjs')) {
-                $client = new Client();
+            if (! \Illuminate\Support\Str::contains($url_crawl, 'openuserjs')) {
+                $client = new Client;
                 try {
                     $response = $client->request('GET', $url_crawl);
                     $content = $response->getBody()->getContents();
@@ -172,30 +173,31 @@ class GetScriptUpdate extends Command
                         $script->update(['version' => $version]);
                         if ($script->wasCHanged()) {
                             $this->info("version updated : $version");
-                            if ($script->last_update === NULL) {
+                            if ($script->last_update === null) {
                                 $script->update(['last_update' => \Carbon\Carbon::now()]);
                                 $this->warn("version changed but last_update is null : $version");
                             }
                         }
                     } else {
-                        $this->error("fail version : " . $script->js_url);
-                        Log::error("fail version : " . $script->name . " | " . $script->js_url);
+                        $this->error('fail version : '.$script->js_url);
+                        Log::error('fail version : '.$script->name.' | '.$script->js_url);
                         $error = true;
                         // die;
                     }
                 } catch (\Exception $ex) {
-                    $this->error("fail: Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
+                    $this->error('fail: Could not fetch data  | '.$url_crawl.' '.$ex->getMessage());
                     // Log::error("Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
                     $error = true;
                     // die;
                 }
             }
-            if (!$error)
+            if (! $error) {
                 $script->touch();
-            $this->info("");
+            }
+            $this->info('');
         }
 
-        //update skin date
+        // update skin date
         // $scripts = Skin::where("status", 1)->orderBy('last_update', 'asc')->get();
         // foreach ($scripts as $script) {
         //     $url_crawl = $script->skin_url;

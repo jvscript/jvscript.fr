@@ -21,216 +21,213 @@ class skinsTest extends BrowserKitTestCase
      * - supprimer le skin (admin)
      */
 
-    public function testHomepage()
+    public function test_homepage()
     {
         $this->visit('/')
-                ->see('jvscript.fr');
+            ->see('jvscript.fr');
     }
 
     /**
      * Connexion superadmin
      */
-    public function testConnexion($login = 'superadmin', $password = 'superadmin')
+    public function test_connexion($login = 'superadmin', $password = 'superadmin')
     {
         $this->visit('/')
-                ->click('Connexion')
-                ->seePageIs('/login')
-                ->type($login, 'name')
-                ->type($password, 'password')
-                ->press('Se connecter')
-                ->seePageIs('/')
-                ->see("Bonjour $login");
+            ->click('Connexion')
+            ->seePageIs('/login')
+            ->type($login, 'name')
+            ->type($password, 'password')
+            ->press('Se connecter')
+            ->seePageIs('/')
+            ->see("Bonjour $login");
     }
 
-    public function testAjoutSkin()
+    public function test_ajout_skin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/skin/ajout')
-                ->type('nom du skin', 'name')
-                ->type('description', 'description')
-                ->type('auteur du skin', 'autor')
-                ->type('https://userstyles.org/styles/78695/skin-jvc-rouge-noir-by-tiger', 'skin_url')
-                ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
-                ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
-                ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
-                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
-                ->type('https://www.paypal.me/vplancke/', 'don_url')
-                ->press('Ajouter')
-                ->seePageIs('/skin/nom-du-skin')
-                ->see("Merci d'avoir ajouté un skin mon crayon de couleur.");
+            ->type('nom du skin', 'name')
+            ->type('description', 'description')
+            ->type('auteur du skin', 'autor')
+            ->type('https://userstyles.org/styles/78695/skin-jvc-rouge-noir-by-tiger', 'skin_url')
+            ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
+            ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
+            ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
+            ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
+            ->type('https://www.paypal.me/vplancke/', 'don_url')
+            ->press('Ajouter')
+            ->seePageIs('/skin/nom-du-skin')
+            ->see("Merci d'avoir ajouté un skin mon crayon de couleur.");
     }
 
-    public function testAjoutSkinUserstylesWorld()
+    public function test_ajout_skin_userstyles_world()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/skin/ajout')
-                ->type('nom du skin world', 'name')
-                ->type('description', 'description')
-                ->type('auteur du skin', 'autor')
-                ->type('https://userstyles.world/style/2/dark-github', 'skin_url')
-                ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
-                ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
-                ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
-                ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
-                ->type('https://www.paypal.me/vplancke/', 'don_url')
-                ->press('Ajouter')
-                ->seePageIs('/skin/nom-du-skin-world')
-                ->see("Merci d'avoir ajouté un skin mon crayon de couleur.");
+            ->type('nom du skin world', 'name')
+            ->type('description', 'description')
+            ->type('auteur du skin', 'autor')
+            ->type('https://userstyles.world/style/2/dark-github', 'skin_url')
+            ->type('https://github.com/jvscript/jvscript.github.io', 'repo_url')
+            ->type('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm', 'topic_url')
+            ->type('https://arteriesshaking.bandcamp.com/album/burning-streets', 'website_url')
+            ->type('http://image.noelshack.com/fichiers/2016/39/1475401891-valls2.gif', 'photo_url')
+            ->type('https://www.paypal.me/vplancke/', 'don_url')
+            ->press('Ajouter')
+            ->seePageIs('/skin/nom-du-skin-world')
+            ->see("Merci d'avoir ajouté un skin mon crayon de couleur.");
     }
-
-
 
     /**
      * Voir Skin non validé avaec les droits admin
      */
-    public function testVoirSkinAdmin()
+    public function test_voir_skin_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/skin/nom-du-skin')
-                ->see('nom du skin')
-                ->see('auteur du skin')
-                ->see('https://github.com/jvscript/jvscript.github.io')
-                ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
-                ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
-                ->see('nom-du-skin.jpg')
-                ->see('https://www.paypal.me/vplancke/');
+            ->see('nom du skin')
+            ->see('auteur du skin')
+            ->see('https://github.com/jvscript/jvscript.github.io')
+            ->see('https://www.jeuxvideo.com/forums/42-51-49907271-1-0-1-0-si-vous-avez-la-possibilite-d-etre-un-animal.htm')
+            ->see('https://arteriesshaking.bandcamp.com/album/burning-streets')
+            ->see('nom-du-skin.jpg')
+            ->see('https://www.paypal.me/vplancke/');
     }
 
     /**
      * Editer le skin en admin & changer l'owner
      */
-    public function testEditerSkinAdmin()
+    public function test_editer_skin_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/skin/nom-du-skin')
-                ->click('Editer')
-                ->seePageIs('/skin/nom-du-skin/edit')
-                ->type('desc_edit', 'description')
-                ->type('2', 'user_id')
-                ->type('owner', 'autor')
-                ->type('2.0', 'version')
-                ->type('31/12/2016', 'last_update')
-                ->press('Editer')
-                ->seePageIs('/skin/nom-du-skin')
-                ->see('owner')
-                ->see('desc_edit')
-                ->see('31/12/2016')
-                ->dontSee('auteur du skin')
-                ->click('Valider')
-                ->see('Ce skin a été validé.');
+            ->click('Editer')
+            ->seePageIs('/skin/nom-du-skin/edit')
+            ->type('desc_edit', 'description')
+            ->type('2', 'user_id')
+            ->type('owner', 'autor')
+            ->type('2.0', 'version')
+            ->type('31/12/2016', 'last_update')
+            ->press('Editer')
+            ->seePageIs('/skin/nom-du-skin')
+            ->see('owner')
+            ->see('desc_edit')
+            ->see('31/12/2016')
+            ->dontSee('auteur du skin')
+            ->click('Valider')
+            ->see('Ce skin a été validé.');
     }
 
     /**
      * accès au skin par owner
      */
-    public function testVoirEditerSkinOwner()
+    public function test_voir_editer_skin_owner()
     {
-        $this->testConnexion('owner', 'password');
+        $this->test_connexion('owner', 'password');
         $this->visit('/skin/nom-du-skin')
-                ->click('Editer')
-                ->seePageIs('/skin/nom-du-skin/edit')
-                ->dontSee('Auteur du skin')
-                ->type('nom du skin edited', 'name')
-                ->type('desc_edit_owner', 'description')
-                ->press('Editer')
-                ->seePageIs('/skin/nom-du-skin-edited')
-                ->click('Editer')
-                ->seePageIs('/skin/nom-du-skin-edited/edit')
-                ->type('nom du skin', 'name')
-                ->press('Editer')
-                ->seePageIs('/skin/nom-du-skin')
-                ->see('nom-du-skin.jpg')
-                ->see('owner')
-                ->see('desc_edit_owner');
+            ->click('Editer')
+            ->seePageIs('/skin/nom-du-skin/edit')
+            ->dontSee('Auteur du skin')
+            ->type('nom du skin edited', 'name')
+            ->type('desc_edit_owner', 'description')
+            ->press('Editer')
+            ->seePageIs('/skin/nom-du-skin-edited')
+            ->click('Editer')
+            ->seePageIs('/skin/nom-du-skin-edited/edit')
+            ->type('nom du skin', 'name')
+            ->press('Editer')
+            ->seePageIs('/skin/nom-du-skin')
+            ->see('nom-du-skin.jpg')
+            ->see('owner')
+            ->see('desc_edit_owner');
     }
 
     /**
      * Commenter skin owner
      */
-    public function testCommenterScriptOwner()
+    public function test_commenter_script_owner()
     {
-        $this->testConnexion('owner', 'password');
+        $this->test_connexion('owner', 'password');
         $this->visit('/skin/nom-du-skin')
-                ->type('Ceci est un commentaire', 'comment')
-                ->press('Commenter')
-                ->seePageIs('/skin/nom-du-skin')
-                ->see('Ceci est un commentaire')
-                ->type('2eme commentaire', 'comment')
-                ->press('Commenter')
-                ->see('Veuillez attendre 30 secondes entre chaque commentaire svp')
-                ->click('delete-comment')
-                ->seePageIs('/skin/nom-du-skin')
-                ->dontSee('Ceci est un commentaire')
-                ->dontSee('2eme commentaire')
-        ;
+            ->type('Ceci est un commentaire', 'comment')
+            ->press('Commenter')
+            ->seePageIs('/skin/nom-du-skin')
+            ->see('Ceci est un commentaire')
+            ->type('2eme commentaire', 'comment')
+            ->press('Commenter')
+            ->see('Veuillez attendre 30 secondes entre chaque commentaire svp')
+            ->click('delete-comment')
+            ->seePageIs('/skin/nom-du-skin')
+            ->dontSee('Ceci est un commentaire')
+            ->dontSee('2eme commentaire');
     }
 
     /**
      * Skin non validé Sans les droits admin
      */
-    public function testGuestAdmin404()
+    public function test_guest_admin404()
     {
         $this->visit('/admin')
-                ->seePageIs('/login');
+            ->seePageIs('/login');
     }
 
     /**
      * accès au skin par guest
      */
-    public function testVoirSkinGuest()
+    public function test_voir_skin_guest()
     {
         $this->visit('/skin/nom-du-skin')
-                ->seePageIs('/skin/nom-du-skin')
-                ->dontSee('Editer')
-                ->dontSee('Valider')
-                ->see('owner')
-                ->see('desc_edit_owner');
+            ->seePageIs('/skin/nom-du-skin')
+            ->dontSee('Editer')
+            ->dontSee('Valider')
+            ->see('owner')
+            ->see('desc_edit_owner');
     }
 
     /**
      * accès au skin par guest
      */
-    public function testNoterInstallerScriptGuest()
+    public function test_noter_installer_script_guest()
     {
         $note = rand(1, 5);
         $this->visit('/skin/nom-du-skin')
-                ->press("note-$note")
-                ->seePageIs('/skin/nom-du-skin')
-                ->see('1 votes');
+            ->press("note-$note")
+            ->seePageIs('/skin/nom-du-skin')
+            ->see('1 votes');
 
         $this->call('GET', '/skin/install/nom-du-skin');
         $this->visit('/skin/nom-du-skin')
-                ->see('1 fois');
+            ->see('1 fois');
 
         $this->call('POST', '/skin/install/nom-du-skin', $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-skin']);
         $this->visit('/skin/nom-du-skin')
-                ->see('1 fois');
+            ->see('1 fois');
     }
 
-    public function testRefuserSkinAdmin()
+    public function test_refuser_skin_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/skin/nom-du-skin')
-                ->click('Refuser')
-                ->seePageIs('/skin/nom-du-skin')
-                ->see('Ce skin a été refusé.');
+            ->click('Refuser')
+            ->seePageIs('/skin/nom-du-skin')
+            ->see('Ce skin a été refusé.');
     }
 
     /**
      * Skin non validé en guest
      */
-    public function testVoirSkin404()
+    public function test_voir_skin404()
     {
         $response = $this->call('GET', '/skin/nom-du-skin');
         $this->assertEquals(404, $response->status());
     }
 
-    public function testSupprimerSkinAdmin()
+    public function test_supprimer_skin_admin()
     {
-        $this->testConnexion();
+        $this->test_connexion();
         $this->visit('/skin/nom-du-skin')
-                ->click('Supprimer')
-                ->seePageIs('/admin');
-        $this->testVoirSkin404();
+            ->click('Supprimer')
+            ->seePageIs('/admin');
+        $this->test_voir_skin404();
     }
 }

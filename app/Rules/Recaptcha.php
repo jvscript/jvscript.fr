@@ -6,7 +6,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class Recaptcha implements Rule
 {
-
     /**
      * Create a new rule instance.
      *
@@ -29,6 +28,7 @@ class Recaptcha implements Rule
     {
         $recaptcha = new \ReCaptcha\ReCaptcha($this->recaptcha_key);
         $result = $recaptcha->verify($attribute, $this->ip);
+
         return $result;
     }
 

@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreScript extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -41,13 +40,13 @@ class StoreScript extends FormRequest
         return [
             'name' => 'required|max:50|unique:scripts|not_in:ajout',
             'description' => 'required',
-            "autor" => "max:255",
+            'autor' => 'max:255',
             'js_url' => "required|url|max:255|regex:/.*\.js$/",
-            'repo_url' => "nullable|url|max:255",
-            'photo_url' => "nullable|url|max:255|image_url",
+            'repo_url' => 'nullable|url|max:255',
+            'photo_url' => 'nullable|url|max:255|image_url',
             'photo_file' => 'nullable|mimes:jpeg,jpg,png,gif',
-            'don_url' => "nullable|url|max:255",
-            'website_url' => "nullable|url|max:255",
+            'don_url' => 'nullable|url|max:255',
+            'website_url' => 'nullable|url|max:255',
             'topic_url' => "nullable|url|max:255|regex:/^https?:\/\/www\.jeuxvideo\.com\/forums\/.*/",
         ];
     }

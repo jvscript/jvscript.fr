@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-
     /**
      * Get all of the owning commentable models.
      */
@@ -29,6 +28,6 @@ class Comment extends Model
      * @var array
      */
     protected $fillable = [
-        'comment', 'user_id'
+        'comment', 'user_id',
     ];
 }

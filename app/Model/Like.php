@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Like extends Model
 {
-
     /**
      * Get all of the owning  models.
      */
@@ -29,6 +28,6 @@ class Like extends Model
      * @var array
      */
     protected $fillable = [
-        'liked', 'user_id'
+        'liked', 'user_id',
     ];
 }

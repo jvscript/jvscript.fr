@@ -2,30 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use App\Model\Comment;
 use App\Model\Script;
 use App\Model\Skin;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
-use Illuminate\Support\Facades\Log;
-
 
 class UserController extends Controller
 {
-
     /**
      * Homepage
      */
     public function index(Request $request, $keyword = null)
     {
         $keyword = $keyword == null ? '' : $keyword;
-        $scripts = Script::where("status", 1)
-            ->orderBy('pinned','desc')
-            ->orderBy('install_count','desc')
+        $scripts = Script::where('status', 1)
+            ->orderBy('pinned', 'desc')
+            ->orderBy('install_count', 'desc')
             ->get();
-        $skins = Skin::where("status", 1)->get();
+        $skins = Skin::where('status', 1)->get();
 
         $collection = collect([$scripts, $skins]);
         $collapsed = $collection->collapse();
@@ -58,6 +54,7 @@ class UserController extends Controller
     {
         $this->lib->adminOrFail();
         $comments = Comment::latest()->paginate(20);
+
         return view('admin.comments', ['comments' => $comments]);
     }
 
@@ -69,7 +66,8 @@ class UserController extends Controller
         $this->lib->adminOrFail();
         $comment = Comment::findOrFail($comment_id);
         $comment->delete();
-        return redirect(route("admin.comments"));
+
+        return redirect(route('admin.comments'));
     }
 
     public function mesScripts(Request $request)
@@ -89,6 +87,7 @@ class UserController extends Controller
     public function ajaxUsers(Request $request)
     {
         $this->lib->adminOrFail();
+
         return \App\Model\User::select('id', 'name')->get();
     }
 
@@ -98,28 +97,28 @@ class UserController extends Controller
     public function contactSend(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                    'email' => 'email',
-                    'message_body' => "required"
+            'email' => 'email',
+            'message_body' => 'required',
         ]);
 
         if ($validator->fails()) {
 
-        } else {       
+        } else {
 
-            //send discord
+            // send discord
             $this->discord_url;
-            $message = "[contact form] ";
+            $message = '[contact form] ';
             if ($request->input('email')) {
-                $message .= "Email : " . $request->input('email') . '.';
+                $message .= 'Email : '.$request->input('email').'.';
             }
-            $message .= "Message : " . $request->input('message_body');
+            $message .= 'Message : '.$request->input('message_body');
             $this->lib->sendDiscord($message, $this->discord_url);
-            
+
             \Mail::raw($message, function ($message) {
-                $message->to(config('mail.admin_email'))->subject("Jvscript : contact form");
+                $message->to(config('mail.admin_email'))->subject('Jvscript : contact form');
             });
 
-            return redirect(route('contact.form'))->with("message", "Merci, votre message a été envoyé.");
+            return redirect(route('contact.form'))->with('message', 'Merci, votre message a été envoyé.');
         }
 
         return redirect(route('contact.form'));

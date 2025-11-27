@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateJvscriptTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -19,8 +18,8 @@ class CreateJvscriptTable extends Migration
             $table->string('name')->unique();
             $table->string('slug')->nullable()->unique();
             $table->string('autor')->nullable();
-            $table->integer('user_id')->unsigned()->nullable(); //->comment("pour attribuer le script a un utilisateurs de jvscript");
-            $table->integer('poster_user_id')->unsigned()->nullable(); //->comment("le posteur du script");
+            $table->integer('user_id')->unsigned()->nullable(); // ->comment("pour attribuer le script a un utilisateurs de jvscript");
+            $table->integer('poster_user_id')->unsigned()->nullable(); // ->comment("le posteur du script");
             $table->text('description')->nullable();
             $table->decimal('note', 5, 2)->default(0);
             $table->integer('note_count')->default(0);
@@ -31,8 +30,8 @@ class CreateJvscriptTable extends Migration
             $table->string('don_url')->nullable();
             $table->string('topic_url')->nullable();
             $table->string('website_url')->nullable();
-            $table->integer('status')->default(1)->comment("0 awaiting validation / 1 validated / 2 refused");
-            $table->integer('sensibility')->default(0)->comment("0 Clean / 1 Warning / 2 Danger");
+            $table->integer('status')->default(1)->comment('0 awaiting validation / 1 validated / 2 refused');
+            $table->integer('sensibility')->default(0)->comment('0 Clean / 1 Warning / 2 Danger');
             $table->string('version')->nullable();
             $table->timestamp('last_update')->nullable();
             $table->timestamps();
@@ -45,8 +44,8 @@ class CreateJvscriptTable extends Migration
             $table->string('name')->unique();
             $table->string('slug')->nullable()->unique();
             $table->string('autor')->nullable();
-            $table->integer('user_id')->unsigned()->nullable()->comment("pour attribuer le skin à un utilisateurs de jvscript");
-            $table->integer('poster_user_id')->unsigned()->nullable()->comment("le posteur du skin");
+            $table->integer('user_id')->unsigned()->nullable()->comment('pour attribuer le skin à un utilisateurs de jvscript');
+            $table->integer('poster_user_id')->unsigned()->nullable()->comment('le posteur du skin');
             $table->text('description')->nullable();
             $table->decimal('note', 5, 2)->default(0);
             $table->integer('note_count')->default(0);
@@ -57,7 +56,7 @@ class CreateJvscriptTable extends Migration
             $table->string('don_url')->nullable();
             $table->string('topic_url')->nullable();
             $table->string('website_url')->nullable();
-            $table->integer('status')->default(1)->comment("0 awaiting validation / 1 validated / 2 refused");
+            $table->integer('status')->default(1)->comment('0 awaiting validation / 1 validated / 2 refused');
             $table->string('version')->nullable();
             $table->timestamp('last_update')->nullable();
             $table->timestamps();
@@ -80,8 +79,8 @@ class CreateJvscriptTable extends Migration
         Schema::create('historys', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ip');
-            $table->string('what')->comment("script / skins ... ");
-            $table->string('action')->comment("install / note ?");
+            $table->string('what')->comment('script / skins ... ');
+            $table->string('action')->comment('install / note ?');
             $table->timestamps();
         });
     }
