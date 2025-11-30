@@ -49,12 +49,12 @@ class GetScriptUpdate extends Command
     {
         $scripts = Script::where('status', 1)
             // ->where('slug', 'jvc-imageviewer')
-            ->where('updated_at', '<', \Carbon\Carbon::now()->subDay())
+            // ->where('updated_at', '<', \Carbon\Carbon::now()->subDay())
             ->orderBy('updated_at', 'asc')
             ->get();
 
         foreach ($scripts as $script) {
-            $this->info('Script : '.$script->name);
+            $this->info('Script : ' . $script->name);
             $error = false;
             $newDate = null;
 
@@ -65,17 +65,17 @@ class GetScriptUpdate extends Command
                 $raw_url = preg_replace($pattern, $replacement, $script->js_url);
                 $script->js_url = $raw_url;
                 $script->save();
-                $this->warn('fixed : '.$raw_url);
+                $this->warn('fixed : ' . $raw_url);
             }
 
             if (
-                preg_match('/https:\/\/github\.com\/(.*)\/(.*)\/raw\/(.*)\/(.*)\.js/i', $script->js_url, $match)
-                || preg_match('/https:\/\/raw\.githubusercontent\.com\/(.*)\/(.*)\/(.*)\/(.*)\.js/i', $script->js_url, $match)
+                preg_match('#https://github\.com/([^/]+)/([^/]+)/raw/(?:refs/heads/)?([^/]+)/(.+\.js)#i', $script->js_url, $match)
+                || preg_match('#https://raw\.githubusercontent\.com/([^/]+)/([^/]+)/(?:refs/heads/)?([^/]+)/(.+\.js)#i', $script->js_url, $match)
             ) {
                 $owner = $match[1];
                 $repo = $match[2];
                 $branch = $match[3];
-                $file_path = ($match[4].'.js');
+                $file_path = $match[4];
                 // replace space by %20 in file path
                 $file_path = str_replace(' ', '%20', $file_path);
                 // replace + by %2B in file path
@@ -85,7 +85,7 @@ class GetScriptUpdate extends Command
 
                 $client = new Client;
                 $headers = [
-                    'Authorization: Bearer '.config('services.github.token'),
+                    'Authorization: Bearer ' . config('services.github.token'),
                     'User-Agent: My-GitHub-App',  // GitHub requires a user-agent string
                 ];
                 try {
@@ -97,12 +97,12 @@ class GetScriptUpdate extends Command
                             $newDate = \Carbon\Carbon::parse($date);
                             // TODO: front : update il y a XX mois ou XX jours
                         } else {
-                            $this->error('fail github get date : '.$script->js_url." |  $api_url");
+                            $this->error('fail github get date : ' . $script->js_url . " |  $api_url");
                             // die;
                         }
                     }
                 } catch (\Exception $ex) {
-                    $this->error('fail: Could not fetch data from GitHub API | '.$api_url.' '.$ex->getMessage());
+                    $this->error('fail: Could not fetch data from GitHub API | ' . $api_url . ' ' . $ex->getMessage());
                     $error = true;
                     // die;
                 }
@@ -114,7 +114,7 @@ class GetScriptUpdate extends Command
                     $date = $match_date[1];
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
-                    $this->error('fail date : '.$script->js_url." | $url_crawl");
+                    $this->error('fail date : ' . $script->js_url . " | $url_crawl");
                     $error = true;
                     // die;
                 }
@@ -131,7 +131,7 @@ class GetScriptUpdate extends Command
                     $date = $match_date[1];
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
-                    $this->error('fail date : '.$script->js_url." | $url_crawl");
+                    $this->error('fail date : ' . $script->js_url . " | $url_crawl");
                     $error = true;
                     // die;
                 }
@@ -146,7 +146,7 @@ class GetScriptUpdate extends Command
                     $date = $match_date[1];
                     $newDate = \Carbon\Carbon::parse($date);
                 } else {
-                    $this->error('fail date : '.$script->js_url." | $url_crawl");
+                    $this->error('fail date : ' . $script->js_url . " | $url_crawl");
                     $error = true;
                     // die;
                 }
@@ -179,13 +179,13 @@ class GetScriptUpdate extends Command
                             }
                         }
                     } else {
-                        $this->error('fail version : '.$script->js_url);
-                        Log::error('fail version : '.$script->name.' | '.$script->js_url);
+                        $this->error('fail version : ' . $script->js_url);
+                        Log::error('fail version : ' . $script->name . ' | ' . $script->js_url);
                         $error = true;
                         // die;
                     }
                 } catch (\Exception $ex) {
-                    $this->error('fail: Could not fetch data  | '.$url_crawl.' '.$ex->getMessage());
+                    $this->error('fail: Could not fetch data  | ' . $url_crawl . ' ' . $ex->getMessage());
                     // Log::error("Could not fetch data  | " . $url_crawl . " " .  $ex->getMessage());
                     $error = true;
                     // die;
