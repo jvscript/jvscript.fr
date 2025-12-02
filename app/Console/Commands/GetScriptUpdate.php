@@ -49,7 +49,7 @@ class GetScriptUpdate extends Command
     {
         $scripts = Script::where('status', 1)
             // ->where('slug', 'jvc-imageviewer')
-            // ->where('updated_at', '<', \Carbon\Carbon::now()->subDay())
+            ->where('updated_at', '<', \Carbon\Carbon::now()->subDay())
             ->orderBy('updated_at', 'asc')
             ->get();
 
