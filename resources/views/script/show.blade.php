@@ -6,18 +6,10 @@
 
 <script type="text/javascript">
     $('[data-toggle=confirmation]').confirmation();
-            $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-            });
-            $(".script-danger").click(function() {
-    var r = confirm("Ce script est interdit sur JVC, attention à vous.");
-            if (r == true) {
-    return true;
-    }
-    else {
-    return false;
-    }
-    });</script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });  
+</script>
 @endsection
 
 @section('content')
@@ -34,41 +26,14 @@
 
     <div class="col-md-6">
         <h1>{{$script->name}}
+            @if(null != $script->version)
+            <span class="label" style="background-color: #555; font-size: 50%; vertical-align: middle;">v{{$script->version}}</span>
+            @endif
         </h1>
     </div>
 
-    <div class="col-md-6" style="margin-top: -8px;margin-bottom: 22px;">
-
-        <!--install -->
-
-        <?php
-        if ($script->sensibility == 0) {
-            $class = "success";
-            $message = "Ce script est jugé safe à l'utilisation.";
-            $icon = "fa-check";
-            $extra = "script-safe";
-        } else if ($script->sensibility == 1) {
-            $class = "warning";
-            $message = "On ne peut dire si ce script est autorisé dans les forums de JVC.";
-            $icon = "fa-exclamation-triangle";
-            $extra = "script-warning";
-        } else if ($script->sensibility == 2) {
-            $class = "danger";
-            $message = "Attention, ce script est sensible, son utilisation peut mener à des sanctions.";
-            $icon = "fa-exclamation-triangle";
-            $extra = "script-danger";
-        }
-        ?>
-        
-        <a target="_blank" class="btn btn-primary btn-lg {{$extra}}" href="{{route('script.install',$script->slug)}}"> Installer <i class="fa fa-download"></i> </a>
- 
-        <span class="sensibility sensibility-{{$class}} " >
-            <span class="fa-stack fa-1x "  data-toggle="tooltip" data-placement="right" title="{{$message}}">
-                <i class="fa fa-stack-2x "></i>
-                <i class="fa {{$icon}} fa-stack-1x "></i>
-            </span>
-        </span>
-
+    <div class="col-md-6" style="margin-top: -8px;margin-bottom: 22px;">    
+        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('script.install',$script->slug)}}"> <i class="fa fa-download"></i> Installer </a>
     </div>
 </div>
 
@@ -79,7 +44,7 @@
             @if ( $script->photo_url != null )
             <div class="desc-img">
                 <p>
-                    <a href="#"  data-toggle="modal" data-target="#myModal">
+                    <a href="#" data-toggle="modal" data-target="#myModal">
                         <img class="img-thumbnail img-responsive" src="{{($script->photo_url)}}" alt="{{$script->name}} logo" />
                     </a>
                 </p>
@@ -89,7 +54,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body text-center">
-                            <img class="img-thumbnail img-responsive" src="{{($script->photo_url)}}"   alt="{{$script->name}} logo" />
+                            <img class="img-thumbnail img-responsive" src="{{($script->photo_url)}}" alt="{{$script->name}} logo" />
                         </div>
                     </div>
 
@@ -99,82 +64,61 @@
 
             <div class="stats">
                 <p>
-                    <b> Ajouté le : </b>  {{$script->created_at->format('d/m/Y')}}
+                     Créé le {{$script->created_at->format('d/m/Y')}}
+                    @if(null != $script->user_id)
+                    par <a href="{{url('/search/'.$script->user()->first()->name)}}" data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->user()->first()->name}}">{{$script->user()->first()->name}}</a>
+                    @elseif($script->autor != null)
+                    par <a href="{{url('/search/'.$script->autor)}}" data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->autor}}">{{$script->autor}}</a>
+                    @endif
+                    
+                    @if(null != $script->last_update)
+                     |    Mis à jour le {{$script->last_update->format('d/m/Y')}}
+                    @endif
                 </p>
 
-                @if(null != $script->version)
                 <p>
-                    <b> Version : </b>  {{$script->version}}
-                </p>
-                @endif
-
-                @if(null != $script->last_update)
-                <p>
-                    <b> Mise à jour le : </b>  {{$script->last_update->format('d/m/Y')}}
-                </p>
-                @endif
-                @if(null != $script->user_id)
-                <p>
-                    <b> Auteur : </b> <a href="{{url('/search/'.$script->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->user()->first()->name}}">{{$script->user()->first()->name}}</a>
-                </p>
-                @elseif($script->autor != null)
-                <p>
-                    <b> Auteur : </b> <a href="{{url('/search/'.$script->autor)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les scripts de {{$script->autor}}">{{$script->autor}}</a>
-                </p>
-                @endif
-
-                <p>
-                    <b> Note : </b>
                     <?php $note = round($script->note * 2) / 2; ?>
                     @for ($i = 1; $i <= $note ; $i++)
-                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star" aria-hidden="true"></i></a>
-                    @endfor
-                    <?php $stop = $i; ?>
-                    @for ($i ; $i <= 5 ; $i++)
-                    @if($i == $stop && $note > ( $i -1 ) )
-                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
-                    @else
-                    <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-                    @endif
-                    @endfor
-                    ({{$script->note_count}} votes)
+                        <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star" aria-hidden="true"></i></a>
+                        @endfor
+                        <?php $stop = $i; ?>
+                        @for ($i ; $i <= 5 ; $i++)
+                            @if($i==$stop && $note> ( $i -1 ) )
+                            <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
+                            @else
+                            <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                            @endif
+                            @endfor
+                            ({{$script->note_count}} votes) &nbsp; | &nbsp; <i class="fa fa-download"></i> {{$script->install_count}} install
 
                 </p>
 
                 @for ($i = 1; $i <= 5 ; $i++)
-                <form id="note-{{$i}}" action="{{route('script.note',['slug' => $script->slug , 'note' => $i  ])}}" method="POST" style="display: none;">
+                    <form id="note-{{$i}}" action="{{route('script.note',['slug' => $script->slug , 'note' => $i  ])}}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                     <input type="submit" name="note-{{$i}}" style="display: none;" />
-                </form>
-                @endfor
+                    </form>
+                    @endfor
 
-                <p>
-                    <b>  Install : </b>   {{$script->install_count}} fois
-                </p>
+                    @if ( $script->repo_url != null || $script->topic_url != null || $script->website_url != null || $script->don_url != null )
+                    <div class="btn-group-responsive" style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;">
+                        @if ( $script->repo_url != null )
+                        <a target="_blank" class="btn btn-default" href="{{$script->repo_url}}"><i class="fa fa-code"></i> Contribuer</a>
+                        @endif
 
-                @if ( $script->repo_url != null )
-                <p>
-                    <b>  Contribuer : <a target="_blank" href="{{$script->repo_url}}">{{\Illuminate\Support\Str::limit($script->repo_url,40)}}</a>  </b>
-                </p>
-                @endif
+                        @if ( $script->topic_url != null )
+                        <a target="_blank" class="btn btn-default" href="{{$script->topic_url}}"><i class="fa fa-gamepad"></i> Topic JVC</a>
+                        @endif
 
-                @if ( $script->topic_url != null )
-                <p>
-                    <b>   <a target="_blank" class="btn btn-default" href="{{$script->topic_url}}">Voir le topic jvc  <i class="fa fa-gamepad"></i></a>  </b>
-                </p>
-                @endif
+                        @if ( $script->website_url != null )
+                        <a target="_blank" class="btn btn-default" href="{{$script->website_url}}"><i class="fa fa-globe"></i> Site web</a>
+                        @endif
 
-                @if ( $script->website_url != null )
-                <p>
-                    <b>   <a target="_blank" class="btn btn-default" href="{{$script->website_url}}">Voir le site web  <i class="fa fa-globe"></i></a>  </b>
-                </p>
-                @endif
-
-                @if ( $script->don_url != null )
-                <p>
-                    <b>   <a target="_blank" class="btn btn-default" href="{{$script->don_url}}">Faire un don au développeur <i class="fa fa-heart"></i></a>  </b>
-                </p>
-                @endif
+                        @if ( $script->don_url != null )
+                        <a target="_blank" class="btn btn-default" href="{{$script->don_url}}"><i class="fa fa-heart"></i> Don</a>
+                        @endif
+                    </div>
+                    @endif
             </div>
         </div>
 
@@ -200,12 +144,12 @@
                 <p>
                     Edition :
                     <a href="{{route('script.edit',$script->slug)}}" class="btn btn-primary">Editer</a>
-                    <a href="{{route('script.delete',$script->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>
+                    <a href="{{route('script.delete',$script->slug)}}" class="btn btn-danger" data-toggle="confirmation">Supprimer</a>
 
                     Validation :
                     <!--_TODO : confirm dialog-->
-                    <a href="{{route('script.validate',$script->slug)}}" class="btn btn-success" data-toggle="confirmation" >Valider</a>
-                    <a href="{{route('script.refuse',$script->slug)}}" class="btn btn-warning" data-toggle="confirmation" >Refuser</a>
+                    <a href="{{route('script.validate',$script->slug)}}" class="btn btn-success" data-toggle="confirmation">Valider</a>
+                    <a href="{{route('script.refuse',$script->slug)}}" class="btn btn-warning" data-toggle="confirmation">Refuser</a>
                 </p>
             </div>
         </div>
@@ -232,7 +176,7 @@
                 <p>
                     Action :
                     <a href="{{route('script.edit',$script->slug)}}" class="btn btn-primary">Editer</a>
-                    <a href="{{route('script.delete',$script->slug)}}" class="btn btn-danger" data-toggle="confirmation" >Supprimer</a>
+                    <a href="{{route('script.delete',$script->slug)}}" class="btn btn-danger" data-toggle="confirmation">Supprimer</a>
                 </p>
 
             </div>

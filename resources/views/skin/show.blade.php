@@ -26,15 +26,16 @@
 
     <div class="col-md-6">
         <h1>{{$skin->name}}
-
+            @if(null != $skin->version)
+            <span class="label" style="background-color: #555; font-size: 50%; vertical-align: middle;">v{{$skin->version}}</span>
+            @endif
         </h1>
-
     </div>
 
     <div class="col-md-6" style="margin-top: -8px;margin-bottom: 22px;">
         
         
-        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"  onclick="document.getElementById('install').submit(); return false;"> Installer <i class="fa fa-download"></i> </a>
+        <a target="_blank" class="btn btn-primary btn-lg" href="{{route('skin.install',$skin->slug)}}"  onclick="document.getElementById('install').submit(); return false;"> <i class="fa fa-download"></i> Installer </a>
         <form id="install" action="{{route('skin.install',$skin->slug)}}" target="_blank" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
@@ -69,25 +70,19 @@
 
             <div class="stats">
                 <p>
-                    <b> Ajouté le : </b>  {{$skin->created_at->format('d/m/Y')}}
-                </p>
-                @if(null != $skin->last_update)
-                <p>
-                    <b> Mise à jour le : </b>  {{$skin->last_update->format('d/m/Y')}}
-                </p>
-                @endif                 
-                @if(null != $skin->user_id)
-                <p>
-                    <b> Auteur : </b> <a href="{{url('/search/'.$skin->user()->first()->name)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->user()->first()->name}}">{{$skin->user()->first()->name}}</a> 
-                </p>
-                @elseif($skin->autor != null)
-                <p>
-                    <b> Auteur : </b> <a href="{{url('/search/'.$skin->autor)}}"  data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->autor}}">{{$skin->autor}}</a> 
-                </p>
-                @endif
+                    Créé le {{$skin->created_at->format('d/m/Y')}}
+                    @if(null != $skin->user_id)
+                    par <a href="{{url('/search/'.$skin->user()->first()->name)}}" data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->user()->first()->name}}">{{$skin->user()->first()->name}}</a>
+                    @elseif($skin->autor != null)
+                    par <a href="{{url('/search/'.$skin->autor)}}" data-toggle="tooltip" data-placement="right" title="Voir tous les skins de {{$skin->autor}}">{{$skin->autor}}</a>
+                    @endif
 
-                <p> 
-                    <b> Note : </b>
+                    @if(null != $skin->last_update)
+                    | Mis à jour le {{$skin->last_update->format('d/m/Y')}}
+                    @endif
+                </p>
+
+                <p>
                     <?php $note = round($skin->note * 2) / 2; ?>
                     @for ($i = 1; $i <= $note ; $i++)
                     <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star" aria-hidden="true"></i></a>
@@ -100,42 +95,34 @@
                     <a href="#" onclick="document.getElementById('note-{{$i}}').submit(); return false;"><i class="fa fa-star-o" aria-hidden="true"></i></a>
                     @endif
                     @endfor
-                    ({{$skin->note_count}} votes)
+                    ({{$skin->note_count}} votes) &nbsp; | &nbsp; <i class="fa fa-download"></i> {{$skin->install_count}} install
                 </p>
 
                 @for ($i = 1; $i <= 5 ; $i++)
                 <form id="note-{{$i}}" action="{{route('skin.note',['slug' => $skin->slug , 'note' => $i  ])}}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                     <input type="submit" name="note-{{$i}}" style="display: none;" />
-                </form>              
-                @endfor 
+                </form>
+                @endfor
 
-                <p>
-                    <b>  Install : </b>   {{$skin->install_count}} fois
-                </p>
+                @if ( $skin->repo_url != null || $skin->topic_url != null || $skin->website_url != null || $skin->don_url != null )
+                <div class="btn-group-responsive" style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;">
+                    @if ( $skin->repo_url != null )
+                    <a target="_blank" class="btn btn-default" href="{{$skin->repo_url}}"><i class="fa fa-code"></i> Contribuer</a>
+                    @endif
 
-                @if ( $skin->repo_url != null )
-                <p>
-                    <b>  Contribuer : <a target="_blank" href="{{$skin->repo_url}}">{{\Illuminate\Support\Str::limit($skin->repo_url,40)}}</a>  </b>
-                </p>
-                @endif
+                    @if ( $skin->topic_url != null )
+                    <a target="_blank" class="btn btn-default" href="{{$skin->topic_url}}"><i class="fa fa-gamepad"></i> Topic JVC</a>
+                    @endif
 
-                @if ( $skin->topic_url != null )
-                <p>
-                    <b>   <a target="_blank" class="btn btn-default" href="{{$skin->topic_url}}">Voir le topic jvc  <i class="fa fa-gamepad"></i></a>  </b>
-                </p>
-                @endif
+                    @if ( $skin->website_url != null )
+                    <a target="_blank" class="btn btn-default" href="{{$skin->website_url}}"><i class="fa fa-globe"></i> Site web</a>
+                    @endif
 
-                @if ( $skin->website_url != null )
-                <p>
-                    <b>   <a target="_blank" class="btn btn-default" href="{{$skin->website_url}}">Voir le site web  <i class="fa fa-globe"></i></a>  </b>
-                </p>
-                @endif
-
-                @if ( $skin->don_url != null )
-                <p>
-                    <b>   <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}">Faire un don au développeur  <i class="fa fa-heart"></i></a>  </b>
-                </p>
+                    @if ( $skin->don_url != null )
+                    <a target="_blank" class="btn btn-default" href="{{$skin->don_url}}"><i class="fa fa-heart"></i> Don</a>
+                    @endif
+                </div>
                 @endif
             </div>
         </div>

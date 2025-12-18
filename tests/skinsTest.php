@@ -197,11 +197,11 @@ class skinsTest extends BrowserKitTestCase
 
         $this->call('GET', '/skin/install/nom-du-skin');
         $this->visit('/skin/nom-du-skin')
-            ->see('1 fois');
+            ->see('1 install');
 
         $this->call('POST', '/skin/install/nom-du-skin', $parameters = ['_token' => csrf_token()], $cookies = [], $files = [], $server = ['HTTP_REFERER' => 'nom-du-skin']);
         $this->visit('/skin/nom-du-skin')
-            ->see('1 fois');
+            ->see('1 install');
     }
 
     public function test_refuser_skin_admin()
