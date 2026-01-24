@@ -58,9 +58,10 @@ class LoginController extends Controller
             route('register'),
             route('password.request'),
             url('auth/github'),
+            url('auth/github/callback'),
         ];
 
-        $isAuthRoute = collect($authRoutes)->contains(fn($route) => str_contains($previous, $route));
+        $isAuthRoute = in_array($previous, $authRoutes, true);
 
         if (!$isAuthRoute) {
             session(['redir' => $previous]);
