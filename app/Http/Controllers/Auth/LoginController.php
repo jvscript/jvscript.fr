@@ -52,7 +52,19 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        session(['redir' => url()->previous()]);
+        $previous = url()->previous();
+        $authRoutes = [
+            route('login'),
+            route('register'),
+            route('password.request'),
+            url('auth/github'),
+        ];
+
+        $isAuthRoute = collect($authRoutes)->contains(fn($route) => str_contains($previous, $route));
+
+        if (!$isAuthRoute) {
+            session(['redir' => $previous]);
+        }
 
         return view('auth.login');
     }
