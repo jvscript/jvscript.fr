@@ -52,7 +52,13 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        session(['redir' => url()->previous()]);
+        // Initialiser la redirection uniquement si elle n'existe pas
+        if (!session()->has('redir')) {
+            $previous = url()->previous();
+            if (!str_contains($previous, '/login')) {
+                session(['redir' => $previous]);
+            }
+        }
 
         return view('auth.login');
     }
