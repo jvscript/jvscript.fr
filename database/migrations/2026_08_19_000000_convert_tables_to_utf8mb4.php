@@ -57,15 +57,19 @@ return new class extends Migration
     }
 
     /**
-     * All tables of the current database.
+     * Base tables of the current database only, since the connection user may
+     * have access to other schemas.
      *
      * @return array<int, string>
      */
     private function tables(): array
     {
         return array_map(
-            fn (array $table): string => $table['name'],
-            DB::getSchemaBuilder()->getTables()
+            fn (object $table): string => $table->name,
+            DB::select(
+                'select table_name as name from information_schema.tables where table_schema = ? and table_type = ?',
+                [DB::getDatabaseName(), 'BASE TABLE']
+            )
         );
     }
 };
